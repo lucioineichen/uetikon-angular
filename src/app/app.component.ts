@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `<mat-toolbar color="primary">
+      <a mat-button routerLink="/home"><h1>Uetikon</h1></a>
+    </mat-toolbar>
+    <router-outlet></router-outlet>`,
 })
-export class AppComponent {
-  title = 'uetikon';
-}
+export class AppComponent {}
