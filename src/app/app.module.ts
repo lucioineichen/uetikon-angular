@@ -14,9 +14,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AuthHttpInterceptor } from './auth/auth-http-interceptor'
 import { LoginComponent } from './login/login.component'
 import { ReactiveFormsModule } from '@angular/forms'
-import { DjangoRestApiAuthService } from './auth/auth.djangoRestApi.service'
 import { CreateUserComponent } from './create-user/create-user.component'
 import { SimpleDialogComponent } from './common/simple-dialog.component'
+import { DjangoRestApiAuthService } from './auth/auth.djangoRestApi.service'
 
 @NgModule({
   declarations: [

@@ -9,7 +9,13 @@ import { UiService } from '../common/ui.service'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styles: [],
+  styles: [
+    `
+      div {
+        margin-top: 32px;
+      }
+    `,
+  ],
 })
 export class LoginComponent {
   private subs = new SubSink()
@@ -53,7 +59,7 @@ export class LoginComponent {
   }
 
   async login(submittedForm: FormGroup) {
-    const shit = this.authService
+    this.subs.sink = this.authService
       .login(submittedForm.value.email, submittedForm.value.password)
       .pipe(
         tap((role) => {
@@ -69,10 +75,6 @@ export class LoginComponent {
         })
       )
 
-    // .subscribe()
-
-    console.log(shit)
-
-    shit.subscribe()
+      .subscribe()
   }
 }

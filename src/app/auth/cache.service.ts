@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core'
 @Injectable({
   providedIn: 'root',
 })
-export abstract class CacheService {
-  protected getItem<T>(key: string): T | null {
+export class CacheService {
+  getItem<T>(key: string): T | null {
     const data = localStorage.getItem(key)
     console.log(
       'get item from key ',
@@ -17,17 +17,17 @@ export abstract class CacheService {
     }
     return null
   }
-  protected setItem(key: string, data: object | string) {
+  setItem(key: string, data: object | string) {
     console.log('set item ', data, ' to key ', key)
     if (typeof data === 'string') {
       localStorage.setItem(key, data)
     }
     localStorage.setItem(key, JSON.stringify(data))
   }
-  protected removeItem(key: string) {
+  removeItem(key: string) {
     localStorage.removeItem(key)
   }
-  protected clear() {
+  clear() {
     localStorage.clear()
   }
 }

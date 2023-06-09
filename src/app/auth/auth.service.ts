@@ -1,16 +1,6 @@
 import { Injectable } from '@angular/core'
-import {
-  BehaviorSubject,
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  Observable,
-  of,
-  tap,
-  throwError,
-} from 'rxjs'
-import { transformError } from '../common/common'
+import { BehaviorSubject, map, mergeMap, Observable, tap } from 'rxjs'
+
 import { IUser, User } from '../user/user'
 import { Role } from './auth.enum'
 import { CacheService } from './cache.service'
@@ -52,11 +42,17 @@ export interface IAuthService {
 }
 
 @Injectable()
-export abstract class AuthService extends CacheService implements IAuthService {
-  constructor() {
-    super()
-    if (this.getToken())
-      this.authStatus$.next(this.getAuthStatusFromToken() as IAuthStatus)
+export abstract class AuthService implements IAuthService {
+  constructor(private cacheService: CacheService) {
+    if (this.getToken()) {
+      const authStatus = this.getAuthStatusFromToken()
+      if (!authStatus) return
+
+      this.authStatus$.next(authStatus)
+      setTimeout(() => {
+        this.getCurrentUser().subscribe()
+      }, 0)
+    }
   }
 
   readonly authStatus$ = new BehaviorSubject<IAuthStatus>(defaultAuthStatus)
@@ -73,7 +69,6 @@ export abstract class AuthService extends CacheService implements IAuthService {
       }),
       mergeMap(() => this.getCurrentUser()),
       map((currentUser) => {
-        if (!currentUser.email) throw new Error('invalid currentUser')
         return currentUser.role
       })
     )
@@ -85,15 +80,15 @@ export abstract class AuthService extends CacheService implements IAuthService {
   }
 
   getToken(): IJwtToken | null {
-    return this.getItem<IJwtToken>('jwt')
+    return this.cacheService.getItem<IJwtToken>('jwt')
   }
 
   protected setToken(jwt: IJwtToken) {
-    this.setItem('jwt', jwt)
+    this.cacheService.setItem('jwt', jwt)
   }
 
   protected clearToken() {
-    this.removeItem('jwt')
+    this.cacheService.removeItem('jwt')
   }
 
   protected getAuthStatusFromToken(): IAuthStatus | null {

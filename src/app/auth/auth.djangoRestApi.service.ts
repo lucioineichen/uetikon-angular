@@ -1,22 +1,19 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { catchError, map, Observable, of, tap } from 'rxjs'
-import { transformError } from '../common/common'
+import { map, Observable, tap } from 'rxjs'
 import { environment } from '../environment/environment.demo'
 import { IUser, User } from '../user/user'
 import { Role } from './auth.enum'
 import { AuthService, IAuthStatus, IJwtToken } from './auth.service'
+import { CacheService } from './cache.service'
 
 @Injectable()
 export class DjangoRestApiAuthService extends AuthService {
-  constructor(public httpClient: HttpClient) {
-    super()
+  constructor(cacheService: CacheService, private httpClient: HttpClient) {
+    super(cacheService)
   }
 
-  protected authProvider(
-    email: string,
-    password: string
-  ): Observable<IJwtToken> {
+  authProvider(email: string, password: string): Observable<IJwtToken> {
     const authProvider$ = this.httpClient.post<IJwtToken>(
       `${environment.baseUrl}/login`,
       {
@@ -25,12 +22,10 @@ export class DjangoRestApiAuthService extends AuthService {
       }
     )
 
-    authProvider$.subscribe()
-
     return authProvider$
   }
 
-  protected transformJwtToken(token: IJwtToken): IAuthStatus {
+  transformJwtToken(token: IJwtToken): IAuthStatus {
     const transformedToken: IAuthStatus = {
       isAuthenticated: token.token ? true : false,
       userRole: token.role === 'teacher' ? Role.Teacher : Role.Student,
@@ -39,14 +34,13 @@ export class DjangoRestApiAuthService extends AuthService {
     return transformedToken
   }
 
-  protected getCurrentUser(): Observable<User> {
-    console.log('before htttp client')
-    console.log('this: ', this)
-    const res = this.httpClient
-      .get<IUser>(`${environment.baseUrl}/user/me`)
-      .pipe(map(User.Build))
-
-    console.log('after hjttp')
-    return res
+  getCurrentUser(): Observable<User> {
+    return this.httpClient.get<IUser>(`${environment.baseUrl}/user/me`).pipe(
+      map(User.Build),
+      tap((currentUser) => {
+        this.currentUser$.next(currentUser)
+        console.log('currentUser: ', currentUser)
+      })
+    )
   }
 }
