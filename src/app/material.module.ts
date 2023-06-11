@@ -9,6 +9,10 @@ import { MatRadioModule } from '@angular/material/radio'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatListModule } from '@angular/material/list'
 import { MatDialogModule } from '@angular/material/dialog'
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatGridListModule } from '@angular/material/grid-list'
+import { MatCheckboxModule } from '@angular/material/checkbox'
 
 const modules = [
   MatButtonModule,
@@ -21,6 +25,10 @@ const modules = [
   MatDialogModule,
   MatSnackBarModule,
   MatListModule,
+  MatTooltipModule,
+  MatDividerModule,
+  MatGridListModule,
+  MatCheckboxModule,
 ]
 
 @NgModule({

@@ -1,0 +1,28 @@
+<mat-dialog-content class="mat-typography" style="width: 700px; height: 400px">
+  <mat-form-field style="width: 100%">
+    <input
+      matInput
+      [formControl]="searchControl"
+      placeholder="Suche beim Namen"
+    />
+  </mat-form-field>
+
+  <mat-grid-list cols="3" rowHeight="40px">
+    <mat-grid-tile *ngFor="let student of filteredStudents | async">
+      <mat-checkbox
+        [checked]="isSelected(student)"
+        (change)="toggleSelection($event, student)"
+        style="width: 100% !important"
+      >
+        {{ getFullName(student.name) }}
+      </mat-checkbox>
+    </mat-grid-tile>
+  </mat-grid-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Abrechen</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+    Speichern
+  </button>
+</mat-dialog-actions>

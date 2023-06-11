@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { StudentService } from '../student.service'
 import { Observable, catchError, tap } from 'rxjs'
-import { ICourse } from 'src/app/interfaces'
+import { IStudentCourse } from 'src/app/interfaces'
 
 @Component({
   selector: 'app-student-courses',
@@ -9,14 +9,13 @@ import { ICourse } from 'src/app/interfaces'
   styles: [],
 })
 export class StudentCoursesComponent implements OnInit {
-  courses$: Observable<ICourse[]>
+  courses$: Observable<IStudentCourse[]>
   isError = false
 
   constructor(private studentService: StudentService) {
     this.courses$ = this.studentService.courses$.pipe(
       tap(() => (this.isError = false)),
       catchError((err, caugt) => {
-        console.log('hello error')
         this.isError = true
         return caugt
       })
@@ -25,9 +24,5 @@ export class StudentCoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.studentService.updateCourses()
-  }
-
-  asString(value: any) {
-    return value as string
   }
 }

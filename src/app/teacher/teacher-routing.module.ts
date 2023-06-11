@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { TeacherHomeComponent } from './teacher-home/teacher-home.component'
+import { TeacherCoursesComponent } from './teacher-courses/teacher-courses.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/teacher/home', pathMatch: 'full' },
   { path: 'home', component: TeacherHomeComponent },
+  { path: 'courses', component: TeacherCoursesComponent },
 ]
 
 @NgModule({

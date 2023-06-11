@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject, Subject } from 'rxjs'
-import { ICourse } from '../interfaces'
+import { IStudentCourse } from '../interfaces'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../environment/environment.demo'
 import { UiService } from '../common/ui.service'
 
 export interface IStudentService {
-  readonly courses$: Subject<ICourse[]>
+  readonly courses$: ReplaySubject<IStudentCourse[]>
   updateCourses(): void
 }
 
 @Injectable()
 export class StudentService implements IStudentService {
-  readonly courses$: Subject<ICourse[]> = new ReplaySubject<ICourse[]>(1)
+  readonly courses$: ReplaySubject<IStudentCourse[]> = new ReplaySubject<
+    IStudentCourse[]
+  >(1)
 
   constructor(private httpClient: HttpClient, private uiService: UiService) {}
 
-  private getCourses(): Observable<ICourse[]> {
-    return this.httpClient.get<ICourse[]>(
+  private getCourses(): Observable<IStudentCourse[]> {
+    return this.httpClient.get<IStudentCourse[]>(
       `${environment.baseUrl}/student/courses`
     )
   }
