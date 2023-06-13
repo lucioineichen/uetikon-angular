@@ -15,14 +15,29 @@ export class CreateUserService {
     password: string,
     firstName: string,
     lastName: string,
-    role: Role
+    role: Role,
+    roleSpecific: {
+      student?: {
+        grade: number
+      }
+      teacher?: {}
+    }
   ): Observable<boolean> {
-    return this.httpClient.post<boolean>(`${environment.baseUrl}/register`, {
+    const userProperties = {
       email,
       password,
       firstName,
       lastName,
       role,
-    })
+    }
+    const body = {
+      ...userProperties,
+      ...(role === 'student' ? roleSpecific.student : roleSpecific.teacher),
+    }
+    console.log('createUser() body sent with http: ', body)
+    return this.httpClient.post<boolean>(
+      `${environment.baseUrl}/register`,
+      body
+    )
   }
 }

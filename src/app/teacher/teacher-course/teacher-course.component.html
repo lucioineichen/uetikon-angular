@@ -1,0 +1,53 @@
+<div *ngIf="course$ | async as course; else loading">
+  {{ course.name }}
+</div>
+
+<ng-template #loading>
+  <div *ngIf="!errorMessage; else error">Lädt Kurs...</div></ng-template
+>
+
+<ng-template #error
+  >Kurse konnten nicht geladen werden, lade die Seite neu</ng-template
+>
+
+<div class="chat-icon-container">
+  <button mat-fab color="primary" (click)="toggleChat()">
+    <mat-icon>chat</mat-icon>
+  </button>
+</div>
+
+<div class="chat-container" [ngClass]="{ 'chat-open': isChatOpen }">
+  <div class="chat-header">
+    <h3>Chat</h3>
+    <button mat-icon-button (click)="toggleChat()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="chat-content">
+    <div
+      *ngFor="let message of messages"
+      [ngClass]="{ 'current-user-message': isCurrentUserMessage(message) }"
+    >
+      <p class="message">{{ message.message }}</p>
+      <p class="metadata">
+        {{ message.authorName.firstName }} {{ message.authorName.lastName }} -
+        {{ message.date | date : "short" }}
+        <span *ngIf="message.edited">(edited)</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="chat-footer">
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Type your message"
+        [(ngModel)]="newMessage"
+        (keyup.enter)="sendMessage()"
+      />
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="sendMessage()">
+      Send
+    </button>
+  </div>
+</div>

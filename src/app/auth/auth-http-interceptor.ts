@@ -32,6 +32,8 @@ export class AuthHttpInterceptor implements HttpInterceptor {
     return next.handle(authRequest).pipe(
       catchError((err, caught) => {
         if (err.status === 401) {
+          if (this.router.routerState.snapshot.url.includes('create-user'))
+            return throwError(() => new Error(err))
           this.router.navigate(['/login'], {
             queryParams: this.router.routerState.snapshot.url.includes('login')
               ? {}

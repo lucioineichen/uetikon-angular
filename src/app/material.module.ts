@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatRippleModule } from '@angular/material/core'
 
 const modules = [
   MatButtonModule,
@@ -29,6 +30,7 @@ const modules = [
   MatDividerModule,
   MatGridListModule,
   MatCheckboxModule,
+  MatRippleModule,
 ]
 
 @NgModule({

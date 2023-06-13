@@ -1,9 +1,17 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, map, mergeMap, Observable, tap } from 'rxjs'
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  mergeMap,
+  Observable,
+  tap,
+} from 'rxjs'
 
 import { IUser, User } from '../user/user'
 import { Role } from './auth.enum'
 import { CacheService } from './cache.service'
+import { ActivatedRoute, Router } from '@angular/router'
 
 export interface IJwtToken {
   id: string
@@ -43,14 +51,19 @@ export interface IAuthService {
 
 @Injectable()
 export abstract class AuthService implements IAuthService {
-  constructor(private cacheService: CacheService) {
+  constructor(private cacheService: CacheService, private router: Router) {
     if (this.getToken()) {
-      const authStatus = this.getAuthStatusFromToken()
-      if (!authStatus) return
-
-      this.authStatus$.next(authStatus)
       setTimeout(() => {
-        this.getCurrentUser().subscribe()
+        this.getCurrentUser()
+          .pipe(
+            tap(() => {
+              const authStatus = this.getAuthStatusFromToken()
+              if (!authStatus) return
+
+              this.authStatus$.next(authStatus)
+            })
+          )
+          .subscribe()
       }, 0)
     }
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject, Subject } from 'rxjs'
-import { IStudentCourse } from '../interfaces'
+import { ICourse, IStudentCourse } from '../interfaces'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../environment/environment.demo'
 import { UiService } from '../common/ui.service'
@@ -32,5 +32,9 @@ export class StudentService implements IStudentService {
         this.courses$.error(new Error('server 500'))
       },
     })
+  }
+
+  getCourse(id: number) {
+    return this.httpClient.get<ICourse>(`${environment.baseUrl}/course/${id}`)
   }
 }

@@ -6,11 +6,16 @@ import { IUser, User } from '../user/user'
 import { Role } from './auth.enum'
 import { AuthService, IAuthStatus, IJwtToken } from './auth.service'
 import { CacheService } from './cache.service'
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Injectable()
 export class DjangoRestApiAuthService extends AuthService {
-  constructor(cacheService: CacheService, private httpClient: HttpClient) {
-    super(cacheService)
+  constructor(
+    cacheService: CacheService,
+    router: Router,
+    private httpClient: HttpClient
+  ) {
+    super(cacheService, router)
   }
 
   authProvider(email: string, password: string): Observable<IJwtToken> {

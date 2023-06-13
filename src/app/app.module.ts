@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MaterialModule } from './material.module'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { HomeComponent } from './home/home.component'
@@ -17,6 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { CreateUserComponent } from './create-user/create-user.component'
 import { SimpleDialogComponent } from './common/simple-dialog.component'
 import { DjangoRestApiAuthService } from './auth/auth.djangoRestApi.service'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { CommonModule } from '@angular/common'
 
 @NgModule({
   declarations: [
@@ -30,11 +31,12 @@ import { DjangoRestApiAuthService } from './auth/auth.djangoRestApi.service'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    CommonModule,
   ],
   providers: [
     { provide: AuthService, useClass: DjangoRestApiAuthService },

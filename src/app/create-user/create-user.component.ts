@@ -7,7 +7,13 @@ import { UiService } from '../common/ui.service'
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
-  styles: [],
+  styles: [
+    `
+      div {
+        margin-top: 32px;
+      }
+    `,
+  ],
 })
 export class CreateUserComponent implements OnInit, OnDestroy {
   private subs = new SubSink()
@@ -56,7 +62,8 @@ export class CreateUserComponent implements OnInit, OnDestroy {
           Validators.maxLength(50),
         ],
       ],
-      role: ['teacher'],
+      role: ['teacher', Validators.required],
+      grade: [1],
     })
   }
 
@@ -67,7 +74,12 @@ export class CreateUserComponent implements OnInit, OnDestroy {
         submittedForm.value.password,
         submittedForm.value.firstName,
         submittedForm.value.lastName,
-        submittedForm.value.role
+        submittedForm.value.role,
+        {
+          student: {
+            grade: submittedForm.value.grade
+          }
+        }
       )
       .subscribe({
         next: (response) => {

@@ -1,9 +1,16 @@
 import { Component } from '@angular/core'
 import { Observable, catchError, tap } from 'rxjs'
-import { ICourse } from 'src/app/interfaces'
+import { ICourse, IStudent } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
 import { MatDialog } from '@angular/material/dialog'
 import { TeacherCourseCreatorDialogComponent } from './teacher-course-creator-dialog/teacher-course-creator-dialog.component'
+import { UiService } from 'src/app/common/ui.service'
+
+export interface ICreateCourseData {
+  name: string
+  credits: number
+  students: IStudent[]
+}
 
 @Component({
   selector: 'app-tacher-courses',
@@ -22,10 +29,10 @@ export class TeacherCoursesComponent {
 
   constructor(
     private teacherService: TeacherService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private uiService: UiService
   ) {
     this.courses$ = this.teacherService.courses$.pipe(
-      tap(() => (this.isError = false)),
       catchError((err, caugt) => {
         this.isError = true
         return caugt
@@ -40,8 +47,20 @@ export class TeacherCoursesComponent {
   openCourseCreator() {
     const dialogRef = this.dialog.open(TeacherCourseCreatorDialogComponent)
 
-    dialogRef
-      .afterClosed()
-      .subscribe((result) => console.log(`Dialog result: ${result}`))
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data && data.name && data.credits) this.createCourse(data)
+    })
+  }
+
+  createCourse(data: ICreateCourseData) {
+    this.teacherService
+      .createCourse(data)
+      .pipe(
+        catchError((err, caught) => {
+          this.uiService.showToast('Kurs konnte nicht erstellt werden')
+          return err
+        })
+      )
+      .subscribe()
   }
 }

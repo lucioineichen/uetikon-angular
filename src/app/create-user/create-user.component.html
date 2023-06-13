@@ -128,6 +128,19 @@
           </mat-radio-group>
         </div>
 
+        <div
+          *ngIf="createUserForm.value.role === 'student'"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="10px"
+        >
+          <mat-radio-group formControlName="grade">
+            <mat-radio-button [value]="1">Sek 1</mat-radio-button>
+            <mat-radio-button [value]="2">sek 2</mat-radio-button>
+            <mat-radio-button [value]="3">sek 3</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
         <div fxLayout="row" class="margin-top">
           <div class="flex-spacer"></div>
           <button

@@ -6,8 +6,9 @@ import { TeacherHomeComponent } from './teacher-home/teacher-home.component'
 import { TeacherCoursesComponent } from './teacher-courses/teacher-courses.component'
 import { MaterialModule } from '../material.module'
 import { TeacherCourseCreatorDialogComponent } from './teacher-courses/teacher-course-creator-dialog/teacher-course-creator-dialog.component'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AddStudentsDialogComponent } from './add-students-dialog/add-students-dialog.component'
+import { TeacherCourseComponent } from './teacher-course/teacher-course.component'
 
 @NgModule({
   declarations: [
@@ -15,12 +16,14 @@ import { AddStudentsDialogComponent } from './add-students-dialog/add-students-d
     TeacherCoursesComponent,
     TeacherCourseCreatorDialogComponent,
     AddStudentsDialogComponent,
+    TeacherCourseComponent,
   ],
   imports: [
     CommonModule,
     TeacherRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+    FormsModule,
   ],
 })
 export class TeacherModule {}

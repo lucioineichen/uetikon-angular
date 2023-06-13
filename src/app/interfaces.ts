@@ -30,16 +30,20 @@ export interface IMessage {
   edited: boolean
 }
 
-export interface IStudent extends IUser {}
+export interface IStudent extends IUser {
+  grade: number
+}
 
-export class Student extends User {
+export class Student extends User implements IStudent {
   constructor(
     _id = '--',
     email = '--',
     name: IName = { firstName: '', lastName: '' } as IName,
-    picture?: string
+    picture?: string,
+    public grade: number = 1
   ) {
     super(_id, email, name, Role.Student, picture)
+    this.grade = grade
   }
 
   static override Build(student: IStudent) {
@@ -51,7 +55,8 @@ export class Student extends User {
       student._id,
       student.email,
       student.name,
-      student.picture
+      student.picture,
+      student.grade
     )
   }
 }

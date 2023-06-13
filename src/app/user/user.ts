@@ -29,6 +29,15 @@ export class User implements IUser {
     )
   }
 
+  get fullName() {
+    const { firstName, middleName, lastName } = this.name
+    if (middleName) {
+      return `${firstName} ${middleName} ${lastName}`
+    } else {
+      return `${firstName} ${lastName}`
+    }
+  }
+
   toJSON(): object {
     const serialized = Object.assign(this)
     delete serialized._id
@@ -42,4 +51,5 @@ export interface IUser {
   name: IName
   role: Role | string
   picture?: string
+  readonly fullName: string
 }
