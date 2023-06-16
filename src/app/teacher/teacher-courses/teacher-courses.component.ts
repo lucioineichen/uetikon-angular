@@ -5,6 +5,7 @@ import { TeacherService } from '../teacher.service'
 import { MatDialog } from '@angular/material/dialog'
 import { TeacherCourseCreatorDialogComponent } from './teacher-course-creator-dialog/teacher-course-creator-dialog.component'
 import { UiService } from 'src/app/common/ui.service'
+import { Router } from '@angular/router'
 
 export interface ICreateCourseData {
   name: string
@@ -30,7 +31,8 @@ export class TeacherCoursesComponent {
   constructor(
     private teacherService: TeacherService,
     private dialog: MatDialog,
-    private uiService: UiService
+    private uiService: UiService,
+    private router: Router
   ) {
     this.courses$ = this.teacherService.courses$.pipe(
       catchError((err, caugt) => {
@@ -38,6 +40,14 @@ export class TeacherCoursesComponent {
         return caugt
       })
     )
+  }
+
+  openCourse(id: number, name: string) {
+    this.router.navigate(['teacher', 'course', id], {
+      queryParams: {
+        name,
+      },
+    })
   }
 
   ngOnInit(): void {

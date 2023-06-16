@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { BehaviorSubject, ReplaySubject } from 'rxjs'
 import { ICourse, IMessage, IStudent } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
@@ -18,6 +18,7 @@ export class TeacherCourseComponent implements OnInit {
   errorMessage?: string
   newMessage: string = ''
   isChatOpen = false
+  courseName: string
 
   currentUser$ = new BehaviorSubject(
     User.Build({
@@ -31,9 +32,11 @@ export class TeacherCourseComponent implements OnInit {
   constructor(
     protected route: ActivatedRoute,
     private teacherService: TeacherService,
-    private uiService: UiService
+    private uiService: UiService,
+    private router: Router
   ) {
     this.id = this.route.snapshot.params['id']
+    this.courseName = this.route.snapshot.queryParams['name']
   }
 
   ngOnInit(): void {
@@ -49,6 +52,8 @@ export class TeacherCourseComponent implements OnInit {
   toggleChat(): void {
     this.isChatOpen = !this.isChatOpen
   }
+
+  addModule() {}
 
   messages: IMessage[] = [
     {
@@ -94,5 +99,13 @@ export class TeacherCourseComponent implements OnInit {
       this.messages.push(newChatMessage)
       this.newMessage = ''
     }
+  }
+
+  refresh() {
+    this.router.navigate(['teacher', 'course', this.id], {
+      queryParams: {
+        name: this.courseName,
+      },
+    })
   }
 }

@@ -1,3 +1,21 @@
+<!-- Sub Header -->
+<mat-toolbar color="accent" fxLayoutGap="8px">
+  <a mat-button (click)="refresh()"
+    ><h1>{{ courseName }}</h1></a
+  >
+  <span class="flex-spacer"></span>
+  <button
+    mat-mini-fab
+    matTooltip="Kurs Erstellen"
+    aria-label="Kurs Erstellen"
+    color="primary"
+    (click)="addModule()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
+
+<!-- Content -->
 <div *ngIf="course$ | async as course; else loading">
   {{ course.name }}
 </div>

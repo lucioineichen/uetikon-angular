@@ -1,8 +1,6 @@
 <!-- sub toolbar -->
 <mat-toolbar color="accent" fxLayoutGap="8px">
-  <a mat-button routerLink="/teacher/courses" routerLinkActive="active-link">
-    Meine Kurse
-  </a>
+  <a mat-button routerLink="/teacher/courses"><h1>Meine Kurse</h1></a>
   <span class="flex-spacer"></span>
   <button
     mat-mini-fab
@@ -23,8 +21,9 @@
         ><mat-card
           *ngFor="let course of courses"
           style="width: 280px"
-          [routerLink]="'/teacher/course/' + course._id"
+          (click)="openCourse(course._id, course.name)"
           button
+          mat-ripple
         >
           <mat-card-header>
             <mat-card-title>{{ course.name }}</mat-card-title>
