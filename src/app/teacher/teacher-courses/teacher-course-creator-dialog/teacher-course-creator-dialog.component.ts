@@ -51,11 +51,10 @@ export class TeacherCourseCreatorDialogComponent {
   get createCourseData(): ICreateCourseData {
     const students: IStudent[] = []
     this.selectedStudents.forEach((student) => students.push({ ...student }))
-    console.log('selectedStudents in crouseCreatorForm: ', students)
     return {
       name: this.createCourseForm.value.name,
       credits: this.createCourseForm.value.credits,
-      students: students,
+      studentIds: students.map((student) => student._id),
     }
   }
 }

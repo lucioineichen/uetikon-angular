@@ -1,0 +1,16 @@
+<mat-dialog-content class="mat-typography">
+  <mat-list *ngIf="currentFolder$ | async as folder; else loading">
+    <mat-list-item *ngFor="let childFolder of folder.repositoryFolders">
+      {{ childFolder.name }}
+    </mat-list-item>
+    <mat-list-item *ngFor="let repository of folder.repositories">
+      {{ repository.name }}
+    </mat-list-item>
+  </mat-list>
+
+  <ng-template #loading> Lädt LernJobs... </ng-template>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Fertig</button>
+</mat-dialog-actions>

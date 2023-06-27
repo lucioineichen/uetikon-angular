@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { BehaviorSubject, ReplaySubject } from 'rxjs'
+import { BehaviorSubject, ReplaySubject, tap } from 'rxjs'
 import { ICourse, IMessage, IStudent } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
 import { UiService } from 'src/app/common/ui.service'
 import { Role } from 'src/app/auth/auth.enum'
 import { IUser, User } from 'src/app/user/user'
+import { MatDialog } from '@angular/material/dialog'
+import { ChooseStudyJobsDialogComponent } from '../choose-study-jobs-dialog/choose-study-jobs-dialog.component'
 
 @Component({
   selector: 'app-teacher-course',
@@ -33,7 +35,8 @@ export class TeacherCourseComponent implements OnInit {
     protected route: ActivatedRoute,
     private teacherService: TeacherService,
     private uiService: UiService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.id = this.route.snapshot.params['id']
     this.courseName = this.route.snapshot.queryParams['name']
@@ -41,12 +44,19 @@ export class TeacherCourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.teacherService.getCourse(this.id).subscribe({
-      next: (course) => this.course$.next(course),
+      next: (course) => {
+        this.course$.next(course)
+        console.log(course)
+      },
       error: (err) => {
         this.uiService.showToast('Kurs konnte nicht geladen werden')
         this.errorMessage = 'Kurs konnte nicht geladen werden'
       },
     })
+  }
+
+  addStudyJobs() {
+    this.dialog.open(ChooseStudyJobsDialogComponent)
   }
 
   toggleChat(): void {
@@ -102,7 +112,7 @@ export class TeacherCourseComponent implements OnInit {
   }
 
   refresh() {
-    this.router.navigate(['teacher', 'course', this.id], {
+    this.router.navigate(['teacher', 'courses', this.id], {
       queryParams: {
         name: this.courseName,
       },

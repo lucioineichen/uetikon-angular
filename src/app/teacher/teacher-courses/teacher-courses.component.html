@@ -20,31 +20,29 @@
       <mat-grid-tile
         ><mat-card
           *ngFor="let course of courses"
-          style="width: 280px"
           (click)="openCourse(course._id, course.name)"
           button
           mat-ripple
         >
-          <mat-card-header>
-            <mat-card-title>{{ course.name }}</mat-card-title>
-            <mat-card-subtitle>Credits: {{ course.credits }}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <h4>Lehrer</h4>
-            <mat-list>
-              <mat-list-item *ngFor="let teacher of course.teachers">
-                {{ teacher.fullName }}
-              </mat-list-item>
-            </mat-list>
-            <h4>Schüler:</h4>
-            <mat-list>
-              <li *ngFor="let student of course.students">
-                {{ student.fullName }}
-              </li>
-            </mat-list>
-          </mat-card-content>
-        </mat-card></mat-grid-tile
-      >
+          <div style="width: 250px; padding: 40px 80px">
+            <mat-card-header>
+              <mat-card-title>{{ course.name }}</mat-card-title>
+              <mat-card-subtitle
+                >Credits: {{ course.credits }}</mat-card-subtitle
+              >
+            </mat-card-header>
+            <mat-card-content>
+              <div>
+                {{ course.teachers.length }}
+                <mat-icon svgIcon="teacher"></mat-icon>
+              </div>
+              <div>
+                {{ course.students.length }}
+                <mat-icon svgIcon="student"></mat-icon>
+              </div>
+            </mat-card-content>
+          </div> </mat-card
+      ></mat-grid-tile>
     </mat-grid-list>
   </div>
   <ng-template #noCourses>Du bist noch in keinem Kurs </ng-template>

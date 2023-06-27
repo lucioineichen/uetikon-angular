@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Observable, ReplaySubject, map, tap } from 'rxjs'
-import { ICourse, IStudent, Student, Teacher } from '../interfaces'
+import { Observable, ReplaySubject, map, tap, throwError } from 'rxjs'
+import {
+  ICourse,
+  IRepositoryFolder,
+  IStudent,
+  IStudyJob,
+  Student,
+  Teacher,
+} from '../interfaces'
 import { environment } from '../environment/environment.demo'
 import { UiService } from '../common/ui.service'
 import { MatDialog } from '@angular/material/dialog'
@@ -11,7 +18,10 @@ import { ICreateCourseData } from './teacher-courses/teacher-courses.component'
 export interface ITeacherService {
   readonly courses$: ReplaySubject<ICourse[]>
   readonly students$: ReplaySubject<IStudent[]>
+  readonly repositoryTree$: ReplaySubject<IRepositoryFolder>
   updateCourses(): void
+  updateStudents(): void
+  updaterepositoryTree(): void
 }
 
 @Injectable({
@@ -20,6 +30,7 @@ export interface ITeacherService {
 export class TeacherService implements ITeacherService {
   readonly courses$ = new ReplaySubject<ICourse[]>(1)
   readonly students$ = new ReplaySubject<IStudent[]>(1)
+  readonly repositoryTree$ = new ReplaySubject<IRepositoryFolder>(1)
 
   constructor(
     private httpClient: HttpClient,
@@ -27,15 +38,26 @@ export class TeacherService implements ITeacherService {
     private dialog: MatDialog
   ) {}
 
+  updaterepositoryTree(): void {
+    this.httpClient
+      .get<IRepositoryFolder>(`${environment.baseUrl}/teacher/tree`)
+      .subscribe({
+        next: (tree) => this.repositoryTree$.next(tree),
+        error: (e: Error) => {
+          this.uiService.showToast('LernJobs konnten nicht geladen werden')
+          this.repositoryTree$.error(throwError(() => new Error('server 500')))
+        },
+      })
+  }
+
   private getCourses(): Observable<ICourse[]> {
     return this.httpClient
       .get<ICourse[]>(`${environment.baseUrl}/user/courses`)
       .pipe(
-        map((courses) =>
-          courses.map((course) => {
+        tap((courses) =>
+          courses.forEach((course) => {
             course.students = course.students.map(Student.Build)
             course.teachers = course.teachers.map(Teacher.Build)
-            return course
           })
         )
       )
@@ -88,6 +110,13 @@ export class TeacherService implements ITeacherService {
   }
 
   getCourse(id: number) {
-    return this.httpClient.get<ICourse>(`${environment.baseUrl}/course/${id}`)
+    return this.httpClient
+      .get<ICourse>(`${environment.baseUrl}/course/${id}`)
+      .pipe(
+        tap((course) => {
+          course.students = course.students.map(Student.Build)
+          course.teachers = course.teachers.map(Teacher.Build)
+        })
+      )
   }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { AuthService } from './auth/auth.service'
-import { Role } from './auth/auth.enum'
+import { MatIconRegistry } from '@angular/material/icon'
+import { DomSanitizer } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-root',
@@ -14,5 +15,18 @@ import { Role } from './auth/auth.enum'
   ],
 })
 export class AppComponent {
-  constructor(protected authService: AuthService) {}
+  constructor(
+    protected authService: AuthService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) {
+    this.matIconRegistry.addSvgIcon(
+      `teacher`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/teacher.svg')
+    )
+    this.matIconRegistry.addSvgIcon(
+      'student',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/student.svg')
+    )
+  }
 }

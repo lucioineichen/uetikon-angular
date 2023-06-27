@@ -15,7 +15,19 @@ export interface ICourse {
   credits: number
   teachers: ITeacher[]
   students: IStudent[]
+  studyJobExpectations: IStudyJobExpectation[]
   chat: IChat
+}
+
+export interface IRepository {
+  name: string
+  studyJobIds_: number[]
+}
+
+export interface IRepositoryFolder {
+  name: string
+  repositoryFolders: IRepositoryFolder[]
+  repositories: IRepository[]
 }
 
 export interface IChat {
@@ -87,13 +99,26 @@ export class Teacher extends User {
   }
 }
 
-export interface IModule {
+export interface IStudyJob {
   _id: number
   name: string
+  tasks: ITask[]
+}
+
+export interface IStudyJobExpectation {
+  name: string
+  competences21: string[]
+  mandatoryStudyJob: IStudyJob
+  studyJobChoices: IStudyJob[]
 }
 
 export interface ITask {
   title: string
   text?: string
-  file?: string
+  file?: IFile
+}
+
+export interface IFile {
+  name: string
+  path: string
 }

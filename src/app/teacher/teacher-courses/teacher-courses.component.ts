@@ -10,7 +10,7 @@ import { Router } from '@angular/router'
 export interface ICreateCourseData {
   name: string
   credits: number
-  students: IStudent[]
+  studentIds: string[]
 }
 
 @Component({
@@ -43,7 +43,7 @@ export class TeacherCoursesComponent {
   }
 
   openCourse(id: number, name: string) {
-    this.router.navigate(['teacher', 'course', id], {
+    this.router.navigate(['teacher', 'courses', id], {
       queryParams: {
         name,
       },

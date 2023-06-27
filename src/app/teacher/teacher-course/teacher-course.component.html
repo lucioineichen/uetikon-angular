@@ -3,21 +3,25 @@
   <a mat-button (click)="refresh()"
     ><h1>{{ courseName }}</h1></a
   >
-  <span class="flex-spacer"></span>
-  <button
-    mat-mini-fab
-    matTooltip="Kurs Erstellen"
-    aria-label="Kurs Erstellen"
-    color="primary"
-    (click)="addModule()"
-  >
-    <mat-icon>add</mat-icon>
-  </button>
 </mat-toolbar>
 
 <!-- Content -->
-<div *ngIf="course$ | async as course; else loading">
-  {{ course.name }}
+<div *ngIf="course$ | async as course; else loading" style="padding: 20px">
+  <div *ngIf="course.students.length > 0">
+    <h2>Schüler: {{ course.students.length }}</h2>
+    <div *ngFor="let student of course.students">
+      {{ student.fullName }}
+    </div>
+  </div>
+  <div *ngFor="let expectation of course.studyJobExpectations">
+    <app-study-job-expectation
+      [studyJobExpectation]="expectation"
+    ></app-study-job-expectation>
+  </div>
+  <div *ngIf="course.studyJobExpectations.length === 0">
+    Diesem Kurs wurden noch keine LernJobs hinzugefügt.
+  </div>
+  <button mat-raised-button color="primary" (click)="addStudyJobs()">Lernjob Hinzufügen</button>
 </div>
 
 <ng-template #loading>
@@ -34,6 +38,7 @@
   </button>
 </div>
 
+<!-- chat -->
 <div class="chat-container" [ngClass]="{ 'chat-open': isChatOpen }">
   <div class="chat-header">
     <h3>Chat</h3>

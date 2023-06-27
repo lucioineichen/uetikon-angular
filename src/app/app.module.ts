@@ -18,6 +18,7 @@ import { SimpleDialogComponent } from './common/simple-dialog.component'
 import { DjangoRestApiAuthService } from './auth/auth.djangoRestApi.service'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule } from '@angular/common'
+import { UiModule } from './ui.module'
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { CommonModule } from '@angular/common'
     HttpClientModule,
     BrowserAnimationsModule,
     CommonModule,
+    UiModule,
   ],
   providers: [
     { provide: AuthService, useClass: DjangoRestApiAuthService },

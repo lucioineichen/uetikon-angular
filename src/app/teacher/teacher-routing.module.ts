@@ -7,8 +7,13 @@ import { TeacherCourseComponent } from './teacher-course/teacher-course.componen
 const routes: Routes = [
   { path: '', redirectTo: '/teacher/courses', pathMatch: 'full' },
   { path: 'home', component: TeacherHomeComponent },
-  { path: 'courses', component: TeacherCoursesComponent },
-  { path: 'course/:id', component: TeacherCourseComponent },
+  {
+    path: 'courses',
+    redirectTo: '/teacher/courses/overview',
+    pathMatch: 'full',
+  },
+  { path: 'courses/overview', component: TeacherCoursesComponent },
+  { path: 'courses/:id', component: TeacherCourseComponent },
 ]
 
 @NgModule({
