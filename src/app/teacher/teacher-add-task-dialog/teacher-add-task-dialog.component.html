@@ -1,0 +1,44 @@
+<mat-dialog-content class="mat-typography" style="width: 700px; height: 400px">
+  <h4>Aufgabe Erstellen</h4>
+  <form [formGroup]="taskForm" fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field fxFlex style="width: 100%">
+        <input
+          matInput
+          placeholder="Titel"
+          aria-label="Titel"
+          formControlName="title"
+        />
+        <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
+          Titel ist obligatorisch
+        </mat-error>
+        <mat-error *ngIf="taskForm.get('title')?.hasError('maxlength')">
+          Titel darf nicht länger als 50 sein
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field fxFlex style="width: 100%">
+        <textarea
+          matInput
+          placeholder="Text"
+          aria-
+          label="Text"
+          formControlName="text"
+        ></textarea>
+      </mat-form-field>
+    </div>
+    <!-- <button mat-button color="primary" (click)="addTask()">
+      <mat-icon>add</mat-icon> Dokument Hinzufügen
+    </button> -->
+    <input type="file" (change)="onFileSelected($event)" />
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Abrechen</button>
+  <button mat-button [disabled]="!taskForm.valid" [mat-dialog-close]="taskData">
+    Speichern
+  </button>
+</mat-dialog-actions>

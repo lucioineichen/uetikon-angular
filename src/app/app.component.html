@@ -5,11 +5,12 @@
     user: authService.currentUser$ | async
   } as auth"
 >
-  <a mat-button routerLink="/home"><h1>Uetikon</h1></a>
+  <a mat-button routerLink="/home" class=""><h1>Uetikon</h1></a>
   <span style="width: 2rem"></span>
 
   <!-- Student Routes -->
   <a
+    class="link"
     *ngIf="auth.status?.userRole === 'student'"
     mat-button
     routerLink="/student/courses"
@@ -18,13 +19,23 @@
   >
 
   <!-- Teacher Routes -->
-  <a
-    *ngIf="auth.status?.userRole === 'teacher'"
-    mat-button
-    routerLink="/teacher/courses"
-    routerLinkActive="active-link"
-    >Meine Kurse</a
-  >
+
+  <div *ngIf="auth.status?.userRole === 'teacher'">
+    <a
+      class="link"
+      mat-button
+      routerLink="/teacher/courses"
+      routerLinkActive="active-link"
+      >Meine Kurse</a
+    >
+    <a
+      class="link"
+      mat-button
+      routerLink="/teacher/study-jobs"
+      routerLinkActive="active-link"
+      >LernJobs</a
+    >
+  </div>
 
   <!-- Shared Routes -->
   <span class="flex-spacer"></span>

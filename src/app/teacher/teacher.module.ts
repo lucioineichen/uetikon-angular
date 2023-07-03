@@ -10,9 +10,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AddStudentsDialogComponent } from './add-students-dialog/add-students-dialog.component'
 import { TeacherCourseComponent } from './teacher-course/teacher-course.component'
 import { TeacherComponent } from './teacher.component'
-import { TeacherModuleCreatorDialogComponent } from './teacher-module-creator-dialog/teacher-module-creator-dialog.component'
-import { UiModule } from '../ui.module';
+import { UiModule } from '../ui.module'
 import { ChooseStudyJobsDialogComponent } from './choose-study-jobs-dialog/choose-study-jobs-dialog.component'
+import { TeacherStudyJobsComponent } from './teacher-study-jobs/teacher-study-jobs.component'
+import { TeacherCreateStudyJobDialogComponent } from './teacher-create-study-job-dialog/teacher-create-study-job-dialog.component';
+import { TeacherAddTaskDialogComponent } from './teacher-add-task-dialog/teacher-add-task-dialog.component';
+import { TeacherChooseCompetencesDialogComponent } from './teacher-choose-competences-dialog/teacher-choose-competences-dialog.component'
 
 @NgModule({
   declarations: [
@@ -22,8 +25,11 @@ import { ChooseStudyJobsDialogComponent } from './choose-study-jobs-dialog/choos
     AddStudentsDialogComponent,
     TeacherCourseComponent,
     TeacherComponent,
-    TeacherModuleCreatorDialogComponent,
     ChooseStudyJobsDialogComponent,
+    TeacherStudyJobsComponent,
+    TeacherCreateStudyJobDialogComponent,
+    TeacherAddTaskDialogComponent,
+    TeacherChooseCompetencesDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -14,6 +14,9 @@ import { MatDividerModule } from '@angular/material/divider'
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatRippleModule } from '@angular/material/core'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatExpansionModule } from '@angular/material/expansion'
 
 const modules = [
   MatButtonModule,
@@ -31,6 +34,9 @@ const modules = [
   MatGridListModule,
   MatCheckboxModule,
   MatRippleModule,
+  MatProgressBarModule,
+  MatSlideToggleModule,
+  MatExpansionModule,
 ]
 
 @NgModule({

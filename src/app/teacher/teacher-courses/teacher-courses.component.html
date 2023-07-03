@@ -15,7 +15,7 @@
 
 <!-- content -->
 <div *ngIf="courses$ | async as courses; else loading">
-  <div *ngIf="courses.length; else noCourses">
+  <div *ngIf="courses.length; else noCourses" style="padding: 40px">
     <mat-grid-list cols="3" rowHeight="340px">
       <mat-grid-tile
         ><mat-card
@@ -24,7 +24,7 @@
           button
           mat-ripple
         >
-          <div style="width: 250px; padding: 40px 80px">
+          <div style="width: 250px; padding: 20px 40px">
             <mat-card-header>
               <mat-card-title>{{ course.name }}</mat-card-title>
               <mat-card-subtitle

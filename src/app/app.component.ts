@@ -12,6 +12,11 @@ import { DomSanitizer } from '@angular/platform-browser'
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
       }
     `,
+    `
+      .link {
+        margin-right: 20px;
+      }
+    `,
   ],
 })
 export class AppComponent {

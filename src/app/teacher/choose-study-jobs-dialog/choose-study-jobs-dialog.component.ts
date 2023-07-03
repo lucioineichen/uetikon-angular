@@ -4,6 +4,7 @@ import { IRepositoryFolder } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
 import { MatDialogRef } from '@angular/material/dialog'
 import { SubSink } from 'subsink'
+import { UiService } from 'src/app/common/ui.service'
 
 @Component({
   selector: 'app-choose-study-jobs-dialog',
@@ -16,11 +17,18 @@ export class ChooseStudyJobsDialogComponent implements OnDestroy, OnInit {
 
   constructor(
     private teacherService: TeacherService,
-    public dialogRef: MatDialogRef<ChooseStudyJobsDialogComponent>
+    public dialogRef: MatDialogRef<ChooseStudyJobsDialogComponent>,
+    private uiService: UiService
   ) {
     this.teacherService.repositoryTree$
       .pipe(
-        tap((tree) => this.currentFolder$.next(tree)),
+        tap((tree) => {
+          this.currentFolder$.next(tree)
+          if (tree.repositoryFolders.length === 0) {
+            this.uiService.showToast('Es gibt noch keine LernJobs')
+            this.dialogRef.close()
+          }
+        }),
         catchError((err, caugt) => {
           this.dialogRef.close()
           console.log('close dialog')

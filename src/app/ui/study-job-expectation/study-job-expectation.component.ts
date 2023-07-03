@@ -17,11 +17,15 @@ import { IStudyJobExpectation } from 'src/app/interfaces'
           </mat-list-item>
         </mat-list>
         <div *ngIf="studyJobExpectation.mandatoryStudyJob">
-          {{ studyJobExpectation.mandatoryStudyJob.name }}
+          {{
+            studyJobExpectation.mandatoryStudyJob.repositoryName +
+              ':' +
+              studyJobExpectation.mandatoryStudyJob.version
+          }}
         </div>
         <div *ngIf="studyJobExpectation.studyJobChoices.length > 0">
           <div *ngFor="let job of studyJobExpectation.studyJobChoices">
-            {{ job.name }}
+            {{ job.version }}
           </div>
         </div>
       </mat-card-content>

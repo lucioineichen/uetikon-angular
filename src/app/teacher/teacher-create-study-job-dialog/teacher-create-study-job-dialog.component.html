@@ -1,0 +1,117 @@
+<mat-dialog-content class="mat-typography" style="width: 700px">
+  <h4>LernJob Erstellen</h4>
+  <form [formGroup]="studyJobForm" fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <div style="display: inline-block; width: 60%">
+        <mat-form-field fxFlex style="width: 100%">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            placeholder="Name"
+            aria-label="Name"
+            formControlName="name"
+          />
+          <mat-error *ngIf="studyJobForm.get('name')?.hasError('required')">
+            Name ist obligatorisch
+          </mat-error>
+          <mat-error *ngIf="studyJobForm.get('name')?.hasError('maxlength')">
+            Name darf nicht länger als 50 sein
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div style="display: inline-block; width: 40%">
+        <div style="padding-left: 15px">
+          <mat-form-field fxFlex style="width: 100%">
+            <mat-label>Version</mat-label>
+            <input
+              matInput
+              placeholder="Version"
+              aria-label="Version"
+              formControlName="version"
+            />
+            <mat-error
+              *ngIf="studyJobForm.get('version')?.hasError('required')"
+            >
+              Version ist obligatorisch
+            </mat-error>
+            <mat-error
+              *ngIf="studyJobForm.get('version')?.hasError('maxlength')"
+            >
+              Version darf nicht länger als 50 sein
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="10px"
+      style="margin-bottom: 20px"
+    >
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Lehrplan 21 Kompetenzen </mat-panel-title>
+          <mat-panel-description> Wähle Kompetenzen aus </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <button mat-button color="primary" (click)="addCompetences()">
+          <mat-icon>add</mat-icon> Kompetenzen Hinzufügen
+        </button>
+      </mat-expansion-panel>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field fxFlex style="width: 100%">
+        <mat-label>Beschreibung</mat-label>
+        <textarea
+          matInput
+          placeholder="Beschreibung"
+          aria-
+          label="Beschreibung"
+          formControlName="notes"
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field fxFlex>
+        <mat-label>Gewichtung</mat-label>
+        <input
+          type="number"
+          matInput
+          placeholder="Gewichtung"
+          aria-label="Gewichtung"
+          formControlName="weight"
+        />
+      </mat-form-field>
+
+      <mat-slide-toggle
+        color="primary"
+        formControlName="graded"
+        style="margin-left: 15px"
+        >Benotet</mat-slide-toggle
+      >
+    </div>
+
+    <button mat-button color="primary" (click)="addTask()">
+      <mat-icon>add</mat-icon> Aufgabe Hinzufügen
+    </button>
+    <div *ngFor="let task of tasks">
+      {{ task.title }}
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Abrechen</button>
+  <button
+    mat-button
+    [disabled]="!studyJobForm.valid"
+    [mat-dialog-close]="studyJobData"
+  >
+    Speichern
+  </button>
+</mat-dialog-actions>

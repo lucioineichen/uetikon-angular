@@ -20,7 +20,9 @@ export interface ICourse {
 }
 
 export interface IRepository {
+  _id: number
   name: string
+  notes: string
   studyJobIds_: number[]
 }
 
@@ -100,14 +102,15 @@ export class Teacher extends User {
 }
 
 export interface IStudyJob {
-  _id: number
-  name: string
+  version: string
+  notes?: string
+  repositoryName: string
   tasks: ITask[]
 }
 
 export interface IStudyJobExpectation {
   name: string
-  competences21: string[]
+  competences21: ICompetence[]
   mandatoryStudyJob: IStudyJob
   studyJobChoices: IStudyJob[]
 }
@@ -121,4 +124,9 @@ export interface ITask {
 export interface IFile {
   name: string
   path: string
+}
+
+export interface ICompetence {
+  _id: number
+  name: string
 }
