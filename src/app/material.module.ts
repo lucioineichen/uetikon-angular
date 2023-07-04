@@ -17,6 +17,7 @@ import { MatRippleModule } from '@angular/material/core'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatExpansionModule } from '@angular/material/expansion'
+import { MatSelectModule } from '@angular/material/select'
 
 const modules = [
   MatButtonModule,
@@ -37,6 +38,7 @@ const modules = [
   MatProgressBarModule,
   MatSlideToggleModule,
   MatExpansionModule,
+  MatSelectModule,
 ]
 
 @NgModule({

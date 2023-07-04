@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 @Component({
   selector: 'app-teacher-add-task-dialog',
   templateUrl: './teacher-add-task-dialog.component.html',
-  styles: [],
+  styleUrls: ['./teacher-add-task-dialog.component.css'],
 })
 export class TeacherAddTaskDialogComponent implements OnInit {
   taskForm!: FormGroup
@@ -26,7 +26,6 @@ export class TeacherAddTaskDialogComponent implements OnInit {
   onFileSelected(event: any) {
     this.selectedFiles.push(event.target.files[0])
   }
-
 
   get taskData() {
     return {

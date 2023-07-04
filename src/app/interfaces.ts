@@ -23,7 +23,7 @@ export interface IRepository {
   _id: number
   name: string
   notes: string
-  studyJobIds_: number[]
+  studyJobIds: number[]
 }
 
 export interface IRepositoryFolder {
@@ -102,6 +102,7 @@ export class Teacher extends User {
 }
 
 export interface IStudyJob {
+  _id: number
   version: string
   notes?: string
   repositoryName: string
@@ -129,4 +130,5 @@ export interface IFile {
 export interface ICompetence {
   _id: number
   name: string
+  subject: string
 }

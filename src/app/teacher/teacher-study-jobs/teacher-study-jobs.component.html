@@ -1,21 +1,37 @@
-<mat-list *ngIf="tree$ | async as tree; else loading">
-  <div class="add-container">
-    <button
-      class="add"
-      mat-mini-fab
-      matTooltip="LernJob Erstellen"
-      aria-label="LernJob Erstellen"
-      color="primary"
-      (click)="openStudyJobCreator()"
-    >
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
+<div class="add-container">
+  <button
+    class="add"
+    mat-mini-fab
+    matTooltip="LernJob Erstellen"
+    aria-label="LernJob Erstellen"
+    color="primary"
+    (click)="openStudyJobCreator()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
 
-  <mat-list-item *ngFor="let folder of tree.repositoryFolders">
-    {{ folder.name }}
+<mat-list *ngIf="tree$ | async as tree; else loading" class="list">
+  <mat-list-item
+    *ngFor="let folder of tree.repositoryFolders"
+    class="repo"
+    (dblclick)="openFolder()"
+  >
+    <mat-icon matListItemIcon>folder</mat-icon>
+    <div matListItemTitle>{{ folder.name }}</div>
+    <div matListItemLine>Details...</div>
   </mat-list-item>
-  <div *ngIf="tree.repositoryFolders.length === 0">
+
+  <mat-list-item
+    *ngFor="let repo of tree.repositories"
+    class="repo"
+    (dblclick)="openRepo(repo)"
+  >
+    <div matListItemTitle>{{ repo.name }}</div>
+    <div matListItemLine>Lernjobs: {{ repo.studyJobIds.length }}</div>
+  </mat-list-item>
+
+  <div *ngIf="tree.repositoryFolders.length + tree.repositories.length === 0">
     Es gibt noch keine LernJobs
   </div>
 </mat-list>

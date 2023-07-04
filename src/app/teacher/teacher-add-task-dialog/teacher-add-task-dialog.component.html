@@ -29,10 +29,16 @@
         ></textarea>
       </mat-form-field>
     </div>
-    <!-- <button mat-button color="primary" (click)="addTask()">
-      <mat-icon>add</mat-icon> Dokument Hinzufügen
-    </button> -->
-    <input type="file" (change)="onFileSelected($event)" />
+    <button color="primary" mat-button (click)="fileInput.click()">
+      <mat-icon>add</mat-icon>Dokument Hinzufügen
+    </button>
+    <input
+      hidden
+      (change)="onFileSelected($event)"
+      #fileInput
+      type="file"
+      id="file"
+    />
   </form>
 </mat-dialog-content>
 

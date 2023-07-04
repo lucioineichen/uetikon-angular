@@ -1,6 +1,6 @@
-import { Component, Inject } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
-import { MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import {
   Observable,
   catchError,
@@ -19,26 +19,22 @@ import { MatCheckboxChange } from '@angular/material/checkbox'
   templateUrl: './teacher-choose-competences-dialog.component.html',
   styles: [],
 })
-export class TeacherChooseCompetencesDialogComponent {
+export class TeacherChooseCompetencesDialogComponent implements OnInit {
   competences$: Observable<ICompetence[]>
   searchControl = new FormControl()
   filteredCompetences$!: Observable<ICompetence[]>
-  isError = false
+  selectedCompetences: ICompetence[]
 
   constructor(
+    private dialogRef: MatDialogRef<TeacherChooseCompetencesDialogComponent>,
     private teacherService: TeacherService,
-    @Inject(MAT_DIALOG_DATA) public selectedCompetences: ICompetence[]
+    @Inject(MAT_DIALOG_DATA) public initialCompetences: ICompetence[]
   ) {
-    console.log(
-      'selectStudentDialog selectedCompetences init: ',
-      this.selectedCompetences
-    )
-    this.competences$ = this.teacherService.competences$.pipe(
-      catchError((err, caugt) => {
-        this.isError = true
-        return caugt
-      })
-    )
+    this.selectedCompetences = [...initialCompetences]
+    this.competences$ = this.teacherService.competences$
+    this.teacherService.competences$.subscribe({
+      error: () => this.dialogRef.close(),
+    })
 
     this.filteredCompetences$ = combineLatest([
       this.competences$,
@@ -83,6 +79,13 @@ export class TeacherChooseCompetencesDialogComponent {
       this.selectedCompetences.findIndex(
         (selectedCompetence) => selectedCompetence._id === competence._id
       ) > -1
+    )
+  }
+
+  save() {
+    this.initialCompetences.splice(0)
+    this.selectedCompetences.forEach((competence) =>
+      this.initialCompetences.push(competence)
     )
   }
 }

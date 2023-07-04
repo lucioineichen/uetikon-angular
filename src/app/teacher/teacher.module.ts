@@ -15,7 +15,8 @@ import { ChooseStudyJobsDialogComponent } from './choose-study-jobs-dialog/choos
 import { TeacherStudyJobsComponent } from './teacher-study-jobs/teacher-study-jobs.component'
 import { TeacherCreateStudyJobDialogComponent } from './teacher-create-study-job-dialog/teacher-create-study-job-dialog.component';
 import { TeacherAddTaskDialogComponent } from './teacher-add-task-dialog/teacher-add-task-dialog.component';
-import { TeacherChooseCompetencesDialogComponent } from './teacher-choose-competences-dialog/teacher-choose-competences-dialog.component'
+import { TeacherChooseCompetencesDialogComponent } from './teacher-choose-competences-dialog/teacher-choose-competences-dialog.component';
+import { TeacherRepositoryDialogComponent } from './teacher-repository-dialog/teacher-repository-dialog.component'
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { TeacherChooseCompetencesDialogComponent } from './teacher-choose-compet
     TeacherCreateStudyJobDialogComponent,
     TeacherAddTaskDialogComponent,
     TeacherChooseCompetencesDialogComponent,
+    TeacherRepositoryDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -51,7 +51,7 @@
       fxLayoutGap="10px"
       style="margin-bottom: 20px"
     >
-      <mat-expansion-panel>
+      <mat-expansion-panel style="background-color: whitesmoke">
         <mat-expansion-panel-header>
           <mat-panel-title> Lehrplan 21 Kompetenzen </mat-panel-title>
           <mat-panel-description> Wähle Kompetenzen aus </mat-panel-description>
@@ -77,7 +77,16 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-      <mat-form-field fxFlex>
+      <mat-form-field>
+        <mat-label>Fach</mat-label>
+        <mat-select formControlName="subject">
+          <mat-option *ngFor="let subject of subjects" [value]="subject.value">
+            {{ subject.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field fxFlex style="margin-left: 15px">
         <mat-label>Gewichtung</mat-label>
         <input
           type="number"

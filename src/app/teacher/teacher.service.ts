@@ -7,6 +7,7 @@ import {
   IRepositoryFolder,
   IStudent,
   IStudyJob,
+  ITask,
   Student,
   Teacher,
 } from '../interfaces'
@@ -25,6 +26,8 @@ export interface ITeacherService {
   updateCourses(): void
   updateStudents(): void
   updaterepositoryTree(): void
+  getStudyJobs(repoId: number): Observable<IStudyJob[]>
+  addTask(taskData: any, job: IStudyJob): Observable<ITask>
 }
 
 @Injectable({
@@ -69,7 +72,20 @@ export class TeacherService implements ITeacherService {
 
   private getCompetences(): Observable<ICompetence[]> {
     return this.httpClient.get<ICompetence[]>(
-      `${environment.baseUrl}/competences`
+      `${environment.baseUrl}/teacher/competences`
+    )
+  }
+
+  addTask(taskData: any, job: IStudyJob): Observable<ITask> {
+    return this.httpClient.post<ITask>(
+      `${environment.baseUrl}/teacher/study-job/${job._id}/tasks`,
+      taskData
+    )
+  }
+
+  getStudyJobs(repoId: number) {
+    return this.httpClient.get<IStudyJob[]>(
+      `${environment.baseUrl}/teacher/repository/${repoId}/study-jobs`
     )
   }
 
@@ -144,10 +160,11 @@ export class TeacherService implements ITeacherService {
       )
   }
 
-  createStudyJob(job: IStudyJob) {
+  createStudyJob(data: any) {
+    console.log(data)
     return this.httpClient.post<IStudyJob>(
-      `${environment.baseUrl}teacher/study-jobs`,
-      job
+      `${environment.baseUrl}/teacher/study-jobs`,
+      data
     )
   }
 }

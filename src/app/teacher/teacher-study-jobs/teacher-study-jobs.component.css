@@ -3,3 +3,32 @@
   right: 0;
   padding: 16px;
 }
+
+.repo {
+  transition: transform 0.3s ease;
+}
+
+.repo:hover {
+  transform: translateY(-2px);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+mat-mdc-list-item,
+mdc-list-item,
+repo,
+mdc-list-item--with-leading-icon,
+mdc-list-item--with-two-lines {
+  border-radius: 10px;
+}
+
+.list {
+  padding-left: 220px;
+  padding-top: 60px;
+  padding-right: 220px;
+}
+
+.fullscreen-dialog {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: 100%;
+  height: 100%;
+}

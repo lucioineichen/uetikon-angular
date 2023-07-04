@@ -1,7 +1,4 @@
-<!-- sub toolbar -->
-<mat-toolbar color="accent" fxLayoutGap="8px">
-  <a mat-button routerLink="/teacher/courses"><h1>Meine Kurse</h1></a>
-  <span class="flex-spacer"></span>
+<div style="position: absolute; right: 0; padding: 16px">
   <button
     mat-mini-fab
     matTooltip="Kurs Erstellen"
@@ -11,7 +8,7 @@
   >
     <mat-icon>add</mat-icon>
   </button>
-</mat-toolbar>
+</div>
 
 <!-- content -->
 <div *ngIf="courses$ | async as courses; else loading">
