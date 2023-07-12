@@ -15,10 +15,7 @@
       </mat-card-header>
       <mat-card-content>
         <mat-list *ngIf="job.tasks.length > 0">
-          <div mat-subheader>Aufgaben:</div>
-          <mat-list-item *ngFor="let task of job.tasks">
-            {{ task.title }}
-          </mat-list-item>
+          <app-task *ngFor="let task of job.tasks" [task]="task"> </app-task>
         </mat-list>
         <div *ngIf="job.tasks.length === 0">
           Dieser LernJob hat noch keine Aufgaben

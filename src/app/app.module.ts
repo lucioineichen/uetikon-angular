@@ -18,7 +18,7 @@ import { SimpleDialogComponent } from './common/simple-dialog.component'
 import { DjangoRestApiAuthService } from './auth/auth.djangoRestApi.service'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule } from '@angular/common'
-import { UiModule } from './ui.module'
+import { TaskComponent } from './ui/task/task.component'
 
 @NgModule({
   declarations: [
@@ -38,12 +38,12 @@ import { UiModule } from './ui.module'
     HttpClientModule,
     BrowserAnimationsModule,
     CommonModule,
-    UiModule,
   ],
   providers: [
     { provide: AuthService, useClass: DjangoRestApiAuthService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
+  exports: [],
 })
 export class AppModule {}

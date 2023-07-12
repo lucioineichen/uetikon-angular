@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { Observable } from 'rxjs'
+import { Observable, mergeMap } from 'rxjs'
 import { IRepository, IStudyJob } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
 import { TeacherAddTaskDialogComponent } from '../teacher-add-task-dialog/teacher-add-task-dialog.component'
 import { DialogRef } from '@angular/cdk/dialog'
+import { UiService } from 'src/app/common/ui.service'
 
 @Component({
   selector: 'app-teacher-repository-dialog',
@@ -17,21 +18,29 @@ export class TeacherRepositoryDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public repo: IRepository,
     private teacherService: TeacherService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private uiService: UiService
   ) {
     this.studyJobs$ = this.teacherService.getStudyJobs(repo._id)
-    this.studyJobs$.subscribe((data) => console.log(data))
   }
 
-  ngOnInit(): void {
-    // throw new Error('Method not implemented.');
-  }
+  ngOnInit(): void {}
 
   addTask(job: IStudyJob) {
     const dialogRef = this.dialog.open(TeacherAddTaskDialogComponent)
 
     dialogRef
       .afterClosed()
-      .subscribe((data) => this.teacherService.addTask(data, job))
+      .pipe(
+        mergeMap((data) => {
+          console.log(data)
+          return this.teacherService.addTask(data, job)
+        })
+      )
+      .subscribe({
+        next: (task) => job.tasks.push(task),
+        error: (err) =>
+          this.uiService.showToast('Aufgabe konnte nicht erstellt werden'),
+      })
   }
 }

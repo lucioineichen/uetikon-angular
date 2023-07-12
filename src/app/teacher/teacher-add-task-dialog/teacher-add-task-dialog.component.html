@@ -29,8 +29,31 @@
         ></textarea>
       </mat-form-field>
     </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field fxFlex>
+        <mat-label>Gewichtung</mat-label>
+        <input
+          type="number"
+          matInput
+          placeholder="Gewichtung"
+          aria-label="Gewichtung"
+          formControlName="weight"
+        />
+      </mat-form-field>
+
+      <mat-slide-toggle
+        color="primary"
+        formControlName="graded"
+        style="margin-left: 15px"
+        (click)="toggleGraded()"
+        >Benotet</mat-slide-toggle
+      >
+    </div>
+
     <button color="primary" mat-button (click)="fileInput.click()">
-      <mat-icon>add</mat-icon>Dokument Hinzufügen
+      <mat-icon *ngIf="!selectedFile">add</mat-icon>
+      {{ selectedFile ? "Dokument Ändern" : "Dokument Hinzufügen" }}
     </button>
     <input
       hidden
@@ -39,6 +62,12 @@
       type="file"
       id="file"
     />
+    <div *ngIf="selectedFile">
+      {{ selectedFile.name }}
+      <button color="danger" mat-button (click)="removeFile()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
   </form>
 </mat-dialog-content>
 

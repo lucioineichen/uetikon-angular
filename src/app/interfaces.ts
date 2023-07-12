@@ -124,7 +124,8 @@ export interface ITask {
 
 export interface IFile {
   name: string
-  path: string
+  extension: string
+  url: string
 }
 
 export interface ICompetence {
