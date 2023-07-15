@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 @Component({
-  selector: 'app-teacher-add-task-dialog',
-  templateUrl: './teacher-add-task-dialog.component.html',
-  styleUrls: ['./teacher-add-task-dialog.component.css'],
+  selector: 'app-add-task-dialog',
+  templateUrl: './add-task-dialog.component.html',
+  styleUrls: ['./add-task-dialog.component.css'],
 })
-export class TeacherAddTaskDialogComponent implements OnInit {
+export class AddTaskDialogComponent implements OnInit {
   taskForm!: FormGroup
   selectedFile?: File
 

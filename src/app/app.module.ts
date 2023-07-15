@@ -19,6 +19,7 @@ import { DjangoRestApiAuthService } from './auth/auth.djangoRestApi.service'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule } from '@angular/common'
 import { TaskComponent } from './ui/task/task.component'
+import { ConfirmDeletionDialogComponent } from './common/confirm-deletion-dialog.component'
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { TaskComponent } from './ui/task/task.component'
     LoginComponent,
     CreateUserComponent,
     SimpleDialogComponent,
+    ConfirmDeletionDialogComponent,
   ],
   imports: [
     BrowserModule,

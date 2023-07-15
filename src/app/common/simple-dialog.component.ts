@@ -9,7 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
     </mat-dialog-content>
     <mat-dialog-actions>
       <span class="flex-spacer"></span>
-      <button mat-button [mat-dialog-close]="false" *ngIf="data.cancelText">
+      <button mat-button [mat-dialog-close]="false" cdkFocusInitial>
         {{ data.cancelText }}
       </button>
       <button
@@ -17,7 +17,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
         mat-button-raised
         color="primary"
         [mat-dialog-close]="true"
-        cdkFocusInitial
       >
         {{ data.okText }}
       </button>

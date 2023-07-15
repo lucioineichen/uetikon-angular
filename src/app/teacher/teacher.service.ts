@@ -4,7 +4,7 @@ import { Observable, ReplaySubject, map, tap, throwError } from 'rxjs'
 import {
   ICompetence,
   ICourse,
-  IRepositoryFolder,
+  IFolder,
   IStudent,
   IStudyJob,
   ITask,
@@ -20,7 +20,7 @@ import { ICreateCourseData } from './teacher-courses/teacher-courses.component'
 export interface ITeacherService {
   readonly courses$: ReplaySubject<ICourse[]>
   readonly students$: ReplaySubject<IStudent[]>
-  readonly repositoryTree$: ReplaySubject<IRepositoryFolder>
+  readonly tree$: ReplaySubject<IFolder>
   readonly competences$: ReplaySubject<ICompetence[]>
   updateCompetences(): void
   updateCourses(): void
@@ -36,7 +36,7 @@ export interface ITeacherService {
 export class TeacherService implements ITeacherService {
   readonly courses$ = new ReplaySubject<ICourse[]>(1)
   readonly students$ = new ReplaySubject<IStudent[]>(1)
-  readonly repositoryTree$ = new ReplaySubject<IRepositoryFolder>(1)
+  readonly tree$ = new ReplaySubject<IFolder>(1)
   readonly competences$ = new ReplaySubject<ICompetence[]>(1)
 
   constructor(
@@ -45,8 +45,8 @@ export class TeacherService implements ITeacherService {
     private dialog: MatDialog
   ) {}
 
-  private getRepositoryTree(): Observable<IRepositoryFolder> {
-    return this.httpClient.get<IRepositoryFolder>(
+  private getRepositoryTree(): Observable<IFolder> {
+    return this.httpClient.get<IFolder>(
       `${environment.baseUrl}/teacher/repository-folder-tree`
     )
   }
@@ -101,10 +101,10 @@ export class TeacherService implements ITeacherService {
 
   updaterepositoryTree(): void {
     this.getRepositoryTree().subscribe({
-      next: (tree) => this.repositoryTree$.next(tree),
+      next: (tree) => this.tree$.next(tree),
       error: (e: Error) => {
         this.uiService.showToast('LernJobs konnten nicht geladen werden')
-        this.repositoryTree$.error(throwError(() => new Error('server 500')))
+        this.tree$.error(throwError(() => new Error('server 500')))
       },
     })
   }

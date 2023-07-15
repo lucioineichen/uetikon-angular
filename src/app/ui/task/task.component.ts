@@ -11,14 +11,42 @@ import { IFile } from 'src/app/interfaces'
       <h3>{{ task.title }}</h3>
       <p *ngIf="task.text">{{ task.text }}</p>
       <div *ngIf="task.file" class="file-container">
-        <div class="file" [ngClass]="getFileIcon(task.file.extension)"></div>
-        <a [href]="getSafeFileUrl(task.file.url)" target="_blank">{{
-          task.file.name
-        }}</a>
+        <div
+          class="file"
+          [ngClass]="getFileIcon(task.file.extension)"
+          *ngIf="getFileIcon(task.file.extension); else picture"
+        ></div>
+        <ng-template #picture>
+          <img
+            *ngIf="isPicture(task.file.extension)"
+            [src]="task.file.url"
+            alt="task-picture"
+            style="width: 30px; height: 30px; padding-right: 10px"
+          />
+        </ng-template>
+
+        <a
+          [href]="getSafeFileUrl(task.file.url)"
+          target="_blank"
+          class="file-link"
+          >{{ task.file.name }}</a
+        >
       </div>
     </div>
   `,
   styles: [
+    `
+      .file-link {
+        display: inline-block;
+        text-decoration: none;
+        color: #0366d6; /* Link color */
+      }
+
+      /* Hover effect */
+      .file-link:hover {
+        text-decoration: underline;
+      }
+    `,
     `
       .task-card {
         background-color: #fff;
@@ -73,6 +101,11 @@ export class TaskComponent implements OnInit {
     console.log(this.task)
   }
 
+  isPicture(extension: string) {
+    if (extension === 'png') return true
+    return false
+  }
+
   registerFileIcons(): void {
     // Register icons and their corresponding URLs
     this.matIconRegistry.addSvgIcon(
@@ -111,7 +144,6 @@ export class TaskComponent implements OnInit {
   }
 
   getSafeFileUrl(url: string): SafeUrl {
-    // url = `${environment.baseUrl}/download/${url}`
     return this.domSanitizer.bypassSecurityTrustUrl(url)
   }
 }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { ICompetence, IStudyJob, ITask } from 'src/app/interfaces'
-import { TeacherAddTaskDialogComponent } from '../teacher-add-task-dialog/teacher-add-task-dialog.component'
+import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component'
 import { DialogRef } from '@angular/cdk/dialog'
 import { tap } from 'rxjs'
 import { TeacherChooseCompetencesDialogComponent } from '../teacher-choose-competences-dialog/teacher-choose-competences-dialog.component'
@@ -47,11 +47,10 @@ export class TeacherCreateStudyJobDialogComponent {
 
   buildcreateUserForm() {
     this.studyJobForm = this.formBuilder.group({
-      name: ['Geometrie 03A', [Validators.required, Validators.maxLength(50)]],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
       graded: [true, [Validators.required]],
       weight: [1],
-      subject: [0, [Validators.required]],
-      version: [''],
+      subject: ['', [Validators.required]],
       notes: [''],
     })
   }
@@ -63,7 +62,7 @@ export class TeacherCreateStudyJobDialogComponent {
   }
 
   addTask() {
-    const dialogRef = this.dialog.open(TeacherAddTaskDialogComponent)
+    const dialogRef = this.dialog.open(AddTaskDialogComponent)
 
     dialogRef.afterClosed().subscribe({
       next: (taskData) => {
@@ -80,7 +79,6 @@ export class TeacherCreateStudyJobDialogComponent {
       subject: this.studyJobForm.value.subject,
       competences: this.competences,
       tasks: this.tasks,
-      version: this.studyJobForm.value.version || undefined,
       notes: this.studyJobForm.value.notes || undefined,
     }
   }

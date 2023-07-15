@@ -13,7 +13,11 @@
 
 <mat-list *ngIf="tree$ | async as tree; else loading" class="list">
   <mat-list-item
-    *ngFor="let folder of tree.repositoryFolders"
+    *ngFor="let folder of tree.folders; let i = index"
+    [ngClass]="{
+      'dark-background': i % 2 !== 0,
+      'light-background': i % 2 === 0
+    }"
     class="repo"
     (dblclick)="openFolder()"
   >
@@ -23,15 +27,18 @@
   </mat-list-item>
 
   <mat-list-item
-    *ngFor="let repo of tree.repositories"
+    *ngFor="let job of tree.studyJobs; let i = index"
+    [ngClass]="{
+      'dark-background': i + (tree.folders.length % 2) !== 0,
+      'light-background': i + (tree.folders.length % 2) === 0
+    }"
     class="repo"
-    (dblclick)="openRepo(repo)"
+    (dblclick)="openJob(job)"
   >
-    <div matListItemTitle>{{ repo.name }}</div>
-    <div matListItemLine>Lernjobs: {{ repo.studyJobIds.length }}</div>
+    <div matListItemTitle>{{ job.name | titlecase }}</div>
   </mat-list-item>
 
-  <div *ngIf="tree.repositoryFolders.length + tree.repositories.length === 0">
+  <div *ngIf="tree.folders.length + tree.studyJobs.length === 0">
     Es gibt noch keine LernJobs
   </div>
 </mat-list>

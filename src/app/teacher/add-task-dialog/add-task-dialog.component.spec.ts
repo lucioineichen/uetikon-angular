@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { TeacherHomeComponent } from './teacher-home.component'
+import { AddTaskDialogComponent } from './add-task-dialog.component'
 
-describe('TeacherHomeComponent', () => {
-  let component: TeacherHomeComponent
-  let fixture: ComponentFixture<TeacherHomeComponent>
+describe('AddTaskDialogComponent', () => {
+  let component: AddTaskDialogComponent
+  let fixture: ComponentFixture<AddTaskDialogComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TeacherHomeComponent],
+      declarations: [AddTaskDialogComponent],
     }).compileComponents()
 
-    fixture = TestBed.createComponent(TeacherHomeComponent)
+    fixture = TestBed.createComponent(AddTaskDialogComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })

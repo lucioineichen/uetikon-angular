@@ -19,17 +19,10 @@ export interface ICourse {
   chat: IChat
 }
 
-export interface IRepository {
-  _id: number
+export interface IFolder {
   name: string
-  notes: string
-  studyJobIds: number[]
-}
-
-export interface IRepositoryFolder {
-  name: string
-  repositoryFolders: IRepositoryFolder[]
-  repositories: IRepository[]
+  folders: IFolder[]
+  studyJobs: IStudyJob[]
 }
 
 export interface IChat {
@@ -103,10 +96,10 @@ export class Teacher extends User {
 
 export interface IStudyJob {
   _id: number
-  version: string
+  name: string
   notes?: string
-  repositoryName: string
   tasks: ITask[]
+  competences: string[]
 }
 
 export interface IStudyJobExpectation {

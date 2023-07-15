@@ -5,6 +5,7 @@ import { Observable } from 'rxjs'
 
 import { SimpleDialogComponent } from './simple-dialog.component'
 import { ComponentType } from '@angular/cdk/portal'
+import { ConfirmDeletionDialogComponent } from './confirm-deletion-dialog.component'
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,15 @@ export class UiService {
         data: { title, content, okText, cancelText },
       }
     )
+    return dialogRef.afterClosed()
+  }
+
+  confirmDeletion(type: string, name: string) {
+    const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent, {
+      width: '250px',
+      data: { type, name },
+    })
+
     return dialogRef.afterClosed()
   }
 }

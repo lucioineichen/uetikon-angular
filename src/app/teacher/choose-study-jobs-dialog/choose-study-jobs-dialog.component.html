@@ -1,10 +1,10 @@
 <mat-dialog-content class="mat-typography">
   <mat-list *ngIf="currentFolder$ | async as folder; else loading">
-    <mat-list-item *ngFor="let childFolder of folder.repositoryFolders">
-      {{ childFolder.name }}
+    <mat-list-item *ngFor="let folder of folder.folders">
+      {{ folder.name }}
     </mat-list-item>
-    <mat-list-item *ngFor="let repository of folder.repositories">
-      {{ repository.name }}
+    <mat-list-item *ngFor="let job of folder.studyJobs">
+      {{ job.name }}
     </mat-list-item>
   </mat-list>
 

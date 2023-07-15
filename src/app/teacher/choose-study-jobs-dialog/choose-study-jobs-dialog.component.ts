@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Observable, ReplaySubject, catchError, tap } from 'rxjs'
-import { IRepositoryFolder } from 'src/app/interfaces'
+import { IFolder } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
 import { MatDialogRef } from '@angular/material/dialog'
 import { SubSink } from 'subsink'
@@ -13,18 +13,18 @@ import { UiService } from 'src/app/common/ui.service'
 })
 export class ChooseStudyJobsDialogComponent implements OnDestroy, OnInit {
   private subs = new SubSink()
-  currentFolder$ = new ReplaySubject<IRepositoryFolder>(1)
+  currentFolder$ = new ReplaySubject<IFolder>(1)
 
   constructor(
     private teacherService: TeacherService,
     public dialogRef: MatDialogRef<ChooseStudyJobsDialogComponent>,
     private uiService: UiService
   ) {
-    this.teacherService.repositoryTree$
+    this.teacherService.tree$
       .pipe(
         tap((tree) => {
           this.currentFolder$.next(tree)
-          if (tree.repositoryFolders.length === 0) {
+          if (tree.folders.length + tree.studyJobs.length === 0) {
             this.uiService.showToast('Es gibt noch keine LernJobs')
             this.dialogRef.close()
           }

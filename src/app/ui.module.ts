@@ -3,6 +3,7 @@ import { StudyJobExpectationComponent } from './ui/study-job-expectation/study-j
 import { MaterialModule } from './material.module'
 import { CommonModule } from '@angular/common'
 import { TaskComponent } from './ui/task/task.component'
+// import { ConfirmDeletionDialogComponent } from './common/confirm-deletion-dialog.component'
 
 const components = [StudyJobExpectationComponent, TaskComponent]
 

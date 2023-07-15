@@ -23,26 +23,31 @@
       <div style="display: inline-block; width: 40%">
         <div style="padding-left: 15px">
           <mat-form-field fxFlex style="width: 100%">
-            <mat-label>Version</mat-label>
-            <input
-              matInput
-              placeholder="Version"
-              aria-label="Version"
-              formControlName="version"
-            />
-            <mat-error
-              *ngIf="studyJobForm.get('version')?.hasError('required')"
-            >
-              Version ist obligatorisch
-            </mat-error>
-            <mat-error
-              *ngIf="studyJobForm.get('version')?.hasError('maxlength')"
-            >
-              Version darf nicht länger als 50 sein
-            </mat-error>
+            <mat-label>Fach</mat-label>
+            <mat-select formControlName="subject">
+              <mat-option
+                *ngFor="let subject of subjects"
+                [value]="subject.value"
+              >
+                {{ subject.name }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field fxFlex style="width: 100%">
+        <mat-label>Beschreibung</mat-label>
+        <textarea
+          matInput
+          placeholder="Beschreibung"
+          aria-
+          label="Beschreibung"
+          formControlName="notes"
+        ></textarea>
+      </mat-form-field>
     </div>
 
     <div
@@ -61,48 +66,6 @@
           <mat-icon>add</mat-icon> Kompetenzen Hinzufügen
         </button>
       </mat-expansion-panel>
-    </div>
-
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-      <mat-form-field fxFlex style="width: 100%">
-        <mat-label>Beschreibung</mat-label>
-        <textarea
-          matInput
-          placeholder="Beschreibung"
-          aria-
-          label="Beschreibung"
-          formControlName="notes"
-        ></textarea>
-      </mat-form-field>
-    </div>
-
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-      <mat-form-field>
-        <mat-label>Fach</mat-label>
-        <mat-select formControlName="subject">
-          <mat-option *ngFor="let subject of subjects" [value]="subject.value">
-            {{ subject.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field fxFlex style="margin-left: 15px">
-        <mat-label>Gewichtung</mat-label>
-        <input
-          type="number"
-          matInput
-          placeholder="Gewichtung"
-          aria-label="Gewichtung"
-          formControlName="weight"
-        />
-      </mat-form-field>
-
-      <mat-slide-toggle
-        color="primary"
-        formControlName="graded"
-        style="margin-left: 15px"
-        >Benotet</mat-slide-toggle
-      >
     </div>
 
     <button mat-button color="primary" (click)="addTask()">

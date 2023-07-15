@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core'
 import { TeacherService } from '../teacher.service'
-import { ReplaySubject, catchError, mergeMap, tap } from 'rxjs'
-import { IRepository, IRepositoryFolder } from 'src/app/interfaces'
+import { ReplaySubject, catchError, filter, mergeMap, tap } from 'rxjs'
+import { IFolder, IStudyJob } from 'src/app/interfaces'
 import { UiService } from 'src/app/common/ui.service'
 import { MatDialog } from '@angular/material/dialog'
 import { TeacherCreateStudyJobDialogComponent } from '../teacher-create-study-job-dialog/teacher-create-study-job-dialog.component'
-import { TeacherRepositoryDialogComponent } from '../teacher-repository-dialog/teacher-repository-dialog.component'
+import { StudyJobDialogComponent } from '../study-job-dialog/study-job-dialog.component'
 
 @Component({
-  selector: 'app-teacher-study-jobs',
-  templateUrl: './teacher-study-jobs.component.html',
-  styleUrls: ['./teacher-study-jobs.component.css'],
+  selector: 'app-study-jobs',
+  templateUrl: './study-jobs.component.html',
+  styleUrls: ['./study-jobs.component.css'],
 })
 export class TeacherStudyJobsComponent implements OnInit {
-  tree$: ReplaySubject<IRepositoryFolder>
+  tree$: ReplaySubject<IFolder>
   isError = false
 
   constructor(
@@ -21,11 +21,11 @@ export class TeacherStudyJobsComponent implements OnInit {
     private uiService: UiService,
     private dialog: MatDialog
   ) {
-    this.tree$ = this.teacherService.repositoryTree$
+    this.tree$ = this.teacherService.tree$
     this.tree$
       .pipe(
         tap((tree) => {
-          if (tree.repositoryFolders.length + tree.repositories.length === 0) {
+          if (tree.folders.length + tree.studyJobs.length === 0) {
             this.uiService.showToast('Es gibt noch keine LernJobs')
           }
         }),
@@ -39,10 +39,10 @@ export class TeacherStudyJobsComponent implements OnInit {
 
   openFolder() {}
 
-  openRepo(repo: IRepository) {
-    this.dialog.open(TeacherRepositoryDialogComponent, {
+  openJob(job: IStudyJob) {
+    this.dialog.open(StudyJobDialogComponent, {
       panelClass: 'fullscreen-dialog',
-      data: repo,
+      data: job,
     })
   }
 
@@ -55,7 +55,10 @@ export class TeacherStudyJobsComponent implements OnInit {
 
     dialogRef
       .afterClosed()
-      .pipe(mergeMap((data) => this.teacherService.createStudyJob(data)))
+      .pipe(
+        filter((data) => data),
+        mergeMap((data) => this.teacherService.createStudyJob(data))
+      )
       .subscribe({
         next: () => this.teacherService.updaterepositoryTree(),
         error: (err) => {
