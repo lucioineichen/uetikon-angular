@@ -20,6 +20,7 @@ export interface ICourse {
 }
 
 export interface IFolder {
+  _id: number
   name: string
   folders: IFolder[]
   studyJobs: IStudyJob[]
@@ -100,6 +101,7 @@ export interface IStudyJob {
   notes?: string
   tasks: ITask[]
   competences: string[]
+  subject: string
 }
 
 export interface IStudyJobExpectation {

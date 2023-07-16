@@ -1,6 +1,14 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Observable, ReplaySubject, map, tap, throwError } from 'rxjs'
+import {
+  BehaviorSubject,
+  Observable,
+  ReplaySubject,
+  Subject,
+  map,
+  tap,
+  throwError,
+} from 'rxjs'
 import {
   ICompetence,
   ICourse,
@@ -28,6 +36,7 @@ export interface ITeacherService {
   updaterepositoryTree(): void
   getStudyJobs(repoId: number): Observable<IStudyJob[]>
   addTask(taskData: any, job: IStudyJob): Observable<ITask>
+  addFolder(folder: IFolder, parentFolder: IFolder): Observable<IFolder>
 }
 
 @Injectable({
@@ -44,6 +53,13 @@ export class TeacherService implements ITeacherService {
     private uiService: UiService,
     private dialog: MatDialog
   ) {}
+
+  addFolder(folder: IFolder, parentFolder: IFolder): Observable<IFolder> {
+    return this.httpClient.post<IFolder>(
+      `${environment.baseUrl}/teacher/folders/${parentFolder._id}`,
+      folder
+    )
+  }
 
   private getRepositoryTree(): Observable<IFolder> {
     return this.httpClient.get<IFolder>(

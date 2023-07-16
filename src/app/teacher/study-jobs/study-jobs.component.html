@@ -5,10 +5,14 @@
     matTooltip="LernJob Erstellen"
     aria-label="LernJob Erstellen"
     color="primary"
-    (click)="openStudyJobCreator()"
+    [matMenuTriggerFor]="menu"
   >
     <mat-icon>add</mat-icon>
   </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openStudyJobCreator()">LernJob</button>
+    <button mat-menu-item (click)="addFolder()">Ordner</button>
+  </mat-menu>
 </div>
 
 <mat-list *ngIf="tree$ | async as tree; else loading" class="list">
@@ -23,19 +27,33 @@
   >
     <mat-icon matListItemIcon>folder</mat-icon>
     <div matListItemTitle>{{ folder.name }}</div>
-    <div matListItemLine>Details...</div>
+    <div matListItemLine>
+      <span
+        *ngIf="
+          folder.folders.length + folder.studyJobs.length === 0;
+          else contains
+        "
+        >Leer</span
+      >
+      <ng-template #contains
+        ><span
+          >{{ folder.folders.length + folder.studyJobs.length }} Elemente</span
+        ></ng-template
+      >
+    </div>
   </mat-list-item>
 
   <mat-list-item
     *ngFor="let job of tree.studyJobs; let i = index"
     [ngClass]="{
-      'dark-background': i + (tree.folders.length % 2) !== 0,
-      'light-background': i + (tree.folders.length % 2) === 0
+      'dark-background': (i + tree.folders.length) % 2 !== 0,
+      'light-background': (i + tree.folders.length) % 2 === 0
     }"
     class="repo"
     (dblclick)="openJob(job)"
   >
     <div matListItemTitle>{{ job.name | titlecase }}</div>
+    <div matListItemLine>{{ job.subject }}</div>
   </mat-list-item>
 
   <div *ngIf="tree.folders.length + tree.studyJobs.length === 0">
