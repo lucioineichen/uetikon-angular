@@ -6,7 +6,7 @@ import { UiService } from 'src/app/common/ui.service'
 import { MatDialog } from '@angular/material/dialog'
 import { TeacherCreateStudyJobDialogComponent } from '../teacher-create-study-job-dialog/teacher-create-study-job-dialog.component'
 import { StudyJobDialogComponent } from '../study-job-dialog/study-job-dialog.component'
-import { isNewFolder } from 'src/app/folder'
+import { getNewFolderNumber, isNewFolder } from 'src/app/folder'
 
 @Component({
   selector: 'app-study-jobs',
@@ -41,46 +41,25 @@ export class TeacherStudyJobsComponent implements OnInit {
   openFolder() {}
 
   addFolder() {
-    console.log(isNewFolder('Neuer Ordner (12) b'))
+    this.tree$
+      .subscribe((folder) => {
+        const number =
+          folder.folders.reduce((previousValue, currentFolder) => {
+            return getNewFolderNumber(currentFolder.name) > previousValue
+              ? getNewFolderNumber(currentFolder.name)
+              : previousValue
+          }, 0) + 1
 
-    // const pattern = /^Neuer Ordner\((\d+)\)$/
+        const newFolder = {
+          _id: 0,
+          name: `Neuer Ordner (${number})`,
+          folders: [],
+          studyJobs: [],
+        }
 
-    // console.log(isNewFolder('Neuer Ordner (1)'))
-
-    // this.tree$
-    //   .subscribe((folder) => {
-    //     const match =
-    //       folder.folders.length > 0
-    //         ? folder.folders
-    //             .reduce((previousFolder, currentFolder) => {
-    //               const currentMatch = currentFolder.name.match(pattern)
-    //               const previousMatch = previousFolder.name.match(pattern)
-
-    //               if (currentMatch && currentMatch[1]) {
-    //                 if (
-    //                   previousMatch &&
-    //                   previousMatch[1] &&
-    //                   parseInt(previousMatch[1], 10) >
-    //                     parseInt(currentMatch[1], 10)
-    //                 )
-    //                   return previousFolder
-    //                 else return currentFolder
-    //               }
-    //               return previousFolder
-    //             })
-    //             .name.match(pattern)
-    //         : null
-    //     console.log('match: ', match)
-    //     const number = match ? parseInt(match[1], 10) + 1 : 1
-
-    //     folder.folders.push({
-    //       _id: 0,
-    //       name: `Neuer Ordner (${number})`,
-    //       folders: [],
-    //       studyJobs: [],
-    //     })
-    //   })
-    //   .unsubscribe()
+        folder.folders.push(newFolder)
+      })
+      .unsubscribe()
   }
 
   openJob(job: IStudyJob) {

@@ -19,15 +19,21 @@
   <mat-list-item
     *ngFor="let folder of tree.folders; let i = index"
     [ngClass]="{
-      'dark-background': i % 2 !== 0,
-      'light-background': i % 2 === 0
+      'dark-background': i % 2 === 0,
+      'light-background': i % 2 === 1
     }"
     class="repo"
     (dblclick)="openFolder()"
   >
-    <mat-icon matListItemIcon>folder</mat-icon>
-    <div matListItemTitle>{{ folder.name }}</div>
-    <div matListItemLine>
+    <mat-icon matListItemIcon> folder </mat-icon>
+    <div matListItemTitle>
+      <input
+        type="text"
+        [value]="folder.name"
+        [ngClass]="{ 'dark-input': i % 2 === 1 }"
+      />
+    </div>
+    <div matListItemLine *ngIf="false">
       <span
         *ngIf="
           folder.folders.length + folder.studyJobs.length === 0;
@@ -46,8 +52,8 @@
   <mat-list-item
     *ngFor="let job of tree.studyJobs; let i = index"
     [ngClass]="{
-      'dark-background': (i + tree.folders.length) % 2 !== 0,
-      'light-background': (i + tree.folders.length) % 2 === 0
+      'dark-background': (i + tree.folders.length) % 2 === 0,
+      'light-background': (i + tree.folders.length) % 2 !== 0
     }"
     class="repo"
     (dblclick)="openJob(job)"

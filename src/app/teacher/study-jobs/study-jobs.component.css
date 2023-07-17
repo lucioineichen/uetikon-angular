@@ -5,11 +5,11 @@
 }
 
 .dark-background {
-  background-color: #fff;
+  background-color: whitesmoke;
 }
 
 .light-background {
-  background-color: whitesmoke;
+  background-color: #fff;
 }
 
 .repo {
@@ -45,4 +45,35 @@ mdc-list-item--with-two-lines {
   max-height: 100% !important;
   width: 100%;
   height: 100%;
+}
+
+.dark-input {
+  background-color: whitesmoke;
+}
+
+input {
+  border: none;
+  background-color: transparent;
+  font-size: inherit;
+  padding: 0.5rem;
+  border-radius: 0;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Apply modern styles */
+input {
+  border: 2px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  font-size: 1rem;
+  padding: 0.4rem;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input:focus {
+  border-color: #aaa;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }

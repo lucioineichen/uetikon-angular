@@ -26,6 +26,7 @@ import { AddStudentsDialogComponent } from './add-students-dialog/add-students-d
 import { ICreateCourseData } from './teacher-courses/teacher-courses.component'
 
 export interface ITeacherService {
+  renamingFolder?: IFolder
   readonly courses$: ReplaySubject<ICourse[]>
   readonly students$: ReplaySubject<IStudent[]>
   readonly tree$: ReplaySubject<IFolder>
@@ -43,6 +44,7 @@ export interface ITeacherService {
   providedIn: 'root',
 })
 export class TeacherService implements ITeacherService {
+  renamingFolder?: IFolder
   readonly courses$ = new ReplaySubject<ICourse[]>(1)
   readonly students$ = new ReplaySubject<IStudent[]>(1)
   readonly tree$ = new ReplaySubject<IFolder>(1)
