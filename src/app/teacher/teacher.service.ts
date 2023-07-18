@@ -26,28 +26,22 @@ import { AddStudentsDialogComponent } from './add-students-dialog/add-students-d
 import { ICreateCourseData } from './teacher-courses/teacher-courses.component'
 
 export interface ITeacherService {
-  renamingFolder?: IFolder
   readonly courses$: ReplaySubject<ICourse[]>
   readonly students$: ReplaySubject<IStudent[]>
-  readonly tree$: ReplaySubject<IFolder>
   readonly competences$: ReplaySubject<ICompetence[]>
   updateCompetences(): void
   updateCourses(): void
   updateStudents(): void
-  updaterepositoryTree(): void
   getStudyJobs(repoId: number): Observable<IStudyJob[]>
   addTask(taskData: any, job: IStudyJob): Observable<ITask>
-  addFolder(folder: IFolder, parentFolder: IFolder): Observable<IFolder>
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class TeacherService implements ITeacherService {
-  renamingFolder?: IFolder
   readonly courses$ = new ReplaySubject<ICourse[]>(1)
   readonly students$ = new ReplaySubject<IStudent[]>(1)
-  readonly tree$ = new ReplaySubject<IFolder>(1)
   readonly competences$ = new ReplaySubject<ICompetence[]>(1)
 
   constructor(
@@ -55,19 +49,6 @@ export class TeacherService implements ITeacherService {
     private uiService: UiService,
     private dialog: MatDialog
   ) {}
-
-  addFolder(folder: IFolder, parentFolder: IFolder): Observable<IFolder> {
-    return this.httpClient.post<IFolder>(
-      `${environment.baseUrl}/teacher/folders/${parentFolder._id}`,
-      folder
-    )
-  }
-
-  private getRepositoryTree(): Observable<IFolder> {
-    return this.httpClient.get<IFolder>(
-      `${environment.baseUrl}/teacher/repository-folder-tree`
-    )
-  }
 
   private getCourses(): Observable<ICourse[]> {
     return this.httpClient
@@ -113,16 +94,6 @@ export class TeacherService implements ITeacherService {
       error: (e: Error) => {
         this.uiService.showToast('Kompetenzen konnten nicht geladen werden')
         this.competences$.error(throwError(() => new Error('server 500')))
-      },
-    })
-  }
-
-  updaterepositoryTree(): void {
-    this.getRepositoryTree().subscribe({
-      next: (tree) => this.tree$.next(tree),
-      error: (e: Error) => {
-        this.uiService.showToast('LernJobs konnten nicht geladen werden')
-        this.tree$.error(throwError(() => new Error('server 500')))
       },
     })
   }
@@ -176,13 +147,5 @@ export class TeacherService implements ITeacherService {
           course.teachers = course.teachers.map(Teacher.Build)
         })
       )
-  }
-
-  createStudyJob(data: any) {
-    console.log(data)
-    return this.httpClient.post<IStudyJob>(
-      `${environment.baseUrl}/teacher/study-jobs`,
-      data
-    )
   }
 }

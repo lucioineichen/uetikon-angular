@@ -5,6 +5,7 @@ import { TeacherService } from '../teacher.service'
 import { MatDialogRef } from '@angular/material/dialog'
 import { SubSink } from 'subsink'
 import { UiService } from 'src/app/common/ui.service'
+import { StudyJobsService } from '../study-jobs/study-jobs.service'
 
 @Component({
   selector: 'app-choose-study-jobs-dialog',
@@ -16,11 +17,11 @@ export class ChooseStudyJobsDialogComponent implements OnDestroy, OnInit {
   currentFolder$ = new ReplaySubject<IFolder>(1)
 
   constructor(
-    private teacherService: TeacherService,
+    private studyJobsService: StudyJobsService,
     public dialogRef: MatDialogRef<ChooseStudyJobsDialogComponent>,
     private uiService: UiService
   ) {
-    this.teacherService.tree$
+    this.studyJobsService.tree$
       .pipe(
         tap((tree) => {
           this.currentFolder$.next(tree)
@@ -43,6 +44,6 @@ export class ChooseStudyJobsDialogComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.teacherService.updaterepositoryTree()
+    this.studyJobsService.updaterepositoryTree()
   }
 }

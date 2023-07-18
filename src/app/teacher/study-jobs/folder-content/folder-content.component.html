@@ -1,0 +1,31 @@
+<mat-list class="list">
+  <!-- Folders -->
+  <mat-list-item
+    class="list-item"
+    *ngFor="let folder of folder.folders"
+    (click)="openFolder(folder)"
+  >
+    <mat-icon matListItemIcon> folder </mat-icon>
+    <div matListItemTitle>
+      <span *ngIf="renamingFolder !== folder; else renaming">{{
+        folder.name | titlecase
+      }}</span>
+
+      <ng-template #renaming>
+        <app-rename-folder
+          [folder]="folder"
+          (set-name)="setName()"
+        ></app-rename-folder>
+      </ng-template>
+    </div>
+  </mat-list-item>
+
+  <!-- Study Jobs -->
+  <mat-list-item
+    class="list-item"
+    *ngFor="let job of folder.studyJobs; let i = index"
+    (click)="openJob(job)"
+  >
+    <div matListItemTitle>{{ job.name | titlecase }}</div>
+  </mat-list-item>
+</mat-list>

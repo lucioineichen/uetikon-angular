@@ -15,7 +15,9 @@ import { TeacherCreateStudyJobDialogComponent } from './teacher-create-study-job
 import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component'
 import { TeacherChooseCompetencesDialogComponent } from './teacher-choose-competences-dialog/teacher-choose-competences-dialog.component'
 import { UiModule } from '../ui.module'
-import { StudyJobDialogComponent } from './study-job-dialog/study-job-dialog.component'
+import { StudyJobDialogComponent } from './study-job-dialog/study-job-dialog.component';
+import { FolderContentComponent } from './study-jobs/folder-content/folder-content.component';
+import { TreeComponent } from './study-jobs/tree/tree.component'
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { StudyJobDialogComponent } from './study-job-dialog/study-job-dialog.com
     AddTaskDialogComponent,
     TeacherChooseCompetencesDialogComponent,
     StudyJobDialogComponent,
+    FolderContentComponent,
+    TreeComponent,
   ],
   imports: [
     CommonModule,

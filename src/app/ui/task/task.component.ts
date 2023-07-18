@@ -86,7 +86,7 @@ import { IFile } from 'src/app/interfaces'
     `,
   ],
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent {
   @Input() task!: { title: string; text?: string; file?: IFile }
 
   constructor(
@@ -95,10 +95,6 @@ export class TaskComponent implements OnInit {
   ) {
     // Register custom icons
     this.registerFileIcons()
-  }
-
-  ngOnInit(): void {
-    console.log(this.task)
   }
 
   isPicture(extension: string) {

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core'
-import { TeacherService } from '../teacher.service'
-import { Subject, catchError, filter, mergeMap, tap } from 'rxjs'
+import { Component, HostListener, OnInit } from '@angular/core'
+import { ReplaySubject, Subject, catchError, filter, mergeMap, tap } from 'rxjs'
 import { IFolder, IStudyJob } from 'src/app/interfaces'
 import { UiService } from 'src/app/common/ui.service'
 import { MatDialog } from '@angular/material/dialog'
 import { TeacherCreateStudyJobDialogComponent } from '../teacher-create-study-job-dialog/teacher-create-study-job-dialog.component'
 import { StudyJobDialogComponent } from '../study-job-dialog/study-job-dialog.component'
 import { getNewFolderNumber, isNewFolder } from 'src/app/folder'
+import { StudyJobsService } from './study-jobs.service'
 
 @Component({
   selector: 'app-study-jobs',
@@ -14,15 +14,15 @@ import { getNewFolderNumber, isNewFolder } from 'src/app/folder'
   styleUrls: ['./study-jobs.component.css'],
 })
 export class TeacherStudyJobsComponent implements OnInit {
-  tree$: Subject<IFolder>
+  tree$: ReplaySubject<IFolder>
   isError = false
 
   constructor(
-    private teacherService: TeacherService,
+    private studyJobsService: StudyJobsService,
     private uiService: UiService,
     private dialog: MatDialog
   ) {
-    this.tree$ = this.teacherService.tree$
+    this.tree$ = this.studyJobsService.tree$
     this.tree$
       .pipe(
         tap((tree) => {
@@ -38,55 +38,7 @@ export class TeacherStudyJobsComponent implements OnInit {
       .subscribe()
   }
 
-  openFolder() {}
-
-  addFolder() {
-    this.tree$
-      .subscribe((folder) => {
-        const number =
-          folder.folders.reduce((previousValue, currentFolder) => {
-            return getNewFolderNumber(currentFolder.name) > previousValue
-              ? getNewFolderNumber(currentFolder.name)
-              : previousValue
-          }, 0) + 1
-
-        const newFolder = {
-          _id: 0,
-          name: `Neuer Ordner (${number})`,
-          folders: [],
-          studyJobs: [],
-        }
-
-        folder.folders.push(newFolder)
-      })
-      .unsubscribe()
-  }
-
-  openJob(job: IStudyJob) {
-    this.dialog.open(StudyJobDialogComponent, {
-      panelClass: 'fullscreen-dialog',
-      data: job,
-    })
-  }
-
   ngOnInit(): void {
-    this.teacherService.updaterepositoryTree()
-  }
-
-  openStudyJobCreator() {
-    const dialogRef = this.dialog.open(TeacherCreateStudyJobDialogComponent)
-
-    dialogRef
-      .afterClosed()
-      .pipe(
-        filter((data) => data),
-        mergeMap((data) => this.teacherService.createStudyJob(data))
-      )
-      .subscribe({
-        next: () => this.teacherService.updaterepositoryTree(),
-        error: (err) => {
-          this.uiService.showToast('LernJob Konnte nicht erstellt werden')
-        },
-      })
+    this.studyJobsService.updaterepositoryTree()
   }
 }

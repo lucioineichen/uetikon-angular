@@ -3,12 +3,17 @@ import { StudyJobExpectationComponent } from './ui/study-job-expectation/study-j
 import { MaterialModule } from './material.module'
 import { CommonModule } from '@angular/common'
 import { TaskComponent } from './ui/task/task.component'
-// import { ConfirmDeletionDialogComponent } from './common/confirm-deletion-dialog.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { RenameFolderComponent } from './ui/rename-folder/rename-folder.component'
 
-const components = [StudyJobExpectationComponent, TaskComponent]
+const components = [
+  StudyJobExpectationComponent,
+  TaskComponent,
+  RenameFolderComponent,
+]
 
 @NgModule({
-  imports: [MaterialModule, CommonModule],
+  imports: [MaterialModule, CommonModule, FormsModule],
   declarations: components,
   exports: components,
 })

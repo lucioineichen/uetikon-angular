@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <a mat-button mat-dialog-close><mat-icon>arrow_back</mat-icon> Zurück</a>
   <span style="width: 2rem"></span>
-  <h1>{{ job.name }}</h1>
+  <h1>{{ job.name | titlecase }}</h1>
   <span class="flex-spacer"></span>
   <button
     mat-icon-button
@@ -23,7 +23,7 @@
 </mat-toolbar>
 
 <mat-dialog-content class="mat-typography">
-  <mat-card>
+  <div class="tasks">
     <mat-card-header>
       <mat-card-title>Aufgaben</mat-card-title>
     </mat-card-header>
@@ -44,5 +44,5 @@
         <mat-icon>add</mat-icon> Aufgabe Hinzufügen
       </button>
     </mat-card-content>
-  </mat-card>
+  </div>
 </mat-dialog-content>

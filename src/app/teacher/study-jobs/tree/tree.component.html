@@ -1,0 +1,54 @@
+<div class="add-container">
+  <div>
+    <button
+      class="add"
+      mat-mini-fab
+      matTooltip="Erstellen"
+      aria-label="Erstellen"
+      color="primary"
+      [matMenuTriggerFor]="menu"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <div style="padding-top: 10px">
+    <button
+      mat-mini-fab
+      matTooltip="Löschen"
+      aria-label="Löschen"
+      color="primary"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openStudyJobCreator()">LernJob</button>
+    <button mat-menu-item (click)="addFolder($event)">Ordner</button>
+  </mat-menu>
+</div>
+
+<div class="title">
+  <span class="title-segment" (click)="returnToRoot()">LernJobs</span>
+  <span *ngFor="let folder of path">
+    <mat-icon
+      style="
+        font-size: 16px;
+        height: 16px;
+        padding-left: 16px;
+        padding-right: 8px;
+      "
+      >arrow_forward_ios</mat-icon
+    >
+    <mat-icon style="font-size: 16px; height: 16px">folder</mat-icon>
+    <span class="title-segment">{{ folder.name }} </span>
+    <mat-icon style="font-size: 16px; height: 16px" class="hide"
+      >edit</mat-icon
+    ></span
+  >
+</div>
+
+<app-folder-content
+  [folder]="folder"
+  (open-folder)="openFolder($event)"
+></app-folder-content>
