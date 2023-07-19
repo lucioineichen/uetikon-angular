@@ -17,12 +17,12 @@ import { IFolder, IStudyJob } from 'src/app/interfaces'
 export interface IStudyJobsService {
   renamingFolder?: IFolder
   readonly tree$: ReplaySubject<IFolder>
-  readonly addFolder$: Subject<void>
   renameFolder(folder: IFolder): Observable<IFolder>
   updaterepositoryTree(): void
   getStudyJobs(repoId: number): Observable<IStudyJob[]>
-  createFolder(parentFolder: IFolder): Observable<IFolder>
+  createFolder(parentFolder: IFolder, name: string): Observable<IFolder>
   createStudyJob(data: any): Observable<IStudyJob>
+  deleteFolder(folder: IFolder): Observable<void>
 }
 
 @Injectable({
@@ -30,7 +30,6 @@ export interface IStudyJobsService {
 })
 export class StudyJobsService implements IStudyJobsService {
   readonly tree$ = new ReplaySubject<IFolder>(1)
-  readonly addFolder$ = new Subject<void>()
 
   constructor(
     private httpClient: HttpClient,
@@ -47,17 +46,14 @@ export class StudyJobsService implements IStudyJobsService {
     )
   }
 
-  createFolder(parentFolder: IFolder): Observable<IFolder> {
-    const number =
-      parentFolder.folders.reduce((previousValue, currentFolder) => {
-        return getNewFolderNumber(currentFolder.name) > previousValue
-          ? getNewFolderNumber(currentFolder.name)
-          : previousValue
-      }, 0) + 1
+  deleteFolder(folder: IFolder) {
+    return this.httpClient.delete<void>(
+      `${environment.baseUrl}/teacher/folder/${folder._id}`
+    )
+  }
 
-    const name = `Neuer Ordner (${number})`
+  createFolder(parentFolder: IFolder, name: string): Observable<IFolder> {
     const parentId = parentFolder._id ? parentFolder._id : 0
-    console.log({ name })
 
     return this.httpClient.post<IFolder>(
       `${environment.baseUrl}/teacher/folder/${parentId}/child-folders`,

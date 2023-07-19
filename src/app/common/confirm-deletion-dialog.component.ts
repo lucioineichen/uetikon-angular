@@ -3,16 +3,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 
 @Component({
   template: `
-    <!-- <h1 mat-dialog-title>Löschen</h1>
-    <mat-dialog-content>
-      <p>{{ text }}</p>
-    </mat-dialog-content>
-    <mat-dialog-actions>
-      <button mat-button [mat-dialog-close]="false" cdkFocusInitial>
-        Abbrechen
-      </button>
-      <button mat-button color="warn" [mat-dialog-close]="true">Löschen</button>
-    </mat-dialog-actions> -->
     <h1 mat-dialog-title>{{ title }}</h1>
     <div mat-dialog-content>{{ text }}</div>
     <div mat-dialog-actions>
@@ -23,13 +13,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
       </button>
     </div>
   `,
-  styles: [
-    // `
-    //   button {
-    //     margin-right: 8px;
-    //   }
-    // `,
-  ],
 })
 export class ConfirmDeletionDialogComponent {
   title = `${this.data.type} Löschen`

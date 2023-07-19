@@ -13,7 +13,7 @@ const components = [
 ]
 
 @NgModule({
-  imports: [MaterialModule, CommonModule, FormsModule],
+  imports: [MaterialModule, CommonModule, FormsModule, ReactiveFormsModule],
   declarations: components,
   exports: components,
 })

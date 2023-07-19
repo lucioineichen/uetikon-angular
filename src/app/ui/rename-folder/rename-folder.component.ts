@@ -3,65 +3,57 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Inject,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core'
-import { IFolder } from 'src/app/interfaces'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { MAT_DIALOG_DATA } from '@angular/material/dialog'
 
 @Component({
-  selector: 'app-rename-folder [folder]',
-  template: ` <input
-      #input
-      type="text"
-      [(ngModel)]="folder.name"
-      (click)="stopProgation($event)"
-      (keyup)="setName($event)"
-    />
-    <button mat-button (click)="setFocus()"><mat-icon>edit</mat-icon></button>`,
-  styles: [
-    `
-      input {
-        border: 2px solid #ddd;
-        background-color: #fff;
-        color: #333;
-        font-size: 1rem;
-        padding: 0.4rem;
-        border-radius: 4px;
-        outline: none;
-        transition: border-color 0.3s ease-in-out;
-      }
-    `,
-    `
-      input:focus {
-        border-color: #aaa;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      }
-    `,
-  ],
+  selector: 'app-rename-folder',
+  template: ` <h1 mat-dialog-title>Ordner Benennen</h1>
+    <div mat-dialog-content>
+      <form [formGroup]="nameForm" fxLayout="column">
+        <mat-form-field fxFlex style="width: 100%">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            placeholder="Name"
+            aria-label="Name"
+            formControlName="name"
+          />
+          <mat-error *ngIf="nameForm.get('name')?.hasError('required')">
+            Name ist obligatorisch
+          </mat-error>
+          <mat-error *ngIf="nameForm.get('name')?.hasError('maxlength')">
+            Name darf nicht länger als 50 sein
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Abrechen</button>
+      <button
+        mat-button
+        [disabled]="!nameForm.valid"
+        [mat-dialog-close]="nameForm.value.name"
+      >
+        Speichern
+      </button>
+    </mat-dialog-actions>`,
 })
-export class RenameFolderComponent implements AfterViewInit {
-  @ViewChild('input') input!: ElementRef<HTMLInputElement>
-  @Input('folder') folder!: IFolder
-  @Output('set-name') setNameEvent = new EventEmitter<IFolder>()
+export class RenameFolderComponent {
+  nameForm: FormGroup
 
-  ngAfterViewInit() {
-    this.setFocus()
-  }
-
-  setFocus() {
-    setTimeout(() => {
-      this.input.nativeElement.focus()
-    }, 0)
-  }
-
-  stopProgation(event: Event) {
-    event.stopPropagation()
-  }
-
-  setName(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      this.setNameEvent.emit(this.folder)
-    }
+  constructor(
+    private formBuilder: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) private name: string = ''
+  ) {
+    this.nameForm = this.formBuilder.group({
+      name: [this.name, [Validators.required, Validators.maxLength(50)]],
+    })
   }
 }

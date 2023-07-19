@@ -12,19 +12,20 @@
     </button>
   </div>
 
-  <div style="padding-top: 10px">
+  <div style="padding-top: 10px" *ngIf="folder._id">
     <button
       mat-mini-fab
       matTooltip="Löschen"
       aria-label="Löschen"
       color="primary"
+      (click)="deleteFolder()"
     >
       <mat-icon>delete</mat-icon>
     </button>
   </div>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="openStudyJobCreator()">LernJob</button>
-    <button mat-menu-item (click)="addFolder($event)">Ordner</button>
+    <button mat-menu-item (click)="addFolder()">Ordner</button>
   </mat-menu>
 </div>
 

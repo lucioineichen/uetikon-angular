@@ -7,16 +7,7 @@
   >
     <mat-icon matListItemIcon> folder </mat-icon>
     <div matListItemTitle>
-      <span *ngIf="renamingFolder !== folder; else renaming">{{
-        folder.name | titlecase
-      }}</span>
-
-      <ng-template #renaming>
-        <app-rename-folder
-          [folder]="folder"
-          (set-name)="setName()"
-        ></app-rename-folder>
-      </ng-template>
+      <span>{{ folder.name | titlecase }}</span>
     </div>
   </mat-list-item>
 
