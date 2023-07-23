@@ -3,7 +3,7 @@
   <mat-list-item
     class="list-item"
     *ngFor="let folder of folder.folders"
-    (click)="openFolder(folder)"
+    [routerLink]="'/teacher/study-jobs/folder/' + folder._id"
   >
     <mat-icon matListItemIcon> folder </mat-icon>
     <div matListItemTitle>

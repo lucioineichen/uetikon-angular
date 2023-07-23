@@ -83,10 +83,11 @@ export class StudyJobsService implements IStudyJobsService {
     })
   }
 
-  createStudyJob(data: any) {
-    console.log(data)
+  createStudyJob(data: any, folderId?: number) {
     return this.httpClient.post<IStudyJob>(
-      `${environment.baseUrl}/teacher/study-jobs`,
+      `${environment.baseUrl}/teacher/study-jobs/folder/${
+        folderId ? folderId : 0
+      }`,
       data
     )
   }

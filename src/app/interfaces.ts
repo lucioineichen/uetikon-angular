@@ -19,11 +19,17 @@ export interface ICourse {
   chat: IChat
 }
 
+export interface IFolderRef {
+  _id: number
+  name: string
+}
+
 export interface IFolder {
   _id: number
   name: string
-  folders: IFolder[]
+  folders: IFolderRef[]
   studyJobs: IStudyJob[]
+  path: IFolderRef[]
 }
 
 export interface IChat {

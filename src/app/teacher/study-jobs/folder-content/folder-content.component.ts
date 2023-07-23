@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { IFolder, IStudyJob } from 'src/app/interfaces'
+import { IFolder, IFolderRef, IStudyJob } from 'src/app/interfaces'
 import { MatDialog } from '@angular/material/dialog'
 import { StudyJobDialogComponent } from '../../study-job-dialog/study-job-dialog.component'
+import { tap } from 'rxjs'
 
 @Component({
   selector: 'app-folder-content [folder]',
@@ -14,14 +15,22 @@ export class FolderContentComponent {
 
   constructor(private dialog: MatDialog) {}
 
-  openFolder(folder: IFolder) {
-    this.openFolderEvent.emit(folder)
-  }
-
   openJob(job: IStudyJob) {
-    this.dialog.open(StudyJobDialogComponent, {
+    const dialogRef = this.dialog.open(StudyJobDialogComponent, {
       panelClass: 'fullscreen-dialog',
       data: job,
     })
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        tap((action) => {
+          if (action === 'delete')
+            this.folder.studyJobs = this.folder.studyJobs.filter(
+              (job_) => job_._id !== job._id
+            )
+        })
+      )
+      .subscribe()
   }
 }

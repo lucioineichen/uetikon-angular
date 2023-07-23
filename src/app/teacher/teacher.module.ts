@@ -17,7 +17,8 @@ import { TeacherChooseCompetencesDialogComponent } from './teacher-choose-compet
 import { UiModule } from '../ui.module'
 import { StudyJobDialogComponent } from './study-job-dialog/study-job-dialog.component';
 import { FolderContentComponent } from './study-jobs/folder-content/folder-content.component';
-import { TreeComponent } from './study-jobs/tree/tree.component'
+import { TreeComponent } from './study-jobs/tree/tree.component';
+import { FolderComponent } from './folder/folder.component'
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { TreeComponent } from './study-jobs/tree/tree.component'
     StudyJobDialogComponent,
     FolderContentComponent,
     TreeComponent,
+    FolderComponent,
   ],
   imports: [
     CommonModule,

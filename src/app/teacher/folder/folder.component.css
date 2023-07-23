@@ -1,0 +1,41 @@
+.add-container {
+  position: absolute;
+  right: 0;
+  padding: 16px;
+}
+
+.title {
+  padding-left: 12.5vw;
+  padding-top: 60px;
+  font-size: 20px;
+}
+
+.title-segment:hover {
+  cursor: pointer;
+}
+
+.folder-name:hover {
+  cursor: pointer;
+}
+
+.edit-icon {
+  font-size: 16px;
+  height: 16px;
+  opacity: 0;
+}
+
+.folder-name:hover .edit-icon {
+  opacity: 1;
+}
+
+.folder-icon {
+  font-size: 16px;
+  height: 16px;
+}
+
+.folder-separator {
+  font-size: 16px;
+  height: 16px;
+  padding-left: 16px;
+  padding-right: 8px;
+}

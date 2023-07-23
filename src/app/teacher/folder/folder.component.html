@@ -1,0 +1,57 @@
+<div class="add-container">
+  <div>
+    <button
+      class="add"
+      mat-mini-fab
+      matTooltip="Erstellen"
+      aria-label="Erstellen"
+      color="primary"
+      [matMenuTriggerFor]="menu"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <div style="padding-top: 10px">
+    <button
+      mat-mini-fab
+      matTooltip="Löschen"
+      aria-label="Löschen"
+      color="primary"
+      (click)="deleteFolder()"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openStudyJobCreator()">LernJob</button>
+    <button mat-menu-item (click)="addFolder()">Ordner</button>
+  </mat-menu>
+</div>
+
+<div class="title">
+  <span class="title-segment" routerLink="/teacher/study-jobs">LernJobs</span>
+  <ng-container *ngIf="folder$ | async as folder">
+    <span *ngFor="let folderRef of folder.path">
+      <mat-icon class="folder-separator">arrow_forward_ios</mat-icon>
+      <span
+        class="title-segment"
+        [routerLink]="'/teacher/study-jobs/folder/' + folderRef._id"
+        >{{ folderRef.name }}
+      </span>
+    </span>
+
+    <mat-icon class="folder-separator">arrow_forward_ios</mat-icon>
+    <span class="folder-name" (click)="rename()">
+      <mat-icon class="folder-icon">folder</mat-icon>
+      <span class="title-segment">{{ folder.name }} </span>
+      <mat-icon class="edit-icon">edit</mat-icon></span
+    >
+  </ng-container>
+</div>
+
+<app-folder-content
+  *ngIf="folder$ | async as folder"
+  [folder]="folder"
+  (open-folder)="openFolder($event)"
+></app-folder-content>

@@ -1,6 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core'
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { Observable, mergeMap } from 'rxjs'
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog'
+import { Observable, filter, mergeMap, tap } from 'rxjs'
 import { IStudyJob } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
 import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component'
@@ -16,8 +20,9 @@ export class StudyJobDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public job: IStudyJob,
     private teacherService: TeacherService,
+    private dialogRef: MatDialogRef<StudyJobDialogComponent>,
     private dialog: MatDialog,
-    protected uiService: UiService
+    private uiService: UiService
   ) {}
 
   ngOnInit(): void {}
@@ -40,6 +45,13 @@ export class StudyJobDialogComponent implements OnInit {
   }
 
   delete() {
-    this.uiService.confirmDeletion('LernJob', this.job.name).subscribe()
+    this.uiService
+      .confirmDeletion('LernJob', this.job.name)
+      .pipe(
+        filter((confirmed) => confirmed),
+        mergeMap(() => this.teacherService.deleteStudyJob(this.job._id)),
+        tap(() => this.dialogRef.close('delete'))
+      )
+      .subscribe()
   }
 }

@@ -32,7 +32,7 @@ export class UiService {
     return dialogRef.afterClosed()
   }
 
-  confirmDeletion(type: string, name: string) {
+  confirmDeletion(type: string, name: string): Observable<boolean> {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent, {
       width: '250px',
       data: { type, name },

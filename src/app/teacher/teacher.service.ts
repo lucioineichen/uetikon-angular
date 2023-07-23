@@ -148,4 +148,31 @@ export class TeacherService implements ITeacherService {
         })
       )
   }
+
+  getFolder(id: number) {
+    return this.httpClient.get<IFolder>(
+      `${environment.baseUrl}/teacher/folder/${id}`
+    )
+  }
+
+  renameFolder(folder: IFolder, newName: string): Observable<IFolder> {
+    return this.httpClient.put<IFolder>(
+      `${environment.baseUrl}/teacher/folder/${folder._id}`,
+      {
+        name: newName,
+      }
+    )
+  }
+
+  deleteFolder(folderId: number) {
+    return this.httpClient.delete<void>(
+      `${environment.baseUrl}/teacher/folder/${folderId}`
+    )
+  }
+
+  deleteStudyJob(jobId: number) {
+    return this.httpClient.delete<void>(
+      `${environment.baseUrl}/teacher/study-job/${jobId}`
+    )
+  }
 }
