@@ -58,6 +58,8 @@ export class TreeComponent {
       .subscribe()
   }
 
+  move() {}
+
   addFolder() {
     const dialogRef = this.dialog.open(RenameFolderComponent)
 

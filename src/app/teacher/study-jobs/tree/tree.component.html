@@ -1,7 +1,6 @@
 <div class="add-container">
-  <div>
+  <div style="margin-bottom: 10px">
     <button
-      class="add"
       mat-mini-fab
       matTooltip="Erstellen"
       aria-label="Erstellen"
@@ -11,22 +10,22 @@
       <mat-icon>add</mat-icon>
     </button>
   </div>
-
-  <div style="padding-top: 10px" *ngIf="folder._id">
-    <button
-      mat-mini-fab
-      matTooltip="Löschen"
-      aria-label="Löschen"
-      color="primary"
-      (click)="deleteFolder()"
-    >
-      <mat-icon>delete</mat-icon>
-    </button>
-  </div>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="openStudyJobCreator()">LernJob</button>
     <button mat-menu-item (click)="addFolder()">Ordner</button>
   </mat-menu>
+
+  <div>
+    <button
+      mat-mini-fab
+      matTooltip="Verschieben"
+      aria-label="Verschieben"
+      color="primary"
+      (click)="move()"
+    >
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
 </div>
 
 <div class="title">

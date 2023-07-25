@@ -12,11 +12,23 @@
   </mat-list-item>
 
   <!-- Study Jobs -->
-  <mat-list-item
+  <!-- <mat-list-item
     class="list-item"
     *ngFor="let job of folder.studyJobs; let i = index"
     (click)="openJob(job)"
   >
-    <div matListItemTitle>{{ job.name | titlecase }}</div>
-  </mat-list-item>
+    <div matListItemTitle>
+      <mat-checkbox *ngIf="i === 0; else not"
+        ><span style="font-size: 16px; position: relative; top: 2px">{{
+          job.name | titlecase
+        }}</span></mat-checkbox
+      >
+
+      <ng-template #not>{{ job.name | titlecase }}</ng-template>
+    </div>
+  </mat-list-item> -->
+  <app-study-job-display
+    *ngFor="let job of folder.studyJobs"
+    [job]="job"
+  ></app-study-job-display>
 </mat-list>
