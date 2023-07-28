@@ -1,15 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { IFolder, IFolderRef, IStudyJob } from 'src/app/interfaces'
 import { MatDialog } from '@angular/material/dialog'
 import { StudyJobDialogComponent } from '../../study-job-dialog/study-job-dialog.component'
 import { tap } from 'rxjs'
+import { StudyJobDisplay } from './study-job-display/study-job-display'
 
 @Component({
   selector: 'app-folder-content [folder]',
   templateUrl: './folder-content.component.html',
   styleUrls: ['./folder-content.component.css'],
 })
-export class FolderContentComponent {
+export class FolderContentComponent implements OnInit {
   @Output('open-folder') openFolderEvent = new EventEmitter<IFolder>()
   @Input() folder!: IFolder
 
@@ -33,4 +34,10 @@ export class FolderContentComponent {
       )
       .subscribe()
   }
+
+  ngOnInit(): void {
+    this.jobs = this.folder.studyJobs.map((job) => new StudyJobDisplay(job))
+  }
+
+  jobs!: StudyJobDisplay[]
 }

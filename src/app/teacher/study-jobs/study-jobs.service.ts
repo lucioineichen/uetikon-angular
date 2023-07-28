@@ -73,6 +73,12 @@ export class StudyJobsService implements IStudyJobsService {
     )
   }
 
+  getStudyJob(id: number): Observable<IStudyJob> {
+    return this.httpClient.get<IStudyJob>(
+      `${environment.baseUrl}/teacher/study-job/${id}`
+    )
+  }
+
   updaterepositoryTree() {
     this.getRepositoryTree().subscribe({
       next: (tree) => this.tree$.next(tree),

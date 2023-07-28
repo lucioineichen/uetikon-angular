@@ -1,76 +1,104 @@
-<!-- Sub Header -->
-<mat-toolbar color="accent" fxLayoutGap="8px">
-  <a mat-button (click)="refresh()"
-    ><h1>{{ courseName }}</h1></a
-  >
-</mat-toolbar>
-
-<!-- Content -->
-<div *ngIf="course$ | async as course; else loading" style="padding: 20px">
-  <div *ngIf="course.students.length > 0">
-    <h2>Schüler: {{ course.students.length }}</h2>
-    <div *ngFor="let student of course.students">
-      {{ student.fullName }}
-    </div>
-  </div>
-  <div *ngFor="let expectation of course.studyJobExpectations">
-    <app-study-job-expectation
-      [studyJobExpectation]="expectation"
-    ></app-study-job-expectation>
-  </div>
-  <div *ngIf="course.studyJobExpectations.length === 0">
-    Diesem Kurs wurden noch keine LernJobs hinzugefügt.
-  </div>
-  <button mat-raised-button color="primary" (click)="addStudyJobs()">Lernjob Hinzufügen</button>
-</div>
-
-<ng-template #loading>
-  <div *ngIf="!errorMessage; else error">Lädt Kurs...</div></ng-template
->
-
-<ng-template #error
-  >Kurse konnten nicht geladen werden, lade die Seite neu</ng-template
->
-
-<div class="chat-icon-container">
-  <button mat-fab color="primary" (click)="toggleChat()">
-    <mat-icon>chat</mat-icon>
-  </button>
-</div>
-
-<!-- chat -->
-<div class="chat-container" [ngClass]="{ 'chat-open': isChatOpen }">
-  <div class="chat-header">
-    <h3>Chat</h3>
-    <button mat-icon-button (click)="toggleChat()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-  <div class="chat-content">
-    <div
-      *ngFor="let message of messages"
-      [ngClass]="{ 'current-user-message': isCurrentUserMessage(message) }"
+<div style="position: absolute; top: 0; width: 100%; z-index: 100">
+  <!-- Sub Header -->
+  <mat-toolbar color="primary" fxLayoutGap="8px">
+    <a mat-button routerLink="/teacher/courses"
+      ><mat-icon>arrow_back</mat-icon> Zurück</a
     >
-      <p class="message">{{ message.message }}</p>
-      <p class="metadata">
-        {{ message.authorName.firstName }} {{ message.authorName.lastName }} -
-        {{ message.date | date : "short" }}
-        <span *ngIf="message.edited">(edited)</span>
-      </p>
+    <a mat-button (click)="refresh()"
+      ><h1>{{ courseName }}</h1></a
+    >
+  </mat-toolbar>
+
+  <!-- Content -->
+  <div
+    *ngIf="course$ | async as course; else loading"
+    style="padding: 20px; margin-left: 15vw; margin-top: 50px"
+    class="mat-typography"
+  >
+    <h1>Schüler</h1>
+
+    <mat-list>
+      <mat-list-item *ngFor="let student of course.students">
+        {{ student.fullName }}
+      </mat-list-item>
+    </mat-list>
+
+    <div *ngIf="course.students.length === 0">
+      Dem Kurse wurden noch keine Schüler hinzugefügt
     </div>
+
+    <button mat-raised-button color="primary" (click)="editStudents()">
+      Schüler Verwalten
+    </button>
+
+    <h1 style="margin-top: 50px">Lern Weg</h1>
+    <div *ngIf="course.studyJobExpectations.length > 0; else noJobs">
+      <div *ngFor="let expectation of course.studyJobExpectations">
+        <app-study-job-expectation
+          [studyJobExpectation]="expectation"
+        ></app-study-job-expectation>
+      </div>
+    </div>
+
+    <ng-template #noJobs>
+      <div *ngIf="course.studyJobExpectations.length === 0">
+        Der Lernweg ist noch leer
+      </div>
+    </ng-template>
+
+    <button mat-raised-button color="primary" (click)="addStudyJobs()">
+      Lern Weg Bearbeiten
+    </button>
   </div>
 
-  <div class="chat-footer">
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="Type your message"
-        [(ngModel)]="newMessage"
-        (keyup.enter)="sendMessage()"
-      />
-    </mat-form-field>
-    <button mat-raised-button color="primary" (click)="sendMessage()">
-      Send
+  <ng-template #loading>
+    <div *ngIf="!errorMessage; else error">Lädt Kurs...</div></ng-template
+  >
+
+  <ng-template #error
+    >Kurse konnten nicht geladen werden, lade die Seite neu</ng-template
+  >
+
+  <div class="chat-icon-container">
+    <button mat-fab color="primary" (click)="toggleChat()">
+      <mat-icon>chat</mat-icon>
     </button>
+  </div>
+
+  <!-- chat -->
+  <div class="chat-container" [ngClass]="{ 'chat-open': isChatOpen }">
+    <div class="chat-header">
+      <h3>Chat</h3>
+      <button mat-icon-button (click)="toggleChat()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="chat-content">
+      <div
+        *ngFor="let message of messages"
+        [ngClass]="{ 'current-user-message': isCurrentUserMessage(message) }"
+      >
+        <p class="message">{{ message.message }}</p>
+        <p class="metadata">
+          {{ message.authorName.firstName }} {{ message.authorName.lastName }} -
+          {{ message.date | date : "short" }}
+          <span *ngIf="message.edited">(edited)</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Type your message"
+          [(ngModel)]="newMessage"
+          (keyup.enter)="sendMessage()"
+        />
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="sendMessage()">
+        Send
+      </button>
+    </div>
   </div>
 </div>

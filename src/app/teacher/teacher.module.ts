@@ -20,6 +20,11 @@ import { FolderContentComponent } from './study-jobs/folder-content/folder-conte
 import { TreeComponent } from './study-jobs/tree/tree.component'
 import { FolderComponent } from './folder/folder.component'
 import { StudyJobDisplayComponent } from './study-jobs/folder-content/study-job-display/study-job-display.component'
+import { FlexLayoutModule } from '@angular/flex-layout'
+import { JobComponent } from './job/job.component'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StudyPathComponent } from './study-path/study-path.component';
+import { StudyPathFormComponent } from './study-path/study-path-form/study-path-form.component'
 
 @NgModule({
   declarations: [
@@ -38,6 +43,9 @@ import { StudyJobDisplayComponent } from './study-jobs/folder-content/study-job-
     TreeComponent,
     FolderComponent,
     StudyJobDisplayComponent,
+    JobComponent,
+    StudyPathComponent,
+    StudyPathFormComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +54,7 @@ import { StudyJobDisplayComponent } from './study-jobs/folder-content/study-job-
     ReactiveFormsModule,
     FormsModule,
     UiModule,
+    FlexLayoutModule,
   ],
 })
 export class TeacherModule {}

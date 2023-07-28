@@ -21,7 +21,7 @@ export class StudentCourseComponent implements OnInit {
 
   currentUser$ = new BehaviorSubject(
     User.Build({
-      _id: 'user1',
+      _id: 0,
       email: '',
       name: { firstName: 'John', lastName: 'Doe' },
       role: Role.None,
@@ -55,27 +55,27 @@ export class StudentCourseComponent implements OnInit {
       date: new Date(),
       message: 'Hello!',
       authorName: { firstName: 'John', lastName: 'Doe' },
-      authorId: 'user1',
+      authorId: 0,
       edited: false,
     },
     {
       date: new Date(),
       message: 'Hi there!',
       authorName: { firstName: 'Jane', lastName: 'Smith' },
-      authorId: 'user2',
+      authorId: -1,
       edited: true,
     },
     {
       date: new Date(),
       message: 'How are you?',
       authorName: { firstName: 'John', lastName: 'Doe' },
-      authorId: 'user1',
+      authorId: 0,
       edited: false,
     },
   ]
 
   isCurrentUserMessage(message: IMessage): boolean {
-    return message.authorId === 'user1'
+    return message.authorId === 0
   }
 
   sendMessage(): void {

@@ -132,8 +132,7 @@ export class TeacherService implements ITeacherService {
 
     return dialogRef.afterClosed().pipe(
       map((data) => {
-        if (!data) return data
-        else return [...data]
+        return data ? [...data] : null
       })
     ) as Observable<IStudent[] | null>
   }

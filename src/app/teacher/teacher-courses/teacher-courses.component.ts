@@ -10,7 +10,7 @@ import { Router } from '@angular/router'
 export interface ICreateCourseData {
   name: string
   credits: number
-  studentIds: string[]
+  studentIds: number[]
 }
 
 @Component({
@@ -20,6 +20,13 @@ export interface ICreateCourseData {
     `
       .active-link {
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      }
+    `,
+    `
+      .course-card:hover {
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        transition: all 200ms ease;
       }
     `,
   ],

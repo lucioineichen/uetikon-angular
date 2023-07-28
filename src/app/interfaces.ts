@@ -40,7 +40,7 @@ export interface IMessage {
   date: Date
   message: string
   authorName: IName
-  authorId: string
+  authorId: number
   edited: boolean
 }
 
@@ -50,7 +50,7 @@ export interface IStudent extends IUser {
 
 export class Student extends User implements IStudent {
   constructor(
-    _id = '--',
+    _id = 0,
     email = '--',
     name: IName = { firstName: '', lastName: '' } as IName,
     picture?: string,
@@ -79,7 +79,7 @@ export interface ITeacher extends IUser {}
 
 export class Teacher extends User {
   constructor(
-    _id = '--',
+    _id = 0,
     email = '--',
     name: IName = { firstName: '--', lastName: '--' } as IName,
     picture?: string
@@ -115,6 +115,8 @@ export interface IStudyJobExpectation {
   competences21: ICompetence[]
   mandatoryStudyJob: IStudyJob
   studyJobChoices: IStudyJob[]
+  graded: boolean
+  weight: number
 }
 
 export interface ITask {

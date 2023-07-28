@@ -8,7 +8,7 @@ export interface IName {
 
 export class User implements IUser {
   constructor(
-    public _id = '',
+    public _id = 0,
     public email = '',
     public name = { firstName: '', lastName: '' } as IName,
     public role = Role.None,
@@ -46,7 +46,7 @@ export class User implements IUser {
 }
 
 export interface IUser {
-  _id: string
+  _id: number
   email: string
   name: IName
   role: Role | string

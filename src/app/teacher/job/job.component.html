@@ -1,0 +1,53 @@
+<div style="position: absolute; width: 100%; top: 0; z-index: 100">
+  <mat-toolbar color="primary">
+    <a mat-button (click)="navigateBack()"
+      ><mat-icon>arrow_back</mat-icon> Zurück</a
+    >
+    <span style="width: 2rem"></span>
+    <h1>{{ name | titlecase }}</h1>
+    <span class="flex-spacer"></span>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Example icon-button with a menu"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        <span>Edit</span>
+      </button>
+      <button mat-menu-item (click)="delete()">
+        <mat-icon>delete</mat-icon>
+        <span>Löschen</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <mat-dialog-content class="mat-typography" *ngIf="job$ | async as job">
+    <div style="margin-top: 50px"></div>
+    <div class="tasks">
+      <mat-card-header>
+        <mat-card-title>Aufgaben</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list *ngIf="job.tasks.length > 0">
+          <app-task *ngFor="let task of job.tasks" [task]="task"> </app-task>
+        </mat-list>
+        <div *ngIf="job.tasks.length === 0">
+          Dieser LernJob hat noch keine Aufgaben
+        </div>
+        <button
+          color="primary"
+          style="margin-top: 15px"
+          mat-raised-button
+          (click)="addTask()"
+          cdkFocusInitial
+        >
+          <mat-icon>add</mat-icon> Aufgabe Hinzufügen
+        </button>
+      </mat-card-content>
+    </div>
+  </mat-dialog-content>
+</div>

@@ -1,0 +1,5 @@
+<div *ngIf="path$ | async as path">
+  <mat-card *ngFor="let expectation of path">
+    {{ expectation.name }}
+  </mat-card>
+</div>
