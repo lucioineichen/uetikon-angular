@@ -1,5 +1,25 @@
-<div *ngIf="path$ | async as path">
-  <mat-card *ngFor="let expectation of path">
-    {{ expectation.name }}
-  </mat-card>
+<div class="mat-typography"><h1 style="margin-top: 50px">Lern Weg</h1></div>
+
+<div *ngIf="path$ | async as path; else error">
+  <div *ngIf="path.length > 0; else noJobs">
+    <div *ngFor="let expectation of path">
+      <app-study-job-expectation
+        [studyJobExpectation]="expectation"
+      ></app-study-job-expectation>
+    </div>
+  </div>
+
+  <ng-template #noJobs>
+    <div>Der Lernweg ist noch leer</div>
+  </ng-template>
 </div>
+
+<ng-template #error>
+  <div style="margin-bottom: 20px">
+    Lern Pfad konnte nicht geladen werden, lade die Seite neu
+  </div>
+</ng-template>
+
+<button mat-raised-button color="primary" (click)="editPath()">
+  Lern Weg Bearbeiten
+</button>

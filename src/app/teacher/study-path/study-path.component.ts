@@ -13,7 +13,10 @@ export class StudyPathComponent implements OnInit {
   path$: BehaviorSubject<IStudyJobExpectation[] | undefined>
   id: number
 
-  constructor(private studyPathservice: StudyPathService, private route: ActivatedRoute) {
+  constructor(
+    private studyPathservice: StudyPathService,
+    private route: ActivatedRoute
+  ) {
     this.id = this.route.snapshot.params['id']
     this.path$ = this.studyPathservice.path$
   }
@@ -21,4 +24,6 @@ export class StudyPathComponent implements OnInit {
   ngOnInit(): void {
     this.studyPathservice.updatePath(this.id)
   }
+
+  editPath() {}
 }

@@ -30,25 +30,7 @@
     <button mat-raised-button color="primary" (click)="editStudents()">
       Schüler Verwalten
     </button>
-
-    <h1 style="margin-top: 50px">Lern Weg</h1>
-    <div *ngIf="course.studyJobExpectations.length > 0; else noJobs">
-      <div *ngFor="let expectation of course.studyJobExpectations">
-        <app-study-job-expectation
-          [studyJobExpectation]="expectation"
-        ></app-study-job-expectation>
-      </div>
-    </div>
-
-    <ng-template #noJobs>
-      <div *ngIf="course.studyJobExpectations.length === 0">
-        Der Lernweg ist noch leer
-      </div>
-    </ng-template>
-
-    <button mat-raised-button color="primary" (click)="addStudyJobs()">
-      Lern Weg Bearbeiten
-    </button>
+    <app-study-path></app-study-path>
   </div>
 
   <ng-template #loading>
