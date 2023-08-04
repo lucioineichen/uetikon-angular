@@ -1,17 +1,33 @@
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { IStudyJob, IStudyJobExpectation } from 'src/app/interfaces'
+import {
+  ICompetence,
+  IStudyJob,
+  IStudyJobExpectation,
+} from 'src/app/interfaces'
 import { StudyPathFormComponent } from './study-path-form/study-path-form.component'
-import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  filter,
+  mergeMap,
+  tap,
+} from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { environment } from 'src/app/environment/environment.demo'
 import { UiService } from 'src/app/common/ui.service'
+
+export interface IStudyPath {
+  competences: ICompetence[]
+  jobs: IStudyJob[]
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudyPathService {
-  path$ = new BehaviorSubject<IStudyJobExpectation[] | undefined>(undefined)
+  path$ = new BehaviorSubject<IStudyPath | undefined>(undefined)
 
   constructor(
     private dialog: MatDialog,
@@ -19,9 +35,7 @@ export class StudyPathService {
     private uiService: UiService
   ) {}
 
-  openForm(
-    studyPath?: IStudyJobExpectation[]
-  ): Observable<IStudyJobExpectation[] | null> {
+  openForm(studyPath?: IStudyPath): Observable<IStudyPath | null> {
     const dialogRef = this.dialog.open(StudyPathFormComponent, {
       data: studyPath,
     })
@@ -29,9 +43,16 @@ export class StudyPathService {
     return dialogRef.afterClosed()
   }
 
-  private getPath(courseId: number): Observable<IStudyJobExpectation[]> {
-    return this.httpClient.get<IStudyJobExpectation[]>(
+  private getPath(courseId: number): Observable<IStudyPath> {
+    return this.httpClient.get<IStudyPath>(
       `${environment.baseUrl}/teacher/course/${courseId}/path`
+    )
+  }
+
+  private putPath(data: any, courseId: number): Observable<IStudyPath> {
+    return this.httpClient.put<IStudyPath>(
+      `${environment.baseUrl}/teacher/course/${courseId}/path`,
+      data
     )
   }
 
@@ -43,6 +64,18 @@ export class StudyPathService {
           this.uiService.showToast('Lern Pfad konnten nicht geladen werden')
           return err
         })
+      )
+      .subscribe()
+  }
+
+  editPath(courseId: number) {
+    const dialogRef = this.dialog.open(StudyPathFormComponent)
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((data) => data),
+        mergeMap((data) => this.putPath(data, courseId))
       )
       .subscribe()
   }

@@ -1,11 +1,16 @@
 <div class="mat-typography"><h1 style="margin-top: 50px">Lern Weg</h1></div>
 
 <div *ngIf="path$ | async as path; else error">
-  <div *ngIf="path.length > 0; else noJobs">
-    <div *ngFor="let expectation of path">
-      <app-study-job-expectation
-        [studyJobExpectation]="expectation"
-      ></app-study-job-expectation>
+  <div *ngIf="path.competences.length > 0 || path.jobs.length > 0; else noJobs">
+    <div *ngFor="let job of path.jobs">
+      {{ job.name }}
+    </div>
+    <div *ngFor="let competence of path.competences">
+      {{
+      <div *ngFor="let job of path.jobs">
+        {{ job.name }}
+      </div>
+      .name }}
     </div>
   </div>
 

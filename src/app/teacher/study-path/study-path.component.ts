@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { StudyPathService } from './study-path.service'
+import { IStudyPath, StudyPathService } from './study-path.service'
 import { BehaviorSubject } from 'rxjs'
-import { IStudyJobExpectation } from 'src/app/interfaces'
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
@@ -10,7 +9,7 @@ import { ActivatedRoute } from '@angular/router'
   styleUrls: ['./study-path.component.css'],
 })
 export class StudyPathComponent implements OnInit {
-  path$: BehaviorSubject<IStudyJobExpectation[] | undefined>
+  path$: BehaviorSubject<IStudyPath | undefined>
   id: number
 
   constructor(
@@ -25,5 +24,7 @@ export class StudyPathComponent implements OnInit {
     this.studyPathservice.updatePath(this.id)
   }
 
-  editPath() {}
+  editPath() {
+    this.studyPathservice.editPath(this.id)
+  }
 }
