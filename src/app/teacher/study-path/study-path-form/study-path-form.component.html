@@ -1,1 +1,16 @@
-<p>study-path-form works!</p>
+<mat-dialog-content class="mat-typography" style="width: 700px; height: 400px">
+  <h4>LernWeg Erstellen</h4>
+
+  <button color="primary" mat-button>
+    <mat-icon *ngIf="selectedCompetences.length === 0">add</mat-icon>
+    Komptenzen Auswählen
+  </button>
+  <div *ngFor="let job of selectedJobs">
+    {{ job.name }}
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Abrechen</button>
+  <button mat-button [mat-dialog-close]="pathData()">Speichern</button>
+</mat-dialog-actions>

@@ -38,7 +38,7 @@ export class AddTaskDialogComponent implements OnInit {
     formData.append('title', data.title)
     if (data.text) formData.append('text', data.text)
     formData.append('graded', data.graded)
-    if (data.weight) formData.append('weight', data.weight)
+    formData.append('weight', data.weight || 1)
 
     return formData
   }
