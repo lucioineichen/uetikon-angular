@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import {
+  BehaviorSubject,
   Observable,
   catchError,
   combineLatest,
@@ -13,28 +14,26 @@ import {
 import { ICompetence } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
 import { MatCheckboxChange } from '@angular/material/checkbox'
+import { SelectCompetencesService } from './select-competences.service'
 
 @Component({
-  selector: 'app-teacher-choose-competences-dialog',
-  templateUrl: './teacher-choose-competences-dialog.component.html',
+  selector: 'app-select-competences',
+  templateUrl: './select-competences-form.component.html',
   styles: [],
 })
-export class TeacherChooseCompetencesDialogComponent implements OnInit {
-  competences$: Observable<ICompetence[]>
+export class SelectCompetencesComponent implements OnInit {
+  competences$: BehaviorSubject<ICompetence[] | undefined>
   searchControl = new FormControl()
   filteredCompetences$!: Observable<ICompetence[]>
   selectedCompetences: ICompetence[]
 
   constructor(
-    private dialogRef: MatDialogRef<TeacherChooseCompetencesDialogComponent>,
-    private teacherService: TeacherService,
+    private dialogRef: MatDialogRef<SelectCompetencesComponent>,
+    private service: SelectCompetencesService,
     @Inject(MAT_DIALOG_DATA) public initialCompetences: ICompetence[]
   ) {
     this.selectedCompetences = [...initialCompetences]
-    this.competences$ = this.teacherService.competences$
-    this.teacherService.competences$.subscribe({
-      error: () => this.dialogRef.close(),
-    })
+    this.competences$ = this.service.competences$
 
     this.filteredCompetences$ = combineLatest([
       this.competences$,
@@ -45,16 +44,20 @@ export class TeacherChooseCompetencesDialogComponent implements OnInit {
       ),
     ]).pipe(
       map((value) => {
-        return this.filterStudents(value[0], value[1])
+        return this.filterCompetences(value[0], value[1])
       })
     )
   }
 
   ngOnInit(): void {
-    this.teacherService.updateCompetences()
+    this.service.updateCompetences()
   }
 
-  filterStudents(competences: ICompetence[], search: string): ICompetence[] {
+  filterCompetences(
+    competences: ICompetence[] | undefined,
+    search: string
+  ): ICompetence[] {
+    if (!competences) return []
     search = search.toLowerCase()
     return competences.filter((competence) => {
       return competence.name.includes(search)

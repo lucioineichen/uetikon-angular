@@ -1,13 +1,27 @@
-<mat-dialog-content class="mat-typography" style="width: 700px; height: 400px">
-  <h4>LernWeg Erstellen</h4>
+<mat-dialog-content class="mat-typography" style="width: 500px; height: 400px">
+  <h1>LernWeg Erstellen</h1>
 
-  <button color="primary" mat-button>
+  <h2 style="padding-top: 30px">Kompetenzen</h2>
+  <div *ngFor="let competence of selectedCompetences">
+    {{ competence.name }}
+  </div>
+  <div *ngIf="selectedCompetences.length === 0">
+    Keine Kompetenzen ausgewählt
+  </div>
+  <button color="primary" mat-button (click)="selectCompetences()">
     <mat-icon *ngIf="selectedCompetences.length === 0">add</mat-icon>
     Komptenzen Auswählen
   </button>
+
+  <h2 style="padding-top: 30px">Lernjobs</h2>
   <div *ngFor="let job of selectedJobs">
     {{ job.name }}
   </div>
+  <div *ngIf="selectedJobs.length === 0">Keine LernJobs ausgewählt</div>
+  <button color="primary" mat-button (click)="selectJobs()">
+    <mat-icon *ngIf="selectedCompetences.length === 0">add</mat-icon>
+    LernJobs Auswählen
+  </button>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

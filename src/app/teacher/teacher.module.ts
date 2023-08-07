@@ -13,7 +13,7 @@ import { ChooseStudyJobsDialogComponent } from './choose-study-jobs-dialog/choos
 import { TeacherStudyJobsComponent } from './study-jobs/study-jobs.component'
 import { TeacherCreateStudyJobDialogComponent } from './teacher-create-study-job-dialog/teacher-create-study-job-dialog.component'
 import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component'
-import { TeacherChooseCompetencesDialogComponent } from './teacher-choose-competences-dialog/teacher-choose-competences-dialog.component'
+import { SelectCompetencesComponent } from './select-competences-form/select-competences-form.component'
 import { UiModule } from '../ui.module'
 import { StudyJobDialogComponent } from './study-job-dialog/study-job-dialog.component'
 import { FolderContentComponent } from './study-jobs/folder-content/folder-content.component'
@@ -22,8 +22,7 @@ import { FolderComponent } from './folder/folder.component'
 import { StudyJobDisplayComponent } from './study-jobs/folder-content/study-job-display/study-job-display.component'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { JobComponent } from './job/job.component'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StudyPathComponent } from './study-path/study-path.component';
+import { StudyPathComponent } from './study-path/study-path.component'
 import { StudyPathFormComponent } from './study-path/study-path-form/study-path-form.component'
 
 @NgModule({
@@ -37,7 +36,7 @@ import { StudyPathFormComponent } from './study-path/study-path-form/study-path-
     TeacherStudyJobsComponent,
     TeacherCreateStudyJobDialogComponent,
     AddTaskDialogComponent,
-    TeacherChooseCompetencesDialogComponent,
+    SelectCompetencesComponent,
     StudyJobDialogComponent,
     FolderContentComponent,
     TreeComponent,

@@ -6,10 +6,12 @@ import { LoginComponent } from './login/login.component'
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
 import { AuthGuard } from './auth/auth-guard.service'
 import { Role } from './auth/auth.enum'
+import { CompetencesComponent } from './competences/competences.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  { path: 'competences', component: CompetencesComponent },
   { path: 'login', component: LoginComponent },
   { path: 'create-user', component: CreateUserComponent },
   { path: 'login/:redirectUrl', component: LoginComponent },

@@ -69,7 +69,12 @@ export class StudyPathService {
   }
 
   editPath(courseId: number) {
-    const dialogRef = this.dialog.open(StudyPathFormComponent)
+    const dialogRef = this.dialog.open(StudyPathFormComponent, {
+      data: {
+        jobs: this.path$.value?.jobs,
+        competences: this.path$.value?.competences,
+      },
+    })
 
     dialogRef
       .afterClosed()

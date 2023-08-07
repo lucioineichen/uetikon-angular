@@ -30,7 +30,7 @@
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Abrechen</button>
-  <button mat-button mat-dialog-close (click)="save()" cdkFocusInitial>
+  <button mat-button [mat-dialog-close]="selectedCompetences" cdkFocusInitial>
     Speichern
   </button>
 </mat-dialog-actions>

@@ -5,7 +5,7 @@ import { ICompetence, IStudyJob, ITask } from 'src/app/interfaces'
 import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component'
 import { DialogRef } from '@angular/cdk/dialog'
 import { tap } from 'rxjs'
-import { TeacherChooseCompetencesDialogComponent } from '../teacher-choose-competences-dialog/teacher-choose-competences-dialog.component'
+import { SelectCompetencesComponent } from '../select-competences-form/select-competences-form.component'
 import { Subjects } from 'src/app/enums'
 
 @Component({
@@ -56,7 +56,7 @@ export class TeacherCreateStudyJobDialogComponent {
   }
 
   addCompetences() {
-    this.dialog.open(TeacherChooseCompetencesDialogComponent, {
+    this.dialog.open(SelectCompetencesComponent, {
       data: this.competences,
     })
   }

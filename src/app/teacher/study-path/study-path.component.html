@@ -2,15 +2,14 @@
 
 <div *ngIf="path$ | async as path; else error">
   <div *ngIf="path.competences.length > 0 || path.jobs.length > 0; else noJobs">
+    <h3>LernJobs:</h3>
     <div *ngFor="let job of path.jobs">
       {{ job.name }}
     </div>
+
+    <h3>Kompetenzen:</h3>
     <div *ngFor="let competence of path.competences">
-      {{
-      <div *ngFor="let job of path.jobs">
-        {{ job.name }}
-      </div>
-      .name }}
+      {{ competence.name }}
     </div>
   </div>
 
