@@ -24,21 +24,17 @@ import { Subjects } from 'src/app/enums'
           </mat-error>
         </mat-form-field>
 
-        <div style="display: inline-block; width: 40%">
-          <div style="padding-left: 15px">
-            <mat-form-field fxFlex style="width: 100%">
-              <mat-label>Fach</mat-label>
-              <mat-select formControlName="subject">
-                <mat-option
-                  *ngFor="let subject of subjects"
-                  [value]="subject.value"
-                >
-                  {{ subject.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
+        <mat-form-field fxFlex style="width: 100%">
+          <mat-label>Fach</mat-label>
+          <mat-select formControlName="subject">
+            <mat-option
+              *ngFor="let subject of subjects"
+              [value]="subject.value"
+            >
+              {{ subject.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </form>
     </div>
 

@@ -1,0 +1,120 @@
+<div style="position: absolute; width: 100%; top: 0; z-index: 100">
+  <mat-toolbar color="primary">
+    <a mat-button (click)="navigateBack()"
+      ><mat-icon>arrow_back</mat-icon> Zurück</a
+    >
+    <span style="width: 2rem"></span>
+    <h1>{{ name | titlecase }}</h1>
+    <span class="flex-spacer"></span>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Example icon-button with a menu"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        <span>Edit</span>
+      </button>
+      <button mat-menu-item (click)="delete()">
+        <mat-icon>delete</mat-icon>
+        <span>Löschen</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <div
+    style="padding: 20px; margin-left: 15vw; margin-top: 50px"
+    class="mat-typography"
+  >
+    <div fxLayout="row" fxLayoutGap="50px">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Fortschritt </mat-card-title>
+          <mat-card-subtitle
+            >Bisheriger Fortschritt von {{ name }}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item>
+              <span matListItemTitle>Koordinaten</span>
+              <span matListItemLine>Fortschritt: 100%</span>
+              <span matListItemLine>Note: 86.9%</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span matListItemTitle>Aufsatz</span>
+              <span matListItemLine>Fortschritt: 0%</span>
+              <span matListItemLine>Note: -</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span matListItemTitle>Vortrag</span>
+              <span matListItemLine>Fortschritt: 100%</span>
+              <span matListItemLine>Note: 85%</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Kompetenzen </mat-card-title>
+          <mat-card-subtitle
+            >Kompetenzen von {{ courseName }}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item>
+              <span matListItemTitle style="color: red"
+                >Französisch Lesen B1</span
+              >
+              <span matListItemLine style="color: brown"
+                >Nicht in LernJobs enthalten</span
+              >
+            </mat-list-item>
+
+            <mat-list-item>
+              <span matListItemTitle>Lineare Algebra</span>
+              <span matListItemLine>Erfüllt</span>
+            </mat-list-item>
+
+            <mat-list-item>
+              <span matListItemTitle>Frei Sprechen</span>
+              <span matListItemLine>Nicht Erfüllt</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="50px" style="margin-top: 50px">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Aufgaben </mat-card-title>
+          <mat-card-subtitle>Abgegebene und offene Aufgaben </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div style="margin-left: 16px; margin-top: 30px">
+            <h4>Aufsatz</h4>
+            <app-file [file]="file"></app-file>
+            <p class=".mat-caption" style="font-style: italic; margin-top: 5px">
+              abgegeben: 13.08.2023 23:23
+            </p>
+          </div>
+          <mat-list>
+            <mat-list-item>
+              <span matListItemTitle>Koordinaten</span>
+              <span matListItemLine>nicht abgegeben</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

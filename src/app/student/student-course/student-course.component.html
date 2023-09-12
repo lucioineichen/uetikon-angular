@@ -1,76 +1,134 @@
-<div *ngIf="course$ | async as course; else loading">
-  <h3>{{ course.name }}</h3>
-  <h4>{{ course.credits }} Credits</h4>
-  <!-- <mat-card-content>
-    <div class="grade-progress">
-      <div *ngIf="course.grade" class="grade-bar">
-        <div class="grade-percent">
-          {{ course.grade * 100 | number : "1.0-1" }}%
-          <span class="beam-text">Zwischen Note</span>
-        </div>
-        <div class="grade-beam" [style.width.%]="course.grade * 100"></div>
-      </div>
-
-      <div class="progress-bar">
-        <div class="progress-percent">
-          {{ course.progress * 100 | number : "1.0-1" }}%
-          <span class="beam-text">Fortschritt</span>
-        </div>
-        <div
-          class="progress-beam"
-          [style.width.%]="course.progress * 100"
-        ></div>
-      </div>
-    </div>
-  </mat-card-content> -->
-</div>
-
-<ng-template #loading>
-  <div *ngIf="!errorMessage; else error">Lädt Kurs...</div></ng-template
->
-
-<ng-template #error
-  >Kurse konnten nicht geladen werden, lade die Seite neu</ng-template
->
-
-<div class="chat-icon-container">
-  <button mat-fab color="primary" (click)="toggleChat()">
-    <mat-icon>chat</mat-icon>
-  </button>
-</div>
-
-<div class="chat-container" [ngClass]="{ 'chat-open': isChatOpen }">
-  <div class="chat-header">
-    <h3>Chat</h3>
-    <button mat-icon-button (click)="toggleChat()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-  <div class="chat-content">
-    <div
-      *ngFor="let message of messages"
-      [ngClass]="{ 'current-user-message': isCurrentUserMessage(message) }"
+<div style="position: absolute; width: 100%; top: 0; z-index: 100">
+  <mat-toolbar color="primary">
+    <a mat-button routerLink="/student/courses"
+      ><mat-icon>arrow_back</mat-icon> Zurück</a
     >
-      <p class="message">{{ message.message }}</p>
-      <p class="metadata">
-        {{ message.authorName.firstName }} {{ message.authorName.lastName }} -
-        {{ message.date | date : "short" }}
-        <span *ngIf="message.edited">(edited)</span>
-      </p>
-    </div>
-  </div>
-
-  <div class="chat-footer">
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="Type your message"
-        [(ngModel)]="newMessage"
-        (keyup.enter)="sendMessage()"
-      />
-    </mat-form-field>
-    <button mat-raised-button color="primary" (click)="sendMessage()">
-      Send
+    <span style="width: 2rem"></span>
+    <h1>{{ "Mathematik Sek 1 AS 1" | titlecase }}</h1>
+    <span class="flex-spacer"></span>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Example icon-button with a menu"
+    >
+      <mat-icon>more_vert</mat-icon>
     </button>
-  </div>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        <span>Edit</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <mat-grid-list
+    cols="2"
+    gutterSize="40px"
+    rowHeight="400px"
+    style="margin: 106px 236px"
+  >
+    <mat-grid-tile
+      ><mat-card style="height: 100%; width: 100%">
+        <mat-card-header>
+          <mat-card-title
+            >LernWeg
+            <mat-icon style="color: greenyellow">check_circle</mat-icon>
+          </mat-card-title>
+          <mat-card-subtitle>Lernweg von Max Mustermann </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item
+              class="cursor"
+              mat-ripple
+              routerLink="/student/study-job/1"
+            >
+              <span matListItemTitle>Geometrie 03C</span>
+              <span matListItemLine>Fortschritt: 100%</span>
+              <span matListItemLine>Note: 86.9%</span>
+            </mat-list-item>
+            <mat-list-item
+              class="cursor"
+              mat-ripple
+              routerLink="/student/study-job/1"
+            >
+              <span matListItemTitle>Wahrscheinlichkeit 04AB</span>
+              <span matListItemLine>Fortschritt: 35%</span>
+              <span matListItemLine>Note: -</span>
+            </mat-list-item>
+            <mat-list-item
+              class="cursor"
+              mat-ripple
+              routerLink="/student/study-job/1"
+            >
+              <span matListItemTitle>Kombinatorik 09</span>
+              <span matListItemLine>Fortschritt: 60%</span>
+              <span matListItemLine>Note: 85%</span>
+            </mat-list-item>
+          </mat-list>
+          <button mat-raised-button color="primary" (click)="editPath()">
+            LernWeg Bearbeiten
+          </button>
+        </mat-card-content>
+      </mat-card></mat-grid-tile
+    >
+    <mat-grid-tile
+      ><mat-card style="height: 100%; width: 100%">
+        <mat-card-header mat-ripple class="cursor">
+          <mat-card-title>Kompetenzen </mat-card-title>
+          <mat-card-subtitle>Erfüllung der Kompetenzen </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-list
+            style="overflow: hidden; overflow-y: scroll; max-height: 300px"
+          >
+            <mat-list-item *ngFor="let competence of competences">
+              <span
+                matListItemTitle
+                [ngStyle]="{ color: competence.completed ? 'green' : 'red' }"
+                >{{ competence.name }}</span
+              >
+              <span
+                *ngIf="competence.completed; else uncompleted"
+                matListItemLine
+                style="color: green"
+              >
+                Erfüllt: {{ competence.grade * 100 }}%
+              </span>
+              <ng-template #uncompleted>
+                <span matListItemLine style="color: red"> Nicht erfüllt</span>
+              </ng-template>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card></mat-grid-tile
+    >
+    <mat-grid-tile
+      ><mat-card style="height: 100%; width: 100%">
+        <mat-card-header>
+          <mat-card-title>Aufgaben </mat-card-title>
+          <mat-card-subtitle>Abgegebene und offene Aufgaben </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div style="margin-left: 16px; margin-top: 30px">
+            <h4>Aufsatz</h4>
+            <app-file [file]="file"></app-file>
+            <p class=".mat-caption" style="font-style: italic; margin-top: 5px">
+              abgegeben: 13.08.2023 23:23
+            </p>
+          </div>
+          <mat-list>
+            <mat-list-item>
+              <span matListItemTitle>Koordinaten</span>
+              <span matListItemLine>nicht abgegeben</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card></mat-grid-tile
+    >
+    <mat-grid-tile>4</mat-grid-tile>
+  </mat-grid-list>
 </div>

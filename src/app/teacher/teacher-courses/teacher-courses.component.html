@@ -13,10 +13,9 @@
 <!-- content -->
 <div *ngIf="courses$ | async as courses; else loading">
   <div *ngIf="courses.length; else noCourses" style="padding: 40px">
-    <mat-grid-list cols="3" rowHeight="340px">
-      <mat-grid-tile
+    <mat-grid-list cols="4  " rowHeight="340px">
+      <mat-grid-tile *ngFor="let course of courses"
         ><mat-card
-          *ngFor="let course of courses"
           (click)="openCourse(course._id, course.name)"
           class="course-card"
           mat-ripple

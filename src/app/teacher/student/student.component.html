@@ -1,0 +1,113 @@
+<div style="position: absolute; width: 100%; top: 0; z-index: 100">
+  <mat-toolbar color="primary">
+    <a mat-button (click)="navigateBack()"
+      ><mat-icon>arrow_back</mat-icon> Zurück</a
+    >
+    <span style="width: 2rem"></span>
+    <h1>{{ name | titlecase }}</h1>
+    <span class="flex-spacer"></span>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Example icon-button with a menu"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        <span>Edit</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <div
+    style="padding: 20px; margin-left: 15vw; margin-top: 50px"
+    class="mat-typography"
+  >
+    <div fxLayout="row" fxLayoutGap="50px">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Kurse </mat-card-title>
+          <mat-card-subtitle>Aktive Kurse von {{ name }} </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item class="cursor" mat-ripple>
+              <span matListItemTitle>Mathematik Sek 1 AS 2</span>
+              <span matListItemLine>Fortschritt: 100%</span>
+              <span matListItemLine>Note: 86.9%</span>
+            </mat-list-item>
+            <mat-list-item class="cursor" mat-ripple>
+              <span matListItemTitle>Deutsch Sek 1 AS 1</span>
+              <span matListItemLine>Fortschritt: 35%</span>
+              <span matListItemLine>Note: -</span>
+            </mat-list-item>
+            <mat-list-item class="cursor" mat-ripple>
+              <span matListItemTitle>TTG Sek 1</span>
+              <span matListItemLine>Fortschritt: 60%</span>
+              <span matListItemLine>Note: 85%</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header mat-ripple class="cursor">
+          <mat-card-title>Kompetenzen </mat-card-title>
+          <mat-card-subtitle>Erfüllung der Kompetenzen </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-list
+            style="overflow: hidden; overflow-y: scroll; max-height: 300px"
+          >
+            <mat-list-item *ngFor="let competence of competences">
+              <span
+                matListItemTitle
+                [ngStyle]="{ color: competence.completed ? 'green' : 'red' }"
+                >{{ competence.name }}</span
+              >
+              <span
+                *ngIf="competence.completed; else uncompleted"
+                matListItemLine
+                style="color: green"
+              >
+                Erfüllt: {{ competence.grade * 100 }}%
+              </span>
+              <ng-template #uncompleted>
+                <span matListItemLine style="color: red"> Nicht erfüllt</span>
+              </ng-template>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="50px" style="margin-top: 50px">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Aufgaben </mat-card-title>
+          <mat-card-subtitle>Abgegebene und offene Aufgaben </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div style="margin-left: 16px; margin-top: 30px">
+            <h4>Aufsatz</h4>
+            <app-file [file]="file"></app-file>
+            <p class=".mat-caption" style="font-style: italic; margin-top: 5px">
+              abgegeben: 13.08.2023 23:23
+            </p>
+          </div>
+          <mat-list>
+            <mat-list-item>
+              <span matListItemTitle>Koordinaten</span>
+              <span matListItemLine>nicht abgegeben</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

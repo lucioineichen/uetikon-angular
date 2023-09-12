@@ -4,6 +4,7 @@ import { ICompetence, IStudyJob } from 'src/app/interfaces'
 import { SelectCompetencesService } from '../../select-competences-form/select-competences.service'
 import { filter, mergeMap, tap } from 'rxjs'
 import { StudyPathService } from '../study-path.service'
+import { SelectJobsService } from '../../select-jobs/select-jobs.service'
 
 @Component({
   selector: 'app-study-path-form',
@@ -16,6 +17,7 @@ export class StudyPathFormComponent {
 
   constructor(
     private studyPathService: StudyPathService,
+    private selectJobsService: SelectJobsService,
     private selectCompetencesService: SelectCompetencesService,
     @Inject(MAT_DIALOG_DATA)
     private data: {
@@ -36,9 +38,9 @@ export class StudyPathFormComponent {
 
   selectCompetences() {
     this.selectCompetencesService
-      .selectCompetences()
+      .selectCompetences(this.selectedCompetences)
       .pipe(
-        filter((competences) => competences != undefined),
+        filter((competences) => competences !== ''),
         tap((competences) => {
           this.selectedCompetences = competences as ICompetence[]
         })
@@ -46,5 +48,18 @@ export class StudyPathFormComponent {
       .subscribe()
   }
 
-  selectJobs() {}
+  selectJobs() {
+    this.selectJobsService
+      .selectJobs(this.selectedJobs)
+      .pipe(
+        tap((jobs) => {
+          console.log('new Jobs: ', jobs)
+        }),
+        filter((jobs) => jobs !== ''),
+        tap((jobs) => {
+          this.selectedJobs = [...(jobs as IStudyJob[])]
+        })
+      )
+      .subscribe()
+  }
 }

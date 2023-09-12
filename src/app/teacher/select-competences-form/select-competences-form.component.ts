@@ -11,10 +11,11 @@ import {
   startWith,
   throttleTime,
 } from 'rxjs'
-import { ICompetence } from 'src/app/interfaces'
+import { ICompetence, IStudyJob } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
 import { MatCheckboxChange } from '@angular/material/checkbox'
 import { SelectCompetencesService } from './select-competences.service'
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'app-select-competences',
@@ -28,7 +29,6 @@ export class SelectCompetencesComponent implements OnInit {
   selectedCompetences: ICompetence[]
 
   constructor(
-    private dialogRef: MatDialogRef<SelectCompetencesComponent>,
     private service: SelectCompetencesService,
     @Inject(MAT_DIALOG_DATA) public initialCompetences: ICompetence[]
   ) {

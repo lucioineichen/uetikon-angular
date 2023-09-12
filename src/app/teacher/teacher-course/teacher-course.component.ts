@@ -98,8 +98,6 @@ export class TeacherCourseComponent implements OnInit {
     this.isChatOpen = !this.isChatOpen
   }
 
-  addModule() {}
-
   messages: IMessage[] = [
     {
       date: new Date(),
@@ -152,5 +150,18 @@ export class TeacherCourseComponent implements OnInit {
         name: this.courseName,
       },
     })
+  }
+
+  navigateToStudent(student: IStudent) {
+    this.router.navigate(
+      ['teacher', 'courses', this.course$.value?._id, 'student', student._id],
+      {
+        queryParams: {
+          name: student.fullName,
+          gagi: 'fein',
+          courseName: this.course$.value?.name,
+        },
+      }
+    )
   }
 }

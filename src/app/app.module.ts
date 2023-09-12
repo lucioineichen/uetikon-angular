@@ -19,8 +19,8 @@ import { DjangoRestApiAuthService } from './auth/auth.djangoRestApi.service'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule } from '@angular/common'
 import { TaskComponent } from './ui/task/task.component'
-import { ConfirmDeletionDialogComponent } from './common/confirm-deletion-dialog.component';
-import { CompetencesComponent } from './competences/competences.component';
+import { ConfirmDeletionDialogComponent } from './common/confirm-deletion-dialog.component'
+import { CompetencesComponent } from './competences/competences.component'
 import { CompetenceFormComponent } from './competences/competence-form/competence-form.component'
 
 @NgModule({

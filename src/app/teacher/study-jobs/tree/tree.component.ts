@@ -30,14 +30,16 @@ export class TreeComponent {
       .afterClosed()
       .pipe(
         filter((data) => data),
-        mergeMap((data) => this.studyJobsService.createStudyJob(data))
+        mergeMap((data) => this.studyJobsService.createStudyJob(data)),
+        tap((job) => {
+          this.folder.studyJobs.push(job)
+        }),
+        catchError((err) => {
+          this.uiService.showToast('LernJob konnte nicht erstellt werden')
+          return err
+        })
       )
-      .subscribe({
-        next: () => this.studyJobsService.updaterepositoryTree(),
-        error: () => {
-          this.uiService.showToast('LernJob Konnte nicht erstellt werden')
-        },
-      })
+      .subscribe()
   }
 
   deleteFolder() {
@@ -63,14 +65,19 @@ export class TreeComponent {
   addFolder() {
     const dialogRef = this.dialog.open(RenameFolderComponent)
 
-    dialogRef.afterClosed().subscribe((name) => {
-      if (name)
-        this.studyJobsService.createFolder(this.folder, name).subscribe({
-          next: (folder) => {
-            this.folder.folders.push(folder)
-          },
+    dialogRef
+      .afterClosed()
+      .pipe(
+        mergeMap((name) =>
+          this.studyJobsService.createFolder(this.folder, name)
+        ),
+        tap((folder) => this.folder.folders.push(folder)),
+        catchError((err) => {
+          this.uiService.showToast('Ornder konnte nicht erstellt werden')
+          return err
         })
-    })
+      )
+      .subscribe()
   }
 
   openFolder(folder: IFolder) {

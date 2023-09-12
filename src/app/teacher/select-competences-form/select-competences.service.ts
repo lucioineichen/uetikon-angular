@@ -41,7 +41,7 @@ export class SelectCompetencesService {
 
   selectCompetences(
     selectedCompetences?: ICompetence[]
-  ): Observable<ICompetence[] | undefined> {
+  ): Observable<ICompetence[] | ''> {
     const dialogRef = this.dialog.open(SelectCompetencesComponent, {
       data: selectedCompetences || [],
     })

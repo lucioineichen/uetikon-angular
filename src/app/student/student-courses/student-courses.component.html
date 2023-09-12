@@ -1,46 +1,57 @@
-<div *ngIf="courses$ | async as courses; else loading">
-  <div *ngIf="courses.length; else noCourses">
-    <mat-card
-      class="course-card"
-      mat-ripple
-      [routerLink]="'/student/course/' + example._id"
-      *ngFor="let course of courses"
+<div *ngIf="!courses$.hasError; else error">
+  <div *ngIf="courses$ | async as courses; else loading">
+    <div
+      *ngIf="courses.length; else nocourses"
+      style="padding: 40px"
+      style="margin: 100px 200px"
     >
-      <mat-card-header>
-        <mat-card-title>{{ course.name }}</mat-card-title>
-        <mat-card-subtitle>{{ course.credits }} Credits</mat-card-subtitle>
-      </mat-card-header>
+      <mat-grid-list cols="4" rowHeight="200px">
+        <mat-grid-tile *ngFor="let course of courses"
+          ><mat-card
+            [routerLink]="'/student/course/' + example._id"
+            class="course"
+            mat-ripple
+          >
+            <div style="width: 250px; padding: 20px 40px">
+              <mat-card-title>{{ course.name }}</mat-card-title>
+              <mat-card-subtitle
+                >{{ course.credits }} Credits</mat-card-subtitle
+              >
+              <mat-card-content>
+                <div class="grade-progress">
+                  <div *ngIf="course.grade" class="grade-bar">
+                    <div class="grade-percent">
+                      {{ course.grade * 100 | number : "1.0-1" }}%
+                      <span class="beam-text">Zwischen Note</span>
+                    </div>
+                    <div
+                      class="grade-beam"
+                      [style.width.%]="course.grade * 100"
+                    ></div>
+                  </div>
 
-      <mat-card-content>
-        <div class="grade-progress">
-          <div *ngIf="course.grade" class="grade-bar">
-            <div class="grade-percent">
-              {{ course.grade * 100 | number : "1.0-1" }}%
-              <span class="beam-text">Zwischen Note</span>
-            </div>
-            <div class="grade-beam" [style.width.%]="course.grade * 100"></div>
-          </div>
+                  <div class="progress-bar">
+                    <div class="progress-percent">
+                      {{ course.progress * 100 | number : "1.0-1" }}%
+                      <span class="beam-text">Fortschritt</span>
+                    </div>
+                    <div
+                      class="progress-beam"
+                      [style.width.%]="course.progress * 100"
+                    ></div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </div> </mat-card
+        ></mat-grid-tile>
+      </mat-grid-list>
+    </div>
 
-          <div class="progress-bar">
-            <div class="progress-percent">
-              {{ course.progress * 100 | number : "1.0-1" }}%
-              <span class="beam-text">Fortschritt</span>
-            </div>
-            <div
-              class="progress-beam"
-              [style.width.%]="course.progress * 100"
-            ></div>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <ng-template #nocourses>Es gibt noch keine Kurse</ng-template>
   </div>
-  <ng-template #noCourses>Du bist noch in keinem Kurs</ng-template>
 </div>
 
-<ng-template #loading>
-  <div *ngIf="!isError; else error">Lädt kurse...</div></ng-template
->
+<ng-template #loading> Kurse werden geladen.. </ng-template>
 
 <ng-template #error
   >Kurse konnten nicht geladen werden, lade die Seite neu</ng-template

@@ -1,0 +1,118 @@
+<div style="position: absolute; width: 100%; top: 0; z-index: 100">
+  <mat-toolbar color="primary">
+    <a mat-button routerLink="/student/course/1"
+      ><mat-icon>arrow_back</mat-icon> Zurück</a
+    >
+    <span style="width: 2rem"></span>
+    <h1>{{ "Geometrie 03C" | titlecase }}</h1>
+    <span class="flex-spacer"></span>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Example icon-button with a menu"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        <span>Edit</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <mat-grid-list
+    cols="2"
+    gutterSize="40px"
+    rowHeight="400px"
+    style="margin: 106px 236px"
+  >
+    <mat-grid-tile
+      ><mat-card style="height: 100%; width: 100%">
+        <mat-card-header>
+          <mat-card-title>Aufgaben </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item
+              mat-ripple
+              class="cursor"
+              routerLink="/student/task/1"
+            >
+              <span matListItemTitle>Einwärmen</span>
+              <span matListItemLine>Abgeschlossen</span>
+            </mat-list-item>
+            <mat-list-item
+              mat-ripple
+              class="cursor"
+              routerLink="/student/task/1"
+            >
+              <span matListItemTitle>Theorie</span>
+              <span matListItemLine>Abgeschlossen</span>
+            </mat-list-item>
+            <mat-list-item
+              mat-ripple
+              class="cursor"
+              routerLink="/student/task/1"
+            >
+              <span matListItemTitle>Übungen 1</span>
+              <span matListItemLine>Abgeschlossen</span>
+            </mat-list-item>
+            <mat-list-item
+              mat-ripple
+              class="cursor"
+              routerLink="/student/task/1"
+            >
+              <span matListItemTitle>Lern Nachweis</span>
+              <span matListItemLine>Abgeschlossen</span>
+              <span matListItemLine>Note: 85%</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card></mat-grid-tile
+    >
+    <mat-grid-tile
+      ><mat-card style="height: 100%; width: 100%">
+        <mat-card-header>
+          <mat-card-title>Agenda </mat-card-title>
+          <mat-card-subtitle>Abgegebene und offene Aufgaben </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div style="margin-left: 16px; margin-top: 30px">
+            <h4>Aufsatz</h4>
+            <app-file [file]="file"></app-file>
+            <p class=".mat-caption" style="font-style: italic; margin-top: 5px">
+              abgegeben: 13.08.2023 23:23
+            </p>
+          </div>
+          <mat-list>
+            <mat-list-item>
+              <span matListItemTitle>Koordinaten</span>
+              <span matListItemLine>nicht abgegeben</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card></mat-grid-tile
+    >
+    <mat-grid-tile
+      ><mat-card style="height: 100%; width: 100%">
+        <mat-card-header>
+          <mat-card-title>Beschreibung </mat-card-title>
+          <mat-card-subtitle>Hilfestellung zum LernJob </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero nostrum
+          perferendis dolorum consequatur praesentium quos numquam libero
+          reiciendis in impedit, rerum asperiores ab porro nam sunt modi quod
+          ullam labore cupiditate voluptates. Nulla accusamus unde numquam!
+          Aspernatur a reiciendis cum, quos facilis odio enim asperiores
+          accusantium deleniti inventore quas temporibus?
+        </mat-card-content>
+      </mat-card></mat-grid-tile
+    >
+    <mat-grid-tile>4</mat-grid-tile>
+  </mat-grid-list>
+</div>

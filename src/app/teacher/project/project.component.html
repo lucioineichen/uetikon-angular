@@ -1,0 +1,186 @@
+<div style="position: absolute; top: 0; width: 100%; z-index: 100">
+  <!-- Sub Header -->
+  <mat-toolbar color="primary" fxLayoutGap="8px">
+    <a mat-button routerLink="/teacher/projects"
+      ><mat-icon>arrow_back</mat-icon> Zurück</a
+    >
+    <a mat-button (click)="refresh()"
+      ><h1>{{ name }}</h1></a
+    >
+  </mat-toolbar>
+
+  <!-- Content -->
+  <div *ngIf="!project$.hasError; else error">
+    <div
+      *ngIf="project$ | async as project; else loading"
+      style="padding: 20px; margin-left: 15vw; margin-top: 50px"
+      class="mat-typography"
+    >
+      <div fxLayout="row">
+        <mat-card style="position: relative; width: 350px; margin-right: 50px"
+          ><mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>Schüler</mat-card-title>
+              <mat-card-subtitle>Auflistung aller Schüler</mat-card-subtitle>
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item
+                *ngFor="let student of project.students"
+                class="clickable"
+                (click)="navigateToStudent(student)"
+              >
+                {{ student.fullName }}
+              </mat-list-item>
+            </mat-list>
+
+            <div *ngIf="project.students.length === 0">
+              Das Projekt hat keine Schüler
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card style="width: 450px"
+          ><mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>Kurse und LernJobs</mat-card-title>
+              <mat-card-subtitle
+                >Auflistung der Kurse und dazugehörigen
+                LernJobs</mat-card-subtitle
+              >
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item
+                *ngFor="let jobCourse of project.jobCourses"
+                class="clickable"
+              >
+                {{ jobCourse.course.name }} | {{ jobCourse.job.name }}
+              </mat-list-item>
+            </mat-list>
+
+            <div *ngIf="project.students.length === 0">
+              Das Projekt hat keine Schüler
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div fxLayout="row" style="margin-top: 50px">
+        <mat-card style="position: relative; width: 400px; margin-right: 50px"
+          ><mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>Beischreibung</mat-card-title>
+              <mat-card-subtitle
+                >Zusätzliche Infos zum Projekt</mat-card-subtitle
+              >
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <div style="margin-top: 16px">
+              Erstellt euren eigenen LernWeg und arbeitet konzentriert an den
+              LernJobs. Bei Fragen seid ihr sehr willkommen auf die anwesende
+              Lehrperson zuzugehen und ungeniert Fragen zu stellen. Viel Spass!
+            </div>
+
+            <div style="height: 50px"></div>
+
+            <button
+              mat-raised-button
+              color="primary"
+              style="position: absolute; bottom: 16px"
+            >
+              Beschreibung Ändern
+            </button>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card style="position: relative; width: 400px; margin-right: 50px"
+          ><mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>Kalender</mat-card-title>
+              <mat-card-subtitle
+                >Auflistung der aktuellen Daten</mat-card-subtitle
+              >
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item class="clickable">
+                07.09 Vortrag Geschichte
+              </mat-list-item>
+              <mat-list-item class="clickable">
+                16.09 Exkursion (Wanderschuhe)
+              </mat-list-item>
+              <mat-list-item class="clickable">
+                23.09 Abgabe Aufsatz
+              </mat-list-item>
+            </mat-list>
+
+            <div style="height: 50px"></div>
+
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="editDates()"
+              style="position: absolute; bottom: 16px"
+            >
+              Daten Verwalten
+            </button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading> Lädt Projek...</ng-template>
+
+  <ng-template #error
+    >Projekt konnten nicht geladen werden, lade die Seite neu</ng-template
+  >
+
+  <div class="chat-icon-container">
+    <button mat-fab color="primary" (click)="toggleChat()">
+      <mat-icon>chat</mat-icon>
+    </button>
+  </div>
+
+  <!-- chat -->
+  <div class="chat-container" [ngClass]="{ 'chat-open': isChatOpen }">
+    <div class="chat-header">
+      <h3>Chat</h3>
+      <button mat-icon-button (click)="toggleChat()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="chat-content">
+      <div
+        *ngFor="let message of messages"
+        [ngClass]="{ 'current-user-message': isCurrentUserMessage(message) }"
+      >
+        <p class="message">{{ message.message }}</p>
+        <p class="metadata">
+          {{ message.authorName.firstName }} {{ message.authorName.lastName }} -
+          {{ message.date | date : "short" }}
+          <span *ngIf="message.edited">(edited)</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Type your message"
+          [(ngModel)]="newMessage"
+          (keyup.enter)="sendMessage()"
+        />
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="sendMessage()">
+        Send
+      </button>
+    </div>
+  </div>
+</div>

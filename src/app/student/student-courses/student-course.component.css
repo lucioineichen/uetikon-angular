@@ -43,3 +43,7 @@
 .beam-text {
   font-weight: normal;
 }
+
+.course:hover {
+  cursor: pointer;
+}

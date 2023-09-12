@@ -65,7 +65,6 @@ export class LoginComponent {
         tap((role) => {
           this.uiService.showToast('Willkommen')
           const url = this.redirectUrl || '/' + role
-          console.log('navigate to ', url)
           this.router.navigate([url])
         }),
         catchError(() => {

@@ -11,7 +11,7 @@ import { StudyJobsService } from './study-jobs.service'
 @Component({
   selector: 'app-study-jobs',
   templateUrl: './study-jobs.component.html',
-  styleUrls: ['./study-jobs.component.css'],
+  styleUrls: [],
 })
 export class TeacherStudyJobsComponent implements OnInit {
   tree$: ReplaySubject<IFolder>

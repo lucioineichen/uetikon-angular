@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog'
 import {
   ICompetence,
   IStudyJob,
-  IStudyJobExpectation,
 } from 'src/app/interfaces'
 import { StudyPathFormComponent } from './study-path-form/study-path-form.component'
 import {
@@ -27,7 +26,7 @@ export interface IStudyPath {
   providedIn: 'root',
 })
 export class StudyPathService {
-  path$ = new BehaviorSubject<IStudyPath | undefined>(undefined)
+  readonly path$ = new BehaviorSubject<IStudyPath | undefined>(undefined)
 
   constructor(
     private dialog: MatDialog,
@@ -50,6 +49,7 @@ export class StudyPathService {
   }
 
   private putPath(data: any, courseId: number): Observable<IStudyPath> {
+    console.log('body: ', data)
     return this.httpClient.put<IStudyPath>(
       `${environment.baseUrl}/teacher/course/${courseId}/path`,
       data
@@ -61,7 +61,7 @@ export class StudyPathService {
       .pipe(
         tap((path) => this.path$.next(path)),
         catchError((err) => {
-          this.uiService.showToast('Lern Pfad konnten nicht geladen werden')
+          this.uiService.showToast('LernWeg konnten nicht geladen werden')
           return err
         })
       )
@@ -80,6 +80,7 @@ export class StudyPathService {
       .afterClosed()
       .pipe(
         filter((data) => data),
+        tap(console.info),
         mergeMap((data) => this.putPath(data, courseId))
       )
       .subscribe()

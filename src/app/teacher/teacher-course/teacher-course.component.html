@@ -15,22 +15,107 @@
     style="padding: 20px; margin-left: 15vw; margin-top: 50px"
     class="mat-typography"
   >
-    <h1>Schüler</h1>
+    <div fxLayout="row">
+      <mat-card style="position: relative; width: 350px; margin-right: 50px"
+        ><mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>Schüler</mat-card-title>
+            <mat-card-subtitle>Auflistung aller Schüler</mat-card-subtitle>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item
+              *ngFor="let student of course.students"
+              class="clickable"
+              (click)="navigateToStudent(student)"
+            >
+              {{ student.fullName }}
+            </mat-list-item>
+          </mat-list>
 
-    <mat-list>
-      <mat-list-item *ngFor="let student of course.students">
-        {{ student.fullName }}
-      </mat-list-item>
-    </mat-list>
+          <div *ngIf="course.students.length === 0">
+            Dem Kurse wurden noch keine Schüler hinzugefügt
+          </div>
 
-    <div *ngIf="course.students.length === 0">
-      Dem Kurse wurden noch keine Schüler hinzugefügt
+          <div style="height: 50px"></div>
+
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="editStudents()"
+            style="position: absolute; bottom: 16px"
+          >
+            Schüler Verwalten
+          </button>
+        </mat-card-content>
+      </mat-card>
+
+      <app-study-path style="width: 450px"></app-study-path>
     </div>
 
-    <button mat-raised-button color="primary" (click)="editStudents()">
-      Schüler Verwalten
-    </button>
-    <app-study-path></app-study-path>
+    <div fxLayout="row" style="margin-top: 50px">
+      <mat-card style="position: relative; width: 400px; margin-right: 50px"
+        ><mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>Beischreibung</mat-card-title>
+            <mat-card-subtitle>Zusätzliche Infos zum Kurs</mat-card-subtitle>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+          <div style="margin-top: 16px">
+            Erstellt euren eigenen LernWeg und arbeitet konzentriert an den
+            LernJobs. Bei Fragen seid ihr sehr willkommen auf die anwesende
+            Lehrperson zuzugehen und ungeniert Fragen zu stellen. Viel Spass!
+          </div>
+
+          <div style="height: 50px"></div>
+
+          <button
+            mat-raised-button
+            color="primary"
+            style="position: absolute; bottom: 16px"
+          >
+            Beschreibung Ändern
+          </button>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card style="position: relative; width: 400px; margin-right: 50px"
+        ><mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>Kalender</mat-card-title>
+            <mat-card-subtitle
+              >Auflistung der aktuellen Daten</mat-card-subtitle
+            >
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item class="clickable">
+              07.09 Vortrag Geschichte
+            </mat-list-item>
+            <mat-list-item class="clickable">
+              16.09 Exkursion (Wanderschuhe)
+            </mat-list-item>
+            <mat-list-item class="clickable">
+              23.09 Abgabe Aufsatz
+            </mat-list-item>
+          </mat-list>
+
+          <div style="height: 50px"></div>
+
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="editStudents()"
+            style="position: absolute; bottom: 16px"
+          >
+            Schüler Verwalten
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 
   <ng-template #loading>

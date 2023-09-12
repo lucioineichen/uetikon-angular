@@ -7,6 +7,9 @@ import { Component } from '@angular/core'
     </button>
     <button mat-raised-button color="primary" routerLink="/create-user">
       Create User
+    </button>
+    <button mat-raised-button color="primary" routerLink="/competences">
+      Kompetenzen
     </button>`,
 })
 export class HomeComponent {}

@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component'
 import { UiService } from 'src/app/common/ui.service'
 import { StudyJobsService } from '../study-jobs/study-jobs.service'
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-job',
@@ -16,16 +17,16 @@ import { StudyJobsService } from '../study-jobs/study-jobs.service'
 export class JobComponent implements OnInit {
   id: number
   name: string
-  folderId: number
+  folderId?: number
   job$ = new BehaviorSubject<IStudyJob | undefined>(undefined)
 
   constructor(
     protected route: ActivatedRoute,
-    private router: Router,
     private studyJobsService: StudyJobsService,
     private teacherService: TeacherService,
     private dialog: MatDialog,
-    private uiService: UiService
+    private uiService: UiService,
+    private location: Location
   ) {
     this.id = this.route.snapshot.params['id']
     this.name = this.route.snapshot.queryParams['name']
@@ -33,9 +34,7 @@ export class JobComponent implements OnInit {
   }
 
   navigateBack() {
-    if (+this.folderId > 0)
-      this.router.navigate(['teacher', 'study-jobs', 'folder', this.folderId])
-    this.router.navigate(['teacher', 'study-jobs'])
+    this.location.back()
   }
 
   ngOnInit(): void {
@@ -54,6 +53,7 @@ export class JobComponent implements OnInit {
     dialogRef
       .afterClosed()
       .pipe(
+        filter((data) => data != ''),
         mergeMap((data) => {
           return this.teacherService.addTask(data, job)
         }),
@@ -81,4 +81,6 @@ export class JobComponent implements OnInit {
       )
       .subscribe()
   }
+
+  selectCompetences() {}
 }

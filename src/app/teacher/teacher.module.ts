@@ -24,6 +24,15 @@ import { FlexLayoutModule } from '@angular/flex-layout'
 import { JobComponent } from './job/job.component'
 import { StudyPathComponent } from './study-path/study-path.component'
 import { StudyPathFormComponent } from './study-path/study-path-form/study-path-form.component'
+import { SelectJobsComponent } from './select-jobs/select-jobs.component'
+import { StudentParticipantComponent } from './teacher-course/student-participant/student-participant.component'
+import { ProjectsComponent } from './projects/projects.component'
+import { ProjectFormComponent } from './projects/project-form/project-form.component'
+import { SelectCourseComponent } from './projects/select-course/select-course.component';
+import { SelectJobFromCourseComponent } from './projects/select-course/select-job-from-course/select-job-from-course.component';
+import { ProjectComponent } from './project/project.component';
+import { StudentsComponent } from './students/students.component';
+import { StudentComponent } from './student/student.component'
 
 @NgModule({
   declarations: [
@@ -45,6 +54,15 @@ import { StudyPathFormComponent } from './study-path/study-path-form/study-path-
     JobComponent,
     StudyPathComponent,
     StudyPathFormComponent,
+    SelectJobsComponent,
+    StudentParticipantComponent,
+    ProjectsComponent,
+    ProjectFormComponent,
+    SelectCourseComponent,
+    SelectJobFromCourseComponent,
+    ProjectComponent,
+    StudentsComponent,
+    StudentComponent,
   ],
   imports: [
     CommonModule,

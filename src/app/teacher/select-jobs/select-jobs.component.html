@@ -1,0 +1,36 @@
+<mat-dialog-content class="mat-typography" style="width: 700px; height: 400px">
+  <mat-form-field style="width: 100%">
+    <input
+      matInput
+      [formControl]="searchControl"
+      placeholder="Suche beim Namen"
+    />
+  </mat-form-field>
+
+  <mat-grid-list
+    cols="3"
+    rowHeight="40px"
+    *ngIf="filteredJobs$ | async as competences; else loading"
+  >
+    <mat-grid-tile *ngFor="let competence of competences">
+      <mat-checkbox
+        [checked]="isSelected(competence)"
+        (change)="toggleSelection($event, competence)"
+        style="width: 100% !important"
+      >
+        {{ competence.name }}
+      </mat-checkbox>
+    </mat-grid-tile>
+
+    <div *ngIf="competences.length === 0">Es gibt noch keine Jobs</div>
+  </mat-grid-list>
+
+  <ng-template #loading> Lädt Jobs... </ng-template>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Abrechen</button>
+  <button mat-button [mat-dialog-close]="debuggin()" cdkFocusInitial>
+    Speichern
+  </button>
+</mat-dialog-actions>

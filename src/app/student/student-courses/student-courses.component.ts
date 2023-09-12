@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { StudentService } from '../student.service'
-import { Observable, catchError, tap } from 'rxjs'
+import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
 import { IStudentCourse } from 'src/app/interfaces'
-// import { trigger, state, style, animate, transition } from '@angular/animations'
 
 export const exampleStudentCourse: IStudentCourse = {
   _id: 1,
@@ -18,35 +17,15 @@ export const exampleStudentCourse: IStudentCourse = {
   styleUrls: ['./student-course.component.css'],
 })
 export class StudentCoursesComponent implements OnInit {
-  courses$: Observable<IStudentCourse[]>
-  isError = false
-  isTransitioned = false
-
-  cardState = ''
-
-  onCardClick() {
-    this.cardState = 'card-clicked'
-    setTimeout(() => {
-      this.cardState = ''
-    }, 300)
-  }
+  courses$: BehaviorSubject<IStudentCourse[] | undefined>
 
   example = exampleStudentCourse
 
   constructor(private studentService: StudentService) {
-    this.courses$ = this.studentService.courses$.pipe(
-      tap(() => (this.isError = false)),
-      catchError((err, caugt) => {
-        this.isError = true
-        return caugt
-      })
-    )
+    this.courses$ = this.studentService.courses$
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.isTransitioned = true
-    }, 100)
     this.studentService.updateCourses()
   }
 }

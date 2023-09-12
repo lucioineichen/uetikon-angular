@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core'
-import { Observable, ReplaySubject, Subject } from 'rxjs'
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs'
 import { ICourse, IStudentCourse } from '../interfaces'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../environment/environment.demo'
 import { UiService } from '../common/ui.service'
 
 export interface IStudentService {
-  readonly courses$: ReplaySubject<IStudentCourse[]>
+  readonly courses$: BehaviorSubject<IStudentCourse[] | undefined>
   updateCourses(): void
 }
 
 @Injectable()
 export class StudentService implements IStudentService {
-  readonly courses$: ReplaySubject<IStudentCourse[]> = new ReplaySubject<
-    IStudentCourse[]
-  >(1)
+  readonly courses$ = new BehaviorSubject<IStudentCourse[] | undefined>(
+    undefined
+  )
 
   constructor(private httpClient: HttpClient, private uiService: UiService) {}
 

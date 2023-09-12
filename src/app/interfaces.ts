@@ -15,7 +15,6 @@ export interface ICourse {
   credits: number
   teachers: ITeacher[]
   students: IStudent[]
-  studyJobExpectations: IStudyJobExpectation[]
   chat: IChat
 }
 
@@ -110,15 +109,6 @@ export interface IStudyJob {
   subject: string
 }
 
-export interface IStudyJobExpectation {
-  name: string
-  competences21: ICompetence[]
-  mandatoryStudyJob: IStudyJob
-  studyJobChoices: IStudyJob[]
-  graded: boolean
-  weight: number
-}
-
 export interface ITask {
   title: string
   text?: string
@@ -136,3 +126,5 @@ export interface ICompetence {
   name: string
   subject: string
 }
+
+export interface IStudentParticipant {}

@@ -1,4 +1,4 @@
-.chat-icon-container {
+/* .chat-icon-container {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -58,4 +58,8 @@
   align-items: center;
   padding: 10px;
   background-color: #eee;
+} */
+
+.cursor:hover {
+  cursor: pointer;
 }
