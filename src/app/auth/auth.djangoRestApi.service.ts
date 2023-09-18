@@ -4,7 +4,12 @@ import { map, Observable, tap } from 'rxjs'
 import { environment } from '../environment/environment.demo'
 import { IUser, User } from '../user/user'
 import { Role } from './auth.enum'
-import { AuthService, IAuthStatus, IJwtToken } from './auth.service'
+import {
+  AuthService,
+  IAuthStatus,
+  IJwtToken,
+  IPermission,
+} from './auth.service'
 import { CacheService } from './cache.service'
 import { ActivatedRoute, Router } from '@angular/router'
 
@@ -31,10 +36,25 @@ export class DjangoRestApiAuthService extends AuthService {
   }
 
   transformJwtToken(token: IJwtToken): IAuthStatus {
+    let role = Role.None
+    let permissions: undefined | IPermission[] = undefined
+    if (token.role === 'teacher') {
+      role = Role.Teacher
+      permissions = token.permissions
+    } else if (token.role === 'student') {
+      role = Role.Student
+    } else if (token.role === 'administrator') {
+      role = Role.Administrator
+    } else if (token.role === 'parent') {
+      role = Role.Parent
+    }
     const transformedToken: IAuthStatus = {
       isAuthenticated: token.token ? true : false,
-      userRole: token.role === 'teacher' ? Role.Teacher : Role.Student,
+      userRole: role,
       userId: token.id,
+    }
+    if (token.role === 'teacher') {
+      transformedToken.permissions = permissions
     }
     return transformedToken
   }

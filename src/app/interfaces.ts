@@ -76,7 +76,7 @@ export class Student extends User implements IStudent {
 
 export interface ITeacher extends IUser {}
 
-export class Teacher extends User {
+export class Teacher extends User implements ITeacher{
   constructor(
     _id = 0,
     email = '--',

@@ -22,6 +22,7 @@
 
   <div *ngIf="auth.status?.userRole === 'teacher'">
     <a
+      *ngIf="isPermitted(0, auth.status)"
       class="link"
       mat-button
       routerLink="/teacher/courses"
@@ -29,13 +30,7 @@
       >Meine Kurse</a
     >
     <a
-      class="link"
-      mat-button
-      routerLink="/teacher/projects"
-      routerLinkActive="active-link"
-      >Überfachliche Projekte</a
-    >
-    <a
+      *ngIf="isPermitted(2, auth.status)"
       class="link"
       mat-button
       routerLink="/teacher/study-jobs"
@@ -43,6 +38,7 @@
       >LernJobs</a
     >
     <a
+      *ngIf="isPermitted(5, auth.status)"
       class="link"
       mat-button
       routerLink="/teacher/students"
@@ -51,14 +47,47 @@
     >
   </div>
 
+  <!-- Administrator Routes -->
+
+  <div *ngIf="auth.status?.userRole === 'administrator'">
+    <a
+      class="link"
+      mat-button
+      routerLink="/administrator/competences"
+      routerLinkActive="active-link"
+      >Kompetenzen</a
+    >
+    <a
+      class="link"
+      mat-button
+      routerLink="/administrator/teachers"
+      routerLinkActive="active-link"
+      >Lehrer</a
+    >
+    <a
+      class="link"
+      mat-button
+      routerLink="/administrator/students"
+      routerLinkActive="active-link"
+      >Schüler</a
+    >
+    <a
+      class="link"
+      mat-button
+      routerLink="/administrator/parents"
+      routerLinkActive="active-link"
+      >Eltern</a
+    >
+  </div>
+
   <!-- Shared Routes -->
   <span class="flex-spacer"></span>
   <button
     *ngIf="auth?.status?.isAuthenticated"
     mat-mini-fab
-    routerLink="/user/profile"
+    routerLink="/profile"
     matTooltip="Profile"
-    aria-label="User Profile"
+    aria-label="Profile"
     [ngClass]="{ 'hide-fab': auth.user?.picture }"
   >
     <img

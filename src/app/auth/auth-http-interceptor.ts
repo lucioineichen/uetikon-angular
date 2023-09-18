@@ -26,6 +26,7 @@ export class AuthHttpInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const jwt = this.cacheService.getItem<IJwtToken>('jwt')
+    console.log('jwt: ', jwt)
     const authRequest = req.clone({
       setHeaders: { authorization: `Bearer ${jwt?.token}` },
     })

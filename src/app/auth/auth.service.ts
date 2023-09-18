@@ -13,11 +13,18 @@ import { Role } from './auth.enum'
 import { CacheService } from './cache.service'
 import { ActivatedRoute, Router } from '@angular/router'
 
+export interface IPermission {
+  id: number
+  name: string
+  read: boolean
+  write: boolean
+}
+
 export interface IJwtToken {
   id: string
   email: string
   role: string
-  picture: string
+  permissions?: IPermission[]
   token: string
 }
 
@@ -25,7 +32,6 @@ export const errorJwtToken: IJwtToken = {
   id: '',
   email: '',
   role: Role.None,
-  picture: '',
   token: '',
 }
 
@@ -33,6 +39,7 @@ export interface IAuthStatus {
   isAuthenticated: boolean
   userRole: Role
   userId: string
+  permissions?: IPermission[]
 }
 
 export const defaultAuthStatus: IAuthStatus = {

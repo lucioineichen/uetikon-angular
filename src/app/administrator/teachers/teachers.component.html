@@ -1,0 +1,37 @@
+<app-add-button (click)="addTeacher()"></app-add-button>
+<div
+  *ngIf="!teachers$.hasError; else error"
+  class="mat-typography"
+  style="padding-top: 30px; padding-left: 50px; padding-right: 100px"
+>
+  <div *ngIf="teachers$ | async as teachers; else loading">
+    <div *ngIf="teachers.length > 0; else noTeachers">
+      <mat-form-field style="width: 100%" appearance="outline">
+        <mat-label>Suche</mat-label>
+
+        <input
+          matInput
+          [formControl]="searchControl"
+          placeholder="Suche beim Namen"
+        />
+      </mat-form-field>
+      <mat-grid-list
+        cols="8"
+        rowHeight="40px"
+        *ngIf="filteredTeachers$ | async as fTeachers"
+      >
+        <mat-grid-tile *ngFor="let teacher of fTeachers">
+          <div class="teacher" (click)="navigateToTeacher(teacher)">
+            {{ teacher.fullName | titlecase }}
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</div>
+<ng-template #noTeachers> Es gibt noch keine Lehrer </ng-template>
+
+<ng-template #error
+  >Lehrer konnten nicht geladen werden, lade die Seite neu</ng-template
+>
+<ng-template #loading>Lädt Lehrer...</ng-template>

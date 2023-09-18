@@ -1,0 +1,152 @@
+<mat-dialog-content class="mat-typography" style="width: 600px; padding: 20px">
+  <h2>Lehrer Erstellen</h2>
+  <form [formGroup]="createUserForm" fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-icon>email</mat-icon>
+      <mat-form-field fxFlex>
+        <input
+          matInput
+          placeholder="E-mail"
+          aria-label="E- mail"
+          formControlName="email"
+        />
+        <mat-error *ngIf="createUserForm.get('email')?.hasError('required')">
+          E-mail is required
+        </mat-error>
+        <mat-error *ngIf="createUserForm.get('email')?.hasError('email')">
+          E-mail is not valid
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-icon matPrefix>vpn_key</mat-icon>
+      <mat-form-field fxFlex>
+        <input
+          matInput
+          placeholder="Password"
+          aria-
+          label="Password"
+          type="password"
+          formControlName="password"
+        />
+        <mat-hint>Minimum 8 characters</mat-hint>
+        <mat-error *ngIf="createUserForm.get('password')?.hasError('required')">
+          Password is required
+        </mat-error>
+        <mat-error
+          *ngIf="createUserForm.get('password')?.hasError('minlength')"
+        >
+          Password is at least 8 characters long
+        </mat-error>
+        <mat-error
+          *ngIf="createUserForm.get('password')?.hasError('maxlength')"
+        >
+          Password cannot be longer than 50 characters
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-icon matPrefix>badge</mat-icon>
+      <mat-form-field fxFlex>
+        <input
+          matInput
+          placeholder="Vorname"
+          aria-
+          label="Vorname"
+          type="text"
+          formControlName="firstName"
+        />
+        <mat-hint>Vorname</mat-hint>
+        <mat-error
+          *ngIf="createUserForm.get('firstName')?.hasError('required')"
+        >
+          firstName is required
+        </mat-error>
+        <mat-error
+          *ngIf="createUserForm.get('firstName')?.hasError('minlength')"
+        >
+          firstName is at least 2 characters long
+        </mat-error>
+        <mat-error
+          *ngIf="createUserForm.get('firstName')?.hasError('maxlength')"
+        >
+          firstName cannot be longer than 50 characters
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-icon matPrefix>badge</mat-icon>
+      <mat-form-field fxFlex>
+        <input
+          matInput
+          placeholder="Zweitname"
+          aria-
+          label="middleName"
+          type="text"
+          formControlName="middleName"
+        />
+        <mat-hint>Zweitname</mat-hint>
+        <mat-error
+          *ngIf="createUserForm.get('middleName')?.hasError('minlength')"
+        >
+          middleName is at least 2 characters long
+        </mat-error>
+        <mat-error
+          *ngIf="createUserForm.get('middleName')?.hasError('maxlength')"
+        >
+          middleName cannot be longer than 50 characters
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-icon matPrefix>badge</mat-icon>
+      <mat-form-field fxFlex>
+        <input
+          matInput
+          placeholder="Nachname"
+          aria-
+          label="Nachname"
+          type="text"
+          formControlName="lastName"
+        />
+        <mat-hint>Nachname</mat-hint>
+        <mat-error *ngIf="createUserForm.get('lastName')?.hasError('required')">
+          lastName is required
+        </mat-error>
+        <mat-error
+          *ngIf="createUserForm.get('lastName')?.hasError('minlength')"
+        >
+          lastName is at least 2 characters long
+        </mat-error>
+        <mat-error
+          *ngIf="createUserForm.get('lastName')?.hasError('maxlength')"
+        >
+          lastName cannot be longer than 50 characters
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <section>
+        <mat-slide-toggle formControlName="isAssistant">
+          Assistent
+        </mat-slide-toggle>
+      </section>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close cdkFocusInitial>Abrechen</button>
+  <button
+    mat-button
+    [mat-dialog-close]="createUserForm.value"
+    [disabled]="createUserForm.invalid"
+  >
+    Speichern
+  </button>
+</mat-dialog-actions>

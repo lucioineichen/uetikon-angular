@@ -21,7 +21,8 @@ import { CommonModule } from '@angular/common'
 import { TaskComponent } from './ui/task/task.component'
 import { ConfirmDeletionDialogComponent } from './common/confirm-deletion-dialog.component'
 import { CompetencesComponent } from './competences/competences.component'
-import { CompetenceFormComponent } from './competences/competence-form/competence-form.component'
+import { CompetenceFormComponent } from './competences/competence-form/competence-form.component';
+import { ProfileComponent } from './profile/profile.component'
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { CompetenceFormComponent } from './competences/competence-form/competenc
     ConfirmDeletionDialogComponent,
     CompetencesComponent,
     CompetenceFormComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

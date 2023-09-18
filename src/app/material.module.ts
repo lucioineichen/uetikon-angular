@@ -19,6 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatExpansionModule } from '@angular/material/expansion'
 import { MatSelectModule } from '@angular/material/select'
 import { MatMenuModule } from '@angular/material/menu'
+import { MatTableModule } from '@angular/material/table'
 
 const modules = [
   MatButtonModule,
@@ -41,6 +42,7 @@ const modules = [
   MatExpansionModule,
   MatSelectModule,
   MatMenuModule,
+  MatTableModule,
 ]
 
 @NgModule({

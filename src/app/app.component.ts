@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { AuthService } from './auth/auth.service'
+import { AuthService, IAuthStatus } from './auth/auth.service'
 import { MatIconRegistry } from '@angular/material/icon'
 import { DomSanitizer } from '@angular/platform-browser'
 
@@ -33,5 +33,15 @@ export class AppComponent {
       'student',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/student.svg')
     )
+  }
+
+  isPermitted(permission_id: number, status: IAuthStatus | null) {
+    if (!status) return false
+    if (!status.permissions) return false
+    const permission = status.permissions.find(
+      (permission) => permission.id === permission_id
+    )
+    if (!permission) return false
+    return permission.read
   }
 }

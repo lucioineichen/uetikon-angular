@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core'
-import { RouterModule, Routes } from '@angular/router'
+import { Routes } from '@angular/router'
 import { CreateUserComponent } from './create-user/create-user.component'
 import { HomeComponent } from './home/home.component'
 import { LoginComponent } from './login/login.component'
@@ -7,15 +6,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AuthGuard } from './auth/auth-guard.service'
 import { Role } from './auth/auth.enum'
 import { CompetencesComponent } from './competences/competences.component'
-import { ProfileComponent } from './profile/profile.component'
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'competences', component: CompetencesComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent },
-
   { path: 'create-user', component: CreateUserComponent },
   { path: 'login/:redirectUrl', component: LoginComponent },
   {
@@ -35,7 +31,7 @@ const routes: Routes = [
       import('./parent/parent.module').then((m) => m.ParentModule),
     canActivate: [AuthGuard],
     data: {
-      expectedRole: Role.Parent,
+      expectedRole: Role.Administrator,
     },
   },
   {
@@ -58,9 +54,3 @@ const routes: Routes = [
   },
   { path: '**', component: PageNotFoundComponent },
 ]
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
