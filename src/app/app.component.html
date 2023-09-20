@@ -4,6 +4,8 @@
     status: authService.authStatus$ | async,
     user: authService.currentUser$ | async
   } as auth"
+  style="position: fixed; top: 0; left: 0; right: 0; z-index: 2"
+  class="mat-elevation-z8"
 >
   <a mat-button routerLink="/home" class=""><h1>Uetikon</h1></a>
   <span style="width: 2rem"></span>
@@ -110,4 +112,13 @@
   </button>
 </mat-toolbar>
 
-<router-outlet></router-outlet>
+<div
+  style="
+    margin-top: 64px;
+    overflow-y: auto;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  "
+>
+  <router-outlet></router-outlet>
+</div>

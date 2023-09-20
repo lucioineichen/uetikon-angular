@@ -1,5 +1,5 @@
 <div style="position: absolute; width: 100%; top: 0; z-index: 100">
-  <mat-toolbar color="primary">
+  <mat-toolbar color="primary" class="mat-elevation-z8">
     <a mat-button (click)="navigateBack()"
       ><mat-icon>arrow_back</mat-icon> Zurück</a
     >
@@ -25,7 +25,10 @@
     </mat-menu>
   </mat-toolbar>
 
-  <mat-dialog-content class="mat-typography" *ngIf="job$ | async as job">
+  <mat-dialog-content
+    class="mat-typography"
+    *ngIf="job$ | async as job; else error"
+  >
     <div style="margin-top: 50px"></div>
     <div class="tasks">
       <mat-card-header>
@@ -75,3 +78,5 @@
     </div>
   </mat-dialog-content>
 </div>
+
+<ng-template #error>Error</ng-template>

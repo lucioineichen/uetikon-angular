@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { BehaviorSubject, catchError, map, tap } from 'rxjs'
+import { IPermission } from 'src/app/auth/auth.service'
 import { UiService } from 'src/app/common/ui.service'
 import { environment } from 'src/app/environment/environment.demo'
 import { IName } from 'src/app/user/user'
@@ -85,11 +86,43 @@ export class TeacherService {
     )
   }
 
-  editTeacherPermissions(data: any) {
+  putTeacherPermissions(data: any) {
     if (!this.teacher$.value) return
     return this.httpClient.put<ITeacher>(
       `${environment.baseUrl}/administrator/teachers/${this.teacher$.value._id}`,
       data
     )
+  }
+
+  putTeacherUser(data: any) {
+    console.log(data)
+    if (!this.teacher$.value) return
+    return this.httpClient.put<ITeacher>(
+      `${environment.baseUrl}/administrator/teachers/${this.teacher$.value._id}`,
+      data
+    )
+  }
+
+  editTeacherUser(data: any, permissions: IPermission[]) {
+    const permission_changes = permissions.map((permission) => {
+      return {
+        restriction_id: permission.id,
+        is_restriction: !permission.read || !permission.write,
+        read: permission.read,
+      }
+    })
+
+    this.putTeacherUser(
+      Object.assign(data, { permission_changes: permission_changes })
+    )
+      ?.pipe(
+        map(Teacher.Build),
+        tap((teacher) => this.teacher$.next(teacher)),
+        catchError((err) => {
+          this.uiService.showToast('Lehrer konnten nicht bearbeitet werden')
+          return err
+        })
+      )
+      .subscribe()
   }
 }

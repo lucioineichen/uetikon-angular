@@ -1,27 +1,144 @@
-<app-add-button icon="edit" hint="Bearbeiten"></app-add-button>
-<div
-  style="padding-top: 30px; padding-left: 50px; padding-right: 100px"
-  class="mat-typography"
->
-  <h1>{{ name | titlecase }}</h1>
+<app-add-button
+  *ngIf="!isEditing"
+  icon="edit"
+  hint="Bearbeiten"
+  [extraButtons]="[{ icon: 'delete', hint: 'Löschen', name: 'delete' }]"
+  (extraClick)="deleteTeacher()"
+  (mainClick)="startEdit()"
+></app-add-button>
 
-  <div *ngIf="!teacher$.hasError; else error">
-    <div
-      *ngIf="teacher$ | async as teacher; else loading"
-      style="position: relative"
+<app-add-button
+  *ngIf="isEditing"
+  (click)="stopEdit()"
+  icon="clear"
+  hint="Bearbeiten Verlassen"
+></app-add-button>
+
+<div style="position: fixed; width: 100%; top: 0; z-index: 100">
+  <mat-toolbar color="primary" class="mat-elevation-z8">
+    <a mat-button (click)="navigateBack()"
+      ><mat-icon>arrow_back</mat-icon> Zurück</a
     >
-      <div>{{ teacher.email }}</div>
-      <div style="position: absolute; top: 0px; left: 350px">
-        <img
-          height="200px"
-          [src]="
-            teacher.picture ||
-            'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_243887.png&f=1&nofb=1&ipt=e3f54932455d42b16f86b720533a0c35080683081d512dc4d580ed53fe58e6e6&ipo=images'
+    <span style="width: 2rem"></span>
+    <h1>{{ name | titlecase }}</h1>
+    <span class="flex-spacer"></span>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Example icon-button with a menu"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        <span>Edit</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        <span>Löschen</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+</div>
+
+<div *ngIf="!teacher$.hasError; else error">
+  <div
+    *ngIf="teacher$ | async as teacher; else loading"
+    style="
+      position: relative;
+      padding-top: 50px;
+      padding-left: 300px;
+      padding-right: 100px;
+    "
+  >
+    <div style="width: 600px">
+      <div
+        style="position: relative; margin-bottom: 100px"
+        [ngStyle]="{ 'margin-bottom': isEditing ? '100px' : '50px' }"
+      >
+        <table
+          mat-table
+          [dataSource]="[
+            { property: 'Email', value: teacher.email, control: 'email' },
+            {
+              property: 'Vorname',
+              value: teacher.name.firstName,
+              control: 'firstName'
+            },
+            {
+              property: 'Zweitname',
+              value: teacher.name.middleName,
+              control: 'middleName'
+            },
+            {
+              property: 'Nachname',
+              value: teacher.name.lastName,
+              control: 'lastName'
+            },
+            { property: 'Profilbild', value: 'picture' }
+          ]"
+          class="mat-elevation-z1"
+        >
+          <ng-container matColumnDef="property">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+              style="
+                font-weight: var(--mdc-typography-subtitle2-font-weight, 500);
+              "
+            >
+              {{ element.property }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="value" [formGroup]="userForm">
+            <th mat-header-cell *matHeaderCellDef>Wert</th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.value != 'picture'"
+                ><input
+                  [ngStyle]="{ display: isEditing ? 'inline' : 'none' }"
+                  type="text"
+                  value="{{ element.value }}"
+                  [formControlName]="element.control"
+                />
+                <span *ngIf="!isEditing">{{
+                  element.value || "--"
+                }}</span></span
+              ><img
+                *ngIf="element.value == 'picture'"
+                height="40px"
+                [src]="
+                  teacher.picture ||
+                  'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_243887.png&f=1&nofb=1&ipt=e3f54932455d42b16f86b720533a0c35080683081d512dc4d580ed53fe58e6e6&ipo=images'
+                "
+              />
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['property', 'value']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['property', 'value']"></tr>
+        </table>
+        <button
+          *ngIf="isEditing"
+          style="
+            position: absolute;
+            right: 0;
+            bottom: -10px;
+            z-index: 1000;
+            transform: translateY(100%);
           "
-        />
+          color="primary"
+          mat-raised-button
+          [disabled]="!userForm.valid"
+          (click)="saveUser()"
+        >
+          Speichern
+        </button>
       </div>
 
-      <div style="width: 200px">
+      <div style="position: relative">
         <table
           mat-table
           [dataSource]="teacher.permissions"
@@ -35,36 +152,92 @@
           <ng-container matColumnDef="read">
             <th mat-header-cell *matHeaderCellDef>Sehen</th>
             <td mat-cell *matCellDef="let element">
-              <mat-icon *ngIf="element.read" style="color: greenyellow"
-                >check_circle</mat-icon
+              <div *ngIf="!isEditing">
+                <mat-icon *ngIf="element.read" style="color: greenyellow"
+                  >check_circle</mat-icon
+                >
+                <mat-icon *ngIf="!element.read" style="color: red"
+                  >cancel</mat-icon
+                >
+              </div>
+              <div
+                [ngStyle]="{ display: isEditing ? 'inline' : 'none' }"
+                (click)="element.read = !element.read"
               >
-              <mat-icon *ngIf="!element.read" style="color: red"
-                >cancel</mat-icon
-              >
+                <mat-icon
+                  *ngIf="element.read"
+                  style="color: greenyellow; opacity: 0.5"
+                  class="permission-editing"
+                  >check_circle</mat-icon
+                >
+                <mat-icon
+                  *ngIf="!element.read"
+                  style="color: red; opacity: 0.5"
+                  class="permission-editing"
+                  >cancel</mat-icon
+                >
+              </div>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="write">
             <th mat-header-cell *matHeaderCellDef>Bearbeiten</th>
             <td mat-cell *matCellDef="let element">
-              <mat-icon *ngIf="element.read" style="color: greenyellow"
-                >check_circle</mat-icon
+              <div *ngIf="!isEditing">
+                <mat-icon *ngIf="element.write" style="color: greenyellow"
+                  >check_circle</mat-icon
+                >
+                <mat-icon *ngIf="!element.write" style="color: red"
+                  >cancel</mat-icon
+                >
+              </div>
+              <div
+                [ngStyle]="{ display: isEditing ? 'inline' : 'none' }"
+                (click)="element.write = !element.write"
               >
-              <mat-icon *ngIf="!element.read" style="color: red"
-                >cancel</mat-icon
-              >
+                <mat-icon
+                  *ngIf="element.write"
+                  style="color: greenyellow; opacity: 0.5"
+                  class="permission-editing"
+                  >check_circle</mat-icon
+                >
+                <mat-icon
+                  *ngIf="!element.write"
+                  style="color: red; opacity: 0.5"
+                  class="permission-editing"
+                  >cancel</mat-icon
+                >
+              </div>
             </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+        <button
+          *ngIf="isEditing"
+          style="
+            position: absolute;
+            right: 0;
+            bottom: -10px;
+            z-index: 1000;
+            transform: translateY(100%);
+          "
+          color="primary"
+          mat-raised-button
+          [disabled]="!userForm.valid"
+          (click)="saveUser()"
+        >
+          Speichern
+        </button>
       </div>
+
+      <div style="height: 200px"></div>
     </div>
   </div>
-
-  <ng-template #error
-    >Lehrer konnten nicht geladen werden, lade die Seite neu</ng-template
-  >
-  <ng-template #loading>Lädt Lehrer...</ng-template>
 </div>
+
+<ng-template #error
+  >Lehrer konnten nicht geladen werden, lade die Seite neu</ng-template
+>
+<ng-template #loading>Lädt Lehrer...</ng-template>

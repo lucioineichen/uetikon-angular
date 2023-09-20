@@ -38,10 +38,11 @@ export class JobComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.studyJobsService
-      .getStudyJob(this.id)
-      .pipe(tap((job) => this.job$.next(job)))
-      .subscribe()
+    console.log('here')
+    // this.studyJobsService
+    //   .getStudyJob(this.id)
+    //   .pipe(tap((job) => this.job$.next(job)))
+    //   .subscribe()
   }
 
   addTask() {
