@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
+import { CompetencesService } from './competences.service'
 
 @Component({
   selector: 'app-competences',
   template: `
-    <p>
-      competences works!
-    </p>
+    <button mat-raised-button color="primary" (click)="init()">Init</button>
   `,
-  styles: [
-  ]
+  styles: [],
 })
 export class CompetencesComponent {
+  constructor(private serivce: CompetencesService) {}
 
+  init() {
+    this.serivce.initCompetences()
+  }
 }
