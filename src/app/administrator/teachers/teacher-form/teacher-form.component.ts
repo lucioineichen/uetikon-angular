@@ -14,9 +14,9 @@ export class TeacherFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.createUserForm = this.formBuilder.group({
-      email: ['lehrer@email.com', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: [
-        'password',
+        '',
         [
           Validators.required,
           Validators.minLength(8),
@@ -24,7 +24,7 @@ export class TeacherFormComponent implements OnInit {
         ],
       ],
       firstName: [
-        'lehrer',
+        '',
         [
           Validators.required,
           Validators.minLength(2),
@@ -33,14 +33,13 @@ export class TeacherFormComponent implements OnInit {
       ],
       middleName: ['', [Validators.minLength(2), Validators.maxLength(50)]],
       lastName: [
-        'lehrer',
+        '',
         [
           Validators.required,
           Validators.minLength(2),
           Validators.maxLength(50),
         ],
       ],
-      isAssistant: [false, [Validators.required]],
     })
   }
 }

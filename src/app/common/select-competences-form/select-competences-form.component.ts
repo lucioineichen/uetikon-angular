@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core'
-import {
-  CompetencesService,
-  ICompetence,
-  ISubject,
-  ITopic,
-} from './competences.service'
+import { Component } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { BehaviorSubject, combineLatest, filter, map, tap } from 'rxjs'
+import {
+  ICompetence,
+  ISubject,
+} from 'src/app/administrator/competences/competences.service'
+import { UiService } from '../ui.service'
+import { SelectCompetencesService } from './select-competences.service'
 
 class TreeCompetence implements ICompetence {
   constructor(
@@ -22,17 +22,11 @@ class TreeCompetence implements ICompetence {
 }
 
 @Component({
-  selector: 'app-competences',
-  templateUrl: './competences.component.html',
-  styles: [
-    `
-      ::ng-deep .mat-mdc-select-panel {
-        max-height: 800px !important;
-      }
-    `,
-  ],
+  selector: 'app-select-competences-form',
+  templateUrl: './select-competences-form.component.html',
+  styleUrls: ['./select-competences-form.component.css'],
 })
-export class CompetencesComponent implements OnInit {
+export class SelectCompetencesFormComponent {
   readonly subjects$ = this.serivce.subjects$
   readonly searchControl = new FormControl()
   readonly subjectControl = new FormControl()
@@ -47,11 +41,7 @@ export class CompetencesComponent implements OnInit {
     map((competences) => competences?.map(TreeCompetence.Build))
   )
 
-  constructor(private serivce: CompetencesService) {}
-
-  init() {
-    this.serivce.initCompetences()
-  }
+  constructor(private serivce: SelectCompetencesService) {}
 
   subject(id: number) {
     return this.subjects$.value?.find((subject) => subject._id === id)

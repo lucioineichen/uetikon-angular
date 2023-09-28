@@ -1,6 +1,6 @@
 [
   {
-    "subjectName": "Textiles und Technisches Gestalten Zyklus 3 (7.-9. Klasse)",
+    "subjectName": "Textiles und Technisches Gestalten",
     "subjectShort": "TTG",
     "topics": [
       {
@@ -224,7 +224,7 @@
     ]
   },
   {
-    "subjectName": "Bildnerisches Gestalten Zyklus 3 (7.-9. Klasse)",
+    "subjectName": "Bildnerisches Gestalten",
     "subjectShort": "BG",
     "topics": [
       {
@@ -434,7 +434,7 @@
     ]
   },
   {
-    "subjectName": "Berufliche Orientierung Zyklus 3 (7.-9. Klasse)",
+    "subjectName": "Berufliche Orientierung",
     "subjectShort": "BO",
     "topics": [
       {
@@ -539,7 +539,7 @@
     ]
   },
   {
-    "subjectName": "Bewegung und Sport Zyklus 3 (7.-9. Klasse)",
+    "subjectName": "Bewegung und Sport",
     "subjectShort": "BS",
     "topics": [
       {
@@ -858,7 +858,7 @@
     ]
   },
   {
-    "subjectName": "Deutsch Zyklus 3 (7.-9. Klasse)",
+    "subjectName": "Deutsch",
     "subjectShort": "DE",
     "topics": [
       {
@@ -1261,7 +1261,7 @@
     ]
   },
   {
-    "subjectName": "Englisch Zyklus 3 (7.-9. Klasse)",
+    "subjectName": "Englisch",
     "subjectShort": "EN",
     "topics": [
       {
@@ -1628,7 +1628,7 @@
     ]
   },
   {
-    "subjectName": "Ethik, Religionen, Gemeinschaft Zyklus 3 (7.-9. Klasse) mit Lebenskunde",
+    "subjectName": "Ethik, Religionen, Gemeinschaft mit Lebenskunde",
     "subjectShort": "ERG",
     "topics": [
       {
@@ -1835,7 +1835,7 @@
     ]
   },
   {
-    "subjectName": "Französisch Zyklus 3 (7.-9. Klasse)",
+    "subjectName": "Französisch",
     "subjectShort": "FR",
     "topics": [
       {
@@ -2188,7 +2188,7 @@
     ]
   },
   {
-    "subjectName": "Italienisch Zyklus 3 (7.-9. Klasse)",
+    "subjectName": "Italienisch",
     "subjectShort": "IT",
     "topics": [
       {
@@ -2703,7 +2703,7 @@
     ]
   },
   {
-    "subjectName": "Mathematik Zyklus 3 (7.-9. Klasse)",
+    "subjectName": "Mathematik",
     "subjectShort": "MA",
     "topics": [
       {
@@ -3140,7 +3140,7 @@
     ]
   },
   {
-    "subjectName": "Medien / Informatik Zyklus 3 (7.-9. Klasse)",
+    "subjectName": "Medien / Informatik",
     "subjectShort": "MI",
     "topics": [
       {
@@ -3226,7 +3226,7 @@
     ]
   },
   {
-    "subjectName": "Musik Zyklus 3 (7.-9. Klasse)",
+    "subjectName": "Musik",
     "subjectShort": "MU",
     "topics": [
       {
@@ -3550,7 +3550,7 @@
     ]
   },
   {
-    "subjectName": "Natur und Technik Zyklus 3 (7.-9. Klasse) mit Physik, Chemie, Biologie",
+    "subjectName": "Natur und Technik mit Physik, Chemie, Biologie",
     "subjectShort": "NMG",
     "topics": [
       {
@@ -4005,7 +4005,7 @@
   },
 
   {
-    "subjectName": "Räume, Zeiten, Gesellschaften Zyklus 3 (7.-9. Klasse) mit Geografie, Geschichte",
+    "subjectName": "Räume, Zeiten, Gesellschaften mit Geografie, Geschichte",
     "subjectShort": "RZG",
     "topics": [
       {
@@ -4321,7 +4321,7 @@
     ]
   },
   {
-    "subjectName": "Wirtschaft, Arbeit, Haushalt Zyklus 3 (7.-9. Klasse) mit Hauswirtschaft",
+    "subjectName": "Wirtschaft, Arbeit, Haushalt mit Hauswirtschaft",
     "subjectShort": "WAH",
     "topics": [
       {

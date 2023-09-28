@@ -6,29 +6,54 @@ import { UiService } from 'src/app/common/ui.service'
 import { environment } from 'src/app/environment/environment.demo'
 import * as competences from './competences.json'
 
+// export interface ICompetence {
+//   competenceNumber: number
+//   competenceName: string
+//   subCompetences: string
+// }
+
+// export interface ISubTopic {
+//   subTopicCount: number
+//   subTopicName: string
+//   competences?: ICompetence[]
+//   subCompetences?: string[]
+// }
+
+// export interface ITopic {
+//   topicNumber: number
+//   topicName: string
+//   subTopics?: ISubTopic[]
+//   competences?: ICompetence[]
+// }
+
+// export interface ISubject {
+//   subjectName: string
+//   subjectShort: string
+//   topics: ITopic[]
+// }
+
 export interface ICompetence {
-  competenceNumber: number
-  competenceName: string
-  subCompetences: string
+  _id: number
+  name: string
+  subCompetences: string[]
 }
 
 export interface ISubTopic {
-  subTopicCount: number
-  subTopicName: string
-  competences?: ICompetence[]
-  subCompetences?: string[]
+  _id: number
+  name: string
+  competences: ICompetence[]
 }
 
 export interface ITopic {
-  topicNumber: number
-  topicName: string
+  _id: number
+  name: string
   subTopics?: ISubTopic[]
   competences?: ICompetence[]
 }
 
 export interface ISubject {
-  subjectName: string
-  subjectShort: string
+  _id: number
+  name: string
   topics: ITopic[]
 }
 
@@ -36,9 +61,7 @@ export interface ISubject {
   providedIn: 'root',
 })
 export class CompetencesService {
-  readonly competences$ = new BehaviorSubject<ICompetence[] | undefined>(
-    undefined
-  )
+  readonly subjects$ = new BehaviorSubject<ISubject[] | undefined>(undefined)
 
   constructor(
     private httpClient: HttpClient,
@@ -46,21 +69,20 @@ export class CompetencesService {
     private dialog: MatDialog
   ) {}
 
-  private getCompetence(id: number) {
-    return this.httpClient.get<ICompetence[]>(
-      `${environment.baseUrl}/administrator/competences/${id}`
+  private getCompetences() {
+    return this.httpClient.get<ISubject[]>(
+      `${environment.baseUrl}/administrator/competences`
     )
   }
 
-  updateCompetences(id: number) {
-    this.getCompetence(id)
+  updateCompetences() {
+    this.getCompetences()
       .pipe(
-        tap((teacher) => {
-          this.competences$.next(teacher)
-          console.log(teacher)
+        tap((subjects) => {
+          this.subjects$.next(subjects)
         }),
         catchError((err) => {
-          this.competences$.error(err)
+          this.subjects$.error(err)
           this.uiService.showToast('Kompetenzen konnten nicht geladen werden')
           return err
         })
@@ -69,14 +91,12 @@ export class CompetencesService {
   }
 
   deleteCompetence(id: number) {
-    if (!this.competences$.value) return
     return this.httpClient.delete<ICompetence[]>(
       `${environment.baseUrl}/administrator/competences/${id}`
     )
   }
 
   putCompetence(data: any, id: number) {
-    if (!this.competences$.value) return
     return this.httpClient.put<ICompetence[]>(
       `${environment.baseUrl}/administrator/competences/${id}`,
       data
@@ -84,7 +104,6 @@ export class CompetencesService {
   }
 
   initCompetences() {
-    console.log(competences)
     return this.httpClient
       .post<ICompetence[]>(
         `${environment.baseUrl}/administrator/competences/init`,
