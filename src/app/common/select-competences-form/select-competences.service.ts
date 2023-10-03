@@ -5,6 +5,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar'
 import { BehaviorSubject, catchError, tap } from 'rxjs'
 import { ISubject } from 'src/app/administrator/competences/competences.service'
 import { environment } from 'src/app/environment/environment.demo'
+import { SelectCompetencesFormComponent } from './select-competences-form.component'
 
 @Injectable({
   providedIn: 'root',
@@ -41,5 +42,11 @@ export class SelectCompetencesService {
 
   showToast(message: string, action = 'Close', config?: MatSnackBarConfig) {
     this.snackBar.open(message, action, config || { duration: 7000 })
+  }
+
+  selectCompetences() {
+    const dialogRef = this.dialog.open(SelectCompetencesFormComponent)
+
+    dialogRef.afterClosed().pipe(tap(console.info)).subscribe()
   }
 }

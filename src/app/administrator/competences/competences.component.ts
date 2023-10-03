@@ -30,6 +30,14 @@ class TreeCompetence implements ICompetence {
         max-height: 800px !important;
       }
     `,
+    `
+      .choose-subject-form {
+        width: 100%;
+      }
+      .choose-subject-form:hover {
+        cursor: pointer;
+      }
+    `,
   ],
 })
 export class CompetencesComponent implements OnInit {

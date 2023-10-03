@@ -9,7 +9,7 @@ import { AddButtonComponent } from './ui/add-button/add-button.component'
 import { TopicComponent } from './ui/topic/topic.component'
 import { SubTopicComponent } from './ui/sub-topic/sub-topic.component'
 import { CompetenceComponent } from './ui/competence/competence.component'
-import { AsyncCompetencesComponent } from './ui/async-competences/async-competences.component'
+import { SelectCompetencesComponent } from './teacher/select-competences-form/select-competences-form.component'
 
 const components = [
   TaskComponent,
@@ -19,17 +19,10 @@ const components = [
   TopicComponent,
   SubTopicComponent,
   CompetenceComponent,
-  AsyncCompetencesComponent,
 ]
 
 @NgModule({
-  imports: [
-    MaterialModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    UiModule,
-  ],
+  imports: [MaterialModule, CommonModule, FormsModule, ReactiveFormsModule],
   declarations: components,
   exports: components,
 })

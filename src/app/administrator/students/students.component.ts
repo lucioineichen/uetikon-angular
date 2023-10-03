@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
+import { UiService } from 'src/app/common/ui.service'
 
 @Component({
   selector: 'app-students',
   template: `
-    <p>
-      students works!
-    </p>
+    <button mat-raised-button color="primary" (click)="selectCompetences()">
+      Kompetenz Auswählen
+    </button>
   `,
-  styles: [
-  ]
+  styles: [],
 })
 export class StudentsComponent {
+  constructor(private uiService: UiService) {}
 
+  selectCompetences() {
+    this.uiService.selectCompetences()
+  }
 }

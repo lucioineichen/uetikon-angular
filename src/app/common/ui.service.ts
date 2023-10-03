@@ -4,14 +4,18 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar'
 import { Observable } from 'rxjs'
 
 import { SimpleDialogComponent } from './simple-dialog.component'
-import { ComponentType } from '@angular/cdk/portal'
 import { ConfirmDeletionDialogComponent } from './confirm-deletion-dialog.component'
+import { SelectCompetencesService } from './select-competences-form/select-competences.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class UiService {
-  constructor(private snackBar: MatSnackBar, private dialog: MatDialog) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private selectCompetencesService: SelectCompetencesService
+  ) {}
   showToast(message: string, action = 'Close', config?: MatSnackBarConfig) {
     this.snackBar.open(message, action, config || { duration: 7000 })
   }
@@ -39,5 +43,9 @@ export class UiService {
     })
 
     return dialogRef.afterClosed()
+  }
+
+  selectCompetences() {
+    this.selectCompetencesService.selectCompetences()
   }
 }

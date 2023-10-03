@@ -12,7 +12,7 @@ import { AuthService } from './auth/auth.service'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AuthHttpInterceptor } from './auth/auth-http-interceptor'
 import { LoginComponent } from './login/login.component'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CreateUserComponent } from './create-user/create-user.component'
 import { SimpleDialogComponent } from './common/simple-dialog.component'
 import { DjangoRestApiAuthService } from './auth/auth.djangoRestApi.service'
@@ -21,9 +21,11 @@ import { CommonModule } from '@angular/common'
 import { TaskComponent } from './ui/task/task.component'
 import { ConfirmDeletionDialogComponent } from './common/confirm-deletion-dialog.component'
 import { CompetencesComponent } from './competences/competences.component'
-import { CompetenceFormComponent } from './competences/competence-form/competence-form.component';
-import { ProfileComponent } from './profile/profile.component';
+import { CompetenceFormComponent } from './competences/competence-form/competence-form.component'
+import { ProfileComponent } from './profile/profile.component'
 import { SelectCompetencesFormComponent } from './common/select-competences-form/select-competences-form.component'
+import { UiModule } from './ui.module'
+import { TopicSelectComponent } from './common/select-competences-form/topic/topic.component'
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { SelectCompetencesFormComponent } from './common/select-competences-form
     CompetenceFormComponent,
     ProfileComponent,
     SelectCompetencesFormComponent,
+    TopicSelectComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,9 +48,11 @@ import { SelectCompetencesFormComponent } from './common/select-competences-form
     MaterialModule,
     FlexLayoutModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     CommonModule,
+    UiModule,
   ],
   providers: [
     { provide: AuthService, useClass: DjangoRestApiAuthService },

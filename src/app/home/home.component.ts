@@ -9,7 +9,6 @@ import { Router } from '@angular/router'
 export class HomeComponent {
   constructor(private auth: AuthService, private router: Router) {
     const role = this.auth.getToken()?.role
-
     if (role === 'student') {
       this.router.navigate(['student'])
     } else if (role === 'teacher') {

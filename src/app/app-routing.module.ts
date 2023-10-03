@@ -15,7 +15,6 @@ const routes: Routes = [
   { path: 'competences', component: CompetencesComponent },
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent },
-
   { path: 'create-user', component: CreateUserComponent },
   { path: 'login/:redirectUrl', component: LoginComponent },
   {
