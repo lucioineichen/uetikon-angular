@@ -9,15 +9,6 @@ export interface IStudentCourse {
   progress: number
 }
 
-export interface ICourse {
-  _id: number
-  name: string
-  credits: number
-  teachers: ITeacher[]
-  students: IStudent[]
-  chat: IChat
-}
-
 export interface IFolderRef {
   _id: number
   name: string
@@ -76,7 +67,7 @@ export class Student extends User implements IStudent {
 
 export interface ITeacher extends IUser {}
 
-export class Teacher extends User implements ITeacher{
+export class Teacher extends User implements ITeacher {
   constructor(
     _id = 0,
     email = '--',

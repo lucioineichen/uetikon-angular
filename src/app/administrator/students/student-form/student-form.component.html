@@ -1,0 +1,130 @@
+<mat-dialog-content class="mat-typography" style="width: 600px; padding: 20px">
+  <h2>Schüler Erstellen</h2>
+  <form
+    [formGroup]="studentForm"
+    fxLayout="column"
+    style="padding: 0 30px 0 30px"
+  >
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field fxFlex>
+        <input
+          matInput
+          placeholder="E-mail"
+          aria-label="E- mail"
+          formControlName="email"
+        />
+        <mat-error *ngIf="studentForm.get('email')?.hasError('required')">
+          E-mail is required
+        </mat-error>
+        <mat-error *ngIf="studentForm.get('email')?.hasError('email')">
+          E-mail is not valid
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field fxFlex>
+        <input
+          matInput
+          placeholder="Vorname"
+          aria-
+          label="Vorname"
+          type="text"
+          formControlName="firstName"
+        />
+        <mat-hint>Vorname</mat-hint>
+        <mat-error *ngIf="studentForm.get('firstName')?.hasError('required')">
+          firstName is required
+        </mat-error>
+        <mat-error *ngIf="studentForm.get('firstName')?.hasError('minlength')">
+          firstName is at least 2 characters long
+        </mat-error>
+        <mat-error *ngIf="studentForm.get('firstName')?.hasError('maxlength')">
+          firstName cannot be longer than 50 characters
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field fxFlex>
+        <input
+          matInput
+          placeholder="Zweitname"
+          aria-
+          label="middleName"
+          type="text"
+          formControlName="middleName"
+        />
+        <mat-hint>Zweitname</mat-hint>
+        <mat-error *ngIf="studentForm.get('middleName')?.hasError('minlength')">
+          middleName is at least 2 characters long
+        </mat-error>
+        <mat-error *ngIf="studentForm.get('middleName')?.hasError('maxlength')">
+          middleName cannot be longer than 50 characters
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field fxFlex>
+        <input
+          matInput
+          placeholder="Nachname"
+          aria-
+          label="Nachname"
+          type="text"
+          formControlName="lastName"
+        />
+        <mat-hint>Nachname</mat-hint>
+        <mat-error *ngIf="studentForm.get('lastName')?.hasError('required')">
+          lastName is required
+        </mat-error>
+        <mat-error *ngIf="studentForm.get('lastName')?.hasError('minlength')">
+          lastName is at least 2 characters long
+        </mat-error>
+        <mat-error *ngIf="studentForm.get('lastName')?.hasError('maxlength')">
+          lastName cannot be longer than 50 characters
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field fxFlex>
+        <mat-label>Klasse</mat-label>
+        <mat-select formControlName="class_ids" multiple>
+          <ng-container *ngIf="classes$ | async as classes; else loading">
+            <mat-option *ngFor="let class of classes" [value]="class._id">
+              {{ class.name }}
+            </mat-option>
+            <mat-option *ngIf="classes.length === 0"
+              >Es gibt noch keine Klassen</mat-option
+            >
+          </ng-container>
+          <ng-template #loading>
+            <mat-option> Lädt Klassen... </mat-option>
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </ng-template>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-radio-group formControlName="grade">
+        <mat-radio-button [value]="1">Sek 1</mat-radio-button>
+        <mat-radio-button [value]="2">sek 2</mat-radio-button>
+        <mat-radio-button [value]="3">sek 3</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close cdkFocusInitial>Abrechen</button>
+  <button
+    mat-button
+    [mat-dialog-close]="studentForm.value"
+    [disabled]="studentForm.invalid"
+  >
+    Speichern
+  </button>
+</mat-dialog-actions>

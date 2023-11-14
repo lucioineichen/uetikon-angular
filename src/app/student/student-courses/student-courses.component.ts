@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core'
 import { StudentService } from '../student.service'
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
-import { IStudentCourse } from 'src/app/interfaces'
+import { CourseService, ICoursePre } from './course.service'
 
-export const exampleStudentCourse: IStudentCourse = {
-  _id: 1,
-  name: 'Mathe',
-  credits: 6,
-  grade: 0.83,
-  progress: 0.29,
-}
+// export const exampleStudentCourse: IStudentCourse = {
+//   _id: 1,
+//   name: 'Mathe',
+//   credits: 6,
+//   grade: 0.83,
+//   progress: 0.29,
+// }
 
 @Component({
   selector: 'app-student-courses',
@@ -17,15 +17,15 @@ export const exampleStudentCourse: IStudentCourse = {
   styleUrls: ['./student-course.component.css'],
 })
 export class StudentCoursesComponent implements OnInit {
-  courses$: BehaviorSubject<IStudentCourse[] | undefined>
+  courses$: BehaviorSubject<ICoursePre[] | undefined>
 
-  example = exampleStudentCourse
+  // example = exampleStudentCourse
 
-  constructor(private studentService: StudentService) {
-    this.courses$ = this.studentService.courses$
+  constructor(private service: CourseService) {
+    this.courses$ = this.service.courses$
   }
 
   ngOnInit(): void {
-    this.studentService.updateCourses()
+    this.service.updateCourses()
   }
 }

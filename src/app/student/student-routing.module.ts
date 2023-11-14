@@ -5,10 +5,11 @@ import { StudentCoursesComponent } from './student-courses/student-courses.compo
 import { StudentCourseComponent } from './student-course/student-course.component'
 import { StudyJobComponent } from './study-job/study-job.component'
 import { TaskComponent } from './task/task.component'
+import { CompetencesComponent } from './competences/competences.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/student/courses', pathMatch: 'full' },
-  { path: 'home', component: StudentHomeComponent },
+  { path: 'competences', component: CompetencesComponent },
   { path: 'courses', component: StudentCoursesComponent },
   { path: 'course/:id', component: StudentCourseComponent },
   { path: 'study-job/:id', component: StudyJobComponent },

@@ -11,7 +11,10 @@ import { TeachersComponent } from './teachers/teachers.component'
 import { StudentsComponent } from './students/students.component'
 import { ParentsComponent } from './parents/parents.component'
 import { TeacherFormComponent } from './teachers/teacher-form/teacher-form.component'
-import { TeacherComponent } from './teachers/teacher/teacher.component'
+import { TeacherComponent } from './teachers/teacher/teacher.component';
+import { StudentFormComponent } from './students/student-form/student-form.component';
+import { ClassFormComponent } from './students/class-form/class-form.component';
+import { StudentComponent } from './students/student/student.component'
 
 @NgModule({
   declarations: [
@@ -22,6 +25,9 @@ import { TeacherComponent } from './teachers/teacher/teacher.component'
     ParentsComponent,
     TeacherFormComponent,
     TeacherComponent,
+    StudentFormComponent,
+    ClassFormComponent,
+    StudentComponent,
   ],
   imports: [
     CommonModule,

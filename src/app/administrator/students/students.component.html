@@ -1,0 +1,129 @@
+<div class="add-container">
+  <div>
+    <button
+      class="add"
+      mat-mini-fab
+      matTooltip="Erstellen"
+      aria-label="Erstellen"
+      color="primary"
+      [matMenuTriggerFor]="menu"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="addStudent()">Schüler</button>
+    <button mat-menu-item (click)="addClass()">Klasse</button>
+  </mat-menu>
+</div>
+
+<div
+  *ngIf="!students$.hasError; else error"
+  class="mat-typography"
+  style="
+    overflow-y: auto;
+    padding-top: 30px;
+    padding-left: 50px;
+    padding-right: 100px;
+  "
+>
+  <div
+    *ngIf="students$ | async as students; else loading"
+    style="margin-bottom: 50px"
+  >
+    <div *ngIf="students.length > 0; else nostudents">
+      <mat-form-field style="width: 100%" appearance="outline">
+        <mat-label>Suche</mat-label>
+
+        <input
+          matInput
+          [formControl]="searchControl"
+          placeholder="Suche beim Namen"
+        />
+      </mat-form-field>
+      <mat-grid-list
+        cols="5"
+        rowHeight="40px"
+        *ngIf="filteredStudents$ | async as fstudents"
+      >
+        <mat-grid-tile *ngFor="let student of fstudents">
+          <div
+            class="student"
+            (click)="navigateToStudent(student)"
+            matSubheader
+          >
+            {{ student.fullName | titlecase }}
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+
+  <div *ngIf="classes$ | async as classes">
+    <h1 style="margin-bottom: 0">Klassen</h1>
+    <mat-list>
+      <div mat-subheader style="display: flex; align-items: center">
+        <button mat-icon-button (click)="showSek1 = !showSek1">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{ showSek1 ? "expand_more" : "chevron_right" }}
+          </mat-icon>
+        </button>
+        Klassen Sek 1
+      </div>
+      <div *ngIf="showSek1">
+        <mat-list-item *ngFor="let class of classes.filter(classFilter(1))">
+          <div matListItemTitle>{{ class.name }}</div>
+          <div matListItemLine>Anzahl Schüler: {{ class.studentCount }}</div>
+        </mat-list-item>
+        <mat-list-item *ngIf="classes.filter(classFilter(1)).length === 0">
+          Es gibt noch keine Klassen
+        </mat-list-item>
+      </div>
+
+      <mat-divider></mat-divider>
+      <div mat-subheader style="display: flex; align-items: center">
+        <button mat-icon-button (click)="showSek2 = !showSek2">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{ showSek2 ? "expand_more" : "chevron_right" }}
+          </mat-icon>
+        </button>
+        Klassen Sek 2
+      </div>
+      <div *ngIf="showSek2">
+        <mat-list-item *ngFor="let class of classes.filter(classFilter(2))">
+          <div matListItemTitle>{{ class.name }}</div>
+          <div matListItemLine>Anzahl Schüler: {{ class.studentCount }}</div>
+        </mat-list-item>
+        <mat-list-item *ngIf="classes.filter(classFilter(2)).length === 0">
+          Es gibt noch keine Klassen
+        </mat-list-item>
+      </div>
+      <mat-divider></mat-divider>
+
+      <div mat-subheader style="display: flex; align-items: center">
+        <button mat-icon-button (click)="showSek3 = !showSek3">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{ showSek3 ? "expand_more" : "chevron_right" }}
+          </mat-icon>
+        </button>
+        Klassen Sek 3
+      </div>
+      <div *ngIf="showSek3">
+        <mat-list-item *ngFor="let class of classes.filter(classFilter(3))">
+          <div matListItemTitle>{{ class.name }}</div>
+          <div matListItemLine>Anzahl Schüler: {{ class.studentCount }}</div>
+        </mat-list-item>
+        <mat-list-item *ngIf="classes.filter(classFilter(3)).length === 0">
+          Es gibt noch keine Klassen
+        </mat-list-item>
+      </div>
+    </mat-list>
+  </div>
+</div>
+
+<ng-template #nostudents> Es gibt noch keine Schüler </ng-template>
+
+<ng-template #error
+  >Schüler konnten nicht geladen werden, lade die Seite neu</ng-template
+>
+<ng-template #loading>Lädt Schüler...</ng-template>

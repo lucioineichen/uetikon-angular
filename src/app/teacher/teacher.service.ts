@@ -11,7 +11,6 @@ import {
 } from 'rxjs'
 import {
   ICompetence,
-  ICourse,
   IFolder,
   IStudent,
   IStudyJob,
@@ -26,11 +25,9 @@ import { AddStudentsDialogComponent } from './add-students-dialog/add-students-d
 import { ICreateCourseData } from './teacher-courses/teacher-courses.component'
 
 export interface ITeacherService {
-  readonly courses$: ReplaySubject<ICourse[]>
   readonly students$: ReplaySubject<IStudent[]>
   readonly competences$: ReplaySubject<ICompetence[]>
   updateCompetences(): void
-  updateCourses(): void
   updateStudents(): void
   getStudyJobs(repoId: number): Observable<IStudyJob[]>
   addTask(taskData: any, job: IStudyJob): Observable<ITask>
@@ -40,7 +37,6 @@ export interface ITeacherService {
   providedIn: 'root',
 })
 export class TeacherService implements ITeacherService {
-  readonly courses$ = new ReplaySubject<ICourse[]>(1)
   readonly students$ = new ReplaySubject<IStudent[]>(1)
   readonly competences$ = new ReplaySubject<ICompetence[]>(1)
 
@@ -49,19 +45,6 @@ export class TeacherService implements ITeacherService {
     private uiService: UiService,
     private dialog: MatDialog
   ) {}
-
-  private getCourses(): Observable<ICourse[]> {
-    return this.httpClient
-      .get<ICourse[]>(`${environment.baseUrl}/user/courses`)
-      .pipe(
-        tap((courses) =>
-          courses.forEach((course) => {
-            course.students = course.students.map(Student.Build)
-            course.teachers = course.teachers.map(Teacher.Build)
-          })
-        )
-      )
-  }
 
   private getStudents(): Observable<IStudent[]> {
     return this.httpClient
@@ -98,23 +81,6 @@ export class TeacherService implements ITeacherService {
     })
   }
 
-  createCourse(data: ICreateCourseData) {
-    console.log('data to create course with (createCourse()): ', data)
-    return this.httpClient
-      .post<ICourse[]>(`${environment.baseUrl}/courses`, data)
-      .pipe(tap((courses) => this.courses$.next(courses)))
-  }
-
-  updateCourses() {
-    this.getCourses().subscribe({
-      next: (courses) => this.courses$.next(courses),
-      error: (e: Error) => {
-        this.uiService.showToast('Kurse konnten nicht geladen werden')
-        this.courses$.error(new Error('server 500'))
-      },
-    })
-  }
-
   updateStudents() {
     this.getStudents().subscribe({
       next: (students) => this.students$.next(students),
@@ -135,17 +101,6 @@ export class TeacherService implements ITeacherService {
         return data ? [...data] : null
       })
     ) as Observable<IStudent[] | null>
-  }
-
-  getCourse(id: number) {
-    return this.httpClient
-      .get<ICourse>(`${environment.baseUrl}/course/${id}`)
-      .pipe(
-        tap((course) => {
-          course.students = course.students.map(Student.Build)
-          course.teachers = course.teachers.map(Teacher.Build)
-        })
-      )
   }
 
   getFolder(id: number) {

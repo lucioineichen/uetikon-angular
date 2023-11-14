@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { TopicComponent } from './topic.component';
+import { TopicSelectComponent } from './topic.component'
 
-describe('TopicComponent', () => {
-  let component: TopicComponent;
-  let fixture: ComponentFixture<TopicComponent>;
+describe('TopicSelectComponent', () => {
+  let component: TopicSelectComponent
+  let fixture: ComponentFixture<TopicSelectComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TopicComponent ]
-    })
-    .compileComponents();
+      declarations: [TopicSelectComponent],
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(TopicComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(TopicSelectComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

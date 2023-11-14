@@ -1,10 +1,10 @@
 import { FlatTreeControl } from '@angular/cdk/tree'
 import { Component, Input } from '@angular/core'
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
-import { ICompetence } from 'src/app/administrator/competences/competences.service'
+import { ICompetence } from 'src/app/competences_data/competences.data'
 
 interface CompetenceNode {
-  _id: number
+  _id: string
   name: string
   children?: CompetenceNode[]
 }
@@ -48,7 +48,7 @@ export class CompetenceComponent {
 
   private readonly map_sub_competence = (subCompetence: string) => {
     return {
-      _id: 0,
+      _id: '0',
       name: subCompetence,
     }
   }

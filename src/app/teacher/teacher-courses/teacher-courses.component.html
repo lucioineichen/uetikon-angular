@@ -1,10 +1,13 @@
-<div style="position: absolute; right: 0; padding: 16px">
+<div
+  style="position: absolute; right: 0; padding: 16px"
+  *ngIf="courses$ | async"
+>
   <button
     mat-mini-fab
     matTooltip="Kurs Erstellen"
     aria-label="Kurs Erstellen"
     color="primary"
-    (click)="openCourseCreator()"
+    (click)="service.addCourse()"
   >
     <mat-icon>add</mat-icon>
   </button>
@@ -29,11 +32,11 @@
             </mat-card-header>
             <mat-card-content>
               <div>
-                {{ course.teachers.length }}
+                {{ course.teacherCount }}
                 <mat-icon svgIcon="teacher"></mat-icon>
               </div>
               <div>
-                {{ course.students.length }}
+                {{ course.studentCount }}
                 <mat-icon svgIcon="student"></mat-icon>
               </div>
             </mat-card-content>
@@ -45,7 +48,7 @@
 </div>
 
 <ng-template #loading>
-  <div *ngIf="!isError; else error">Lädt kurse...</div></ng-template
+  <div *ngIf="!courses$.hasError; else error">Lädt kurse...</div></ng-template
 >
 
 <ng-template #error

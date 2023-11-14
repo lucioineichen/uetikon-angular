@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { BehaviorSubject, ReplaySubject, map, tap } from 'rxjs'
+import { BehaviorSubject, ReplaySubject, catchError, map, tap } from 'rxjs'
 import { Role } from 'src/app/auth/auth.enum'
 import { UiService } from 'src/app/common/ui.service'
-import { ICourse, IFile, IMessage, IStudent, Student } from 'src/app/interfaces'
+import { IFile, IMessage, IStudent, Student } from 'src/app/interfaces'
 import { User } from 'src/app/user/user'
 import { StudentService } from '../student.service'
+import { CourseService, ICourse } from './course.service'
 
 @Component({
   selector: 'app-student-course',
@@ -15,7 +16,6 @@ import { StudentService } from '../student.service'
 export class StudentCourseComponent implements OnInit {
   course$ = new ReplaySubject<ICourse>(1)
   id: number
-  errorMessage?: string
   newMessage: string = ''
   isChatOpen = false
 
@@ -31,7 +31,7 @@ export class StudentCourseComponent implements OnInit {
   constructor(
     protected route: ActivatedRoute,
     private router: Router,
-    private studentService: StudentService,
+    private service: CourseService,
     private uiService: UiService
   ) {
     this.id = this.route.snapshot.params['id']
@@ -46,23 +46,17 @@ export class StudentCourseComponent implements OnInit {
   editPath() {}
 
   ngOnInit(): void {
-    this.studentService
+    this.service
       .getCourse(this.id)
       .pipe(
-        tap((course) => {
-          course.students = course.students.map(Student.Build)
+        tap((course) => this.course$.next(course)),
+        catchError((err) => {
+          this.uiService.showToast('Kurs konnte nicht geladen werden')
+          this.course$.error('server 500')
+          return err
         })
       )
-      .subscribe({
-        next: (course) => {
-          this.course$.next(course)
-          console.log(course)
-        },
-        error: (err) => {
-          this.uiService.showToast('Kurs konnte nicht geladen werden')
-          this.errorMessage = 'Kurs konnte nicht geladen werden'
-        },
-      })
+      .subscribe()
   }
 
   toggleChat(): void {

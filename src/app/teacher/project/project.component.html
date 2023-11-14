@@ -1,5 +1,4 @@
-<div style="position: absolute; top: 0; width: 100%; z-index: 100">
-  <!-- Sub Header -->
+<!-- <div style="position: absolute; top: 0; width: 100%; z-index: 100">
   <mat-toolbar color="primary" fxLayoutGap="8px">
     <a mat-button routerLink="/teacher/projects"
       ><mat-icon>arrow_back</mat-icon> Zurück</a
@@ -9,7 +8,6 @@
     >
   </mat-toolbar>
 
-  <!-- Content -->
   <div *ngIf="!project$.hasError; else error">
     <div
       *ngIf="project$ | async as project; else loading"
@@ -147,7 +145,6 @@
     </button>
   </div>
 
-  <!-- chat -->
   <div class="chat-container" [ngClass]="{ 'chat-open': isChatOpen }">
     <div class="chat-header">
       <h3>Chat</h3>
@@ -183,4 +180,4 @@
       </button>
     </div>
   </div>
-</div>
+</div> -->

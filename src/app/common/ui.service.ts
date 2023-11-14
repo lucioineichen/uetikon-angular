@@ -11,14 +11,12 @@ import { SelectCompetencesService } from './select-competences-form/select-compe
   providedIn: 'root',
 })
 export class UiService {
-  constructor(
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog,
-    private selectCompetencesService: SelectCompetencesService
-  ) {}
+  constructor(private snackBar: MatSnackBar, private dialog: MatDialog) {}
+
   showToast(message: string, action = 'Close', config?: MatSnackBarConfig) {
     this.snackBar.open(message, action, config || { duration: 7000 })
   }
+
   showDialog(
     title: string,
     content: string,
@@ -43,9 +41,5 @@ export class UiService {
     })
 
     return dialogRef.afterClosed()
-  }
-
-  selectCompetences() {
-    this.selectCompetencesService.selectCompetences()
   }
 }

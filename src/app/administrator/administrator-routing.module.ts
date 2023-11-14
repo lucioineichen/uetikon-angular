@@ -5,6 +5,7 @@ import { ParentsComponent } from './parents/parents.component'
 import { StudentsComponent } from './students/students.component'
 import { TeachersComponent } from './teachers/teachers.component'
 import { TeacherComponent } from './teachers/teacher/teacher.component'
+import { StudentComponent } from './students/student/student.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/administrator/competences', pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'teachers', component: TeachersComponent },
   { path: 'teachers/:id', component: TeacherComponent },
   { path: 'students', component: StudentsComponent },
+  { path: 'students/:id', component: StudentComponent },
   { path: 'parents', component: ParentsComponent },
 ]
 

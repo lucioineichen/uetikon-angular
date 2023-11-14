@@ -8,7 +8,7 @@
       <mat-grid-list cols="4" rowHeight="200px">
         <mat-grid-tile *ngFor="let course of courses"
           ><mat-card
-            [routerLink]="'/student/course/' + example._id"
+            [routerLink]="'/student/course/' + course._id"
             class="course"
             mat-ripple
           >

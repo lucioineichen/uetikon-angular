@@ -19,6 +19,14 @@
     routerLinkActive="active-link"
     >Kurse</a
   >
+  <a
+    class="link"
+    *ngIf="auth.status?.userRole === 'student'"
+    mat-button
+    routerLink="/student/competences"
+    routerLinkActive="active-link"
+    >Kompetenzen</a
+  >
 
   <!-- Teacher Routes -->
 
@@ -72,13 +80,6 @@
       routerLink="/administrator/students"
       routerLinkActive="active-link"
       >Schüler</a
-    >
-    <a
-      class="link"
-      mat-button
-      routerLink="/administrator/parents"
-      routerLinkActive="active-link"
-      >Eltern</a
     >
   </div>
 

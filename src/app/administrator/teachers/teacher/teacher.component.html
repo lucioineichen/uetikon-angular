@@ -45,12 +45,7 @@
 <div *ngIf="!teacher$.hasError; else error">
   <div
     *ngIf="teacher$ | async as teacher; else loading"
-    style="
-      position: relative;
-      padding-top: 50px;
-      padding-left: 300px;
-      padding-right: 100px;
-    "
+    style="position: relative; padding-top: 50px; padding-left: 15vw"
   >
     <div style="width: 600px">
       <div

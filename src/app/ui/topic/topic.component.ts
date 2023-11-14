@@ -5,10 +5,10 @@ import {
   ICompetence,
   ISubTopic,
   ITopic,
-} from 'src/app/administrator/competences/competences.service'
+} from 'src/app/competences_data/competences.data'
 
 interface CompetenceNode {
-  _id: number
+  _id: string
   name: string
   children?: CompetenceNode[]
 }
@@ -52,7 +52,7 @@ export class TopicComponent implements OnInit {
 
   private readonly map_sub_competence = (subCompetence: string) => {
     return {
-      _id: 0,
+      _id: '0',
       name: subCompetence,
     }
   }
@@ -76,17 +76,16 @@ export class TopicComponent implements OnInit {
   private readonly map_topic: (topic: ITopic) => CompetenceNode = (
     topic: ITopic
   ) => {
-    if (topic.name === 'BO.1  - Persönlichkeitsprofil') {
-      console.log(topic.name + ': ')
-      console.log(topic)
-    }
-    return {
+    const competences: CompetenceNode[] | undefined = topic.competences?.map(
+      this.map_competence
+    )
+    const _topic: CompetenceNode = {
       _id: topic._id,
       name: topic.name,
-      children:
-        topic.competences?.map(this.map_competence) ||
-        topic.subTopics?.map(this.map_sub_topic),
+      children: competences || topic.subTopics?.map(this.map_sub_topic),
     }
+
+    return _topic
   }
 
   ngOnInit(): void {

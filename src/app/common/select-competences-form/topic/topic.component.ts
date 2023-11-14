@@ -1,9 +1,8 @@
 import { Component, Input } from '@angular/core'
-
 import {
-  TreeCompetence,
-  TreeSubTopic,
-} from '../select-competences-form.component'
+  SelectCompetence,
+  SelectSubTopic,
+} from '../select-competences.interface'
 
 @Component({
   selector: 'app-select-topic',
@@ -11,6 +10,6 @@ import {
   styles: [],
 })
 export class TopicSelectComponent {
-  @Input() competences: undefined | TreeCompetence[]
-  @Input() subTopics: undefined | TreeSubTopic[]
+  @Input() competences: undefined | SelectCompetence[]
+  @Input() subTopics: undefined | SelectSubTopic[]
 }

@@ -64,7 +64,6 @@ export class DjangoRestApiAuthService extends AuthService {
       map(User.Build),
       tap((currentUser) => {
         this.currentUser$.next(currentUser)
-        console.log('currentUser: ', currentUser)
       })
     )
   }

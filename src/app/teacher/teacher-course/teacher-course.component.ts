@@ -9,14 +9,14 @@ import {
   mergeMap,
   tap,
 } from 'rxjs'
-import { ICourse, IMessage, IStudent, Student } from 'src/app/interfaces'
+import { IMessage, IStudent, Student } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
 import { UiService } from 'src/app/common/ui.service'
 import { Role } from 'src/app/auth/auth.enum'
 import { IUser, User } from 'src/app/user/user'
 import { MatDialog } from '@angular/material/dialog'
 import { ChooseStudyJobsDialogComponent } from '../choose-study-jobs-dialog/choose-study-jobs-dialog.component'
-import { CourseService } from './course.service'
+import { CourseService, ICourse } from './course.service'
 
 @Component({
   selector: 'app-teacher-course',
@@ -52,18 +52,7 @@ export class TeacherCourseComponent implements OnInit {
     this.courseName = this.route.snapshot.queryParams['name']
   }
 
-  ngOnInit(): void {
-    this.teacherService.getCourse(this.id).subscribe({
-      next: (course) => {
-        this.course$.next(course)
-        console.log(course)
-      },
-      error: (err) => {
-        this.uiService.showToast('Kurs konnte nicht geladen werden')
-        this.errorMessage = 'Kurs konnte nicht geladen werden'
-      },
-    })
-  }
+  ngOnInit(): void {}
 
   editStudents() {
     const course = this.course$.value

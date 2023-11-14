@@ -11,7 +11,8 @@ import { StudyPathComponent } from './study-path/study-path.component'
 import { StudentComponent } from './student.component'
 import { UiModule } from '../ui.module';
 import { StudyJobComponent } from './study-job/study-job.component';
-import { TaskComponent } from './task/task.component'
+import { TaskComponent } from './task/task.component';
+import { CompetencesComponent } from './competences/competences.component'
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { TaskComponent } from './task/task.component'
     StudentComponent,
     StudyJobComponent,
     TaskComponent,
+    CompetencesComponent,
   ],
   imports: [
     CommonModule,

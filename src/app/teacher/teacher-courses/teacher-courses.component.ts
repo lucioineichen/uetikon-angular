@@ -1,11 +1,10 @@
 import { Component } from '@angular/core'
-import { Observable, catchError, tap } from 'rxjs'
-import { ICourse, IStudent } from 'src/app/interfaces'
-import { TeacherService } from '../teacher.service'
+import { catchError } from 'rxjs'
 import { MatDialog } from '@angular/material/dialog'
 import { TeacherCourseCreatorDialogComponent } from './teacher-course-creator-dialog/teacher-course-creator-dialog.component'
 import { UiService } from 'src/app/common/ui.service'
 import { Router } from '@angular/router'
+import { CourseService } from './course.service'
 
 export interface ICreateCourseData {
   name: string
@@ -32,21 +31,17 @@ export interface ICreateCourseData {
   ],
 })
 export class TeacherCoursesComponent {
-  courses$: Observable<ICourse[]>
-  isError = false
+  courses$ = this.service.courses$
 
   constructor(
-    private teacherService: TeacherService,
+    protected service: CourseService,
     private dialog: MatDialog,
     private uiService: UiService,
     private router: Router
-  ) {
-    this.courses$ = this.teacherService.courses$.pipe(
-      catchError((err, caugt) => {
-        this.isError = true
-        return caugt
-      })
-    )
+  ) {}
+
+  ngOnInit(): void {
+    this.service.updateCourses()
   }
 
   openCourse(id: number, name: string) {
@@ -55,29 +50,5 @@ export class TeacherCoursesComponent {
         name,
       },
     })
-  }
-
-  ngOnInit(): void {
-    this.teacherService.updateCourses()
-  }
-
-  openCourseCreator() {
-    const dialogRef = this.dialog.open(TeacherCourseCreatorDialogComponent)
-
-    dialogRef.afterClosed().subscribe((data) => {
-      if (data && data.name && data.credits) this.createCourse(data)
-    })
-  }
-
-  createCourse(data: ICreateCourseData) {
-    this.teacherService
-      .createCourse(data)
-      .pipe(
-        catchError((err, caught) => {
-          this.uiService.showToast('Kurs konnte nicht erstellt werden')
-          return err
-        })
-      )
-      .subscribe()
   }
 }

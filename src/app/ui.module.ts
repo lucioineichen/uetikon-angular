@@ -10,6 +10,7 @@ import { TopicComponent } from './ui/topic/topic.component'
 import { SubTopicComponent } from './ui/sub-topic/sub-topic.component'
 import { CompetenceComponent } from './ui/competence/competence.component'
 import { SelectCompetencesComponent } from './teacher/select-competences-form/select-competences-form.component'
+import { SelectClassesComponent } from './ui/select-classes/select-classes.component'
 
 const components = [
   TaskComponent,
@@ -19,6 +20,7 @@ const components = [
   TopicComponent,
   SubTopicComponent,
   CompetenceComponent,
+  SelectClassesComponent,
 ]
 
 @NgModule({

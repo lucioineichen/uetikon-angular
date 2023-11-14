@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core'
-import {
-  CompetencesService,
-  ICompetence,
-  ISubject,
-  ITopic,
-} from './competences.service'
+import { CompetencesService } from './competences.service'
 import { FormControl } from '@angular/forms'
 import { BehaviorSubject, combineLatest, filter, map, tap } from 'rxjs'
+import { DSVRowString } from 'd3'
+import {
+  ICompetence,
+  ISubject,
+} from 'src/app/competences_data/competences.data'
+import { CompetencesDataService } from 'src/app/competences_data/competences-data.service'
 
 class TreeCompetence implements ICompetence {
   constructor(
-    public _id: number,
+    public _id: string,
     public name: string,
     public subCompetences: string[],
     public expanded = false
@@ -41,7 +42,7 @@ class TreeCompetence implements ICompetence {
   ],
 })
 export class CompetencesComponent implements OnInit {
-  readonly subjects$ = this.serivce.subjects$
+  readonly subjects: ISubject[]
   readonly searchControl = new FormControl()
   readonly subjectControl = new FormControl()
 
@@ -55,28 +56,27 @@ export class CompetencesComponent implements OnInit {
     map((competences) => competences?.map(TreeCompetence.Build))
   )
 
-  constructor(private serivce: CompetencesService) {}
-
-  init() {
-    this.serivce.initCompetences()
+  constructor(
+    private serivce: CompetencesService,
+    private competenceData: CompetencesDataService
+  ) {
+    this.subjects = this.competenceData.get_competences()
   }
 
-  subject(id: number) {
-    return this.subjects$.value?.find((subject) => subject._id === id)
+  subject(id: string) {
+    return this.subjects.find((subject) => subject._id === id)
   }
 
-  openSubject(id: number) {
+  openSubject(id: string) {
     this.subjectControl.setValue(id)
   }
 
   ngOnInit(): void {
-    this.serivce.updateCompetences()
-
     this.subjectControl.valueChanges
       .pipe(
         tap((id) =>
           this.selectedSubject$.next(
-            this.subjects$.value?.find((subject) => subject._id === id)
+            this.subjects.find((subject) => subject._id === id)
           )
         )
       )

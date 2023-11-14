@@ -26,6 +26,9 @@ import { ProfileComponent } from './profile/profile.component'
 import { SelectCompetencesFormComponent } from './common/select-competences-form/select-competences-form.component'
 import { UiModule } from './ui.module'
 import { TopicSelectComponent } from './common/select-competences-form/topic/topic.component'
+import { SelectClassesComponent } from './ui/select-classes/select-classes.component';
+import { AllSubjectsComponent } from './common/select-competences-form/all-subjects/all-subjects.component';
+import { SelectedSubjectComponent } from './common/select-competences-form/selected-subject/selected-subject.component'
 
 @NgModule({
   declarations: [
@@ -41,6 +44,8 @@ import { TopicSelectComponent } from './common/select-competences-form/topic/top
     ProfileComponent,
     SelectCompetencesFormComponent,
     TopicSelectComponent,
+    AllSubjectsComponent,
+    SelectedSubjectComponent,
   ],
   imports: [
     BrowserModule,

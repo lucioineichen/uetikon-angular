@@ -4,10 +4,10 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import {
   ICompetence,
   ISubTopic,
-} from 'src/app/administrator/competences/competences.service'
+} from 'src/app/competences_data/competences.data'
 
 interface CompetenceNode {
-  _id: number
+  _id: string
   name: string
   children?: CompetenceNode[]
 }
@@ -51,7 +51,7 @@ export class SubTopicComponent {
 
   private readonly map_sub_competence = (subCompetence: string) => {
     return {
-      _id: 0,
+      _id: '0',
       name: subCompetence,
     }
   }

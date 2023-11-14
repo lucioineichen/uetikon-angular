@@ -22,12 +22,16 @@
         />
       </mat-form-field>
       <mat-grid-list
-        cols="8"
+        cols="5"
         rowHeight="40px"
         *ngIf="filteredTeachers$ | async as fTeachers"
       >
         <mat-grid-tile *ngFor="let teacher of fTeachers">
-          <div class="teacher" (click)="navigateToTeacher(teacher)">
+          <div
+            mat-subheader
+            class="teacher"
+            (click)="navigateToTeacher(teacher)"
+          >
             {{ teacher.fullName | titlecase }}
           </div>
         </mat-grid-tile>
