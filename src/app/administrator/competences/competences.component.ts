@@ -57,7 +57,7 @@ export class CompetencesComponent implements OnInit {
   )
 
   constructor(
-    private serivce: CompetencesService,
+    protected service: CompetencesService,
     private competenceData: CompetencesDataService
   ) {
     this.subjects = this.competenceData.get_competences()

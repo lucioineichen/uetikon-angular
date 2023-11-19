@@ -55,28 +55,28 @@ export class TeacherCourseComponent implements OnInit {
   ngOnInit(): void {}
 
   editStudents() {
-    const course = this.course$.value
-    if (!course) return
-    this.teacherService
-      .selectStudents([...course.students])
-      .pipe(
-        filter((students) => {
-          return students !== null
-        }),
-        map((students) => students as IStudent[]),
-        mergeMap((students) =>
-          this.courseService.editStudents(course, students)
-        ),
-        map((students) => students.map(Student.Build)),
-        tap((students) => {
-          course.students = students
-        }),
-        catchError((err) => {
-          this.uiService.showToast('Schüler konnten nicht verändert werden')
-          return err
-        })
-      )
-      .subscribe()
+    // const course = this.course$.value
+    // if (!course) return
+    // this.teacherService
+    //   .selectStudents([...course.students])
+    //   .pipe(
+    //     filter((students) => {
+    //       return students !== null
+    //     }),
+    //     map((students) => students as IStudent[]),
+    //     mergeMap((students) =>
+    //       this.courseService.editStudents(course, students)
+    //     ),
+    //     map((students) => students.map(Student.Build)),
+    //     tap((students) => {
+    //       course.students = students
+    //     }),
+    //     catchError((err) => {
+    //       this.uiService.showToast('Schüler konnten nicht verändert werden')
+    //       return err
+    //     })
+    //   )
+    //   .subscribe()
   }
 
   addStudyJobs() {

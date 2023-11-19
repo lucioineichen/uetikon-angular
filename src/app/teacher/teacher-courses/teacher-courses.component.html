@@ -15,14 +15,35 @@
 
 <!-- content -->
 <div *ngIf="courses$ | async as courses; else loading">
-  <div *ngIf="courses.length; else noCourses" style="padding: 40px">
-    <mat-grid-list cols="4  " rowHeight="340px">
-      <mat-grid-tile *ngFor="let course of courses"
-        ><mat-card
+  <div *ngIf="courses.length; else noCourses" style="padding: 60px 60px">
+    <mat-grid-list
+      cols="4"
+      gutterSize="20px"
+      rowHeight="240px"
+      [cols]="breakpoint"
+      (window:resize)="onResize($event)"
+    >
+      <mat-grid-tile *ngFor="let course of courses">
+        <mat-card
+          [ngClass]="{ project: course.isProject }"
           (click)="openCourse(course._id, course.name)"
           class="course-card"
           mat-ripple
+          style="overflow: visible"
         >
+          <img
+            *ngIf="course.isProject"
+            style="
+              height: 45px;
+              position: absolute;
+              right: -15px;
+              top: -15px;
+              transform: rotate(10deg);
+              z-index: 1000;
+            "
+            src="../../../assets/light-bulb-svgrepo-com.svg"
+            alt="no svg"
+          />
           <div style="width: 250px; padding: 20px 40px">
             <mat-card-header>
               <mat-card-title>{{ course.name }}</mat-card-title>

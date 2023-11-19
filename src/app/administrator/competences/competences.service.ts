@@ -18,20 +18,25 @@ export class CompetencesService {
 
   constructor(
     private httpClient: HttpClient,
-    private uiService: UiService,
-    private dialog: MatDialog
+    private data: CompetencesDataService,
+    private ui: UiService
   ) {}
 
-  deleteCompetence(id: number) {
-    return this.httpClient.delete<ICompetence[]>(
-      `${environment.baseUrl}/administrator/competences/${id}`
-    )
-  }
-
-  putCompetence(data: any, id: number) {
-    return this.httpClient.put<ICompetence[]>(
-      `${environment.baseUrl}/administrator/competences/${id}`,
-      data
-    )
+  init() {
+    return this.httpClient
+      .post<ICompetence[]>(
+        `${environment.baseUrl}/administrator/competences/init`,
+        { subjects: this.data.get_competences() }
+      )
+      .pipe(
+        tap(() => this.ui.showToast('Erfolgreich Kompetenzen Initialisiert')),
+        catchError((err) => {
+          this.ui.showToast(
+            'Fehler: Kompetenzen konnten nicht initalisiert werden'
+          )
+          return err
+        })
+      )
+      .subscribe()
   }
 }

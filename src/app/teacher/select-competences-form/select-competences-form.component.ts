@@ -22,7 +22,7 @@ import { ActivatedRoute, Router } from '@angular/router'
   templateUrl: './select-competences-form.component.html',
   styles: [],
 })
-export class SelectCompetencesComponent implements OnInit {
+export class SelectCompetencesComponent {
   competences$: BehaviorSubject<ICompetence[] | undefined>
   searchControl = new FormControl()
   filteredCompetences$!: Observable<ICompetence[]>
@@ -47,10 +47,6 @@ export class SelectCompetencesComponent implements OnInit {
         return this.filterCompetences(value[0], value[1])
       })
     )
-  }
-
-  ngOnInit(): void {
-    this.service.updateCompetences()
   }
 
   filterCompetences(

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { catchError } from 'rxjs'
 import { MatDialog } from '@angular/material/dialog'
 import { TeacherCourseCreatorDialogComponent } from './teacher-course-creator-dialog/teacher-course-creator-dialog.component'
@@ -28,9 +28,14 @@ export interface ICreateCourseData {
         transition: all 200ms ease;
       }
     `,
+    `
+      .project {
+      }
+    `,
   ],
 })
-export class TeacherCoursesComponent {
+export class TeacherCoursesComponent implements OnInit {
+  breakpoint = 4
   courses$ = this.service.courses$
 
   constructor(
@@ -42,6 +47,18 @@ export class TeacherCoursesComponent {
 
   ngOnInit(): void {
     this.service.updateCourses()
+    this.breakpoint = this.calcBreakpoint(window.innerWidth)
+  }
+
+  onResize(event: any) {
+    this.breakpoint = this.calcBreakpoint(event.target.innerWidth)
+  }
+
+  private calcBreakpoint(width: number) {
+    if (width > 1580) return 4
+    if (width > 1200) return 3
+    if (width > 850) return 2
+    return 1
   }
 
   openCourse(id: number, name: string) {

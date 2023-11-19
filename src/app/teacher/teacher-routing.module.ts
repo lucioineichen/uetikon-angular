@@ -10,6 +10,7 @@ import { ProjectsComponent } from './projects/projects.component'
 import { ProjectComponent } from './project/project.component'
 import { StudentsComponent } from './students/students.component'
 import { StudentComponent } from './student/student.component'
+import { UfkComponent } from './ufk/ufk.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/teacher/courses/overview', pathMatch: 'full' },
@@ -37,6 +38,7 @@ const routes: Routes = [
   },
   { path: 'study-jobs', component: TeacherStudyJobsComponent },
   { path: 'students', component: StudentsComponent },
+  { path: 'students/ufk', component: UfkComponent },
   { path: 'students/:id', component: StudentComponent },
 ]
 

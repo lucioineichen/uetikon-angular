@@ -1,20 +1,22 @@
-<mat-accordion *ngIf="subject$ | async as subject" multi>
-  <mat-expansion-panel *ngFor="let topic of subject.topics">
-    <mat-expansion-panel-header>
-      <mat-panel-title> {{ topic.name }} </mat-panel-title>
-    </mat-expansion-panel-header>
+<div *ngIf="!(competences$ | async)">
+  <mat-accordion *ngIf="subject$ | async as subject">
+    <mat-expansion-panel *ngFor="let topic of subject.topics">
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{ topic.name }} </mat-panel-title>
+      </mat-expansion-panel-header>
 
-    <app-select-topic
-      *ngIf="topic.subTopics"
-      [subTopics]="topic.subTopics"
-    ></app-select-topic>
+      <app-select-topic
+        *ngIf="topic.subTopics"
+        [subTopics]="topic.subTopics"
+      ></app-select-topic>
 
-    <app-select-topic
-      *ngIf="topic.competences"
-      [competences]="topic.competences"
-    ></app-select-topic>
-  </mat-expansion-panel>
-</mat-accordion>
+      <app-select-topic
+        *ngIf="topic.competences"
+        [competences]="topic.competences"
+      ></app-select-topic>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
 
 <mat-accordion
   *ngIf="competences$ | async as competences"
@@ -35,9 +37,12 @@
 
     <div *ngFor="let competence of competences">
       <div style="display: flex; align-items: center; padding-bottom: 10px">
-        <mat-checkbox [(ngModel)]="competence.isSelected">
-          {{ competence.name }}
-        </mat-checkbox>
+        <mat-checkbox
+          style="padding: 5px 5px 10px 5px"
+          [checked]="service.isSelected(competence._id)"
+          (change)="service.toggleSelection($event, competence._id)"
+          >{{ competence.name }}</mat-checkbox
+        >
       </div>
     </div>
   </mat-expansion-panel>

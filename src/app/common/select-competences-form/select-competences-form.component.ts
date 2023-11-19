@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 import { SelectCompetencesService } from './select-competences.service'
-import { MatDialogRef } from '@angular/material/dialog'
 import { ISubject } from 'src/app/competences_data/competences.data'
 
 @Component({
@@ -10,27 +9,14 @@ import { ISubject } from 'src/app/competences_data/competences.data'
   styleUrls: ['./select-competences-form.component.css'],
 })
 export class SelectCompetencesFormComponent {
-  readonly subjects$ = this.serivce.subjects$
-  readonly subjectControl = this.serivce.subjectControl
-  readonly searchControl = this.serivce.searchControl
-  readonly selectedSubject$ = new BehaviorSubject<undefined | ISubject>(
-    undefined
-  )
+  readonly subjects$ = this.service.subjects$
+  readonly subjectControl = this.service.subjectControl
+  readonly searchControl = this.service.searchControl
+  readonly selectedSubject$ = this.service.selectedSubject$
 
-  constructor(
-    private serivce: SelectCompetencesService,
-    public dialogRef: MatDialogRef<SelectCompetencesFormComponent>
-  ) {}
+  constructor(protected service: SelectCompetencesService) {}
 
   openSubject(id: string) {
     this.subjectControl.setValue(id)
-  }
-
-  ngOnInit(): void {
-    this.serivce.updateCompetences()
-  }
-
-  close() {
-    this.dialogRef.close(this.serivce.getSelectedCompetences())
   }
 }

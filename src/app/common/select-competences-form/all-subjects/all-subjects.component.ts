@@ -9,7 +9,5 @@ import { SelectCompetencesService } from '../select-competences.service'
 export class AllSubjectsComponent {
   readonly subjects$ = this.service.subjects$
 
-  openSubject(id: string) {}
-
-  constructor(private service: SelectCompetencesService) {}
+  constructor(protected service: SelectCompetencesService) {}
 }

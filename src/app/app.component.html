@@ -85,6 +85,16 @@
 
   <!-- Shared Routes -->
   <span class="flex-spacer"></span>
+  <a
+    *ngIf="auth.status?.userRole === 'teacher'"
+    mat-raised-button
+    color="accent"
+    routerLink="/teacher/students/ufk"
+    routerLinkActive="active-link"
+    >ÜFK</a
+  >
+  <span style="width: 10px"></span>
+
   <button
     *ngIf="auth?.status?.isAuthenticated"
     mat-mini-fab

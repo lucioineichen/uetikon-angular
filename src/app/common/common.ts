@@ -1,5 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http'
-import { throwError } from 'rxjs'
+import {
+  Observable,
+  OperatorFunction,
+  UnaryFunction,
+  filter,
+  pipe,
+  throwError,
+} from 'rxjs'
+
 export function transformError(error: HttpErrorResponse | string) {
   let errorMessage = 'An unknown error has occurred'
   if (typeof error === 'string') {
@@ -12,4 +20,13 @@ export function transformError(error: HttpErrorResponse | string) {
     errorMessage = error.message
   }
   return throwError(() => new Error(errorMessage))
+}
+
+export function filterNullish<T>(): UnaryFunction<
+  Observable<T | null | undefined>,
+  Observable<T>
+> {
+  return pipe(
+    filter((x) => x != null) as OperatorFunction<T | null | undefined, T>
+  )
 }

@@ -11,5 +11,5 @@ export class SelectedSubjectComponent {
   readonly searchControl = this.service.searchControl
   readonly competences$ = this.service.competences$
 
-  constructor(private service: SelectCompetencesService) {}
+  constructor(protected service: SelectCompetencesService) {}
 }

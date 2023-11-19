@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
+import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs'
 import { UiService } from 'src/app/common/ui.service'
 import { environment } from 'src/app/environment/environment.demo'
 import { ICompetence } from 'src/app/interfaces'
 import { SelectCompetencesComponent } from './select-competences-form.component'
+import { CompetencesDataService } from 'src/app/competences_data/competences-data.service'
 
 @Injectable({
   providedIn: 'root',
@@ -18,13 +19,16 @@ export class SelectCompetencesService {
   constructor(
     private httpClient: HttpClient,
     private uiService: UiService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private data: CompetencesDataService
   ) {}
 
   private getCompetences(): Observable<ICompetence[]> {
     return this.httpClient.get<ICompetence[]>(
       `${environment.baseUrl}/teacher/competences`
     )
+
+    // return of(this.data.get_competences())
   }
 
   updateCompetences() {
@@ -40,8 +44,11 @@ export class SelectCompetencesService {
   }
 
   selectCompetences(
-    selectedCompetences?: ICompetence[]
+    selectedCompetences?: ICompetence[],
+    subject?: number
   ): Observable<ICompetence[] | ''> {
+    this.updateCompetences()
+
     const dialogRef = this.dialog.open(SelectCompetencesComponent, {
       data: selectedCompetences || [],
     })

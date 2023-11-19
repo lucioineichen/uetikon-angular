@@ -1,4 +1,4 @@
-<mat-accordion *ngIf="subjects$ | async as subjects" multi>
+<mat-accordion *ngIf="subjects$ | async as subjects">
   <mat-expansion-panel *ngFor="let subject of subjects" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -6,7 +6,7 @@
         <button
           style="position: absolute; right: 15px"
           mat-stroked-button
-          (click)="openSubject(subject._id)"
+          (click)="service.openSubject(subject._id)"
         >
           Öffnen
         </button>

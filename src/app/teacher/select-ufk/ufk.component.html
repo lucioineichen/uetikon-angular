@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Kompetenzen Hinzufügen</h1>
+
+<mat-dialog-content class="mat-typography" style="width: 500px">
+  <h2>Kompetenzen</h2>
+  <p *ngIf="service.competences$ | async as comps">
+    <span *ngFor="let comp of comps">{{ comp._id + " " }}</span>
+    <span *ngIf="comps.length === 0">Keine Kompetenzen ausgewählt</span>
+  </p>
+  <a mat-button color="primary" (click)="service.chooseCompetences()"
+    >+ Kompetenzen Wählen</a
+  >
+
+  <div style="height: 30px"></div>
+
+  <h2>Schüler</h2>
+  <p *ngIf="service.students$ | async as studs">
+    <span *ngFor="let stud of studs">{{ stud.name.firstName + " " }}</span>
+    <span *ngIf="studs.length === 0">Keine Schüler ausgewählt</span>
+  </p>
+  <a mat-button color="primary" (click)="service.chooseStudents()"
+    >+ Schüler Wählen</a
+  >
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+    Speichern
+  </button>
+</mat-dialog-actions>

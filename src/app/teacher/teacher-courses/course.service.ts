@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { BehaviorSubject, Observable, filter, mergeMap, tap } from 'rxjs'
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  filter,
+  mergeMap,
+  tap,
+} from 'rxjs'
 import { UiService } from 'src/app/common/ui.service'
 import { environment } from 'src/app/environment/environment.demo'
 import { TeacherCourseCreatorDialogComponent } from './teacher-course-creator-dialog/teacher-course-creator-dialog.component'
@@ -12,6 +19,7 @@ export interface ICoursePre {
   credits: number
   teacherCount: number
   studentCount: number
+  isProject: boolean
 }
 
 @Injectable({
@@ -33,13 +41,16 @@ export class CourseService {
   }
 
   updateCourses() {
-    this.getCourses().subscribe({
-      next: (courses) => this.courses$.next(courses),
-      error: (e: Error) => {
-        this.ui.showToast('Kurse konnten nicht geladen werden')
-        this.courses$.error(new Error('server 500'))
-      },
-    })
+    this.getCourses()
+      .pipe(
+        tap((courses) => this.courses$.next(courses)),
+        catchError((err) => {
+          this.ui.showToast('Kurse konnten nicht geladen werden')
+          this.courses$.error(new Error('server 500'))
+          return err
+        })
+      )
+      .subscribe()
   }
 
   postCourse(data: any) {
@@ -56,8 +67,10 @@ export class CourseService {
       .afterClosed()
       .pipe(
         filter((data) => data != undefined),
-        mergeMap(this.postCourse),
-        tap((courses) => this.courses$.next(courses))
+        mergeMap((data) => this.postCourse(data)),
+        tap(() => {
+          this.updateCourses()
+        })
       )
       .subscribe()
   }

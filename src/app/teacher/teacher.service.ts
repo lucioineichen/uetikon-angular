@@ -21,14 +21,12 @@ import {
 import { environment } from '../environment/environment.demo'
 import { UiService } from '../common/ui.service'
 import { MatDialog } from '@angular/material/dialog'
-import { AddStudentsDialogComponent } from './add-students-dialog/add-students-dialog.component'
 import { ICreateCourseData } from './teacher-courses/teacher-courses.component'
 
 export interface ITeacherService {
   readonly students$: ReplaySubject<IStudent[]>
   readonly competences$: ReplaySubject<ICompetence[]>
   updateCompetences(): void
-  updateStudents(): void
   getStudyJobs(repoId: number): Observable<IStudyJob[]>
   addTask(taskData: any, job: IStudyJob): Observable<ITask>
 }
@@ -45,12 +43,6 @@ export class TeacherService implements ITeacherService {
     private uiService: UiService,
     private dialog: MatDialog
   ) {}
-
-  private getStudents(): Observable<IStudent[]> {
-    return this.httpClient
-      .get<IStudent[]>(`${environment.baseUrl}/students`)
-      .pipe(map((students) => students.map(Student.Build)))
-  }
 
   private getCompetences(): Observable<ICompetence[]> {
     return this.httpClient.get<ICompetence[]>(
@@ -79,28 +71,6 @@ export class TeacherService implements ITeacherService {
         this.competences$.error(throwError(() => new Error('server 500')))
       },
     })
-  }
-
-  updateStudents() {
-    this.getStudents().subscribe({
-      next: (students) => this.students$.next(students),
-      error: (e: Error) => {
-        this.uiService.showToast('Schüler konnten nicht geladen werden')
-        this.students$.error(new Error('server 500'))
-      },
-    })
-  }
-
-  selectStudents(selectedStudents: IStudent[] = []) {
-    const dialogRef = this.dialog.open(AddStudentsDialogComponent, {
-      data: [...selectedStudents],
-    })
-
-    return dialogRef.afterClosed().pipe(
-      map((data) => {
-        return data ? [...data] : null
-      })
-    ) as Observable<IStudent[] | null>
   }
 
   getFolder(id: number) {

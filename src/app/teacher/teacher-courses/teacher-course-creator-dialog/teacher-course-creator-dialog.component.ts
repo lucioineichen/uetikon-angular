@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { TeacherService } from '../../teacher.service'
 import { IStudent } from 'src/app/interfaces'
 import { ICreateCourseData } from '../teacher-courses.component'
+import { BehaviorSubject, filter, tap } from 'rxjs'
+import { filterNullish } from 'src/app/common/common'
+import { SelectStudentsService } from 'src/app/common/select-students/select-students.service'
 
 @Component({
   selector: 'app-teacher-course-creator-dialog',
@@ -11,11 +14,11 @@ import { ICreateCourseData } from '../teacher-courses.component'
 })
 export class TeacherCourseCreatorDialogComponent {
   createCourseForm!: FormGroup
-  selectedStudents: IStudent[] = []
+  selectedStudents$ = new BehaviorSubject<IStudent[]>([])
 
   constructor(
     private formBuilder: FormBuilder,
-    private teacherService: TeacherService
+    private selectStudents: SelectStudentsService
   ) {}
 
   ngOnInit() {
@@ -26,35 +29,26 @@ export class TeacherCourseCreatorDialogComponent {
     this.createCourseForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       credits: [undefined, [Validators.required]],
+      isProject: [false, [Validators.required]],
     })
   }
 
   addStudents() {
-    console.log('addStudents to: ', this.selectedStudents)
-    this.teacherService
-      .selectStudents([...this.selectedStudents])
-      .subscribe((selectedStudents) => {
-        if (selectedStudents) this.selectedStudents = [...selectedStudents]
-        console.log('new selectedStudents: ', this.selectedStudents)
-      })
+    this.selectStudents
+      .selectStudents(this.selectedStudents$.value.map((stud) => stud._id))
+      .pipe(
+        filterNullish(),
+        tap((selected) => this.selectedStudents$.next(selected))
+      )
+      .subscribe()
   }
 
-  selectedStudentsList() {
-    if (this.selectedStudents.length === 0) return
-    let list = ''
-    this.selectedStudents.forEach(
-      (student, index) => (list += index !== 0 ? ', ' : '' + student.fullName)
-    )
-    return list
-  }
-
-  get createCourseData(): ICreateCourseData {
-    const students: IStudent[] = []
-    this.selectedStudents.forEach((student) => students.push({ ...student }))
+  get createCourseData() {
     return {
       name: this.createCourseForm.value.name,
       credits: this.createCourseForm.value.credits,
-      studentIds: students.map((student) => student._id),
+      isProject: this.createCourseForm.value.isProject,
+      students: this.selectedStudents$.value.map((stud) => stud._id),
     }
   }
 }

@@ -35,12 +35,26 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <button mat-button color="primary" (click)="addStudents()">
+
+    <mat-slide-toggle formControlName="isProject"
+      >Überfachliches Projekt</mat-slide-toggle
+    >
+
+    <button
+      style="margin-top: 20px"
+      mat-button
+      color="primary"
+      (click)="addStudents()"
+    >
       <mat-icon>add</mat-icon> Schüler Hinzufügen
     </button>
-    <p>{{ selectedStudentsList() }}</p>
+
+    <div *ngIf="selectedStudents$ | async as selected">
+      <span *ngFor="let stud of selected">{{ stud.name.firstName + " " }}</span>
+    </div>
   </form>
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Abrechen</button>
   <button mat-button [mat-dialog-close]="createCourseData" cdkFocusInitial>

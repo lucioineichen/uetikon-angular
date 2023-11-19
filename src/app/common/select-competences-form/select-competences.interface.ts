@@ -5,37 +5,33 @@ import {
   ITopic,
 } from 'src/app/competences_data/competences.data'
 
-export class SelectCompetence implements ICompetence {
-  get subCompetences() {
-    throw Error('no sub competences on TreeCompetence')
-    return []
-  }
+// export class SelectCompetence implements ICompetence {
+//   get subCompetences() {
+//     throw Error('no sub competences on TreeCompetence')
+//     return []
+//   }
 
-  constructor(
-    public _id: string,
-    public name: string,
-    public isSelected: boolean = false
-  ) {}
+//   constructor(
+//     public _id: string,
+//     public name: string,
+//     public isSelected: boolean = false
+//   ) {}
 
-  static Build(data: ICompetence) {
-    return new SelectCompetence(data._id, data.name)
-  }
-}
+//   static Build(data: ICompetence) {
+//     return new SelectCompetence(data._id, data.name)
+//   }
+// }
 
 export class SelectSubTopic implements ISubTopic {
   constructor(
     public _id: string,
     public name: string,
-    public competences: SelectCompetence[],
+    public competences: ICompetence[],
     public expanded = false
   ) {}
 
   static Build(data: ISubTopic) {
-    return new SelectSubTopic(
-      data._id,
-      data.name,
-      data.competences.map(SelectCompetence.Build)
-    )
+    return new SelectSubTopic(data._id, data.name, data.competences)
   }
 }
 
@@ -43,7 +39,7 @@ export class SelectTopic implements ITopic {
   constructor(
     public _id: string,
     public name: string,
-    public competences?: SelectCompetence[],
+    public competences?: ICompetence[],
     public subTopics?: SelectSubTopic[],
     public expanded = false
   ) {}
@@ -52,7 +48,7 @@ export class SelectTopic implements ITopic {
     return new SelectTopic(
       data._id,
       data.name,
-      data.competences?.map(SelectCompetence.Build),
+      data.competences,
       data.subTopics?.map(SelectSubTopic.Build)
     )
   }
@@ -76,20 +72,21 @@ export class SelectSubject implements ISubject {
   private subTopicsCompetences(subs: SelectSubTopic[]) {
     return subs.reduce(
       (competences, sub) => competences.concat(sub.competences),
-      [] as SelectCompetence[]
+      [] as ICompetence[]
     )
   }
 
-  competences(search?: string) {
+  getCompetences(search?: string) {
     return this.topics
       .reduce((competences, topic) => {
         if (topic.competences) return competences.concat(topic.competences)
         if (topic.subTopics)
           return competences.concat(this.subTopicsCompetences(topic.subTopics))
         return competences
-      }, [] as SelectCompetence[])
-      .filter((competence) =>
-        competence.name.toLowerCase().includes(search?.toLowerCase() || '')
-      )
+      }, [] as ICompetence[])
+      .filter((competence) => {
+        if (!search) return true
+        return competence.name.toLowerCase().includes(search.toLowerCase())
+      })
   }
 }
