@@ -1,0 +1,51 @@
+<h1 mat-dialog-title>ÜFK Hinzufügen</h1>
+
+<mat-dialog-content class="mat-typography" style="width: 500px">
+  <mat-form-field style="width: 100%">
+    <mat-label>Titel</mat-label>
+    <input [formControl]="service.titleControl" matInput />
+  </mat-form-field>
+
+  <app-select-ufk-students></app-select-ufk-students>
+
+  <div style="height: 20px"></div>
+
+  <mat-chip-listbox aria-label="Bewertung">
+    <mat-chip-option [value]="1">Gut</mat-chip-option>
+    <mat-chip-option [value]="0.6" color="accent">Genügend</mat-chip-option>
+    <mat-chip-option [value]="0.4" color="warn">Schlecht</mat-chip-option>
+  </mat-chip-listbox>
+
+  <div style="height: 20px"></div>
+
+  <app-subjects></app-subjects>
+
+  <div style="height: 20px"></div>
+
+  <mat-form-field style="width: 100%">
+    <mat-label>Kommentar</mat-label>
+    <textarea [formControl]="service.commentControl" matInput></textarea>
+  </mat-form-field>
+
+  <p *ngIf="service.competenceControl.value">
+    <span>{{ service.competenceControl.value }}</span>
+  </p>
+
+  <a mat-button color="primary" (click)="service.chooseCompetences()"
+    >+ Kompetenz Wählen</a
+  >
+
+  <div style="height: 30px"></div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
+  <button
+    mat-button
+    [mat-dialog-close]="true"
+    [disabled]="service.form.invalid"
+    (click)="service.save()"
+  >
+    Speichern
+  </button>
+</mat-dialog-actions>

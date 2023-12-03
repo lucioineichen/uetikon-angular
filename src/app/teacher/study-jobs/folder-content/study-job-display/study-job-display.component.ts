@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { IStudyJob } from 'src/app/interfaces'
-import { StudyJobDisplay } from './study-job-display'
-import { Router } from '@angular/router'
+// import { IStudyJob } from 'src/app/interfaces'
+// import { StudyJobDisplay } from './study-job-display'
+// import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-study-job-display [jobs] [folderId]',
   template: `
-    <div
+    <!-- <div
       *ngFor="let job of jobs"
       fxLayout
       style="transform: translateX(-40px);"
@@ -29,7 +29,7 @@ import { Router } from '@angular/router'
           </div>
         </mat-list-item>
       </div>
-    </div>
+    </div> -->
   `,
   styles: [
     `
@@ -55,29 +55,25 @@ import { Router } from '@angular/router'
     `,
   ],
 })
-export class StudyJobDisplayComponent implements OnInit {
-  @Input() isForm = false
-  isHover = false
-  @Input() jobs!: StudyJobDisplay[]
-  @Input() folderId!: number
-  @Output('open-job') openJobEvent = new EventEmitter<IStudyJob>()
-
-  constructor(private router: Router) {}
-
-  ngOnInit(): void {
-    console.log(this.jobs)
-  }
-
-  get oneSelected() {
-    return this.jobs.findIndex((job) => job.isSelected) !== -1
-  }
-
-  openJob(job: StudyJobDisplay) {
-    this.router.navigate(['teacher', 'study-jobs', job.jobId], {
-      queryParams: {
-        name: job.name,
-        folderId: this.folderId,
-      },
-    })
-  }
+export class StudyJobDisplayComponent {
+  // @Input() isForm = false
+  // isHover = false
+  // @Input() jobs!: StudyJobDisplay[]
+  // @Input() folderId!: number
+  // @Output('open-job') openJobEvent = new EventEmitter<IStudyJob>()
+  // constructor(private router: Router) {}
+  // ngOnInit(): void {
+  //   console.log(this.jobs)
+  // }
+  // get oneSelected() {
+  //   return this.jobs.findIndex((job) => job.isSelected) !== -1
+  // }
+  // openJob(job: StudyJobDisplay) {
+  //   this.router.navigate(['teacher', 'study-jobs', job.jobId], {
+  //     queryParams: {
+  //       name: job.name,
+  //       folderId: this.folderId,
+  //     },
+  //   })
+  // }
 }

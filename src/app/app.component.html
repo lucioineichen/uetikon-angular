@@ -37,7 +37,7 @@
       mat-button
       routerLink="/teacher/courses"
       routerLinkActive="active-link"
-      >Meine Kurse</a
+      >Kurse</a
     >
     <a
       *ngIf="isPermitted(2, auth.status)"
@@ -89,8 +89,8 @@
     *ngIf="auth.status?.userRole === 'teacher'"
     mat-raised-button
     color="accent"
-    routerLink="/teacher/students/ufk"
-    routerLinkActive="active-link"
+    routerLink="/teacher/ufk"
+    routerLinkActive="active-accent-link"
     >ÜFK</a
   >
   <span style="width: 10px"></span>

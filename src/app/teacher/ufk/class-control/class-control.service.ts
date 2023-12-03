@@ -10,7 +10,8 @@ import { UiService } from 'src/app/common/ui.service'
 })
 export class ClassControlService {
   classControl = this.service.classControl
-  classes$: BehaviorSubject<{ _id: number; name: string }[] | undefined> = this.service.classes$
+  classes$: BehaviorSubject<{ _id: number; name: string }[] | undefined> =
+    this.service.classes$
 
   constructor(
     private service: UfkService,
@@ -21,7 +22,6 @@ export class ClassControlService {
   update() {
     this.getClasses()
       .pipe(
-        tap(console.log),
         tap((data) => {
           this.classControl.setValue(data.primary._id)
           this.classes$.next(data.classes)
@@ -36,7 +36,7 @@ export class ClassControlService {
 
   private getClasses() {
     return this.http.get<{
-      primary: number
+      primary: { _id: number; name: string }
       classes: { _id: number; name: string }[]
     }>(`${environment.baseUrl}/teacher/classes`)
   }

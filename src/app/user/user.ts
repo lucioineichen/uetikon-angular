@@ -6,6 +6,22 @@ export interface IName {
   lastName: string
 }
 
+export class Name implements IName {
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public middleName?: string
+  ) {}
+
+  get fullName() {
+    return this.firstName
+  }
+
+  static Build(name: IName) {
+    return new Name(name.firstName, name.lastName, name.middleName)
+  }
+}
+
 export class User implements IUser {
   constructor(
     public _id = 0,

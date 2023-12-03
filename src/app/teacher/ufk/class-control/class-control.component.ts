@@ -6,7 +6,7 @@ import { FormControl } from '@angular/forms'
   selector: 'app-class-control',
   template: `
     <mat-form-field appearance="outline">
-      <mat-label>Wähle eine Klasse</mat-label>
+      <mat-label>Klasse</mat-label>
       <mat-select [formControl]="service.classControl">
         <mat-option
           *ngFor="let class of service.classes$ | async"

@@ -5,7 +5,6 @@ import { TeacherCourseComponent } from './teacher-course/teacher-course.componen
 import { TeacherStudyJobsComponent } from './study-jobs/study-jobs.component'
 import { FolderComponent } from './folder/folder.component'
 import { JobComponent } from './job/job.component'
-import { StudentParticipantComponent } from './teacher-course/student-participant/student-participant.component'
 import { ProjectsComponent } from './projects/projects.component'
 import { ProjectComponent } from './project/project.component'
 import { StudentsComponent } from './students/students.component'
@@ -13,20 +12,10 @@ import { StudentComponent } from './student/student.component'
 import { UfkComponent } from './ufk/ufk.component'
 
 const routes: Routes = [
-  { path: '', redirectTo: '/teacher/courses/overview', pathMatch: 'full' },
-  {
-    path: 'courses',
-    redirectTo: '/teacher/courses/overview',
-    pathMatch: 'full',
-  },
-  { path: 'courses/overview', component: TeacherCoursesComponent },
+  { path: '', redirectTo: '/teacher/courses', pathMatch: 'full' },
+  { path: 'courses', component: TeacherCoursesComponent },
   { path: 'projects', component: ProjectsComponent },
   { path: 'projects/:id', component: ProjectComponent },
-  {
-    path: 'courses/:courseId/student/:id ',
-    component: StudentParticipantComponent,
-  },
-
   { path: 'courses/:id', component: TeacherCourseComponent },
   { path: 'study-jobs/folder/:id', component: FolderComponent },
   {
@@ -38,7 +27,7 @@ const routes: Routes = [
   },
   { path: 'study-jobs', component: TeacherStudyJobsComponent },
   { path: 'students', component: StudentsComponent },
-  { path: 'students/ufk', component: UfkComponent },
+  { path: 'ufk', component: UfkComponent },
   { path: 'students/:id', component: StudentComponent },
 ]
 

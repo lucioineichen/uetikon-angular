@@ -21,22 +21,22 @@ export class ChooseStudyJobsDialogComponent implements OnDestroy, OnInit {
     public dialogRef: MatDialogRef<ChooseStudyJobsDialogComponent>,
     private uiService: UiService
   ) {
-    this.studyJobsService.tree$
-      .pipe(
-        tap((tree) => {
-          this.currentFolder$.next(tree)
-          if (tree.folders.length + tree.studyJobs.length === 0) {
-            this.uiService.showToast('Es gibt noch keine LernJobs')
-            this.dialogRef.close()
-          }
-        }),
-        catchError((err, caugt) => {
-          this.dialogRef.close()
-          console.log('close dialog')
-          return err
-        })
-      )
-      .subscribe()
+    // this.studyJobsService.tree$
+    //   .pipe(
+    //     tap((tree) => {
+    //       this.currentFolder$.next(tree)
+    //       if (tree.folders.length + tree.studyJobs.length === 0) {
+    //         this.uiService.showToast('Es gibt noch keine LernJobs')
+    //         this.dialogRef.close()
+    //       }
+    //     }),
+    //     catchError((err, caugt) => {
+    //       this.dialogRef.close()
+    //       console.log('close dialog')
+    //       return err
+    //     })
+    //   )
+    //   .subscribe()
   }
 
   ngOnDestroy(): void {
@@ -44,6 +44,6 @@ export class ChooseStudyJobsDialogComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.studyJobsService.updaterepositoryTree()
+    // this.studyJobsService.updaterepositoryTree()
   }
 }

@@ -23,8 +23,10 @@ import { MatTableModule } from '@angular/material/table'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core'
 import { MatTreeModule } from '@angular/material/tree'
+import { MatChipsModule } from '@angular/material/chips'
 
 const modules = [
+  MatChipsModule,
   MatTreeModule,
   MatNativeDateModule,
   MatDatepickerModule,

@@ -4,14 +4,14 @@
     <a mat-button routerLink="/teacher/courses"
       ><mat-icon>arrow_back</mat-icon> Zurück</a
     >
-    <a mat-button (click)="refresh()"
-      ><h1>{{ courseName }}</h1></a
+    <a mat-button (click)="(service.update)"
+      ><h1>{{ service.name$ | async }}</h1></a
     >
   </mat-toolbar>
 
   <!-- Content -->
   <div
-    *ngIf="course$ | async as course; else loading"
+    *ngIf="service.course$ | async as course; else loading"
     style="padding: 20px; margin-left: 15vw; margin-top: 50px"
     class="mat-typography"
   >
@@ -28,7 +28,7 @@
             <mat-list-item
               *ngFor="let student of course.students"
               class="clickable"
-              (click)="navigateToStudent(student)"
+              (click)="service.navigateToStudent(student)"
             >
               {{ student.fullName }}
             </mat-list-item>
@@ -43,7 +43,6 @@
           <button
             mat-raised-button
             color="primary"
-            (click)="editStudents()"
             style="position: absolute; bottom: 16px"
           >
             Schüler Verwalten
@@ -108,7 +107,6 @@
           <button
             mat-raised-button
             color="primary"
-            (click)="editStudents()"
             style="position: absolute; bottom: 16px"
           >
             Schüler Verwalten
@@ -119,11 +117,13 @@
   </div>
 
   <ng-template #loading>
-    <div *ngIf="!errorMessage; else error">Lädt Kurs...</div></ng-template
+    <div *ngIf="!service.course$.hasError; else error">
+      Lädt Kurs...
+    </div></ng-template
   >
 
   <ng-template #error
-    >Kurse konnten nicht geladen werden, lade die Seite neu</ng-template
+    >Kurs konnten nicht geladen werden, lade die Seite neu</ng-template
   >
 
   <div class="chat-icon-container">

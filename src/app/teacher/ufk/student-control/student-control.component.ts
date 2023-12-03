@@ -5,7 +5,7 @@ import { StudentControlService } from './student-control.service'
   selector: 'app-student-control',
   template: `
     <mat-form-field appearance="outline">
-      <mat-label>Wähle Schüler</mat-label>
+      <mat-label>Schüler</mat-label>
       <mat-select [formControl]="service.studentControl">
         <mat-option [value]="0">Alle</mat-option>
         <mat-option

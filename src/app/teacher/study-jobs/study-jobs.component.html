@@ -1,9 +1,42 @@
-<div *ngIf="tree$ | async as tree; else loading">
-  <app-tree [tree]="tree" [folder]="tree"></app-tree>
+<div class="add-container">
+  <div style="margin-bottom: 10px">
+    <button
+      mat-mini-fab
+      matTooltip="Erstellen"
+      aria-label="Erstellen"
+      color="primary"
+      [matMenuTriggerFor]="menu"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="addJob()">LernJob</button>
+    <button mat-menu-item (click)="addFolder()">Ordner</button>
+  </mat-menu>
+</div>
+
+<div *ngIf="service.root$ | async as root; else loading">
+  <div class="title">LernJobs</div>
+
+  <mat-list class="list">
+    <div *ngIf="root.folders.length + root.studyJobs.length === 0">
+      Dieser Ordner ist noch leer
+    </div>
+    <div *ngFor="let folder of root.folders">
+      <app-folder-list-item [folder]="folder"></app-folder-list-item>
+    </div>
+
+    <div *ngFor="let job of root.studyJobs" fxLayout>
+      <app-job-list-item [job]="job"></app-job-list-item>
+    </div>
+  </mat-list>
 </div>
 
 <ng-template #loading>
-  <div *ngIf="!isError; else error">Lädt LernJobs</div>
+  <div *ngIf="!service.root$.hasError; else error">Lädt LernJobs</div>
 </ng-template>
 
-<ng-template #error> Lern Jobs konnten nicht geladen werden </ng-template>
+<ng-template #error>
+  Lern Jobs konnten nicht geladen werden, lade die Seite neu
+</ng-template>

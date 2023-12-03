@@ -1,13 +1,25 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { TeacherService } from '../teacher.service'
-import { BehaviorSubject, catchError, filter, mergeMap, tap } from 'rxjs'
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  tap,
+} from 'rxjs'
 import { IStudyJob } from 'src/app/interfaces'
 import { MatDialog } from '@angular/material/dialog'
 import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component'
 import { UiService } from 'src/app/common/ui.service'
 import { StudyJobsService } from '../study-jobs/study-jobs.service'
 import { Location } from '@angular/common'
+import { JobService } from './job.service'
+import { AddTaskService } from '../add-task-dialog/add-task.service'
+import { filterNullish } from 'src/app/common/common'
+import { FormControl } from '@angular/forms'
 
 @Component({
   selector: 'app-job',
@@ -15,73 +27,70 @@ import { Location } from '@angular/common'
   styleUrls: ['./job.component.css'],
 })
 export class JobComponent implements OnInit {
-  id: number
-  name: string
-  folderId?: number
-  job$ = new BehaviorSubject<IStudyJob | undefined>(undefined)
+  isEditing = false
+  name!: Observable<string>
+  job$ = this.service.job$
+  competencesControl!: FormControl
 
   constructor(
     protected route: ActivatedRoute,
-    private studyJobsService: StudyJobsService,
-    private teacherService: TeacherService,
-    private dialog: MatDialog,
-    private uiService: UiService,
+    private service: JobService,
+    private addTaskService: AddTaskService,
     private location: Location
-  ) {
-    this.id = this.route.snapshot.params['id']
-    this.name = this.route.snapshot.queryParams['name']
-    this.folderId = this.route.snapshot.queryParams['folderId']
-  }
+  ) {}
 
   navigateBack() {
     this.location.back()
   }
 
   ngOnInit(): void {
-    console.log('here')
-    // this.studyJobsService
-    //   .getStudyJob(this.id)
-    //   .pipe(tap((job) => this.job$.next(job)))
-    //   .subscribe()
+    this.competencesControl = new FormControl()
+
+    this.job$
+      .pipe(tap((job) => this.competencesControl.setValue(job?.competences)))
+      .subscribe()
+
+    this.route.params
+      .pipe(
+        tap(console.log),
+        tap((params) => {
+          this.service.update(params['id'])
+        })
+      )
+      .subscribe()
+
+    this.name = this.route.queryParams.pipe(map((qParams) => qParams['name']))
   }
 
   addTask() {
     const job = this.job$.value
     if (!job) return
 
-    const dialogRef = this.dialog.open(AddTaskDialogComponent)
-
-    dialogRef
-      .afterClosed()
+    this.addTaskService
+      .addTask(job._id)
       .pipe(
-        filter((data) => data != ''),
-        mergeMap((data) => {
-          return this.teacherService.addTask(data, job)
-        }),
-        tap((task) => {
-          job.tasks.push(task)
-        }),
-        catchError((err) => {
-          this.uiService.showToast('Aufgabe konnte nicht erstellt werden')
-          return err
-        })
+        filterNullish(),
+        tap(() => this.service.update(job._id))
       )
       .subscribe()
   }
 
   delete() {
-    const job = this.job$.value
-    if (!job) return
-
-    this.uiService
-      .confirmDeletion('LernJob', job.name)
-      .pipe(
-        filter((confirmed) => confirmed),
-        mergeMap(() => this.teacherService.deleteStudyJob(job._id))
-        // tap(() => this.dialogRef.close('delete'))
-      )
-      .subscribe()
+    // const job = this.job$.value
+    // if (!job) return
+    // this.uiService
+    //   .confirmDeletion('LernJob', job.name)
+    //   .pipe(
+    //     filter((confirmed) => confirmed),
+    //     mergeMap(() => this.teacherService.deleteStudyJob(job._id))
+    //     // tap(() => this.dialogRef.close('delete'))
+    //   )
+    //   .subscribe()
   }
 
   selectCompetences() {}
+
+  toggleEdit(value: boolean) {
+    this.isEditing = value
+  }
 }

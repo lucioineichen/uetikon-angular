@@ -40,6 +40,16 @@ import { TeacherControlComponent } from './ufk/teacher-control/teacher-control.c
 import { SubjectControlComponent } from './ufk/subject-control/subject-control.component'
 import { UfkControlComponent } from './ufk/ufk-control/ufk-control.component'
 import { UfkComponent } from './ufk/ufk.component'
+import { UfkTableComponent } from './ufk/ufk-table/ufk-table.component'
+import { AddUfkComponent } from './ufk/add-ufk/add-ufk.component'
+import { GradePipe } from './ufk/ufk-table/grade.pipe'
+import { SubjectsComponent } from './ufk/add-ufk/subjects/subjects.component'
+import { SelectUfkStudentsComponent } from './ufk/add-ufk/students/students.component'
+import { JobListItemComponent } from './study-jobs/job-list-item/job-list-item.component'
+import { AddStudyJobComponent } from './study-jobs/add-study-job/add-study-job.component'
+import { CompetencesControlComponent } from './ui/competences-control/competences-control.component'
+import { AddTaskControlComponent } from './ui/add-task-control/add-task-control.component';
+import { FolderListItemComponent } from './study-jobs/folder-list-item/folder-list-item.component'
 
 @NgModule({
   declarations: [
@@ -76,6 +86,16 @@ import { UfkComponent } from './ufk/ufk.component'
     SubjectControlComponent,
     UfkControlComponent,
     UfkComponent,
+    UfkTableComponent,
+    AddUfkComponent,
+    GradePipe,
+    SubjectsComponent,
+    SelectUfkStudentsComponent,
+    JobListItemComponent,
+    AddStudyJobComponent,
+    CompetencesControlComponent,
+    AddTaskControlComponent,
+    FolderListItemComponent,
   ],
   imports: [
     CommonModule,

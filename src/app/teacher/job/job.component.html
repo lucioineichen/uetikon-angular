@@ -1,10 +1,17 @@
+<app-add-button
+  *ngIf="isEditing"
+  icon="save"
+  hint="Speichern"
+  (click)="toggleEdit(false)"
+></app-add-button>
+
 <div style="position: absolute; width: 100%; top: 0; z-index: 100">
   <mat-toolbar color="primary" class="mat-elevation-z8">
     <a mat-button (click)="navigateBack()"
       ><mat-icon>arrow_back</mat-icon> Zurück</a
     >
     <span style="width: 2rem"></span>
-    <h1>{{ name | titlecase }}</h1>
+    <h1>{{ name | async | titlecase }}</h1>
     <span class="flex-spacer"></span>
     <button
       mat-icon-button
@@ -14,7 +21,7 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="toggleEdit(true)">
         <mat-icon>edit</mat-icon>
         <span>Edit</span>
       </button>
@@ -27,56 +34,46 @@
 
   <mat-dialog-content
     class="mat-typography"
-    *ngIf="job$ | async as job; else error"
+    *ngIf="job$ | async as job; else loading"
   >
     <div style="margin-top: 50px"></div>
     <div class="tasks">
-      <mat-card-header>
-        <mat-card-title>Aufgaben</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-list *ngIf="job.tasks.length > 0">
-          <app-task *ngFor="let task of job.tasks" [task]="task"> </app-task>
-        </mat-list>
-        <div *ngIf="job.tasks.length === 0">
-          Dieser LernJob hat noch keine Aufgaben
-        </div>
-        <button
-          color="primary"
-          style="margin-top: 15px"
-          mat-raised-button
-          (click)="addTask()"
-          cdkFocusInitial
-        >
-          <mat-icon>add</mat-icon> Aufgabe Hinzufügen
-        </button>
-      </mat-card-content>
+      <h1>Aufgaben</h1>
+      <app-task *ngFor="let task of job.tasks" [task]="task"> </app-task>
+      <div *ngIf="job.tasks.length === 0">
+        Dieser LernJob hat noch keine Aufgaben
+      </div>
+
+      <button mat-raised-button *ngIf="!isEditing" (click)="addTask()">
+        <mat-icon>add</mat-icon>Aufgabe Hinzufügen
+      </button>
     </div>
 
-    <div style="margin-top: 50px"></div>
-    <div class="tasks">
-      <mat-card-header>
-        <mat-card-title>Kompetenzen</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-list *ngIf="job.tasks.length > 0">
-          <app-task *ngFor="let task of job.tasks" [task]="task"> </app-task>
-        </mat-list>
-        <div *ngIf="job.tasks.length === 0">
-          Dieser LernJob hat noch keine Kompetenzen
-        </div>
-        <button
-          color="primary"
-          style="margin-top: 15px"
-          mat-raised-button
-          (click)="selectCompetences()"
-          cdkFocusInitial
+    <div style="margin-top: 50px" class="tasks">
+      <h1>Kompetenzen</h1>
+      <div *ngIf="!isEditing">
+        <mat-chip
+          *ngFor="let comp of job.competences"
+          style="margin-left: 5px"
+          [matTooltip]="comp.name"
         >
-          <mat-icon>add</mat-icon> Kompetenzen Auswählen
-        </button>
-      </mat-card-content>
+          {{ comp._id }}
+        </mat-chip>
+      </div>
+      <app-competences-control
+        *ngIf="isEditing"
+        [control]="competencesControl"
+      ></app-competences-control>
+      <p *ngIf="job.competences.length === 0">
+        Diesem LernJob wurden noch keine Kompetenzen hinzugefügt
+      </p>
     </div>
   </mat-dialog-content>
 </div>
 
-<ng-template #error>Error</ng-template>
+<ng-template #loading>
+  <div *ngIf="!job$.hasError; else error">Lädt LernJob</div>
+  <ng-template #error
+    >LernJob konnte nicht geladen werden, lade Seite neu</ng-template
+  >
+</ng-template>

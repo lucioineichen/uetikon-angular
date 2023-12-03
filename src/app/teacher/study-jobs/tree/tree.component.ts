@@ -24,40 +24,39 @@ export class TreeComponent {
   ) {}
 
   openStudyJobCreator() {
-    const dialogRef = this.dialog.open(TeacherCreateStudyJobDialogComponent)
-
-    dialogRef
-      .afterClosed()
-      .pipe(
-        filter((data) => data),
-        mergeMap((data) => this.studyJobsService.createStudyJob(data)),
-        tap((job) => {
-          this.folder.studyJobs.push(job)
-        }),
-        catchError((err) => {
-          this.uiService.showToast('LernJob konnte nicht erstellt werden')
-          return err
-        })
-      )
-      .subscribe()
+    // const dialogRef = this.dialog.open(TeacherCreateStudyJobDialogComponent)
+    // dialogRef
+    //   .afterClosed()
+    //   .pipe(
+    //     filter((data) => data),
+    //     mergeMap((data) => this.studyJobsService.createStudyJob(data)),
+    //     tap((job) => {
+    //       this.folder.studyJobs.push(job)
+    //     }),
+    //     catchError((err) => {
+    //       this.uiService.showToast('LernJob konnte nicht erstellt werden')
+    //       return err
+    //     })
+    //   )
+    //   .subscribe()
   }
 
   deleteFolder() {
-    this.uiService
-      .confirmDeletion('Ordner', this.folder.name)
-      .pipe(
-        filter((isConfirmed) => isConfirmed),
-        mergeMap(() => this.studyJobsService.deleteFolder(this.folder)),
-        tap(() => {
-          this.path.splice(-1)
-          this.folder = this.path[-1] ? this.path[-1] : this.tree
-        }),
-        catchError((err) => {
-          this.uiService.showToast('Ordner konnte nicht gelöscht werden')
-          return err
-        })
-      )
-      .subscribe()
+    // this.uiService
+    //   .confirmDeletion('Ordner', this.folder.name)
+    //   .pipe(
+    //     filter((isConfirmed) => isConfirmed),
+    //     mergeMap(() => this.studyJobsService.deleteFolder(this.folder)),
+    //     tap(() => {
+    //       this.path.splice(-1)
+    //       this.folder = this.path[-1] ? this.path[-1] : this.tree
+    //     }),
+    //     catchError((err) => {
+    //       this.uiService.showToast('Ordner konnte nicht gelöscht werden')
+    //       return err
+    //     })
+    //   )
+    //   .subscribe()
   }
 
   move() {}
@@ -65,19 +64,19 @@ export class TreeComponent {
   addFolder() {
     const dialogRef = this.dialog.open(RenameFolderComponent)
 
-    dialogRef
-      .afterClosed()
-      .pipe(
-        mergeMap((name) =>
-          this.studyJobsService.createFolder(this.folder, name)
-        ),
-        tap((folder) => this.folder.folders.push(folder)),
-        catchError((err) => {
-          this.uiService.showToast('Ornder konnte nicht erstellt werden')
-          return err
-        })
-      )
-      .subscribe()
+    // dialogRef
+    //   .afterClosed()
+    //   .pipe(
+    //     mergeMap((name) =>
+    //       this.studyJobsService.createFolder(this.folder, name)
+    //     ),
+    //     tap((folder) => this.folder.folders.push(folder)),
+    //     catchError((err) => {
+    //       this.uiService.showToast('Ornder konnte nicht erstellt werden')
+    //       return err
+    //     })
+    //   )
+    //   .subscribe()
   }
 
   openFolder(folder: IFolder) {

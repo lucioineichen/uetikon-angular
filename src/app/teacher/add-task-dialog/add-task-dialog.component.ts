@@ -7,22 +7,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./add-task-dialog.component.css'],
 })
 export class AddTaskDialogComponent implements OnInit {
-  taskForm!: FormGroup
+  form!: FormGroup
   selectedFile?: File
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {
-    this.buildcreateUserForm()
-  }
-
-  buildcreateUserForm() {
-    this.taskForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.maxLength(50)]],
-      text: [''],
-      weight: [{ value: 1, disabled: true }],
-      graded: [false, Validators.required],
-    })
+  ngOnInit(): void {
+    this.buildForm()
   }
 
   onFileSelected(event: any) {
@@ -34,7 +25,7 @@ export class AddTaskDialogComponent implements OnInit {
     const formData: FormData = new FormData()
     if (this.selectedFile) formData.append('file', this.selectedFile)
 
-    const data = this.taskForm.value
+    const data = this.form.value
     formData.append('title', data.title)
     if (data.text) formData.append('text', data.text)
     formData.append('graded', data.graded)
@@ -44,13 +35,22 @@ export class AddTaskDialogComponent implements OnInit {
   }
 
   toggleGraded() {
-    const graded: boolean = this.taskForm.value.graded
-    const weightControl = this.taskForm.get('weight')
+    const graded: boolean = this.form.value.graded
+    const weightControl = this.form.get('weight')
     if (graded) weightControl?.enable()
     else weightControl?.disable()
   }
 
   removeFile() {
     this.selectedFile = undefined
+  }
+
+  private buildForm() {
+    this.form = this.fb.group({
+      title: ['', [Validators.required, Validators.maxLength(50)]],
+      text: [''],
+      weight: [1],
+      graded: [false, Validators.required],
+    })
   }
 }

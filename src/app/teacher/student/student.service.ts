@@ -25,6 +25,7 @@ export class StudentService {
   }
 
   updateStudent(studentId: number) {
+    console.log(studentId)
     this.getStudent(studentId)
       .pipe(
         map(Student.Build),

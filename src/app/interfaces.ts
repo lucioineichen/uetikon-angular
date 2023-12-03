@@ -1,5 +1,5 @@
 import { Role } from './auth/auth.enum'
-import { IName, IUser, User } from './user/user'
+import { IName, IUser, Name, User } from './user/user'
 
 export interface IStudentCourse {
   _id: number
@@ -9,7 +9,7 @@ export interface IStudentCourse {
   progress: number
 }
 
-export interface IFolderRef {
+export interface IRef {
   _id: number
   name: string
 }
@@ -17,9 +17,9 @@ export interface IFolderRef {
 export interface IFolder {
   _id: number
   name: string
-  folders: IFolderRef[]
+  folders: IRef[]
   studyJobs: IStudyJob[]
-  path: IFolderRef[]
+  path: IRef[]
 }
 
 export interface IChat {
@@ -42,7 +42,7 @@ export class Student extends User implements IStudent {
   constructor(
     _id = 0,
     email = '--',
-    name: IName = { firstName: '', lastName: '' } as IName,
+    name: IName = Name.Build({ firstName: '', lastName: '' } as IName),
     picture?: string,
     public grade: number = 1
   ) {
@@ -96,13 +96,15 @@ export interface IStudyJob {
   name: string
   notes?: string
   tasks: ITask[]
-  competences: string[]
+  competences: ICompetence[]
   subject: string
 }
 
 export interface ITask {
   title: string
   text?: string
+  graded: boolean
+  weight: number
   file?: IFile
 }
 

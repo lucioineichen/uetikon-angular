@@ -1,0 +1,29 @@
+<div class="task-card">
+  <img src="../../../assets/pdf.png" class="fileIcon" />
+
+  <a [href]="getSafeFileUrl('')" target="_blank" class="file-link"
+    >{{ task.title.toLocaleLowerCase() }}.pdf</a
+  >
+  <button
+    *ngIf="task.text"
+    mat-icon-button
+    style="float: right; position: relative; top: -7px; right: -15px"
+    (click)="this.toggleExpanded()"
+  >
+    <mat-icon *ngIf="!isExpanded">expand_more</mat-icon>
+    <mat-icon *ngIf="isExpanded">expand_less</mat-icon>
+  </button>
+
+  <span style="float: right">
+    <mat-chip *ngIf="task.graded">Benotet</mat-chip>
+    <mat-chip style="margin-left: 5px">Gewichtung: {{ task.weight }}</mat-chip>
+  </span>
+
+  <p
+    *ngIf="isExpanded"
+    style="margin-bottom: 0; margin-top: 16px"
+    class="mat-typographie"
+  >
+    {{ task.text }}
+  </p>
+</div>

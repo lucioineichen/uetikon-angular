@@ -5,7 +5,7 @@ import { BehaviorSubject, catchError, map, tap } from 'rxjs'
 import { IPermission } from 'src/app/auth/auth.service'
 import { UiService } from 'src/app/common/ui.service'
 import { environment } from 'src/app/environment/environment.demo'
-import { IName } from 'src/app/user/user'
+import { IName, Name } from 'src/app/user/user'
 
 export interface ITeacher {
   _id: number
@@ -19,7 +19,7 @@ export class Teacher {
   constructor(
     public _id = 0,
     public email = '--',
-    public name: IName = { firstName: '--', lastName: '--' },
+    public name: IName = Name.Build({ firstName: '--', lastName: '--' }),
     public permissions: {
       id: number
       name: string

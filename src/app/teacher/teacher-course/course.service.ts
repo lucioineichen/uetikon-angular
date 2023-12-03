@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { Observable, tap } from 'rxjs'
+import { ActivatedRoute, Router } from '@angular/router'
+import { BehaviorSubject, Observable, catchError, mergeMap, tap } from 'rxjs'
+import { filterNullish } from 'src/app/common/common'
 import { UiService } from 'src/app/common/ui.service'
 import { environment } from 'src/app/environment/environment.demo'
 import { IStudent, ITeacher, Student, Teacher } from 'src/app/interfaces'
@@ -18,11 +20,33 @@ export interface ICourse {
   providedIn: 'root',
 })
 export class CourseService {
+  course$ = new BehaviorSubject<ICourse | undefined>(undefined)
+  id$ = new BehaviorSubject<number | undefined>(undefined)
+  name$ = new BehaviorSubject<string | undefined>(undefined)
+
   constructor(
     private httpClient: HttpClient,
-    private uiService: UiService,
-    private dialog: MatDialog
+    private ui: UiService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
+
+  update() {
+    this.getCourse()
+      .pipe(
+        tap((course) => {
+          course.students = course.students.map(Student.Build)
+          course.teachers = course.teachers.map(Teacher.Build)
+        }),
+        tap((course) => this.course$.next(course)),
+        catchError((err) => {
+          this.ui.showToast('Kurs konnte nicht geladen werden')
+          this.course$.error(err)
+          return err
+        })
+      )
+      .subscribe()
+  }
 
   editStudents(
     course: ICourse,
@@ -36,14 +60,26 @@ export class CourseService {
     )
   }
 
-  getCourse(id: number) {
-    return this.httpClient
-      .get<ICourse>(`${environment.baseUrl}/course/${id}`)
-      .pipe(
-        tap((course) => {
-          course.students = course.students.map(Student.Build)
-          course.teachers = course.teachers.map(Teacher.Build)
-        })
+  navigateToStudent(student: IStudent) {
+    this.router.navigate(
+      ['teacher', 'courses', this.course$.value?._id, 'student', student._id],
+      {
+        queryParams: {
+          name: student.fullName,
+          courseName: this.course$.value?.name,
+        },
+      }
+    )
+  }
+
+  private getCourse() {
+    return this.id$.pipe(
+      filterNullish(),
+      mergeMap((id) =>
+        this.httpClient.get<ICourse>(
+          `${environment.baseUrl}/teacher/courses/${id}`
+        )
       )
+    )
   }
 }

@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, Observable, tap } from 'rxjs'
+import { FormControl } from '@angular/forms'
+import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
+import { UiService } from 'src/app/common/ui.service'
 import { environment } from 'src/app/environment/environment.demo'
 import { IStudyJob } from 'src/app/interfaces'
 
@@ -10,7 +12,7 @@ import { IStudyJob } from 'src/app/interfaces'
 export class JobService {
   readonly job$ = new BehaviorSubject<IStudyJob | undefined>(undefined)
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private ui: UiService) {}
 
   private getStudyJob(id: number): Observable<IStudyJob> {
     return this.httpClient.get<IStudyJob>(
@@ -18,9 +20,17 @@ export class JobService {
     )
   }
 
-  updateJob(id: number) {
+  update(id: number) {
     this.getStudyJob(id)
-      .pipe(tap((job) => this.job$.next(job)))
+      .pipe(
+        tap(console.log),
+        tap((job) => this.job$.next(job)),
+        catchError((err) => {
+          this.ui.showToast('LernJob konnte nicht geladen werden')
+          this.job$.error(err)
+          return err
+        })
+      )
       .subscribe()
   }
 }

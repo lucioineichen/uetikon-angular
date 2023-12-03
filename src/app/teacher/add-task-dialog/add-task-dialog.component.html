@@ -1,6 +1,6 @@
 <mat-dialog-content class="mat-typography" style="width: 700px; height: 400px">
   <h4>Aufgabe Erstellen</h4>
-  <form [formGroup]="taskForm" fxLayout="column">
+  <form [formGroup]="form" fxLayout="column">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
       <mat-form-field fxFlex style="width: 100%">
         <input
@@ -9,10 +9,10 @@
           aria-label="Titel"
           formControlName="title"
         />
-        <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
+        <mat-error *ngIf="form.get('title')?.hasError('required')">
           Titel ist obligatorisch
         </mat-error>
-        <mat-error *ngIf="taskForm.get('title')?.hasError('maxlength')">
+        <mat-error *ngIf="form.get('title')?.hasError('maxlength')">
           Titel darf nicht länger als 50 sein
         </mat-error>
       </mat-form-field>
@@ -50,30 +50,12 @@
         >Benotet</mat-slide-toggle
       >
     </div>
-
-    <button color="primary" mat-button (click)="fileInput.click()">
-      <mat-icon *ngIf="!selectedFile">add</mat-icon>
-      {{ selectedFile ? "Dokument Ändern" : "Dokument Hinzufügen" }}
-    </button>
-    <input
-      hidden
-      (change)="onFileSelected($event)"
-      #fileInput
-      type="file"
-      id="file"
-    />
-    <div *ngIf="selectedFile">
-      {{ selectedFile.name }}
-      <button color="danger" mat-button (click)="removeFile()">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Abrechen</button>
-  <button mat-button [disabled]="!taskForm.valid" [mat-dialog-close]="taskData">
+  <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
+  <button mat-button [disabled]="form.invalid" [mat-dialog-close]="form.value">
     Speichern
   </button>
 </mat-dialog-actions>

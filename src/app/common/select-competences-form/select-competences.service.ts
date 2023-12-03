@@ -89,18 +89,24 @@ export class SelectCompetencesService {
   updateCompetences(competenceIds?: string[], subjectId?: string) {
     of(this.data.get_competences())
       .pipe(
+        tap(() => {
+          if (!competenceIds) this.selected$.next([])
+        }),
         map((subjects) => subjects.map(SelectSubject.Build)),
         tap((subjects) => this.subjects$.next(subjects)),
         tap((subjects) => {
-          if (!competenceIds) return
-          const competences = subjects
-            .reduce(
-              (array, subj) => array.concat(subj.getCompetences()),
-              [] as ICompetence[]
-            )
-            .filter(
-              (comp) => competenceIds.findIndex((id) => id === comp._id) > -1
-            )
+          if (!competenceIds || competenceIds.length === 0) return
+
+          console.log(competenceIds, ' to be set')
+          let competences = subjects.reduce(
+            (array, subj) => array.concat(subj.getCompetences()),
+            [] as ICompetence[]
+          )
+          console.log(competences.length, ' <- length before filter')
+          competences = competences.filter(
+            (comp) => competenceIds.findIndex((id) => id === comp._id) > -1
+          )
+          console.log(competences.length, ' <- length after filter')
           this.selected$.next(competences.map((comp) => comp._id))
         }),
         tap((subjects) => {
@@ -133,8 +139,6 @@ export class SelectCompetencesService {
     competences?: string[],
     subjectId?: string
   ): Observable<ICompetence[] | undefined> {
-    console.log(competences)
-
     this.updateCompetences(competences, subjectId)
 
     const dialogRef = this.dialog.open(SelectCompetencesFormComponent)

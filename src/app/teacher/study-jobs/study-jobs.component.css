@@ -1,0 +1,28 @@
+.add-container {
+  position: absolute;
+  right: 0;
+  padding: 16px;
+}
+
+.title {
+  padding-left: 250px;
+  padding-top: 60px;
+  font-size: 20px;
+}
+
+.title-segment:hover {
+  cursor: pointer;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.title-segment:hover + .hide {
+  opacity: 1;
+}
+
+.list {
+  margin-left: 250px;
+  margin-top: 32px;
+}

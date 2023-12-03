@@ -24,12 +24,8 @@ import { CourseService, ICourse } from './course.service'
   styleUrls: ['./teacher-course.component.css'],
 })
 export class TeacherCourseComponent implements OnInit {
-  course$ = new BehaviorSubject<ICourse | undefined>(undefined)
-  id: number
-  errorMessage?: string
   newMessage: string = ''
   isChatOpen = false
-  courseName: string
 
   currentUser$ = new BehaviorSubject(
     User.Build({
@@ -42,41 +38,29 @@ export class TeacherCourseComponent implements OnInit {
 
   constructor(
     protected route: ActivatedRoute,
-    private teacherService: TeacherService,
-    private uiService: UiService,
-    private router: Router,
     private dialog: MatDialog,
-    private courseService: CourseService
+    protected service: CourseService
   ) {
-    this.id = this.route.snapshot.params['id']
-    this.courseName = this.route.snapshot.queryParams['name']
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params
+      .pipe(
+        tap((params) => {
+          this.service.id$.next(params['id'])
+        })
+      )
+      .subscribe()
 
-  editStudents() {
-    // const course = this.course$.value
-    // if (!course) return
-    // this.teacherService
-    //   .selectStudents([...course.students])
-    //   .pipe(
-    //     filter((students) => {
-    //       return students !== null
-    //     }),
-    //     map((students) => students as IStudent[]),
-    //     mergeMap((students) =>
-    //       this.courseService.editStudents(course, students)
-    //     ),
-    //     map((students) => students.map(Student.Build)),
-    //     tap((students) => {
-    //       course.students = students
-    //     }),
-    //     catchError((err) => {
-    //       this.uiService.showToast('Schüler konnten nicht verändert werden')
-    //       return err
-    //     })
-    //   )
-    //   .subscribe()
+    this.route.queryParams
+      .pipe(
+        tap((params) => {
+          this.service.name$.next(params['name'])
+        })
+      )
+      .subscribe()
+
+    this.service.update()
   }
 
   addStudyJobs() {
@@ -131,26 +115,5 @@ export class TeacherCourseComponent implements OnInit {
       this.messages.push(newChatMessage)
       this.newMessage = ''
     }
-  }
-
-  refresh() {
-    this.router.navigate(['teacher', 'courses', this.id], {
-      queryParams: {
-        name: this.courseName,
-      },
-    })
-  }
-
-  navigateToStudent(student: IStudent) {
-    this.router.navigate(
-      ['teacher', 'courses', this.course$.value?._id, 'student', student._id],
-      {
-        queryParams: {
-          name: student.fullName,
-          gagi: 'fein',
-          courseName: this.course$.value?.name,
-        },
-      }
-    )
   }
 }
