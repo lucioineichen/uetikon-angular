@@ -11,6 +11,9 @@ import { SubTopicComponent } from './ui/sub-topic/sub-topic.component'
 import { CompetenceComponent } from './ui/competence/competence.component'
 import { SelectCompetencesComponent } from './teacher/select-competences-form/select-competences-form.component'
 import { SelectClassesComponent } from './ui/select-classes/select-classes.component'
+import { TableComponent } from './ui/table/table.component'
+import { SubTableComponent } from './ui/table/sub-table/sub-table.component'
+import { ChatComponent } from './chat/chat.component'
 
 const components = [
   TaskComponent,
@@ -21,6 +24,9 @@ const components = [
   SubTopicComponent,
   CompetenceComponent,
   SelectClassesComponent,
+  TableComponent,
+  SubTableComponent,
+  ChatComponent,
 ]
 
 @NgModule({

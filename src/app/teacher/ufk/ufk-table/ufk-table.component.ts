@@ -13,9 +13,10 @@ export class UfkTableComponent implements OnInit {
   displayedColumns: string[] = [
     'student',
     'teacher',
-    'subject',
     'title',
+    'competence',
     'grade',
+    'subject',
     'date',
   ]
 

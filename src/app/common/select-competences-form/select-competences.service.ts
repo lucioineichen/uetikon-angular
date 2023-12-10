@@ -16,8 +16,11 @@ import { SelectCompetencesFormComponent } from './select-competences-form.compon
 import { UiService } from '../ui.service'
 import { CompetencesDataService } from 'src/app/competences_data/competences-data.service'
 import { FormControl } from '@angular/forms'
-import { SelectSubject } from './select-competences.interface'
-import { ICompetence } from 'src/app/competences_data/competences.data'
+import { SelectCompetence, SelectSubject } from './select-competences.interface'
+import {
+  ICompetence,
+  ISubCompetence,
+} from 'src/app/competences_data/competences.data'
 import { MatCheckboxChange } from '@angular/material/checkbox'
 
 @Injectable({
@@ -32,10 +35,11 @@ export class SelectCompetencesService {
   )
   readonly searchControl = new FormControl()
   readonly subjectControl = new FormControl()
-  readonly competences$ = new BehaviorSubject<ICompetence[] | undefined>(
-    undefined
-  )
-  readonly selected$ = new BehaviorSubject<string[]>([])
+  readonly filteredCompetences$ = new BehaviorSubject<
+    | { subCompetences: ISubCompetence[]; competences: SelectCompetence[] }
+    | undefined
+  >(undefined)
+  readonly selectedSubs$ = new BehaviorSubject<string[]>([])
 
   constructor(
     private dialog: MatDialog,
@@ -43,31 +47,49 @@ export class SelectCompetencesService {
     private data: CompetencesDataService
   ) {
     this.setSelectedSubject()
-    this.setCompetences()
+    this.filterCompetences()
   }
 
-  isSelected(id: string) {
-    return this.selected$.value.findIndex((selc) => selc === id) > -1
+  isSelectedSub(id: string) {
+    return this.selectedSubs$.value.findIndex((selc) => selc === id) > -1
   }
 
-  setCompetences() {
+  isSelectedComp(comp: SelectCompetence) {
+    let ids = comp.subCompetences.map((sub) => sub._id)
+    for (let id of ids) {
+      if (!this.isSelectedSub(id)) {
+        return false
+      }
+    }
+    return true
+  }
+
+  private filterCompetences() {
     combineLatest([
       this.searchControl.valueChanges.pipe(
         startWith(''),
         distinctUntilChanged(),
         filter((search) => {
           if (search != '') return true
-          this.competences$.next(undefined)
+          this.filteredCompetences$.next(undefined)
           return false
         })
       ),
       this.selectedSubject$.pipe(filter((subject) => subject != undefined)),
     ])
       .pipe(
-        map(([search, subject]) =>
-          (subject as SelectSubject).getCompetences(search)
-        ),
-        tap((competences) => this.competences$.next(competences))
+        map(([search, subject]) => {
+          if (!subject) return [search, subject]
+          let subCompetences = subject.filterSubCompetences(search)
+          let competences = subject.filterCompetences(search)
+          if (search === 'respekt') console.log(subCompetences)
+          return [search, { subCompetences, competences }]
+        }),
+        tap(([search, competences]) => {
+          if (!search || search == '' || search === ' ')
+            this.filteredCompetences$.next(undefined)
+          else this.filteredCompetences$.next(competences)
+        })
       )
       .subscribe()
   }
@@ -86,30 +108,20 @@ export class SelectCompetencesService {
       .subscribe()
   }
 
-  updateCompetences(competenceIds?: string[], subjectId?: string) {
+  updateCompetences(subIds?: string[], subjectId?: string) {
     of(this.data.get_competences())
       .pipe(
         tap(() => {
-          if (!competenceIds) this.selected$.next([])
+          this.filteredCompetences$.next(undefined)
+          this.searchControl.setValue(undefined)
+          if (!subIds) this.selectedSubs$.next([])
+          else {
+            this.selectedSubs$.next(subIds)
+          }
         }),
         map((subjects) => subjects.map(SelectSubject.Build)),
         tap((subjects) => this.subjects$.next(subjects)),
-        tap((subjects) => {
-          if (!competenceIds || competenceIds.length === 0) return
-
-          console.log(competenceIds, ' to be set')
-          let competences = subjects.reduce(
-            (array, subj) => array.concat(subj.getCompetences()),
-            [] as ICompetence[]
-          )
-          console.log(competences.length, ' <- length before filter')
-          competences = competences.filter(
-            (comp) => competenceIds.findIndex((id) => id === comp._id) > -1
-          )
-          console.log(competences.length, ' <- length after filter')
-          this.selected$.next(competences.map((comp) => comp._id))
-        }),
-        tap((subjects) => {
+        tap(() => {
           if (subjectId) this.subjectControl.setValue(subjectId)
         }),
         catchError((err) => {
@@ -121,47 +133,88 @@ export class SelectCompetencesService {
       .subscribe()
   }
 
-  private getAllCompetences(): ICompetence[] | undefined {
-    const competences = this.subjects$.value?.reduce(
-      (array, subj) => array.concat(subj.getCompetences()),
-      [] as ICompetence[]
+  private allSubCompetences(subjects: SelectSubject[]): ISubCompetence[] {
+    return subjects.reduce(
+      (array, subj) => array.concat(subj.filterSubCompetences()),
+      [] as ISubCompetence[]
     )
-    return competences
   }
 
-  private getSelectedCompetences(): ICompetence[] | undefined {
-    return this.getAllCompetences()?.filter(
-      (comp) => this.selected$.value.findIndex((id) => comp._id === id) > -1
+  private allcompetences(subjects: SelectSubject[]): SelectCompetence[] {
+    return subjects.reduce(
+      (array, subj) => array.concat(subj.filterCompetences()),
+      [] as SelectCompetence[]
     )
   }
 
   selectCompetences(
     competences?: string[],
     subjectId?: string
-  ): Observable<ICompetence[] | undefined> {
+  ): Observable<
+    { competences: ICompetence[]; subCompetences: ISubCompetence[] } | undefined
+  > {
     this.updateCompetences(competences, subjectId)
 
     const dialogRef = this.dialog.open(SelectCompetencesFormComponent)
 
-    return dialogRef
-      .afterClosed()
-      .pipe(
-        map((isConfirm) =>
-          isConfirm ? this.getSelectedCompetences() : undefined
+    return dialogRef.afterClosed().pipe(
+      map((isConfirm) => {
+        if (!isConfirm || !this.subjects$.value) return undefined
+        let subs = this.allSubCompetences(this.subjects$.value).filter(
+          (sub) =>
+            this.selectedSubs$.value.findIndex((selId) => sub._id === selId) >
+            -1
         )
-      )
+        let comps = this.allcompetences(this.subjects$.value).filter((comp) => {
+          let allSubsSelected = true
+          comp.subCompetences.forEach((sub) => {
+            if (subs.findIndex((_sub) => _sub._id === sub._id) === -1)
+              allSubsSelected = false
+          })
+          return allSubsSelected
+        })
+        return {
+          competences: comps,
+          subCompetences: subs,
+        }
+      })
+    )
   }
 
   openSubject(id: string) {
     this.subjectControl.setValue(id)
   }
 
-  toggleSelection(event: MatCheckboxChange, id: string): void {
-    if (event.checked && !this.selected$.value.find((_id) => _id === id)) {
-      this.selected$.value.push(id)
+  toggleSubSelection(event: MatCheckboxChange, id: string): void {
+    if (
+      event.checked &&
+      this.selectedSubs$.value.findIndex((_id) => _id === id) === -1
+    ) {
+      this.selectedSubs$.next(this.selectedSubs$.value.concat(id))
     }
     if (!event.checked) {
-      this.selected$.next(this.selected$.value.filter((_id) => _id !== id))
+      this.selectedSubs$.next(
+        this.selectedSubs$.value.filter((_id) => _id !== id)
+      )
+    }
+  }
+
+  toggleCompSelection(event: MatCheckboxChange, comp: SelectCompetence): void {
+    if (event.checked) {
+      let newSubs: string[] = []
+      comp.subCompetences.forEach((sub) => {
+        if (this.selectedSubs$.value.findIndex((sel) => sel === sub._id) === -1)
+          newSubs.push(sub._id)
+      })
+      this.selectedSubs$.next(this.selectedSubs$.value.concat(newSubs))
+    }
+    if (!event.checked) {
+      this.selectedSubs$.next(
+        this.selectedSubs$.value.filter(
+          (sub) =>
+            comp.subCompetences.findIndex((_sub) => _sub._id === sub) === -1
+        )
+      )
     }
   }
 }

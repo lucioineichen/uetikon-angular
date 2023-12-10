@@ -17,7 +17,8 @@
     <ng-container matColumnDef="teacher">
       <th mat-header-cell *matHeaderCellDef>Lehrer</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.teacher.name.fullName }}
+        {{ element.teacher.name.firstName[0] }}.
+        {{ element.teacher.name.lastName }}
       </td>
     </ng-container>
 
@@ -34,9 +35,28 @@
     </ng-container>
 
     <!-- Symbol Column -->
+    <ng-container matColumnDef="competence">
+      <th mat-header-cell *matHeaderCellDef>Kompetenz</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [matTooltip]="element.competence.name"
+      >
+        <mat-chip>{{ element.competence.short }}</mat-chip>
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
     <ng-container matColumnDef="grade">
       <th mat-header-cell *matHeaderCellDef>Bewertung</th>
-      <td mat-cell *matCellDef="let element">{{ element.grade | grade }}</td>
+      <td mat-cell *matCellDef="let element">
+        <mat-icon *ngIf="element.grade <= 0.6" style="color: red"
+          >fmd_bad</mat-icon
+        >
+        <mat-icon *ngIf="element.grade > 0.6" style="color: green"
+          >bolt</mat-icon
+        >
+      </td>
     </ng-container>
 
     <!-- Date Column -->

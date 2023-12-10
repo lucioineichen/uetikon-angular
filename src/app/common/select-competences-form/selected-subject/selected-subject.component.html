@@ -35,12 +35,22 @@
       <mat-panel-title> Suche ({{ searchControl.value }}): </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <div *ngFor="let competence of competences">
+    <div *ngFor="let competence of competences.competences">
       <div style="display: flex; align-items: center; padding-bottom: 10px">
         <mat-checkbox
           style="padding: 5px 5px 10px 5px"
-          [checked]="service.isSelected(competence._id)"
-          (change)="service.toggleSelection($event, competence._id)"
+          [checked]="service.isSelectedComp(competence)"
+          (change)="service.toggleCompSelection($event, competence)"
+          >{{ competence.name }}</mat-checkbox
+        >
+      </div>
+    </div>
+    <div *ngFor="let competence of competences.subCompetences">
+      <div style="display: flex; align-items: center; padding-bottom: 10px">
+        <mat-checkbox
+          style="padding: 5px 5px 10px 5px"
+          [checked]="service.isSelectedSub(competence._id)"
+          (change)="service.toggleSubSelection($event, competence._id)"
           >{{ competence.name }}</mat-checkbox
         >
       </div>

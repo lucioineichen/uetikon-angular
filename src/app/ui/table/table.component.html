@@ -1,0 +1,97 @@
+<div class="table mat-elevation-z8">
+  <div class="header">
+    <div class="sub-row">
+      <div
+        [ngStyle]="{ width: width }"
+        class="header-element"
+        *ngFor="let header of headers"
+      >
+        {{ header.name | titlecase }}
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="row"
+    *ngFor="let data of upperTableData$ | async; index as i"
+    (click)="setIndex(i)"
+  >
+    <div class="sub-row">
+      <div
+        [ngStyle]="{ width: width }"
+        class="row-element"
+        *ngFor="let header of headers"
+      >
+        <span *ngIf="!header.style">{{ dataFromKey(data, header.key) }}</span>
+        <span *ngIf="header.style === 'percent'"
+          >{{ dataFromKey(data, header.key) | percent }}
+        </span>
+        <span *ngIf="header.key === 'date'"
+          >{{ dataFromKey(data, header.key) | date }}
+        </span>
+      </div>
+      <mat-icon class="expand-icon">expand_more</mat-icon>
+    </div>
+  </div>
+</div>
+
+<div
+  class="table expanded-table mat-elevation-z8"
+  *ngIf="expandedData$ | async as data"
+>
+  <div class="row expanded-row" (click)="setIndex(-1)">
+    <div class="sub-row">
+      <div
+        [ngStyle]="{ width: width }"
+        class="row-element"
+        *ngFor="let header of headers"
+      >
+        <span *ngIf="!header.style">{{ dataFromKey(data, header.key) }}</span>
+        <span *ngIf="header.style === 'percent'"
+          >{{ dataFromKey(data, header.key) | percent }}
+        </span>
+        <span *ngIf="header.style === 'date'"
+          >{{ dataFromKey(data, header.key) | date }}
+        </span>
+      </div>
+      <mat-icon class="expand-icon">expand_less</mat-icon>
+    </div>
+  </div>
+
+  <div
+    class="sub-table"
+    [ngClass]="{
+      'sub-table-visible': startAnimation$ | async,
+    }"
+  >
+    <app-sub-table
+      [data]="BEHAVIOR_DUMMY_DATA"
+      [headers]="BEHAVIOUR_HEADERS"
+    ></app-sub-table>
+  </div>
+</div>
+
+<div class="table mat-elevation-z8">
+  <div
+    class="row"
+    *ngFor="let data of lowerTableData$ | async; index as i"
+    (click)="setIndex(i + index$.value + 1)"
+  >
+    <div class="sub-row">
+      <div
+        [ngStyle]="{ width: width }"
+        class="row-element"
+        *ngFor="let header of headers"
+      >
+        <span *ngIf="!header.style">{{ dataFromKey(data, header.key) }}</span>
+        <span *ngIf="header.style === 'percent'"
+          >{{ dataFromKey(data, header.key) | percent }}
+        </span>
+        <span *ngIf="header.style === 'date'"
+          >{{ dataFromKey(data, header.key) | date }}
+        </span>
+      </div>
+      <mat-icon class="expand-icon">expand_more</mat-icon>
+    </div>
+  </div>
+</div>

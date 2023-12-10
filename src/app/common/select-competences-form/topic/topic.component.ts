@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core'
-import { SelectSubTopic } from '../select-competences.interface'
+import {
+  SelectCompetence,
+  SelectSubTopic,
+} from '../select-competences.interface'
 import { SelectCompetencesService } from '../select-competences.service'
 import { ICompetence } from 'src/app/competences_data/competences.data'
 
@@ -9,7 +12,7 @@ import { ICompetence } from 'src/app/competences_data/competences.data'
   styles: [],
 })
 export class TopicSelectComponent {
-  @Input() competences: undefined | ICompetence[]
+  @Input() competences: undefined | SelectCompetence[]
   @Input() subTopics: undefined | SelectSubTopic[]
 
   constructor(protected service: SelectCompetencesService) {}

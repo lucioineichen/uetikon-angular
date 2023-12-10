@@ -6,13 +6,13 @@ import { LoginComponent } from './login/login.component'
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
 import { AuthGuard } from './auth/auth-guard.service'
 import { Role } from './auth/auth.enum'
-import { CompetencesComponent } from './competences/competences.component'
+import { CompetencesXComponent } from './competences/competences.component'
 import { ProfileComponent } from './profile/profile.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'competences', component: CompetencesComponent },
+  { path: 'competences', component: CompetencesXComponent },
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'create-user', component: CreateUserComponent },

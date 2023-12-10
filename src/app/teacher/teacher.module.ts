@@ -48,8 +48,10 @@ import { SelectUfkStudentsComponent } from './ufk/add-ufk/students/students.comp
 import { JobListItemComponent } from './study-jobs/job-list-item/job-list-item.component'
 import { AddStudyJobComponent } from './study-jobs/add-study-job/add-study-job.component'
 import { CompetencesControlComponent } from './ui/competences-control/competences-control.component'
-import { AddTaskControlComponent } from './ui/add-task-control/add-task-control.component';
+import { AddTaskControlComponent } from './ui/add-task-control/add-task-control.component'
 import { FolderListItemComponent } from './study-jobs/folder-list-item/folder-list-item.component'
+import { CompetencesComponent } from './competences/competences.component';
+import { CompetencesTableComponent } from './competences/competences-table/competences-table.component'
 
 @NgModule({
   declarations: [
@@ -96,6 +98,8 @@ import { FolderListItemComponent } from './study-jobs/folder-list-item/folder-li
     CompetencesControlComponent,
     AddTaskControlComponent,
     FolderListItemComponent,
+    CompetencesComponent,
+    CompetencesTableComponent,
   ],
   imports: [
     CommonModule,

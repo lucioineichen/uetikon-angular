@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { BehaviorSubject, Observable, catchError, map, tap } from 'rxjs'
 import { UiService } from 'src/app/common/ui.service'
+import { CompetencesDataService } from 'src/app/competences_data/competences-data.service'
 import { environment } from 'src/app/environment/environment.demo'
 import { Name } from 'src/app/user/user'
 
@@ -44,7 +45,11 @@ export class UfkService {
     undefined
   )
 
-  constructor(private http: HttpClient, private ui: UiService) {}
+  constructor(
+    private http: HttpClient,
+    private ui: UiService,
+    private competencesData: CompetencesDataService
+  ) {}
 
   private getUfks(): Observable<IUfk[]> {
     return this.http.get<IUfk[]>(`${environment.baseUrl}/teacher/ufks`)

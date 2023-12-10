@@ -1,6 +1,10 @@
 <div style="position: absolute; top: 0; width: 100%; z-index: 100">
   <!-- Sub Header -->
-  <mat-toolbar color="primary" fxLayoutGap="8px">
+  <mat-toolbar
+    color="primary"
+    fxLayoutGap="8px"
+    style="position: fixed; z-index: 10000"
+  >
     <a mat-button routerLink="/teacher/courses"
       ><mat-icon>arrow_back</mat-icon> Zurück</a
     >
@@ -9,111 +13,101 @@
     >
   </mat-toolbar>
 
-  <!-- Content -->
-  <div
-    *ngIf="service.course$ | async as course; else loading"
-    style="padding: 20px; margin-left: 15vw; margin-top: 50px"
-    class="mat-typography"
-  >
-    <div fxLayout="row">
-      <mat-card style="position: relative; width: 350px; margin-right: 50px"
-        ><mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>Schüler</mat-card-title>
-            <mat-card-subtitle>Auflistung aller Schüler</mat-card-subtitle>
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item
-              *ngFor="let student of course.students"
-              class="clickable"
-              (click)="service.navigateToStudent(student)"
-            >
-              {{ student.fullName }}
-            </mat-list-item>
-          </mat-list>
-
-          <div *ngIf="course.students.length === 0">
-            Dem Kurse wurden noch keine Schüler hinzugefügt
+  <div class="main-content">
+    <div class="title">LernWeg</div>
+    <mat-grid-list
+      class="jobs"
+      gutterSize="20px"
+      rowHeight="240px"
+      [cols]="breakpoint"
+      (window:resize)="onResize($event)"
+    >
+      <mat-grid-tile *ngFor="let job of STUDY_JOBS">
+        <mat-card class="course-card" style="overflow: visible">
+          <div class="job" mat-ripple>
+            <mat-card-header>
+              <img [src]="job.imageUrl" [alt]="job.name" mat-card-avatar />
+              <!-- <div mat-card-avatar class="example-header-image"></div> -->
+              <mat-card-title>{{ job.name }}</mat-card-title>
+              <mat-card-subtitle>{{ job.subject }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-chip class="chip">
+                <mat-icon matChipAvatar>task</mat-icon>
+                {{ job.tasksCount }} Aufgaben
+              </mat-chip>
+              <mat-chip class="chip">
+                <img
+                  src="../../../assets/competence.svg"
+                  matChipAvatar
+                  alt=""
+                />
+                {{ job.competencesCount }} Kompetenzen
+              </mat-chip>
+              <mat-chip class="chip">
+                <img src="../../../assets/credits.svg" matChipAvatar alt="" />
+                {{ job.credits }} Credits
+              </mat-chip>
+            </mat-card-content>
           </div>
+          <img
+            *ngIf="job.dependend"
+            class="lock"
+            src="../../../assets/lock.svg"
+            alt="no svg"
+            [matTooltip]="'Abhängig von ' + job.dependend.name"
+          /> </mat-card
+      ></mat-grid-tile>
 
-          <div style="height: 50px"></div>
-
-          <button
-            mat-raised-button
-            color="primary"
-            style="position: absolute; bottom: 16px"
-          >
-            Schüler Verwalten
-          </button>
-        </mat-card-content>
-      </mat-card>
-
-      <app-study-path style="width: 450px"></app-study-path>
-    </div>
-
-    <div fxLayout="row" style="margin-top: 50px">
-      <mat-card style="position: relative; width: 400px; margin-right: 50px"
-        ><mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>Beischreibung</mat-card-title>
-            <mat-card-subtitle>Zusätzliche Infos zum Kurs</mat-card-subtitle>
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content>
-          <div style="margin-top: 16px">
-            Erstellt euren eigenen LernWeg und arbeitet konzentriert an den
-            LernJobs. Bei Fragen seid ihr sehr willkommen auf die anwesende
-            Lehrperson zuzugehen und ungeniert Fragen zu stellen. Viel Spass!
+      <mat-grid-tile>
+        <mat-card class="course-card" style="overflow: visible">
+          <div class="job-choice-container" mat-ripple>
+            <mat-card-header>
+              <mat-card-title>LernJob Auswahl</mat-card-title>
+              <mat-card-subtitle>Mathematik</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content style="height: 95px">
+              <div style="height: 40px"></div>
+              <mat-chip
+                class="job-choice"
+                matTooltip="6 Credits, 12 Kompetenzen, 7 Aufgaben"
+              >
+                <img
+                  matChipAvatar
+                  src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp9074250.jpg&f=1&nofb=1&ipt=644cac44eae37f53c27bb552f26ace6ec3c60fa73ff2ce35fceb57141145d3bd&ipo=images"
+                  alt="Photo of a Shiba Inu"
+                />
+                Konvexität 01</mat-chip
+              >
+              <mat-chip
+                class="job-choice"
+                matTooltip="6 Credits, 12 Kompetenzen, 7 Aufgaben"
+              >
+                <img
+                  matChipAvatar
+                  src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.myfreetextures.com%2Fwp-content%2Fuploads%2F2014%2F11%2Fblue-abstract-background-texture.jpg&f=1&nofb=1&ipt=5d499d7510e777ab5d7a0583d69b6fedcf65cb94aa1ca6c53d4c266051901115&ipo=images"
+                  alt="Photo of a Shiba Inu"
+                />Konvexität 02</mat-chip
+              >
+              <mat-chip
+                class="job-choice"
+                matTooltip="6 Credits, 12 Kompetenzen, 7 Aufgaben"
+              >
+                <img
+                  matChipAvatar
+                  src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fjooinn.com%2Fimages%2Fgreen-nature-19.jpg&f=1&nofb=1&ipt=16c65164fe9ef364b515a2c3db88a9d9774b59091c5b42c7772efe36eaa31bc4&ipo=images"
+                  alt="Photo of a Shiba Inu"
+                />Konvexität nach Leibniz</mat-chip
+              >
+            </mat-card-content>
           </div>
+        </mat-card></mat-grid-tile
+      >
+    </mat-grid-list>
 
-          <div style="height: 50px"></div>
-
-          <button
-            mat-raised-button
-            color="primary"
-            style="position: absolute; bottom: 16px"
-          >
-            Beschreibung Ändern
-          </button>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card style="position: relative; width: 400px; margin-right: 50px"
-        ><mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>Kalender</mat-card-title>
-            <mat-card-subtitle
-              >Auflistung der aktuellen Daten</mat-card-subtitle
-            >
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item class="clickable">
-              07.09 Vortrag Geschichte
-            </mat-list-item>
-            <mat-list-item class="clickable">
-              16.09 Exkursion (Wanderschuhe)
-            </mat-list-item>
-            <mat-list-item class="clickable">
-              23.09 Abgabe Aufsatz
-            </mat-list-item>
-          </mat-list>
-
-          <div style="height: 50px"></div>
-
-          <button
-            mat-raised-button
-            color="primary"
-            style="position: absolute; bottom: 16px"
-          >
-            Schüler Verwalten
-          </button>
-        </mat-card-content>
-      </mat-card>
-    </div>
+    <div class="title">Schüler</div>
+    <app-table></app-table>
+    <div style="height: 250px"></div>
   </div>
 
   <ng-template #loading>
@@ -126,46 +120,5 @@
     >Kurs konnten nicht geladen werden, lade die Seite neu</ng-template
   >
 
-  <div class="chat-icon-container">
-    <button mat-fab color="primary" (click)="toggleChat()">
-      <mat-icon>chat</mat-icon>
-    </button>
-  </div>
-
-  <!-- chat -->
-  <div class="chat-container" [ngClass]="{ 'chat-open': isChatOpen }">
-    <div class="chat-header">
-      <h3>Chat</h3>
-      <button mat-icon-button (click)="toggleChat()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-    <div class="chat-content">
-      <div
-        *ngFor="let message of messages"
-        [ngClass]="{ 'current-user-message': isCurrentUserMessage(message) }"
-      >
-        <p class="message">{{ message.message }}</p>
-        <p class="metadata">
-          {{ message.authorName.firstName }} {{ message.authorName.lastName }} -
-          {{ message.date | date : "short" }}
-          <span *ngIf="message.edited">(edited)</span>
-        </p>
-      </div>
-    </div>
-
-    <div class="chat-footer">
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Type your message"
-          [(ngModel)]="newMessage"
-          (keyup.enter)="sendMessage()"
-        />
-      </mat-form-field>
-      <button mat-raised-button color="primary" (click)="sendMessage()">
-        Send
-      </button>
-    </div>
-  </div>
+  <app-chat></app-chat>
 </div>

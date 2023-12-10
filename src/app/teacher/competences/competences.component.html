@@ -1,0 +1,35 @@
+<app-add-button (click)="addUfk()"></app-add-button>
+
+<div style="padding: 50px">
+  <div>
+    <app-class-control class="control"></app-class-control>
+    <app-student-control class="control"></app-student-control>
+    <app-subject-control
+      class="control"
+      [control]="service.subjectControl"
+      styleOption="filter"
+    ></app-subject-control>
+    <app-teacher-control class="control"></app-teacher-control>
+    <app-ufk-control class="control"></app-ufk-control>
+    <mat-form-field appearance="outline">
+      <mat-label>Datum</mat-label>
+      <input
+        [formControl]="service.dateControl"
+        matInput
+        [matDatepicker]="picker"
+      />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field style="width: 100%">
+      <mat-label>Filter</mat-label>
+      <input matInput [formControl]="service.searchControl" />
+    </mat-form-field>
+  </div>
+
+  <app-competences-table></app-competences-table>
+</div>

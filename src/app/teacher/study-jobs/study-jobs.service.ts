@@ -20,64 +20,6 @@ import { FolderService } from './folder/folder.service'
 import { RenameFolderService } from 'src/app/ui/rename-folder/rename-folder.service'
 import { filterNullish } from 'src/app/common/common'
 
-// export class SelectJob implements IStudyJob {
-//   private _isSelected = false
-//   get isSelected() {
-//     return this._isSelected
-//   }
-//   set isSelected(value: boolean) {
-//     if (value && !this.isSelected) {
-//       this.isSelected = true
-//       StudyJobsService.selectedCount++
-//     }
-
-//     if (!value && this.isSelected) {
-//       this.isSelected = false
-//       StudyJobsService.selectedCount--
-//     }
-//   }
-
-//   constructor(
-//     public _id: number,
-//     public name: string,
-//     public competences: string[],
-//     public subject: string,
-//     public tasks: ITask[],
-//     public notes?: string
-//   ) {}
-
-//   static Build(job: IStudyJob) {
-//     return new SelectJob(
-//       job._id,
-//       job.name,
-//       job.competences,
-//       job.subject,
-//       job.tasks,
-//       job.notes
-//     )
-//   }
-// }
-
-// class SelectableFolder implements IFolder {
-//   constructor(
-//     public _id: number,
-//     public name: string,
-//     public folders: IRef[],
-//     public studyJobs: SelectJob[],
-//     public path: IRef[]
-//   ) {}
-
-//   static Build(folder: IFolder) {
-//     return new SelectableFolder(
-//       folder._id,
-//       folder.name,
-//       folder.folders,
-//       folder.studyJobs.map(SelectJob.Build),
-//       folder.path
-//     )
-//   }
-// }
-
 @Injectable({
   providedIn: 'root',
 })

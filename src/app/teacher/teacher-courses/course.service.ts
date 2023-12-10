@@ -20,6 +20,7 @@ export interface ICoursePre {
   teacherCount: number
   studentCount: number
   isProject: boolean
+  imageUrl: string
 }
 
 @Injectable({

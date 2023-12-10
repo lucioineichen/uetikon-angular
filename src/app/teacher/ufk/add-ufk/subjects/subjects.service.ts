@@ -26,13 +26,16 @@ export class SubjectsService {
   updateSubjects() {
     return this.getsubjects()
       .pipe(
+        tap(console.log),
         tap((subjects) => this.subjects$.next(subjects)),
-        tap((subjects) =>
-          this.service.form.get('subject')?.setValue(subjects[0]._id)
-        ),
+        tap((subjects) => {
+          if (subjects.length > 0)
+            this.service.form.get('subject')?.setValue(subjects[0]._id)
+          else this.service.form.get('subject')?.setValue(undefined)
+        }),
         catchError((err) => {
           this.ui.showToast('Fächer konnten nicht geladen werden')
-          this.subjects$.error('server')
+          this.subjects$.error(err)
           return err
         })
       )

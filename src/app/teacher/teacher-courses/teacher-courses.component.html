@@ -19,7 +19,7 @@
     <mat-grid-list
       cols="4"
       gutterSize="20px"
-      rowHeight="240px"
+      rowHeight="420px"
       [cols]="breakpoint"
       (window:resize)="onResize($event)"
     >
@@ -29,40 +29,41 @@
           (click)="openCourse(course._id, course.name)"
           class="course-card"
           mat-ripple
-          style="overflow: visible"
         >
           <img
             *ngIf="course.isProject"
-            style="
-              height: 45px;
-              position: absolute;
-              right: -15px;
-              top: -15px;
-              transform: rotate(10deg);
-              z-index: 1000;
-            "
+            class="project-icon"
             src="../../../assets/light-bulb-svgrepo-com.svg"
             alt="no svg"
+            matTooltip="Überfachliches Projekt"
           />
-          <div style="width: 250px; padding: 20px 40px">
-            <mat-card-header>
-              <mat-card-title>{{ course.name }}</mat-card-title>
-              <mat-card-subtitle
-                >Credits: {{ course.credits }}</mat-card-subtitle
-              >
-            </mat-card-header>
-            <mat-card-content>
-              <div>
-                {{ course.teacherCount }}
-                <mat-icon svgIcon="teacher"></mat-icon>
-              </div>
-              <div>
-                {{ course.studentCount }}
-                <mat-icon svgIcon="student"></mat-icon>
-              </div>
-            </mat-card-content>
-          </div> </mat-card
-      ></mat-grid-tile>
+          <mat-card-header>
+            <mat-card-title>{{ course.name }}</mat-card-title>
+          </mat-card-header>
+          <img
+            mat-card-image
+            alt="Photo of a Shiba Inu"
+            [src]="course.imageUrl"
+            style="height: 250px"
+          />
+          <mat-card-content class="card-content">
+            <mat-chip class="chip">
+              <img src="../../../assets/credits.svg" matChipAvatar alt="" />
+              {{ course.credits }} Credits
+            </mat-chip>
+            <mat-chip class="chip">
+              <mat-icon matChipAvatar svgIcon="teacher"></mat-icon>
+
+              {{ course.teacherCount }} Lehrer
+            </mat-chip>
+            <mat-chip class="chip">
+              <mat-icon matChipAvatar svgIcon="student"></mat-icon>
+
+              {{ course.studentCount }} Schüler
+            </mat-chip>
+          </mat-card-content>
+        </mat-card></mat-grid-tile
+      >
     </mat-grid-list>
   </div>
   <ng-template #noCourses>Du bist noch in keinem Kurs </ng-template>

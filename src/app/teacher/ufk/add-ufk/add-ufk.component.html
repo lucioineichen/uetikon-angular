@@ -10,7 +10,7 @@
 
   <div style="height: 20px"></div>
 
-  <mat-chip-listbox aria-label="Bewertung">
+  <mat-chip-listbox [formControl]="service.gradeControl" aria-label="Bewertung">
     <mat-chip-option [value]="1">Gut</mat-chip-option>
     <mat-chip-option [value]="0.6" color="accent">Genügend</mat-chip-option>
     <mat-chip-option [value]="0.4" color="warn">Schlecht</mat-chip-option>
@@ -28,7 +28,11 @@
   </mat-form-field>
 
   <p *ngIf="service.competenceControl.value">
-    <span>{{ service.competenceControl.value }}</span>
+    <span
+      *ngFor="let comp of service.competenceControl.value"
+      [matTooltip]="comp.name"
+      >{{ comp._id }}</span
+    >
   </p>
 
   <a mat-button color="primary" (click)="service.chooseCompetences()"

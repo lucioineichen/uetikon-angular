@@ -13,7 +13,7 @@ class TreeCompetence implements ICompetence {
   constructor(
     public _id: string,
     public name: string,
-    public subCompetences: string[],
+    public subCompetences: any[],
     public expanded = false
   ) {}
 

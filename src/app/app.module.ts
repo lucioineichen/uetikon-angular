@@ -20,15 +20,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule } from '@angular/common'
 import { TaskComponent } from './ui/task/task.component'
 import { ConfirmDeletionDialogComponent } from './common/confirm-deletion-dialog.component'
-import { CompetencesComponent } from './competences/competences.component'
+import { CompetencesXComponent } from './competences/competences.component'
 import { CompetenceFormComponent } from './competences/competence-form/competence-form.component'
 import { ProfileComponent } from './profile/profile.component'
 import { SelectCompetencesFormComponent } from './common/select-competences-form/select-competences-form.component'
 import { UiModule } from './ui.module'
 import { TopicSelectComponent } from './common/select-competences-form/topic/topic.component'
-import { SelectClassesComponent } from './ui/select-classes/select-classes.component';
-import { AllSubjectsComponent } from './common/select-competences-form/all-subjects/all-subjects.component';
-import { SelectedSubjectComponent } from './common/select-competences-form/selected-subject/selected-subject.component';
+import { SelectClassesComponent } from './ui/select-classes/select-classes.component'
+import { AllSubjectsComponent } from './common/select-competences-form/all-subjects/all-subjects.component'
+import { SelectedSubjectComponent } from './common/select-competences-form/selected-subject/selected-subject.component'
 import { SelectStudentsComponent } from './common/select-students/select-students.component'
 
 @NgModule({
@@ -40,7 +40,7 @@ import { SelectStudentsComponent } from './common/select-students/select-student
     CreateUserComponent,
     SimpleDialogComponent,
     ConfirmDeletionDialogComponent,
-    CompetencesComponent,
+    CompetencesXComponent,
     CompetenceFormComponent,
     ProfileComponent,
     SelectCompetencesFormComponent,

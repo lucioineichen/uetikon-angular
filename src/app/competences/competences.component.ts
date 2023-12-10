@@ -42,7 +42,7 @@ import { CompetenceService } from './competence.service'
     `,
   ],
 })
-export class CompetencesComponent implements OnInit {
+export class CompetencesXComponent implements OnInit {
   readonly competences$: BehaviorSubject<ICompetence[] | undefined>
 
   constructor(private service: CompetenceService) {

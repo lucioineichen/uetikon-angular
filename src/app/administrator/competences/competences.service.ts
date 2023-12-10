@@ -23,7 +23,7 @@ export class CompetencesService {
   ) {}
 
   init() {
-    return this.httpClient
+    this.httpClient
       .post<ICompetence[]>(
         `${environment.baseUrl}/administrator/competences/init`,
         { subjects: this.data.get_competences() }

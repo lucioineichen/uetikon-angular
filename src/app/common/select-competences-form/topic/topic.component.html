@@ -15,8 +15,8 @@
     <div *ngFor="let competence of subTopic.competences">
       <mat-checkbox
         style="padding: 5px 5px 10px 5px"
-        [checked]="service.isSelected(competence._id)"
-        (change)="service.toggleSelection($event, competence._id)"
+        [checked]="service.isSelectedComp(competence)"
+        (change)="service.toggleCompSelection($event, competence)"
         >{{ competence.name }}</mat-checkbox
       >
     </div>
@@ -26,8 +26,8 @@
 <div *ngFor="let competence of competences">
   <mat-checkbox
     style="padding: 5px 5px 10px 5px"
-    [checked]="service.isSelected(competence._id)"
-    (change)="service.toggleSelection($event, competence._id)"
+    [checked]="service.isSelectedComp(competence)"
+    (change)="service.toggleCompSelection($event, competence)"
     >{{ competence.name }}</mat-checkbox
   >
 </div>

@@ -49,10 +49,10 @@ export class SubTopicComponent {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener)
 
-  private readonly map_sub_competence = (subCompetence: string) => {
+  private readonly map_sub_competence = (subCompetence: any) => {
     return {
-      _id: '0',
-      name: subCompetence,
+      _id: subCompetence._id,
+      name: subCompetence.name,
     }
   }
 

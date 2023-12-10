@@ -6,7 +6,10 @@ import { HttpClient } from '@angular/common/http'
 import { SelectCompetencesService } from 'src/app/common/select-competences-form/select-competences.service'
 import { filterNullish } from 'src/app/common/common'
 import { FormControl } from '@angular/forms'
-import { ICompetence } from 'src/app/competences_data/competences.data'
+import {
+  ICompetence,
+  ISubCompetence,
+} from 'src/app/competences_data/competences.data'
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +17,6 @@ import { ICompetence } from 'src/app/competences_data/competences.data'
 export class UfkControlService {
   ufkControl = new FormControl(0)
   selectedUfks$ = this.service.selectedUfks$
-  students$ = new BehaviorSubject<{ _id: number; name: string }[] | undefined>(
-    undefined
-  )
 
   constructor(
     private select: SelectCompetencesService,
@@ -28,8 +28,8 @@ export class UfkControlService {
   }
 
   setCompetences = pipe(
-    filterNullish<ICompetence[]>(),
-    map((competences: ICompetence[]) => competences.map((comp) => comp._id)),
+    filterNullish<ISubCompetence[]>(),
+    map((competences: ISubCompetence[]) => competences.map((comp) => comp._id)),
     tap((comps) => this.selectedUfks$.next(comps)),
     tap((comps) => {
       if (comps.length === 0) this.ufkControl.setValue(0)

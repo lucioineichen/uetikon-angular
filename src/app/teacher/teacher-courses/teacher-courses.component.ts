@@ -15,27 +15,10 @@ export interface ICreateCourseData {
 @Component({
   selector: 'app-tacher-courses',
   templateUrl: './teacher-courses.component.html',
-  styles: [
-    `
-      .active-link {
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-      }
-    `,
-    `
-      .course-card:hover {
-        cursor: pointer;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        transition: all 200ms ease;
-      }
-    `,
-    `
-      .project {
-      }
-    `,
-  ],
+  styleUrls: ['./teacher-courses.component.css'],
 })
 export class TeacherCoursesComponent implements OnInit {
-  breakpoint = 4
+  breakpoint = 3
   courses$ = this.service.courses$
 
   constructor(
@@ -55,8 +38,7 @@ export class TeacherCoursesComponent implements OnInit {
   }
 
   private calcBreakpoint(width: number) {
-    if (width > 1580) return 4
-    if (width > 1200) return 3
+    if (width > 1600) return 3
     if (width > 850) return 2
     return 1
   }

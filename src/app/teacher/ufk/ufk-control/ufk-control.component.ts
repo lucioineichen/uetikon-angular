@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core'
 import { UfkControlService } from './ufk-control.service'
-import { tap } from 'rxjs'
+import { map, tap } from 'rxjs'
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -30,6 +30,7 @@ export class UfkControlComponent {
       .selectCompetences()
       .pipe(
         tap(() => this.mySelect.close()),
+        map((data) => data?.subCompetences),
         this.service.setCompetences
       )
       .subscribe()

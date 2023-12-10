@@ -14,10 +14,6 @@
   cursor: pointer;
 }
 
-.hide {
-  opacity: 0;
-}
-
 .title-segment:hover + .hide {
   opacity: 1;
 }

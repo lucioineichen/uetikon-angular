@@ -1,0 +1,39 @@
+<div class="table">
+  <div class="header">
+    <div class="sub-row">
+      <div
+        [ngStyle]="{ width: width }"
+        class="header-element"
+        *ngFor="let header of headers"
+      >
+        {{ header.name | titlecase }}
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngFor="let data of data">
+    <div class="sub-row">
+      <div
+        [ngStyle]="{ width: width }"
+        class="row-element"
+        *ngFor="let header of headers"
+      >
+        <span *ngIf="!header.style">{{ dataFromKey(data, header.key) }}</span>
+        <span *ngIf="header.style === 'date'"
+          >{{ dataFromKey(data, header.key) | date }}
+        </span>
+        <span *ngIf="header.style === 'percent'"
+          >{{ dataFromKey(data, header.key) | percent }}
+        </span>
+        <span *ngIf="header.style === 'list'">
+          <mat-chip
+            matTooltip="Aufgaben/Probleme lösen: Lernstrategien erwerben, Lern- und Arbeitsprozesse planen, durchführen und reflektieren"
+            class="chip"
+            *ngFor="let item of dataFromKey(data, header.key)"
+            >{{ item }}</mat-chip
+          >
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

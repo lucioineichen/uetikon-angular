@@ -18,7 +18,10 @@ import { environment } from 'src/app/environment/environment.demo'
 import { AddUfkComponent } from './add-ufk.component'
 import { filterNullish } from 'src/app/common/common'
 import { SelectCompetencesService } from 'src/app/common/select-competences-form/select-competences.service'
-import { ICompetence } from 'src/app/competences_data/competences.data'
+import {
+  ICompetence,
+  ISubCompetence,
+} from 'src/app/competences_data/competences.data'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Injectable({
@@ -73,13 +76,13 @@ export class AddUfkService {
     this.selectComps
       .selectCompetences(
         this.competenceControl.value
-          ? [this.competenceControl.value]
+          ? this.competenceControl.value.map((comp: ISubCompetence) => comp._id)
           : undefined,
         'uk'
       )
       .pipe(
         filterNullish(),
-        tap((comps) => this.competenceControl.setValue(comps[0]._id))
+        tap((data) => this.competenceControl.setValue(data.subCompetences))
       )
       .subscribe()
   }
@@ -99,6 +102,8 @@ export class AddUfkService {
   }
 
   private postUfk(data: any) {
+    data.competence = data.competence[0]._id
+    console.log(data)
     return this.http.post<any>(`${environment.baseUrl}/teacher/ufks`, data)
   }
 }

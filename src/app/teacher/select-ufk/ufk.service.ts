@@ -11,6 +11,7 @@ import {
 } from 'rxjs'
 import {
   ICompetence,
+  ISubCompetence,
   ISubject,
 } from 'src/app/competences_data/competences.data'
 import { CompetencesDataService } from 'src/app/competences_data/competences-data.service'
@@ -27,7 +28,7 @@ import { UiService } from 'src/app/common/ui.service'
 })
 export class UfkService {
   students$ = new BehaviorSubject<IStudent[] | undefined>(undefined)
-  competences$ = new BehaviorSubject<ICompetence[] | undefined>(undefined)
+  subCompetences$ = new BehaviorSubject<ISubCompetence[] | undefined>(undefined)
 
   constructor(
     private http: HttpClient,
@@ -40,7 +41,7 @@ export class UfkService {
   getData() {
     return {
       students: this.students$.value,
-      competences: this.competences$.value,
+      competences: this.subCompetences$.value,
     }
   }
 
@@ -75,7 +76,7 @@ export class UfkService {
       .selectCompetences([], 'uk')
       .pipe(
         filterNullish(),
-        tap((comps) => this.competences$.next(comps)),
+        tap((data) => this.subCompetences$.next(data.subCompetences)),
         mergeMap(() => this.selectStuds.selectStudents()),
         filterNullish(),
         tap((studs) => this.students$.next(studs)),
@@ -86,10 +87,10 @@ export class UfkService {
 
   chooseCompetences() {
     this.selectComps
-      .selectCompetences(this.competences$.value?.map((comp) => comp._id))
+      .selectCompetences(this.subCompetences$.value?.map((comp) => comp._id))
       .pipe(
         filterNullish(),
-        tap((comps) => this.competences$.next(comps))
+        tap((data) => this.subCompetences$.next(data.subCompetences))
       )
       .subscribe()
   }

@@ -2,9 +2,9 @@
 
 <mat-dialog-content class="mat-typography" style="width: 500px">
   <h2>Kompetenzen</h2>
-  <p *ngIf="service.competences$ | async as comps">
-    <span *ngFor="let comp of comps">{{ comp._id + " " }}</span>
-    <span *ngIf="comps.length === 0">Keine Kompetenzen ausgewählt</span>
+  <p *ngIf="service.subCompetences$ | async as subs">
+    <span *ngFor="let sub of subs">{{ sub._id + " " }}</span>
+    <span *ngIf="subs.length === 0">Keine Kompetenzen ausgewählt</span>
   </p>
   <a mat-button color="primary" (click)="service.chooseCompetences()"
     >+ Kompetenzen Wählen</a
