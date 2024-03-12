@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { UiService } from 'src/app/common/ui.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 
 @Component({
   selector: 'app-teacher-form',
@@ -10,7 +10,10 @@ import { UiService } from 'src/app/common/ui.service'
 export class TeacherFormComponent implements OnInit {
   createUserForm!: FormGroup
 
-  constructor(private formBuilder: FormBuilder, private uiService: UiService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private uiService: DialogService
+  ) {}
 
   ngOnInit(): void {
     this.createUserForm = this.formBuilder.group({

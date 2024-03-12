@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { BehaviorSubject, Observable, catchError, map, tap } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
-import { CompetencesDataService } from 'src/app/competences_data/competences-data.service'
-import { environment } from 'src/app/environment/environment.demo'
-import { Name } from 'src/app/user/user'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { CompetencesDataService } from 'src/app/shared/data/competences_data/competences-data.service'
+import { Name } from 'src/app/core/auth/user'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 export interface IUfk {
   _id: number
@@ -47,7 +47,7 @@ export class UfkService {
 
   constructor(
     private http: HttpClient,
-    private ui: UiService,
+    private ui: DialogService,
     private competencesData: CompetencesDataService
   ) {}
 

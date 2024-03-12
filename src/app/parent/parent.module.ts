@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common'
-import { MaterialModule } from '../material.module'
+import { MaterialModule } from '../shared/ui/material.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { UiModule } from '../ui.module'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { ParentComponent } from './parent.component'
 import { NgModule } from '@angular/core'
@@ -14,7 +13,6 @@ import { ParentRoutingModule } from './parent-routing.module'
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    UiModule,
     FlexLayoutModule,
     ParentRoutingModule,
   ],

@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { BehaviorSubject, catchError, map, of, tap } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
-import { CompetencesDataService } from 'src/app/competences_data/competences-data.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { CompetencesDataService } from 'src/app/shared/data/competences_data/competences-data.service'
 import {
   ICompetence,
   ISubject,
-} from 'src/app/competences_data/competences.data'
-import { environment } from 'src/app/environment/environment.demo'
+} from 'src/app/shared/data/competences_data/competences.data'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class CompetencesService {
   constructor(
     private httpClient: HttpClient,
     private data: CompetencesDataService,
-    private ui: UiService
+    private ui: DialogService
   ) {}
 
   init() {

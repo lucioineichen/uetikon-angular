@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 import { UfkService } from '../ufk.service'
 import { BehaviorSubject, catchError, of, tap } from 'rxjs'
-import { CompetencesDataService } from 'src/app/competences_data/competences-data.service'
-import { UiService } from 'src/app/common/ui.service'
+import { CompetencesDataService } from 'src/app/shared/data/competences_data/competences-data.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,10 @@ export class SubjectControlService {
     undefined
   )
 
-  constructor(private data: CompetencesDataService, private ui: UiService) {}
+  constructor(
+    private data: CompetencesDataService,
+    private ui: DialogService
+  ) {}
 
   update() {
     of(this.data.get_subjects())

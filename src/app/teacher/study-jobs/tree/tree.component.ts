@@ -4,8 +4,8 @@ import { IFolder } from 'src/app/interfaces'
 import { TeacherCreateStudyJobDialogComponent } from '../../teacher-create-study-job-dialog/teacher-create-study-job-dialog.component'
 import { catchError, filter, mergeMap, tap } from 'rxjs'
 import { StudyJobsService } from '../study-jobs.service'
-import { UiService } from 'src/app/common/ui.service'
-import { RenameFolderComponent } from 'src/app/ui/rename-folder/rename-folder.component'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { RenameFolderComponent } from 'src/app/shared/ui/rename-folder/rename-folder.component'
 
 @Component({
   selector: 'app-tree [tree] [folder]',
@@ -20,7 +20,7 @@ export class TreeComponent {
   constructor(
     private dialog: MatDialog,
     private studyJobsService: StudyJobsService,
-    private uiService: UiService
+    private uiService: DialogService
   ) {}
 
   openStudyJobCreator() {

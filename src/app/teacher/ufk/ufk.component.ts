@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { UfkService } from './ufk.service'
 import { AddUfkService } from './add-ufk/add-ufk.service'
-import { filterNullish } from 'src/app/common/common'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { tap } from 'rxjs'
 
 @Component({

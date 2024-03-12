@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { tap } from 'rxjs'
-import { filterNullish } from 'src/app/common/common'
-import { SelectCompetencesService } from 'src/app/common/select-competences-form/select-competences.service'
-import { ICompetence } from 'src/app/competences_data/competences.data'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { ICompetence } from 'src/app/shared/data/competences_data/competences.data'
+// import { SelectCompetencesService } from 'src/app/shared/ui/select-competences/select-competences.service'
 
 @Component({
   selector: 'app-competences-control [control]',
@@ -24,19 +24,19 @@ export class CompetencesControlComponent implements OnInit {
     return this.control.value
   }
 
-  constructor(private selectComps: SelectCompetencesService) {}
+  // constructor(private selectComps: SelectCompetencesService) {}
 
   ngOnInit(): void {
     if (!this.comps) this.control.setValue([])
   }
 
   chooseCompetences() {
-    this.selectComps
-      .selectCompetences(this.comps.map((comp) => comp._id))
-      .pipe(
-        filterNullish(),
-        tap((comps) => this.control.setValue(comps))
-      )
-      .subscribe()
+    // this.selectComps
+    //   .selectCompetences(this.comps.map((comp) => comp._id))
+    //   .pipe(
+    //     filterNullish(),
+    //     tap((comps) => this.control.setValue(comps))
+    //   )
+    //   .subscribe()
   }
 }

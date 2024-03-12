@@ -9,9 +9,9 @@ import {
   mergeMap,
   tap,
 } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
-import { filterNullish } from 'src/app/common/common'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,7 @@ export class StudentControlService {
   constructor(
     private service: UfkService,
     private http: HttpClient,
-    private ui: UiService
+    private ui: DialogService
   ) {}
 
   update() {

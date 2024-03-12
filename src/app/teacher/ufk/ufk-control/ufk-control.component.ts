@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core'
-import { UfkControlService } from './ufk-control.service'
 import { map, tap } from 'rxjs'
+import { UfkControlService } from './ufk-control.service'
 
 @Component({
   encapsulation: ViewEncapsulation.None,

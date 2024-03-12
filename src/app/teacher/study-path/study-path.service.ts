@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import {
-  ICompetence,
-  IStudyJob,
-} from 'src/app/interfaces'
+import { ICompetence, IStudyJob } from 'src/app/interfaces'
 import { StudyPathFormComponent } from './study-path-form/study-path-form.component'
 import {
   BehaviorSubject,
@@ -14,8 +11,8 @@ import {
   tap,
 } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
-import { environment } from 'src/app/environment/environment.demo'
-import { UiService } from 'src/app/common/ui.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 export interface IStudyPath {
   competences: ICompetence[]
@@ -31,7 +28,7 @@ export class StudyPathService {
   constructor(
     private dialog: MatDialog,
     private httpClient: HttpClient,
-    private uiService: UiService
+    private uiService: DialogService
   ) {}
 
   openForm(studyPath?: IStudyPath): Observable<IStudyPath | null> {

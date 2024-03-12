@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, catchError, map, tap } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
-import { IName } from 'src/app/user/user'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { IName } from 'src/app/core/auth/user'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 export interface IClass {
   _id: number
@@ -56,7 +56,10 @@ export class Student implements IStudent {
 export class StudentService {
   readonly student$ = new BehaviorSubject<IStudent | undefined>(undefined)
 
-  constructor(private httpClient: HttpClient, private uiService: UiService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private uiService: DialogService
+  ) {}
 
   private getStudent(id: number) {
     return this.httpClient.get<IStudent>(

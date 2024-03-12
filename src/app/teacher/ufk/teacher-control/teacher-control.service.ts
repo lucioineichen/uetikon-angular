@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { UfkService } from '../ufk.service'
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { HttpClient } from '@angular/common/http'
-import { environment } from 'src/app/environment/environment.demo'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class TeacherControlService {
 
   constructor(
     private service: UfkService,
-    private ui: UiService,
+    private ui: DialogService,
     private http: HttpClient
   ) {}
 

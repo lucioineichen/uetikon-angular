@@ -13,15 +13,15 @@ import {
   ICompetence,
   ISubCompetence,
   ISubject,
-} from 'src/app/competences_data/competences.data'
-import { CompetencesDataService } from 'src/app/competences_data/competences-data.service'
-import { SelectCompetencesService } from 'src/app/common/select-competences-form/select-competences.service'
-import { filterNullish } from 'src/app/common/common'
-import { SelectStudentsService } from 'src/app/common/select-students/select-students.service'
+} from 'src/app/shared/data/competences_data/competences.data'
+import { CompetencesDataService } from 'src/app/shared/data/competences_data/competences-data.service'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { SelectStudentsService } from 'src/app/shared/ui/select-students/select-students.service'
 import { IStudent } from 'src/app/interfaces'
 import { HttpClient } from '@angular/common/http'
-import { environment } from 'src/app/environment/environment.demo'
-import { UiService } from 'src/app/common/ui.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { environment } from 'src/app/core/environment/environment.demo'
+import { SelectCompetencesService } from 'src/app/shared/ui/select-competences/select-competences.service'
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +35,7 @@ export class UfkService {
     private dialog: MatDialog,
     private selectComps: SelectCompetencesService,
     private selectStuds: SelectStudentsService,
-    private ui: UiService
+    private ui: DialogService
   ) {}
 
   getData() {

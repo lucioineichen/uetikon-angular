@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { BehaviorSubject, catchError, map, tap } from 'rxjs'
-import { IPermission } from 'src/app/auth/auth.service'
-import { UiService } from 'src/app/common/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
-import { IName, Name } from 'src/app/user/user'
+import { IPermission } from 'src/app/core/auth/auth.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { IName, Name } from 'src/app/core/auth/user'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 export interface ITeacher {
   _id: number
@@ -52,7 +52,7 @@ export class TeacherService {
 
   constructor(
     private httpClient: HttpClient,
-    private uiService: UiService,
+    private uiService: DialogService,
     private dialog: MatDialog
   ) {}
 

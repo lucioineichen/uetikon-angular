@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms'
 import { AddTaskService } from '../../add-task-dialog/add-task.service'
 import { tap } from 'rxjs'
 import { ITask } from 'src/app/interfaces'
-import { filterNullish } from 'src/app/common/common'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 
 @Component({
   selector: 'app-add-task-control [control]',

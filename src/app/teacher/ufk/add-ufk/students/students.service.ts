@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, catchError, map, tap } from 'rxjs'
-import { filterNullish } from 'src/app/common/common'
-import { SelectStudentsService } from 'src/app/common/select-students/select-students.service'
-import { UiService } from 'src/app/common/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { SelectStudentsService } from 'src/app/shared/ui/select-students/select-students.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { IStudent, Student } from 'src/app/interfaces'
 import { AddUfkService } from '../add-ufk.service'
 import { FormControl } from '@angular/forms'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class StudentsService {
 
   constructor(
     private selectStuds: SelectStudentsService,
-    private ui: UiService,
+    private ui: DialogService,
     private http: HttpClient,
     private service: AddUfkService
   ) {

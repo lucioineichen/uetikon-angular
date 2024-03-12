@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { BehaviorSubject, ReplaySubject, catchError, map, tap } from 'rxjs'
-import { Role } from 'src/app/auth/auth.enum'
-import { UiService } from 'src/app/common/ui.service'
+import { Role } from 'src/app/core/auth/auth.enum'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { IFile, IMessage, IStudent, Student } from 'src/app/interfaces'
-import { User } from 'src/app/user/user'
+import { User } from 'src/app/core/auth/user'
 import { StudentService } from '../student.service'
 import { CourseService, ICourse } from './course.service'
 
@@ -32,7 +32,7 @@ export class StudentCourseComponent implements OnInit {
     protected route: ActivatedRoute,
     private router: Router,
     private service: CourseService,
-    private uiService: UiService
+    private uiService: DialogService
   ) {
     this.id = this.route.snapshot.params['id']
   }

@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, tap } from 'rxjs';
-import { UiService } from 'src/app/common/ui.service';
-import { environment } from 'src/app/environment/environment.demo';
+import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { BehaviorSubject, catchError, tap } from 'rxjs'
+import { UiService } from 'src/app/shared/ui/dialogs/ui.service'
+import { environment } from 'src/app/environment/environment.demo'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CompetencesService {
   readonly data$ = new BehaviorSubject<any | undefined>(undefined)

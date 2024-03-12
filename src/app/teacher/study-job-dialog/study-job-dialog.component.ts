@@ -4,12 +4,11 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog'
-import { Observable, filter, mergeMap, tap } from 'rxjs'
+import { filter, mergeMap, tap } from 'rxjs'
 import { IStudyJob } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
 import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component'
-import { DialogRef } from '@angular/cdk/dialog'
-import { UiService } from 'src/app/common/ui.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 
 @Component({
   selector: 'app-repository-dialog',
@@ -22,7 +21,7 @@ export class StudyJobDialogComponent implements OnInit {
     private teacherService: TeacherService,
     private dialogRef: MatDialogRef<StudyJobDialogComponent>,
     private dialog: MatDialog,
-    private uiService: UiService
+    private uiService: DialogService
   ) {}
 
   ngOnInit(): void {}

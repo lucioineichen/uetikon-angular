@@ -18,10 +18,10 @@ import {
   Student,
   Teacher,
 } from '../interfaces'
-import { environment } from '../environment/environment.demo'
-import { UiService } from '../common/ui.service'
+import { DialogService } from '../shared/ui/dialogs/ui.service'
 import { MatDialog } from '@angular/material/dialog'
-import { ICreateCourseData } from './teacher-courses/teacher-courses.component'
+import { ICreateCourseData } from './courses/teacher-courses.component'
+import { environment } from '../core/environment/environment.demo'
 
 export interface ITeacherService {
   readonly students$: ReplaySubject<IStudent[]>
@@ -40,7 +40,7 @@ export class TeacherService implements ITeacherService {
 
   constructor(
     private httpClient: HttpClient,
-    private uiService: UiService,
+    private uiService: DialogService,
     private dialog: MatDialog
   ) {}
 

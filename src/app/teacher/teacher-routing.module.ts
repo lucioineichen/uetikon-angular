@@ -1,23 +1,19 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-import { TeacherCoursesComponent } from './teacher-courses/teacher-courses.component'
-import { TeacherCourseComponent } from './teacher-course/teacher-course.component'
+import { TeacherCoursesComponent } from './courses/teacher-courses.component'
+import { TeacherCourseComponent } from './course/teacher-course.component'
 import { TeacherStudyJobsComponent } from './study-jobs/study-jobs.component'
 import { FolderComponent } from './folder/folder.component'
 import { JobComponent } from './job/job.component'
-import { ProjectsComponent } from './projects/projects.component'
-import { ProjectComponent } from './project/project.component'
 import { StudentsComponent } from './students/students.component'
 import { StudentComponent } from './student/student.component'
 import { UfkComponent } from './ufk/ufk.component'
-import { CompetenceComponent } from '../ui/competence/competence.component'
+import { CompetenceComponent } from '../shared/ui/competence/competence.component'
 import { CompetencesComponent } from './competences/competences.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/teacher/courses', pathMatch: 'full' },
   { path: 'courses', component: TeacherCoursesComponent },
-  { path: 'projects', component: ProjectsComponent },
-  { path: 'projects/:id', component: ProjectComponent },
   { path: 'courses/:id', component: TeacherCourseComponent },
   { path: 'study-jobs/folder/:id', component: FolderComponent },
   {

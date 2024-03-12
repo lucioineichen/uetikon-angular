@@ -9,7 +9,6 @@ import {
   startWith,
   throttleTime,
 } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
 import { IStudent } from 'src/app/interfaces'
 import { StudentsService } from './students.service'
 import { IClass } from './student/student.service'
@@ -46,10 +45,9 @@ export class StudentsComponent {
   searchControl = new FormControl()
   filteredStudents$!: Observable<IStudent[]>
 
-  showSek1 = false;
-  showSek2 = false;
-  showSek3 = false;
-
+  showSek1 = false
+  showSek2 = false
+  showSek3 = false
 
   constructor(private service: StudentsService, private router: Router) {}
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { tap } from 'rxjs'
-import { filterNullish } from 'src/app/common/common'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { AddUfkService } from '../ufk/add-ufk/add-ufk.service'
 import { CompetencesService } from './competences.service'
 

@@ -1,0 +1,10 @@
+import { Component } from '@angular/core'
+
+@Component({
+  selector: 'app-page-not-found',
+  template: `<p>
+    This page doesn't exist. Go back to
+    <a routerLink="/login">login</a>.
+  </p> `,
+})
+export class PageNotFoundComponent {}

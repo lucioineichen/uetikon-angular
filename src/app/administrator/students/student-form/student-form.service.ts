@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
 import { BehaviorSubject, catchError, map, tap } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { StudentFormComponent } from './student-form.component'
 import { IClass } from '../student/student.service'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,10 @@ import { IClass } from '../student/student.service'
 export class StudentFormService {
   readonly classes$ = new BehaviorSubject<IClass[] | undefined>(undefined)
 
-  constructor(private httpClient: HttpClient, private uiService: UiService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private uiService: DialogService
+  ) {}
 
   private getClasses() {
     return this.httpClient.get<IClass[]>(

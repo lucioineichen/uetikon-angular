@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { StudyJobsService } from './study-jobs.service'
 import { AddStudyJobService } from './add-study-job/add-study-job.service'
-import { filterNullish } from 'src/app/common/common'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { tap } from 'rxjs'
 
 @Component({

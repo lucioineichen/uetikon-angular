@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { Observable, map, mergeMap, of, tap } from 'rxjs'
-import { environment } from 'src/app/environment/environment.demo'
 import { AddTaskDialogComponent } from './add-task-dialog.component'
-import { UiService } from 'src/app/common/ui.service'
-import { filterNullish } from 'src/app/common/common'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class AddTaskService {
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
-    private ui: UiService
+    private ui: DialogService
   ) {}
 
   addTask(jobId?: number): Observable<any | {}> {

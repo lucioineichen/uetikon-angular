@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { BehaviorSubject, catchError, filter, map, mergeMap, tap } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { IStudent, Student } from 'src/app/interfaces'
 import { StudentFormComponent } from './student-form/student-form.component'
 import { ClassFormComponent } from './class-form/class-form.component'
 import { IClass } from './student/student.service'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class StudentsService {
 
   constructor(
     private httpClient: HttpClient,
-    private uiService: UiService,
+    private uiService: DialogService,
     private dialog: MatDialog
   ) {}
 

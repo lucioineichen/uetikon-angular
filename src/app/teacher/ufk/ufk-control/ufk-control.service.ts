@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core'
 import { UfkService } from '../ufk.service'
 import { BehaviorSubject, map, pipe, tap } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { HttpClient } from '@angular/common/http'
-import { SelectCompetencesService } from 'src/app/common/select-competences-form/select-competences.service'
-import { filterNullish } from 'src/app/common/common'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { FormControl } from '@angular/forms'
 import {
   ICompetence,
   ISubCompetence,
-} from 'src/app/competences_data/competences.data'
+} from 'src/app/shared/data/competences_data/competences.data'
+import { SelectCompetencesService } from 'src/app/shared/ui/select-competences/select-competences.service'
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +22,7 @@ export class UfkControlService {
     private select: SelectCompetencesService,
     private service: UfkService,
     private http: HttpClient,
-    private ui: UiService
+    private ui: DialogService
   ) {
     this.selectedUfks$.pipe().subscribe()
   }

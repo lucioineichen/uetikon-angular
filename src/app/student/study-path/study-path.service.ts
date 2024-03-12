@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { environment } from 'src/app/core/environment/environment.demo'
 import { IStudyPath } from 'src/app/teacher/study-path/study-path.service'
 
 @Injectable({
@@ -15,7 +15,7 @@ export class StudyPathService {
   constructor(
     private dialog: MatDialog,
     private httpClient: HttpClient,
-    private uiService: UiService
+    private uiService: DialogService
   ) {}
 
   private getPath(courseId: number): Observable<IStudyPath> {

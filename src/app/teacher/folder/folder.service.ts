@@ -8,11 +8,11 @@ import {
   mergeMap,
   tap,
 } from 'rxjs'
-import { filterNullish } from 'src/app/common/common'
-import { UiService } from 'src/app/common/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { environment } from 'src/app/core/environment/environment.demo'
 import { IFolder } from 'src/app/interfaces'
-import { RenameFolderService } from 'src/app/ui/rename-folder/rename-folder.service'
+import { RenameFolderService } from 'src/app/shared/ui/rename-folder/rename-folder.service'
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,7 @@ export class FolderService {
 
   constructor(
     private http: HttpClient,
-    private ui: UiService,
+    private ui: DialogService,
     private renameFolder: RenameFolderService
   ) {}
 

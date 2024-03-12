@@ -6,8 +6,8 @@ import { DSVRowString } from 'd3'
 import {
   ICompetence,
   ISubject,
-} from 'src/app/competences_data/competences.data'
-import { CompetencesDataService } from 'src/app/competences_data/competences-data.service'
+} from 'src/app/shared/data/competences_data/competences.data'
+import { CompetencesDataService } from 'src/app/shared/data/competences_data/competences-data.service'
 
 class TreeCompetence implements ICompetence {
   constructor(

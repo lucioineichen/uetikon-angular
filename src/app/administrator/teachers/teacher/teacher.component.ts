@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { TeacherService } from './teacher.service'
 import { Location } from '@angular/common'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { IPermission } from 'src/app/auth/auth.service'
+import { IPermission } from 'src/app/core/auth/auth.service'
 
 @Component({
   selector: 'app-teacher',

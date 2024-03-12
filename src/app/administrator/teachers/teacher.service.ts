@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { BehaviorSubject, catchError, filter, map, mergeMap, tap } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { ITeacher, Teacher } from 'src/app/interfaces'
 import { TeacherFormComponent } from './teacher-form/teacher-form.component'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class TeacherService {
 
   constructor(
     private httpClient: HttpClient,
-    private uiService: UiService,
+    private uiService: DialogService,
     private dialog: MatDialog
   ) {}
 

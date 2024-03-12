@@ -4,10 +4,10 @@ import { AddStudyJobComponent } from './add-study-job.component'
 import { filter, mergeMap, tap, catchError, Observable } from 'rxjs'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { HttpClient } from '@angular/common/http'
-import { environment } from 'src/app/environment/environment.demo'
-import { UiService } from 'src/app/common/ui.service'
-import { filterNullish } from 'src/app/common/common'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { ICompetence } from 'src/app/interfaces'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class AddStudyJobService {
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private ui: UiService
+    private ui: DialogService
   ) {}
 
   addJob(folderId?: number) {

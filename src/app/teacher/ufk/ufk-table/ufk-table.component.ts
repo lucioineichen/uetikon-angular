@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { IUfk, UfkService } from '../ufk.service'
 import { MatTableDataSource } from '@angular/material/table'
 import { BehaviorSubject, tap } from 'rxjs'
-import { filterNullish } from 'src/app/common/common'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 
 @Component({
   selector: 'app-ufk-table',

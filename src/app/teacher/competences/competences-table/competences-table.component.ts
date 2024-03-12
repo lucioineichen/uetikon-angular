@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { MatTableDataSource } from '@angular/material/table'
 import { tap, BehaviorSubject } from 'rxjs'
-import { filterNullish } from 'src/app/common/common'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { UfkService, IUfk } from '../../ufk/ufk.service'
 import { CompetencesService } from '../competences.service'
 

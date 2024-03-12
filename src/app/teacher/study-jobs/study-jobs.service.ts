@@ -12,13 +12,13 @@ import {
   tap,
   throwError,
 } from 'rxjs'
-import { UiService } from 'src/app/common/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { getNewFolderNumber } from 'src/app/folder'
 import { IFolder, IRef, IStudyJob, ITask } from 'src/app/interfaces'
 import { FolderService } from './folder/folder.service'
-import { RenameFolderService } from 'src/app/ui/rename-folder/rename-folder.service'
-import { filterNullish } from 'src/app/common/common'
+import { RenameFolderService } from 'src/app/shared/ui/rename-folder/rename-folder.service'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +32,7 @@ export class StudyJobsService {
 
   constructor(
     private http: HttpClient,
-    private ui: UiService,
+    private ui: DialogService,
     private renameFolder: RenameFolderService
   ) {}
 

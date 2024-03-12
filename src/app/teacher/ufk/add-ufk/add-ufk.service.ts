@@ -1,28 +1,14 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import {
-  BehaviorSubject,
-  catchError,
-  combineLatest,
-  filter,
-  map,
-  mergeMap,
-  startWith,
-  tap,
-} from 'rxjs'
-import { IStudent, Student } from 'src/app/interfaces'
-import { SelectStudentsService } from 'src/app/common/select-students/select-students.service'
-import { UiService } from 'src/app/common/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
+import { catchError, tap } from 'rxjs'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { AddUfkComponent } from './add-ufk.component'
-import { filterNullish } from 'src/app/common/common'
-import { SelectCompetencesService } from 'src/app/common/select-competences-form/select-competences.service'
-import {
-  ICompetence,
-  ISubCompetence,
-} from 'src/app/competences_data/competences.data'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { ISubCompetence } from 'src/app/shared/data/competences_data/competences.data'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { environment } from 'src/app/core/environment/environment.demo'
+import { SelectCompetencesService } from 'src/app/shared/ui/select-competences/select-competences.service'
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +24,7 @@ export class AddUfkService {
     private http: HttpClient,
     private dialog: MatDialog,
     private selectComps: SelectCompetencesService,
-    private ui: UiService,
+    private ui: DialogService,
     private builder: FormBuilder
   ) {}
 

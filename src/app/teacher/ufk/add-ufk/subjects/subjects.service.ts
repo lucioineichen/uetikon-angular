@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, catchError, tap } from 'rxjs'
-import { environment } from 'src/app/environment/environment.demo'
 import { AddUfkService } from '../add-ufk.service'
-import { UiService } from 'src/app/common/ui.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { FormControl } from '@angular/forms'
+import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class SubjectsService {
   constructor(
     private http: HttpClient,
     private service: AddUfkService,
-    private ui: UiService
+    private ui: DialogService
   ) {
     this.control = this.service.form.get('subject') as FormControl
   }

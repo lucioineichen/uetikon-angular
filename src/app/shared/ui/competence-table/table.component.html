@@ -1,0 +1,47 @@
+<div class="table" [class.mat-elevation-z8]="index$.value == -1">
+  <div class="header">
+    <div class="sub-row">
+      <div
+        [ngStyle]="{ width: width }"
+        class="header-element"
+        *ngFor="let header of headers"
+      >
+        {{ header.name | titlecase }}
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngFor="let data of DUMMY_DATA; index as i">
+    <div class="sub-row" (click)="toggleIndex(i)">
+      <div
+        [ngStyle]="{ width: width }"
+        class="row-element"
+        *ngFor="let header of headers"
+      >
+        <span *ngIf="!header.style">{{ dataFromKey(data, header.key) }}</span>
+        <span *ngIf="header.style === 'percent'"
+          >{{ dataFromKey(data, header.key) | percent }}
+        </span>
+        <span *ngIf="header.key === 'date'"
+          >{{ dataFromKey(data, header.key) | date }}
+        </span>
+      </div>
+      <mat-icon class="expand-icon" *ngIf="index$.value != i"
+        >expand_more</mat-icon
+      >
+      <mat-icon class="expand-icon" *ngIf="index$.value == i"
+        >expand_less</mat-icon
+      >
+    </div>
+
+    <div
+      class="table mat-elevation-z8"
+      [@expandCollapse]="index$.value == i ? 'expanded' : 'collapsed'"
+    >
+      <app-sub-table
+        [data]="BEHAVIOR_DUMMY_DATA"
+        [headers]="BEHAVIOUR_HEADERS"
+      ></app-sub-table>
+    </div>
+  </div>
+</div>

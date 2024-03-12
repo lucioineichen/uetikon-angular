@@ -1,24 +1,10 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
-import { TeacherService } from '../teacher.service'
-import {
-  BehaviorSubject,
-  Observable,
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  tap,
-} from 'rxjs'
-import { IStudyJob } from 'src/app/interfaces'
-import { MatDialog } from '@angular/material/dialog'
-import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component'
-import { UiService } from 'src/app/common/ui.service'
-import { StudyJobsService } from '../study-jobs/study-jobs.service'
+import { ActivatedRoute } from '@angular/router'
+import { Observable, map, tap } from 'rxjs'
 import { Location } from '@angular/common'
 import { JobService } from './job.service'
 import { AddTaskService } from '../add-task-dialog/add-task.service'
-import { filterNullish } from 'src/app/common/common'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { FormControl } from '@angular/forms'
 
 @Component({

@@ -4,7 +4,7 @@ import { IFolder } from 'src/app/interfaces'
 import { TeacherService } from '../teacher.service'
 import { MatDialogRef } from '@angular/material/dialog'
 import { SubSink } from 'subsink'
-import { UiService } from 'src/app/common/ui.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { StudyJobsService } from '../study-jobs/study-jobs.service'
 
 @Component({
@@ -19,7 +19,7 @@ export class ChooseStudyJobsDialogComponent implements OnDestroy, OnInit {
   constructor(
     private studyJobsService: StudyJobsService,
     public dialogRef: MatDialogRef<ChooseStudyJobsDialogComponent>,
-    private uiService: UiService
+    private uiService: DialogService
   ) {
     // this.studyJobsService.tree$
     //   .pipe(
