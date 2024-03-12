@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { catchError, combineLatest, filter, tap } from 'rxjs'
-import { AuthService } from '../auth/auth.service'
+import { AuthService } from '../../core/auth/auth.service'
 import { SubSink } from 'subsink'
 import { DialogService } from '../../shared/ui/dialogs/ui.service'
 

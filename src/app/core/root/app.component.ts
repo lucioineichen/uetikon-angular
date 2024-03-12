@@ -1,8 +1,8 @@
 import { Component } from '@angular/core'
-import { AuthService, IAuthStatus } from './core/auth/auth.service'
+import { AuthService, IAuthStatus } from '../auth/auth.service'
 import { MatIconRegistry } from '@angular/material/icon'
 import { DomSanitizer } from '@angular/platform-browser'
-import { UfkService } from './teacher/select-ufk/ufk.service'
+import { UfkService } from '../../teacher/select-ufk/ufk.service'
 
 @Component({
   selector: 'app-root',

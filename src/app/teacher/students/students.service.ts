@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable, catchError, map, tap } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
-import { IStudent, Student } from 'src/app/interfaces'
+import { IStudent, Student } from 'src/app/shared/utils/interfaces'
 
 @Injectable({
   providedIn: 'root',

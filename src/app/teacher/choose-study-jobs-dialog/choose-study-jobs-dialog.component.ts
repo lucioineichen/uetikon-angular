@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Observable, ReplaySubject, catchError, tap } from 'rxjs'
-import { IFolder } from 'src/app/interfaces'
-import { TeacherService } from '../teacher.service'
+import { IFolder } from 'src/app/shared/utils/interfaces'
 import { MatDialogRef } from '@angular/material/dialog'
 import { SubSink } from 'subsink'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'

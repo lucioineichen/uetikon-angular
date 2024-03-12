@@ -9,7 +9,7 @@ import {
   startWith,
   throttleTime,
 } from 'rxjs'
-import { IStudent } from 'src/app/interfaces'
+import { IStudent } from 'src/app/shared/utils/interfaces'
 import { StudentsService } from './students.service'
 import { IClass } from './student/student.service'
 

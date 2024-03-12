@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { StudentsService } from './students.service'
-import { IStudent } from 'src/app/interfaces'
+import { IStudent } from 'src/app/shared/utils/interfaces'
 import {
   BehaviorSubject,
   Observable,

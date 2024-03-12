@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { IStudyJob } from 'src/app/interfaces'
+import { IStudyJob } from 'src/app/shared/utils/interfaces'
 import { StudyJobsService } from '../study-jobs.service'
 import { MatCheckboxChange } from '@angular/material/checkbox'
 

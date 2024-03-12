@@ -11,8 +11,8 @@ import {
   startWith,
   throttleTime,
 } from 'rxjs'
-import { ICompetence, IStudyJob } from 'src/app/interfaces'
-import { TeacherService } from '../teacher.service'
+import { ICompetence, IStudyJob } from 'src/app/shared/utils/interfaces'
+import { TeacherService } from '../core/teacher.service'
 import { MatCheckboxChange } from '@angular/material/checkbox'
 import { SelectCompetencesService } from './select-competences.service'
 import { ActivatedRoute, Router } from '@angular/router'

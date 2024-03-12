@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { TeacherService } from './teacher.service'
-import { ITeacher } from 'src/app/interfaces'
+import { ITeacher } from 'src/app/shared/utils/interfaces'
 import { Router } from '@angular/router'
 import { FormControl } from '@angular/forms'
 import {

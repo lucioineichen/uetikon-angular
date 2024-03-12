@@ -11,7 +11,7 @@ import {
   startWith,
   tap,
 } from 'rxjs'
-import { IStudent, Student } from 'src/app/interfaces'
+import { IStudent, Student } from 'src/app/shared/utils/interfaces'
 import { MatDialog } from '@angular/material/dialog'
 import { SelectStudentsComponent } from './select-students.component'
 import { FormControl } from '@angular/forms'

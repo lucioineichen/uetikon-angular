@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { MatIconRegistry } from '@angular/material/icon'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import { IFile } from 'src/app/interfaces'
+import { IFile } from 'src/app/shared/utils/interfaces'
 
 @Component({
   selector: 'app-file',

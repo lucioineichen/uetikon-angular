@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { BehaviorSubject, catchError, filter, map, mergeMap, tap } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
-import { ITeacher, Teacher } from 'src/app/interfaces'
+import { ITeacher, Teacher } from 'src/app/shared/utils/interfaces'
 import { TeacherFormComponent } from './teacher-form/teacher-form.component'
 import { environment } from 'src/app/core/environment/environment.demo'
 

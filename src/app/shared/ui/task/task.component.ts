@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { MatIconRegistry } from '@angular/material/icon'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import { IFile, ITask } from 'src/app/interfaces'
+import { IFile, ITask } from 'src/app/shared/utils/interfaces'
 
 @Component({
   selector: 'app-task [task]',

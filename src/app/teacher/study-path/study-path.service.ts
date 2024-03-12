@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { ICompetence, IStudyJob } from 'src/app/interfaces'
+import { ICompetence, IStudyJob } from 'src/app/shared/utils/interfaces'
 import { StudyPathFormComponent } from './study-path-form/study-path-form.component'
 import {
   BehaviorSubject,

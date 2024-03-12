@@ -13,8 +13,13 @@ import {
   throwError,
 } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
-import { getNewFolderNumber } from 'src/app/folder'
-import { IFolder, IRef, IStudyJob, ITask } from 'src/app/interfaces'
+import { getNewFolderNumber } from 'src/app/shared/utils/folder'
+import {
+  IFolder,
+  IRef,
+  IStudyJob,
+  ITask,
+} from 'src/app/shared/utils/interfaces'
 import { FolderService } from './folder/folder.service'
 import { RenameFolderService } from 'src/app/shared/ui/rename-folder/rename-folder.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'

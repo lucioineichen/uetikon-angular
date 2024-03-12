@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { IFile } from 'src/app/interfaces'
+import { IFile } from 'src/app/shared/utils/interfaces'
 
 @Component({
   selector: 'app-study-job',

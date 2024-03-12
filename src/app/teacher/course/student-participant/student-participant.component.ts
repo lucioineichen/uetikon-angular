@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { StudentParticipantService } from './student-participant.service'
-import { IFile } from 'src/app/interfaces'
+import { IFile } from 'src/app/shared/utils/interfaces'
 import { Location } from '@angular/common'
 
 @Component({

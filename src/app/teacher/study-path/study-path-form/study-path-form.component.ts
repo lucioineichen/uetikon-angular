@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { ICompetence, IStudyJob } from 'src/app/interfaces'
+import { ICompetence, IStudyJob } from 'src/app/shared/utils/interfaces'
 import { SelectCompetencesService } from '../../select-competences-form/select-competences.service'
 import { filter, mergeMap, tap } from 'rxjs'
 import { StudyPathService } from '../study-path.service'

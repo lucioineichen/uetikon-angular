@@ -5,8 +5,8 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog'
 import { filter, mergeMap, tap } from 'rxjs'
-import { IStudyJob } from 'src/app/interfaces'
-import { TeacherService } from '../teacher.service'
+import { IStudyJob } from 'src/app/shared/utils/interfaces'
+import { TeacherService } from '../core/teacher.service'
 import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 

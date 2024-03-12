@@ -1,5 +1,5 @@
-import { Role } from './core/auth/auth.enum'
-import { IName, IUser, Name, User } from './core/auth/user'
+import { Role } from '../../core/auth/auth.enum'
+import { IName, IUser, Name, User } from '../../core/auth/user'
 
 export interface IStudentCourse {
   _id: number

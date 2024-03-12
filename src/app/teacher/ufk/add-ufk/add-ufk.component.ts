@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { AddUfkService } from './add-ufk.service'
-import { IStudent } from 'src/app/interfaces'
+import { IStudent } from 'src/app/shared/utils/interfaces'
 
 @Component({
   selector: 'app-add-ufk',

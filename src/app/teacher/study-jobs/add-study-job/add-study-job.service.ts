@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { HttpClient } from '@angular/common/http'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
-import { ICompetence } from 'src/app/interfaces'
+import { ICompetence } from 'src/app/shared/utils/interfaces'
 import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({

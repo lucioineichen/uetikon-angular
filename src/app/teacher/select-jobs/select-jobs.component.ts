@@ -10,7 +10,7 @@ import {
   startWith,
   throttleTime,
 } from 'rxjs'
-import { IStudyJob } from 'src/app/interfaces'
+import { IStudyJob } from 'src/app/shared/utils/interfaces'
 import { SelectJobsService } from './select-jobs.service'
 import { MatCheckboxChange } from '@angular/material/checkbox'
 

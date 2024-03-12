@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { IFile } from 'src/app/interfaces'
+import { IFile } from 'src/app/shared/utils/interfaces'
 import { Location } from '@angular/common'
 import { StudentService } from './student.service'
 

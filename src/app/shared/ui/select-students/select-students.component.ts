@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { SelectStudentsService } from './select-students.service'
 import { MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { IStudent } from 'src/app/interfaces'
+import { IStudent } from 'src/app/shared/utils/interfaces'
 import { BehaviorSubject } from 'rxjs'
 import { MatCheckboxChange } from '@angular/material/checkbox'
 

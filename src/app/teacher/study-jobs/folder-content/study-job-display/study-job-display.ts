@@ -1,4 +1,4 @@
-import { IStudyJob } from 'src/app/interfaces'
+import { IStudyJob } from 'src/app/shared/utils/interfaces'
 
 export interface IStudyJobDisplay {
   jobId: number

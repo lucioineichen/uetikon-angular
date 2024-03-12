@@ -3,7 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { BehaviorSubject, ReplaySubject, catchError, map, tap } from 'rxjs'
 import { Role } from 'src/app/core/auth/auth.enum'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
-import { IFile, IMessage, IStudent, Student } from 'src/app/interfaces'
+import {
+  IFile,
+  IMessage,
+  IStudent,
+  Student,
+} from 'src/app/shared/utils/interfaces'
 import { User } from 'src/app/core/auth/user'
 import { StudentService } from '../student.service'
 import { CourseService, ICourse } from './course.service'

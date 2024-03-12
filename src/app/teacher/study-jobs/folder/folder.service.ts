@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { environment } from 'src/app/core/environment/environment.demo'
-import { IFolder, IStudyJob } from 'src/app/interfaces'
+import { IFolder, IStudyJob } from 'src/app/shared/utils/interfaces'
 
 @Injectable({
   providedIn: 'root',

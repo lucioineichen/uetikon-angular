@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { AddTaskService } from '../../add-task-dialog/add-task.service'
 import { tap } from 'rxjs'
-import { ITask } from 'src/app/interfaces'
+import { ITask } from 'src/app/shared/utils/interfaces'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 
 @Component({

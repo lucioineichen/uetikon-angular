@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-import { CreateUserComponent } from './trash/create-user/create-user.component'
-import { LoginComponent } from './core/login/login.component'
-import { AuthGuard } from './core/auth/auth-guard.service'
-import { Role } from './core/auth/auth.enum'
-import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component'
+import { CreateUserComponent } from '../../features/create-user/create-user.component'
+import { LoginComponent } from '../../features/login/login.component'
+import { AuthGuard } from '../auth/auth-guard.service'
+import { Role } from '../auth/auth.enum'
+import { PageNotFoundComponent } from '../../features/page-not-found/page-not-found.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -14,7 +14,7 @@ const routes: Routes = [
   {
     path: 'administrator',
     loadChildren: () =>
-      import('./administrator/administrator.module').then(
+      import('../../administrator/administrator.module').then(
         (m) => m.AdministratorModule
       ),
     canActivate: [AuthGuard],
@@ -25,7 +25,7 @@ const routes: Routes = [
   {
     path: 'parent',
     loadChildren: () =>
-      import('./parent/parent.module').then((m) => m.ParentModule),
+      import('../../parent/parent.module').then((m) => m.ParentModule),
     canActivate: [AuthGuard],
     data: {
       expectedRole: Role.Parent,
@@ -34,7 +34,7 @@ const routes: Routes = [
   {
     path: 'teacher',
     loadChildren: () =>
-      import('./teacher/teacher.module').then((m) => m.TeacherModule),
+      import('../../teacher/core/teacher.module').then((m) => m.TeacherModule),
     canActivate: [AuthGuard],
     data: {
       expectedRole: Role.Teacher,
@@ -43,7 +43,7 @@ const routes: Routes = [
   {
     path: 'student',
     loadChildren: () =>
-      import('./student/student.module').then((m) => m.StudentModule),
+      import('../../student/student.module').then((m) => m.StudentModule),
     canActivate: [AuthGuard],
     data: {
       expectedRole: Role.Student,

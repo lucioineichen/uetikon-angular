@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { IStudyJob } from 'src/app/interfaces'
+import { IStudyJob } from 'src/app/shared/utils/interfaces'
 import { StudyPathService } from './study-path.service'
 import { BehaviorSubject } from 'rxjs'
 import { IStudyPath } from 'src/app/teacher/study-path/study-path.service'

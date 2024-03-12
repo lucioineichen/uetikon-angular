@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { IMessage, IStudent } from '../../../interfaces'
+import { IMessage, IStudent } from '../../utils/interfaces'
 import { BehaviorSubject } from 'rxjs'
 import { Role } from '../../../core/auth/auth.enum'
 import { User } from '../../../core/auth/user'

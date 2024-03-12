@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { IStudyPath, StudyPathService } from './study-path.service'
 import { BehaviorSubject } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
-import { IStudyJob } from 'src/app/interfaces'
+import { IStudyJob } from 'src/app/shared/utils/interfaces'
 
 @Component({
   selector: 'app-study-path',

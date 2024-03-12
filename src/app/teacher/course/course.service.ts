@@ -6,7 +6,12 @@ import { BehaviorSubject, Observable, catchError, mergeMap, tap } from 'rxjs'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
-import { IStudent, ITeacher, Student, Teacher } from 'src/app/interfaces'
+import {
+  IStudent,
+  ITeacher,
+  Student,
+  Teacher,
+} from 'src/app/shared/utils/interfaces'
 
 export interface ICourse {
   _id: number

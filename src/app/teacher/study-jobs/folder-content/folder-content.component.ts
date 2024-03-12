@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { IFolder, IStudyJob } from 'src/app/interfaces'
+import { IFolder, IStudyJob } from 'src/app/shared/utils/interfaces'
 import { MatDialog } from '@angular/material/dialog'
 import { StudyJobDialogComponent } from '../../study-job-dialog/study-job-dialog.component'
 import { tap } from 'rxjs'
@@ -13,15 +13,12 @@ import { tap } from 'rxjs'
 export class FolderContentComponent {
   // @Output('open-folder') openFolderEvent = new EventEmitter<IFolder>()
   // @Input() folder!: IFolder
-
   // constructor(private dialog: MatDialog) {}
-
   // openJob(job: IStudyJob) {
   //   const dialogRef = this.dialog.open(StudyJobDialogComponent, {
   //     panelClass: 'fullscreen-dialog',
   //     data: job,
   //   })
-
   //   dialogRef
   //     .afterClosed()
   //     .pipe(
@@ -34,10 +31,8 @@ export class FolderContentComponent {
   //     )
   //     .subscribe()
   // }
-
   // ngOnInit(): void {
   //   this.jobs = this.folder.studyJobs.map((job) => new StudyJobDisplay(job))
   // }
-
   // jobs!: StudyJobDisplay[]
 }

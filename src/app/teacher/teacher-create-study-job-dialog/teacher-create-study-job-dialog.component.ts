@@ -1,12 +1,12 @@
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
-import { ICompetence, IStudyJob, ITask } from 'src/app/interfaces'
+import { ICompetence, IStudyJob, ITask } from 'src/app/shared/utils/interfaces'
 import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component'
 import { DialogRef } from '@angular/cdk/dialog'
 import { tap } from 'rxjs'
 import { SelectCompetencesComponent } from '../select-competences-form/select-competences-form.component'
-import { Subjects } from 'src/app/enums'
+import { Subjects } from 'src/app/shared/utils/enums'
 
 @Component({
   selector: 'app-teacher-create-study-job-dialog',

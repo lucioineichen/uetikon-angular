@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { IFolder } from 'src/app/interfaces'
+import { IFolder } from 'src/app/shared/utils/interfaces'
 import { TeacherCreateStudyJobDialogComponent } from '../../teacher-create-study-job-dialog/teacher-create-study-job-dialog.component'
 import { catchError, filter, mergeMap, tap } from 'rxjs'
 import { StudyJobsService } from '../study-jobs.service'
