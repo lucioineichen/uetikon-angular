@@ -20,7 +20,6 @@ import {
 } from '../../shared/utils/interfaces'
 import { DialogService } from '../../shared/ui/dialogs/ui.service'
 import { MatDialog } from '@angular/material/dialog'
-import { ICreateCourseData } from '../courses/teacher-courses.component'
 import { environment } from '../../core/environment/environment.demo'
 
 export interface ITeacherService {

@@ -4,7 +4,12 @@ import { MatDialog } from '@angular/material/dialog'
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
-import { IStudyPath } from 'src/app/teacher/study-path/study-path.service'
+import { ICompetence, IStudyJob } from 'src/app/shared/utils/interfaces'
+
+export interface IStudyPath {
+  competences: ICompetence[]
+  jobs: IStudyJob[]
+}
 
 @Injectable({
   providedIn: 'root',

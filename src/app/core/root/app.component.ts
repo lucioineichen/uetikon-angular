@@ -2,7 +2,6 @@ import { Component } from '@angular/core'
 import { AuthService, IAuthStatus } from '../auth/auth.service'
 import { MatIconRegistry } from '@angular/material/icon'
 import { DomSanitizer } from '@angular/platform-browser'
-import { UfkService } from '../../teacher/select-ufk/ufk.service'
 
 @Component({
   selector: 'app-root',
@@ -30,8 +29,7 @@ export class AppComponent {
   constructor(
     protected authService: AuthService,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer,
-    protected ufk: UfkService
+    private domSanitizer: DomSanitizer
   ) {
     this.matIconRegistry.addSvgIcon(
       `teacher`,

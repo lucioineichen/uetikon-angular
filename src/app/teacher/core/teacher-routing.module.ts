@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-import { TeacherCoursesComponent } from '../courses/teacher-courses.component'
-import { TeacherCourseComponent } from '../course/teacher-course.component'
-import { TeacherStudyJobsComponent } from '../study-jobs/study-jobs.component'
-import { FolderComponent } from '../folder/folder.component'
-import { JobComponent } from '../job/job.component'
-import { StudentsComponent } from '../students/students.component'
-import { StudentComponent } from '../student/student.component'
+import { CourseListComponent } from '../course/course-list/teacher-courses.component'
+import { CourseDetailComponent } from '../course/course-detail/teacher-course.component'
+import { FolderComponent } from '../study-job/folder/folder.component'
+import { JobComponent } from '../study-job/job/job.component'
 import { UfkComponent } from '../ufk/ufk.component'
-import { CompetenceComponent } from '../../shared/ui/competence/competence.component'
-import { CompetencesComponent } from '../competences/competences.component'
+import { StudentListComponent } from '../students/student-list/competences.component'
+import { StudyJobListComponent } from '../study-job/study-job-list/study-jobs.component'
+import { StudentDetailComponent } from '../students/student-detail/student.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/teacher/courses', pathMatch: 'full' },
-  { path: 'courses', component: TeacherCoursesComponent },
-  { path: 'courses/:id', component: TeacherCourseComponent },
+  { path: 'courses', component: CourseListComponent },
+  { path: 'courses/:id', component: CourseDetailComponent },
   { path: 'study-jobs/folder/:id', component: FolderComponent },
   {
     path: 'study-jobs/:id',
@@ -23,10 +21,10 @@ const routes: Routes = [
       animation: 'modal',
     },
   },
-  { path: 'study-jobs', component: TeacherStudyJobsComponent },
-  { path: 'students', component: CompetencesComponent },
+  { path: 'study-jobs', component: StudyJobListComponent },
+  { path: 'students', component: StudentListComponent },
   { path: 'ufk', component: UfkComponent },
-  { path: 'students/:id', component: StudentComponent },
+  { path: 'students/:id', component: StudentDetailComponent },
 ]
 
 @NgModule({

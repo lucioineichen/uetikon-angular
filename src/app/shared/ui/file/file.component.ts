@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core'
-import { MatIconRegistry } from '@angular/material/icon'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { IFile } from 'src/app/shared/utils/interfaces'
 
@@ -66,15 +65,15 @@ import { IFile } from 'src/app/shared/utils/interfaces'
       }
 
       .pdf {
-        background-image: url('../../../assets/pdf.png');
+        background-image: url('src/assets/pdf.png');
       }
 
       .word {
-        background-image: url('../../../assets/word.png');
+        background-image: url('src/assets/word.png');
       }
 
       .excel {
-        background-image: url('../../../assets/excel.png');
+        background-image: url('src/assets/excel.png');
       }
     `,
   ],
