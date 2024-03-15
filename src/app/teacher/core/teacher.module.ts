@@ -5,7 +5,6 @@ import { TeacherRoutingModule } from './teacher-routing.module'
 import { MaterialModule } from '../../shared/ui/material.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { TeacherComponent } from './teacher.component'
-import { AddTaskDialogComponent } from '../add-task/add-task-dialog.component'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { StudentParticipantComponent } from '../course/course-detail/student-participant/student-participant.component'
 import { HttpClientModule } from '@angular/common/http'
@@ -29,12 +28,7 @@ import { CourseDetailModule } from '../course/course-detail/course-detail.module
 import { CourseListModule } from '../course/course-list/course-list.module'
 
 @NgModule({
-  declarations: [
-    TeacherComponent,
-    AddTaskDialogComponent,
-    StudentParticipantComponent,
-    GradePipe,
-  ],
+  declarations: [TeacherComponent, StudentParticipantComponent, GradePipe],
   imports: [
     FolderModule,
     CommonModule,

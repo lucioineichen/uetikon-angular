@@ -15,7 +15,8 @@ import { AddButtonModule } from 'src/app/shared/ui/add-button/add-button.module'
     ChatModule,
     CompetenceTableModule,
     ChooseJobModule,
-    AddButtonModule
+    AddButtonModule,
+    ChooseJobModule,
   ],
 })
 export class CourseDetailModule {}

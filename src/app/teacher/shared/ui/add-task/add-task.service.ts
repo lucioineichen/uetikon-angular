@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { Observable, map, mergeMap, of, tap } from 'rxjs'
-import { AddTaskDialogComponent } from './add-task-dialog.component'
+import { AddTaskComponent } from './add-task-dialog.component'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { environment } from 'src/app/core/environment/environment.demo'
@@ -25,13 +25,13 @@ export class AddTaskService {
   }
 
   private addTaskData(): Observable<any | undefined> {
-    let dialogRef = this.dialog.open(AddTaskDialogComponent)
+    let dialogRef = this.dialog.open(AddTaskComponent)
 
     return dialogRef.afterClosed()
   }
 
   private addTaskToJob(jobId: number): Observable<{}> {
-    let dialogRef = this.dialog.open(AddTaskDialogComponent)
+    let dialogRef = this.dialog.open(AddTaskComponent)
 
     return dialogRef.afterClosed().pipe(
       filterNullish(),

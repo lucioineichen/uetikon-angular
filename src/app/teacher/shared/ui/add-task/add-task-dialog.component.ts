@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
   templateUrl: './add-task-dialog.component.html',
   styleUrls: ['./add-task-dialog.component.css'],
 })
-export class AddTaskDialogComponent implements OnInit {
+export class AddTaskComponent implements OnInit {
   form!: FormGroup
   selectedFile?: File
 

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { Observable, map, tap } from 'rxjs'
 import { Location } from '@angular/common'
 import { JobService } from './job.service'
-import { AddTaskService } from '../../add-task/add-task.service'
+import { AddTaskService } from '../../shared/ui/add-task/add-task.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { FormControl } from '@angular/forms'
 
