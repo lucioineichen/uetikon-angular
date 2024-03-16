@@ -94,8 +94,8 @@ export abstract class AuthService implements IAuthService {
     )
   }
 
-  logout(clearToken?: boolean | undefined): void {
-    if (clearToken) this.clearToken()
+  logout(): void {
+    this.clearToken()
     setTimeout(() => this.authStatus$.next(defaultAuthStatus), 0)
   }
 

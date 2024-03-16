@@ -11,7 +11,7 @@ import {
 } from 'rxjs'
 import { IStudent } from 'src/app/shared/utils/interfaces'
 import { StudentsService } from './students.service'
-import { IClass } from './student/student.service'
+import { IClass } from '../student/student.service'
 
 @Component({
   selector: 'app-students',
@@ -39,7 +39,7 @@ import { IClass } from './student/student.service'
     `,
   ],
 })
-export class StudentsComponent {
+export class StudentListComponent {
   readonly students$ = this.service.students$
   readonly classes$ = this.service.classes$
   searchControl = new FormControl()

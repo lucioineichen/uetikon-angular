@@ -4,9 +4,9 @@ import { MatDialog } from '@angular/material/dialog'
 import { BehaviorSubject, catchError, filter, map, mergeMap, tap } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { IStudent, Student } from 'src/app/shared/utils/interfaces'
-import { StudentFormComponent } from './student-form/student-form.component'
-import { ClassFormComponent } from './class-form/class-form.component'
-import { IClass } from './student/student.service'
+import { StudentFormComponent } from '../student-form/student-form.component'
+import { ClassFormComponent } from '../class-form/class-form.component'
+import { IClass } from '../student/student.service'
 import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core'
 import { CompetencesService } from './competences.service'
 import { FormControl } from '@angular/forms'
 import { BehaviorSubject, combineLatest, filter, map, tap } from 'rxjs'
-import { DSVRowString } from 'd3'
 import {
   ICompetence,
   ISubject,

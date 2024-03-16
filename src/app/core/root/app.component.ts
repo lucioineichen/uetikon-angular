@@ -41,6 +41,10 @@ export class AppComponent {
     )
   }
 
+  logout() {
+    this.authService.logout()
+  }
+
   isPermitted(permission_id: number, status: IAuthStatus | null) {
     if (!status) return false
     if (!status.permissions) return false

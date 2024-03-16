@@ -12,7 +12,7 @@ import { DialogService } from '../../shared/ui/dialogs/ui.service'
   styles: [
     `
       div {
-        margin-top: 32px;
+        padding-top: 32px;
       }
     `,
   ],
