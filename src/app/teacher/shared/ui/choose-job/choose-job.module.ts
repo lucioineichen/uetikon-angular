@@ -2,9 +2,17 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ChooseJobComponent } from './choose-study-jobs-dialog.component'
 import { MaterialModule } from 'src/app/shared/ui/material.module'
+import { FolderListItemModule } from '../folder-list-item/folder-list-item.module'
+import { JobListItemModule } from '../job-list-item/job-list-item.module';
+import { ConfirmJobComponent } from './confirm-job/confirm-job.component'
 
 @NgModule({
-  declarations: [ChooseJobComponent],
-  imports: [CommonModule, MaterialModule],
+  declarations: [ChooseJobComponent, ConfirmJobComponent],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FolderListItemModule,
+    JobListItemModule,
+  ],
 })
 export class ChooseJobModule {}

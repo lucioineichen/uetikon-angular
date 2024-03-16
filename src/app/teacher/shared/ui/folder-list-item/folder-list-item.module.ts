@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FolderListItemComponent } from './folder-list-item.component'
+import { MaterialModule } from 'src/app/shared/ui/material.module'
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+  declarations: [FolderListItemComponent],
+  exports: [FolderListItemComponent],
+  imports: [CommonModule, MaterialModule],
 })
-export class FolderListItemModule { }
+export class FolderListItemModule {}

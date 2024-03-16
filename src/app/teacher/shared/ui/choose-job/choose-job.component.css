@@ -1,0 +1,20 @@
+.dialog {
+  width: 440px;
+  padding: 40px;
+  height: 550px;
+}
+
+.title-segment:hover {
+  cursor: pointer;
+}
+
+.folder-separator {
+  font-size: 16px;
+  height: 16px;
+  padding-left: 16px;
+  padding-right: 8px;
+}
+
+.path {
+  margin-bottom: 15px;
+}

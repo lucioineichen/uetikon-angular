@@ -19,7 +19,7 @@
 <div *ngIf="service.folder$ | async as folder; else loading">
   <div class="title">
     <span class="title-segment" routerLink="/teacher/study-jobs">LernJobs</span>
-    <ng-container *ngIf="service.folder$ | async as folder">
+    <ng-container>
       <span *ngFor="let folderRef of folder.path">
         <mat-icon class="folder-separator">arrow_forward_ios</mat-icon>
         <span
