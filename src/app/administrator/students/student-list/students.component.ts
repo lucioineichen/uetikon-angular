@@ -11,7 +11,7 @@ import {
 } from 'rxjs'
 import { IStudent } from 'src/app/shared/utils/interfaces'
 import { StudentsService } from './students.service'
-import { IClass } from '../student/student.service'
+import { IClass } from '../student-detail/student.service'
 
 @Component({
   selector: 'app-students',

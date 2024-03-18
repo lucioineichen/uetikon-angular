@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { tap } from 'rxjs'
 import { CourseService } from './course.service'
 
@@ -68,7 +68,12 @@ export class CourseDetailComponent implements OnInit {
   constructor(
     protected route: ActivatedRoute,
     protected service: CourseService,
+    private router: Router
   ) {}
+
+  goBack() {
+    this.router.navigate(['teacher', 'courses'])
+  }
 
   ngOnInit(): void {
     this.STUDY_JOBS = this.STUDY_JOBS_DATA.map((job) => {

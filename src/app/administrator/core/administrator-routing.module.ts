@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-import { CompetencesComponent } from '../competences/competences.component'
-import { ParentComponent } from '../parents/parents.component'
+import { CompetencesComponent } from '../competence/competences.component'
+import { ParentComponent } from '../parent/parents.component'
 import { StudentListComponent } from '../students/student-list/students.component'
-import { TeachersComponent } from '../teachers/teachers.component'
-import { TeacherComponent } from '../teachers/teacher/teacher.component'
-import { StudentComponent } from '../students/student/student.component'
+import { TeachersComponent } from '../teachers/teacher-list/teachers.component'
+import { TeacherComponent } from '../teachers/teacher-detail/teacher.component'
+import { StudentComponent } from '../students/student-detail/student.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/administrator/competences', pathMatch: 'full' },

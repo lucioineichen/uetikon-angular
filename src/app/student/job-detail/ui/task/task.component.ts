@@ -4,7 +4,7 @@ import { IFile } from 'src/app/shared/utils/interfaces'
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.css'],
+  styles: [],
 })
 export class TaskComponent {
   file: IFile = {

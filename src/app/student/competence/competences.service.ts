@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, catchError, tap } from 'rxjs'
-import { UiService } from 'src/app/shared/ui/dialogs/ui.service'
-import { environment } from 'src/app/environment/environment.demo'
+import { environment } from 'src/app/core/environment/environment.demo'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,10 @@ import { environment } from 'src/app/environment/environment.demo'
 export class CompetencesService {
   readonly data$ = new BehaviorSubject<any | undefined>(undefined)
 
-  constructor(private httpClient: HttpClient, private uiService: UiService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private uiService: DialogService
+  ) {}
 
   private getData() {
     return this.httpClient.get<any>(

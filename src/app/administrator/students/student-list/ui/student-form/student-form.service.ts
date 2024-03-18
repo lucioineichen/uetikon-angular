@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog'
 import { BehaviorSubject, catchError, map, tap } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { StudentFormComponent } from './student-form.component'
-import { IClass } from '../student/student.service'
+import { IClass } from '../../../student-detail/student.service'
 import { environment } from 'src/app/core/environment/environment.demo'
 
 @Injectable({

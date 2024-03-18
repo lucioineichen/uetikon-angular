@@ -6,7 +6,7 @@ import * as d3 from 'd3'
   templateUrl: './competences.component.html',
   styleUrls: ['./competences.component.css'],
 })
-export class CompetencesComponent implements OnInit {
+export class CompetenceListComponent implements OnInit {
   ngOnInit(): void {
     // Access the SVG container using ElementRef and D3.js
     const svg = d3.select('#treeContainer')

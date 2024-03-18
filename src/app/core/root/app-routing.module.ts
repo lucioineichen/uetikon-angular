@@ -43,7 +43,7 @@ const routes: Routes = [
   {
     path: 'student',
     loadChildren: () =>
-      import('../../student/student.module').then((m) => m.StudentModule),
+      import('../../student/core/student.module').then((m) => m.StudentModule),
     canActivate: [AuthGuard],
     data: {
       expectedRole: Role.Student,

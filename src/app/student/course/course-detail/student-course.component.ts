@@ -10,7 +10,6 @@ import {
   Student,
 } from 'src/app/shared/utils/interfaces'
 import { User } from 'src/app/core/auth/user'
-import { StudentService } from '../student.service'
 import { CourseService, ICourse } from './course.service'
 
 @Component({
