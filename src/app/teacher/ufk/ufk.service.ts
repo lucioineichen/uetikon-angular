@@ -52,7 +52,7 @@ export class UfkService {
   ) {}
 
   private getUfks(): Observable<IUfk[]> {
-    return this.http.get<IUfk[]>(`${environment.baseUrl}/teacher/ufks`)
+    return this.http.get<IUfk[]>(`${environment.baseUrl}/ufks`)
   }
 
   update() {

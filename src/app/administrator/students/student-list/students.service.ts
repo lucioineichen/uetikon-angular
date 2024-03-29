@@ -23,15 +23,11 @@ export class StudentsService {
   ) {}
 
   private getStudents() {
-    return this.httpClient.get<IStudent[]>(
-      `${environment.baseUrl}/administrator/students`
-    )
+    return this.httpClient.get<IStudent[]>(`${environment.baseUrl}/students`)
   }
 
   private getClasses() {
-    return this.httpClient.get<IClass[]>(
-      `${environment.baseUrl}/administrator/classes`
-    )
+    return this.httpClient.get<IClass[]>(`${environment.baseUrl}/classes`)
   }
 
   update() {
@@ -63,7 +59,7 @@ export class StudentsService {
 
   postStudent(data: any) {
     return this.httpClient.post<IStudent>(
-      `${environment.baseUrl}/administrator/students`,
+      `${environment.baseUrl}/students`,
       data
     )
   }
@@ -92,10 +88,7 @@ export class StudentsService {
   }
 
   postClass(data: any) {
-    return this.httpClient.post<IClass>(
-      `${environment.baseUrl}/administrator/classes`,
-      data
-    )
+    return this.httpClient.post<IClass>(`${environment.baseUrl}/classes`, data)
   }
 
   addClass() {

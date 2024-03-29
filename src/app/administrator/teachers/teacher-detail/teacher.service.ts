@@ -58,7 +58,7 @@ export class TeacherService {
 
   private getTeacher(id: number) {
     return this.httpClient.get<ITeacher>(
-      `${environment.baseUrl}/administrator/teachers/${id}`
+      `${environment.baseUrl}/teachers/${id}`
     )
   }
 
@@ -82,14 +82,14 @@ export class TeacherService {
   deleteTeacher() {
     if (!this.teacher$.value) return
     return this.httpClient.delete<ITeacher>(
-      `${environment.baseUrl}/administrator/teachers/${this.teacher$.value._id}`
+      `${environment.baseUrl}/teachers/${this.teacher$.value._id}`
     )
   }
 
   putTeacherPermissions(data: any) {
     if (!this.teacher$.value) return
     return this.httpClient.put<ITeacher>(
-      `${environment.baseUrl}/administrator/teachers/${this.teacher$.value._id}`,
+      `${environment.baseUrl}/teachers/${this.teacher$.value._id}`,
       data
     )
   }
@@ -98,7 +98,7 @@ export class TeacherService {
     console.log(data)
     if (!this.teacher$.value) return
     return this.httpClient.put<ITeacher>(
-      `${environment.baseUrl}/administrator/teachers/${this.teacher$.value._id}`,
+      `${environment.baseUrl}/teachers/${this.teacher$.value._id}`,
       data
     )
   }

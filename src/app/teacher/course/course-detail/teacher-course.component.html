@@ -15,7 +15,11 @@
     >
   </mat-toolbar>
 
-  <div class="main-content">
+  <div
+    class="main-content"
+    [ngStyle]="{ 'margin-left': mainMargin, 'margin-right': mainMargin }"
+    *ngIf="course$ | async as course; else loading"
+  >
     <div class="title">LernWeg</div>
     <mat-grid-list
       class="jobs"
@@ -24,11 +28,11 @@
       [cols]="breakpoint"
       (window:resize)="onResize($event)"
     >
-      <mat-grid-tile *ngFor="let job of STUDY_JOBS">
+      <mat-grid-tile *ngFor="let job of course.path">
         <mat-card class="course-card" style="overflow: visible">
           <div class="job" mat-ripple>
             <mat-card-header>
-              <img [src]="job.imageUrl" [alt]="job.name" mat-card-avatar />
+              <!-- <img [src]="job.imageUrl" [alt]="job.name" mat-card-avatar /> -->
               <!-- <div mat-card-avatar class="example-header-image"></div> -->
               <mat-card-title>{{ job.name }}</mat-card-title>
               <mat-card-subtitle>{{ job.subject }}</mat-card-subtitle>
@@ -74,32 +78,24 @@
                 class="job-choice"
                 matTooltip="6 Credits, 12 Kompetenzen, 7 Aufgaben"
               >
-                <img
+                <!-- <img
                   matChipAvatar
                   src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp9074250.jpg&f=1&nofb=1&ipt=644cac44eae37f53c27bb552f26ace6ec3c60fa73ff2ce35fceb57141145d3bd&ipo=images"
                   alt="Photo of a Shiba Inu"
-                />
+                /> -->
                 Konvexität 01</mat-chip
               >
               <mat-chip
                 class="job-choice"
                 matTooltip="6 Credits, 12 Kompetenzen, 7 Aufgaben"
               >
-                <img
-                  matChipAvatar
-                  src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.myfreetextures.com%2Fwp-content%2Fuploads%2F2014%2F11%2Fblue-abstract-background-texture.jpg&f=1&nofb=1&ipt=5d499d7510e777ab5d7a0583d69b6fedcf65cb94aa1ca6c53d4c266051901115&ipo=images"
-                  alt="Photo of a Shiba Inu"
-                />Konvexität 02</mat-chip
+                Konvexität 02</mat-chip
               >
               <mat-chip
                 class="job-choice"
                 matTooltip="6 Credits, 12 Kompetenzen, 7 Aufgaben"
               >
-                <img
-                  matChipAvatar
-                  src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fjooinn.com%2Fimages%2Fgreen-nature-19.jpg&f=1&nofb=1&ipt=16c65164fe9ef364b515a2c3db88a9d9774b59091c5b42c7772efe36eaa31bc4&ipo=images"
-                  alt="Photo of a Shiba Inu"
-                />Konvexität nach Leibniz</mat-chip
+                Konvexität nach Leibniz</mat-chip
               >
             </mat-card-content>
           </div>

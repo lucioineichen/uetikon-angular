@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
-import { CourseService, ICoursePre } from './course.service'
+import { CourseListService, ICoursePre } from './course.service'
 
-// export const exampleStudentCourse: IStudentCourse = {
+// const exampleStudentCourse: IStudentCourse = {
 //   _id: 1,
 //   name: 'Mathe',
 //   credits: 6,
@@ -20,7 +20,7 @@ export class StudentCoursesComponent implements OnInit {
 
   // example = exampleStudentCourse
 
-  constructor(private service: CourseService) {
+  constructor(private service: CourseListService) {
     this.courses$ = this.service.courses$
   }
 

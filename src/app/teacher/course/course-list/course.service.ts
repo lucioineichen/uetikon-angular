@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import {
@@ -36,14 +36,17 @@ export class CourseService {
   ) {}
 
   private getCourses(): Observable<ICoursePre[]> {
-    return this.httpClient.get<ICoursePre[]>(
-      `${environment.baseUrl}/teacher/courses`
-    )
+    let params = new HttpParams().set('self', true)
+
+    return this.httpClient.get<ICoursePre[]>(`${environment.baseUrl}/courses`, {
+      params: params,
+    })
   }
 
   updateCourses() {
     this.getCourses()
       .pipe(
+        tap(console.info),
         tap((courses) => this.courses$.next(courses)),
         catchError((err) => {
           this.ui.showToast('Kurse konnten nicht geladen werden')
@@ -56,7 +59,7 @@ export class CourseService {
 
   postCourse(data: any) {
     return this.httpClient.post<ICoursePre[]>(
-      `${environment.baseUrl}/teacher/courses`,
+      `${environment.baseUrl}/courses`,
       data
     )
   }

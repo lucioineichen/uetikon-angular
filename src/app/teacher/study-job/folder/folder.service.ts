@@ -31,9 +31,7 @@ export class FolderService {
   ) {}
 
   private getFolder(id: number): Observable<IFolder> {
-    return this.http.get<IFolder>(
-      `${environment.baseUrl}/teacher/folders/${id}`
-    )
+    return this.http.get<IFolder>(`${environment.baseUrl}/folders/${id}`)
   }
 
   update(id: number) {

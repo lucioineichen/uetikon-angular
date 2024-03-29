@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { UfkService } from '../../../ufk/ufk.service'
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
 
@@ -23,6 +23,7 @@ export class ClassControlService {
     this.getClasses()
       .pipe(
         tap((data) => {
+          console.info(data)
           this.classControl.setValue(data.primary._id)
           this.classes$.next(data.classes)
         }),
@@ -35,9 +36,10 @@ export class ClassControlService {
   }
 
   private getClasses() {
+    let params = new HttpParams().set('format', 'primary')
     return this.http.get<{
       primary: { _id: number; name: string }
       classes: { _id: number; name: string }[]
-    }>(`${environment.baseUrl}/teacher/classes`)
+    }>(`${environment.baseUrl}/classes`, { params })
   }
 }

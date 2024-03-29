@@ -1,6 +1,5 @@
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { TeacherService } from '../../../core/teacher.service'
 import { IStudent } from 'src/app/shared/utils/interfaces'
 import { ICreateCourseData } from '../../../course/course-list/teacher-courses.component'
 import { BehaviorSubject, filter, tap } from 'rxjs'

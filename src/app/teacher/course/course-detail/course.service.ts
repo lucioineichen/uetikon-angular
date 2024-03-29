@@ -7,6 +7,7 @@ import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
 import {
+  IChat,
   IStudent,
   ITeacher,
   Student,
@@ -14,12 +15,18 @@ import {
 } from 'src/app/shared/utils/interfaces'
 import { ChooseJobService } from '../../shared/ui/choose-job/choose-job.service'
 
+export interface IPath {}
+
 export interface ICourse {
   _id: number
   name: string
   credits: number
   teachers: ITeacher[]
   students: IStudent[]
+  chat: IChat
+  isProject: boolean
+  imageUrl: string
+  path: IPath
 }
 
 @Injectable({
@@ -40,6 +47,7 @@ export class CourseService {
   update() {
     this.getCourse()
       .pipe(
+        tap(console.info),
         tap((course) => {
           course.students = course.students.map(Student.Build)
           course.teachers = course.teachers.map(Teacher.Build)
@@ -82,9 +90,7 @@ export class CourseService {
     return this.id$.pipe(
       filterNullish(),
       mergeMap((id) =>
-        this.httpClient.get<ICourse>(
-          `${environment.baseUrl}/teacher/courses/${id}`
-        )
+        this.httpClient.get<ICourse>(`${environment.baseUrl}/courses/${id}`)
       )
     )
   }

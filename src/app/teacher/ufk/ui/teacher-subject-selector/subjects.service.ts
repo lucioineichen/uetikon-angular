@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, catchError, tap } from 'rxjs'
+import { BehaviorSubject, catchError, of, tap } from 'rxjs'
 import { AddUfkService } from '../add-ufk/add-ufk.service'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { FormControl } from '@angular/forms'
 import { environment } from 'src/app/core/environment/environment.demo'
+import { CompetencesDataService } from 'src/app/shared/data/competences_data/competences-data.service'
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class SubjectsService {
   control: FormControl
 
   constructor(
-    private http: HttpClient,
+    private data: CompetencesDataService,
     private service: AddUfkService,
     private ui: DialogService
   ) {
@@ -43,8 +43,6 @@ export class SubjectsService {
   }
 
   private getsubjects() {
-    return this.http.get<{ _id: number; name: string }[]>(
-      `${environment.baseUrl}/teacher/subjects`
-    )
+    return of(this.data.get_subjects())
   }
 }

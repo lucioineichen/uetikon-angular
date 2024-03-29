@@ -10,7 +10,7 @@ import {
   Student,
 } from 'src/app/shared/utils/interfaces'
 import { User } from 'src/app/core/auth/user'
-import { CourseService, ICourse } from './course.service'
+import { CourseDetailService, ICourse } from './course.service'
 
 @Component({
   selector: 'app-student-course',
@@ -35,7 +35,7 @@ export class StudentCourseComponent implements OnInit {
   constructor(
     protected route: ActivatedRoute,
     private router: Router,
-    private service: CourseService,
+    private service: CourseDetailService,
     private uiService: DialogService
   ) {
     this.id = this.route.snapshot.params['id']

@@ -41,9 +41,7 @@ export class StudyJobsService {
   ) {}
 
   private getRoot(): Observable<IFolder> {
-    return this.http.get<IFolder>(
-      `${environment.baseUrl}/teacher/study-jobs/root`
-    )
+    return this.http.get<IFolder>(`${environment.baseUrl}/folders/root`)
   }
 
   update() {

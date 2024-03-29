@@ -12,12 +12,10 @@ import { IStudyJob } from 'src/app/shared/utils/interfaces'
 export class JobService {
   readonly job$ = new BehaviorSubject<IStudyJob | undefined>(undefined)
 
-  constructor(private httpClient: HttpClient, private ui: DialogService) {}
+  constructor(private http: HttpClient, private ui: DialogService) {}
 
   private getStudyJob(id: number): Observable<IStudyJob> {
-    return this.httpClient.get<IStudyJob>(
-      `${environment.baseUrl}/teacher/study-job/${id}`
-    )
+    return this.http.get<IStudyJob>(`${environment.baseUrl}/study-job/${id}`)
   }
 
   update(id: number) {

@@ -13,7 +13,7 @@ export interface ICourse {
 @Injectable({
   providedIn: 'root',
 })
-export class CourseService {
+export class CourseDetailService {
   readonly courses$ = new BehaviorSubject<ICourse[] | undefined>(undefined)
 
   constructor(private httpClient: HttpClient, private ui: DialogService) {}

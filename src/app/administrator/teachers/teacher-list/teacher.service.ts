@@ -20,9 +20,7 @@ export class TeacherService {
   ) {}
 
   private getTeachers() {
-    return this.httpClient.get<ITeacher[]>(
-      `${environment.baseUrl}/administrator/teachers`
-    )
+    return this.httpClient.get<ITeacher[]>(`${environment.baseUrl}/teachers`)
   }
 
   updateTeachers() {
@@ -43,7 +41,7 @@ export class TeacherService {
 
   postTeacher(data: any) {
     return this.httpClient.post<ITeacher>(
-      `${environment.baseUrl}/administrator/teachers`,
+      `${environment.baseUrl}/teachers`,
       data
     )
   }

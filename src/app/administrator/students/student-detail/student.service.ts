@@ -63,7 +63,7 @@ export class StudentService {
 
   private getStudent(id: number) {
     return this.httpClient.get<IStudent>(
-      `${environment.baseUrl}/administrator/students/${id}`
+      `${environment.baseUrl}/students/${id}`
     )
   }
 
@@ -86,14 +86,14 @@ export class StudentService {
   deleteStudent() {
     if (!this.student$.value) return
     return this.httpClient.delete<IStudent>(
-      `${environment.baseUrl}/administrator/students/${this.student$.value._id}`
+      `${environment.baseUrl}/students/${this.student$.value._id}`
     )
   }
 
   putStudent(data: any) {
     if (!this.student$.value) return
     return this.httpClient.put<IStudent>(
-      `${environment.baseUrl}/administrator/students/${this.student$.value._id}`,
+      `${environment.baseUrl}/students/${this.student$.value._id}`,
       data
     )
   }

@@ -53,12 +53,8 @@ export class ChooseJobService {
 
   private getFolder(id?: number): Observable<IFolder> {
     if (id && id != 0)
-      return this.http.get<IFolder>(
-        `${environment.baseUrl}/teacher/folders/${id}`
-      )
+      return this.http.get<IFolder>(`${environment.baseUrl}/folders/${id}`)
 
-    return this.http.get<IFolder>(
-      `${environment.baseUrl}/teacher/study-jobs/root`
-    )
+    return this.http.get<IFolder>(`${environment.baseUrl}/folders/root`)
   }
 }

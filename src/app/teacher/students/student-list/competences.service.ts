@@ -28,7 +28,7 @@ export class CompetencesService {
   constructor(private http: HttpClient, private ui: DialogService) {}
 
   private getUfks(): Observable<IUfk[]> {
-    return this.http.get<IUfk[]>(`${environment.baseUrl}/teacher/ufks`)
+    return this.http.get<IUfk[]>(`${environment.baseUrl}/ufks`)
   }
 
   update() {

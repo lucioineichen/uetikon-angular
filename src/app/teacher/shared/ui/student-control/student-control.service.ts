@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { UfkService } from '../../../ufk/ufk.service'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import {
   BehaviorSubject,
   Observable,
@@ -32,6 +32,7 @@ export class StudentControlService {
     this.getStudents()
       .pipe(
         tap((students) => {
+          console.info(students)
           this.students$.next(students)
         }),
         catchError((err) => {
@@ -51,10 +52,14 @@ export class StudentControlService {
   }
 
   private getStudentsFromClasses(ids: number[]) {
-    return this.http.put<{ _id: number; name: string }[]>(
-      `${environment.baseUrl}/teacher/classes/students`,
+    let params = new HttpParams()
+    ids.forEach((id) => (params = params.append('class_ids', id)))
+    params = params.set('format', 'ref')
+
+    return this.http.get<{ _id: number; name: string }[]>(
+      `${environment.baseUrl}/students`,
       {
-        ids,
+        params,
       }
     )
   }
