@@ -1,0 +1,14 @@
+<mat-card-header>
+  <mat-card-title>LernJob Frei Nach Kompetenzen</mat-card-title>
+  <mat-card-subtitle>{{ name }}</mat-card-subtitle>
+</mat-card-header>
+<mat-card-content style="height: 95px">
+  <div style="height: 40px"></div>
+  <mat-chip
+    *ngFor="let comp of competences"
+    class="job-choice"
+    [matTooltip]="comp.name"
+  >
+    {{ comp._id }}</mat-chip
+  >
+</mat-card-content>

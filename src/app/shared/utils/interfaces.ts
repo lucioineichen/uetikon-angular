@@ -97,6 +97,7 @@ export interface IStudyJob {
   notes?: string
   tasks: ITask[]
   competences: ICompetence[]
+  credits: number
   subject: string
 }
 
@@ -117,7 +118,29 @@ export interface IFile {
 export interface ICompetence {
   _id: number
   name: string
-  subject: string
+}
+
+export interface JobContainer {
+  _id: number
+  name: string | undefined
+  isDependent: boolean
+  dependentContainer: IRef | undefined
+  type: 'mandetory' | 'choice' | 'competence'
+  necessairyCompetences: ICompetence[] | undefined
+  mandetoryJob: IStudyJob | undefined
+  jobChoices: IStudyJob[]
+}
+
+export interface ICourse {
+  _id: number
+  name: string
+  credits: number
+  teachers: ITeacher[]
+  students: IStudent[]
+  chat: IChat
+  isProject: boolean
+  imageUrl: string
+  path: JobContainer[]
 }
 
 export interface IStudentParticipant {}

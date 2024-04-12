@@ -27,7 +27,10 @@
     </div>
 
     <div *ngFor="let job of folder.studyJobs" fxLayout>
-      <app-job-list-item [job]="job" (click)="chooseJob(job)"></app-job-list-item>
+      <app-job-list-item
+        [job]="job"
+        (click)="chooseJob(job)"
+      ></app-job-list-item>
     </div>
   </mat-list>
 </mat-dialog-content>

@@ -1,0 +1,20 @@
+<mat-card-header>
+  <!-- <img [src]="job.imageUrl" [alt]="job.name" mat-card-avatar /> -->
+  <!-- <div mat-card-avatar class="example-header-image"></div> -->
+  <mat-card-title>{{ job.name }}</mat-card-title>
+  <mat-card-subtitle>{{ job.subject }}</mat-card-subtitle>
+</mat-card-header>
+<mat-card-content>
+  <mat-chip class="chip">
+    <mat-icon matChipAvatar>task</mat-icon>
+    {{ job.tasks.length }} Aufgaben
+  </mat-chip>
+  <mat-chip class="chip">
+    <img src="../../../../../../assets/competence.svg" matChipAvatar alt="" />
+    {{ job.competences.length }} Kompetenzen
+  </mat-chip>
+  <mat-chip class="chip">
+    <img src="../../../../../assets/credits.svg" matChipAvatar alt="" />
+    {{ job.credits }} Credits
+  </mat-chip>
+</mat-card-content>

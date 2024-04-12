@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { tap } from 'rxjs'
 import { CourseService } from './course.service'
+import { CreateMandetoryService } from './ui/create-mandetory/create-mandetory.service'
 
 interface IStudyJobTeacherDisplay {
   _id: number
@@ -49,7 +50,8 @@ class StudyJobDisplay {
   styleUrls: ['./teacher-course.component.css'],
 })
 export class CourseDetailComponent implements OnInit {
-  course$ = this.service.course$
+  readonly id$ = this.service.id$
+  readonly course$ = this.service.course$
   newMessage: string = ''
   isChatOpen = false
   breakpoint!: number
@@ -76,7 +78,8 @@ export class CourseDetailComponent implements OnInit {
   constructor(
     protected route: ActivatedRoute,
     protected service: CourseService,
-    private router: Router
+    private router: Router,
+    private mandetory: CreateMandetoryService
   ) {}
 
   goBack() {
@@ -111,9 +114,18 @@ export class CourseDetailComponent implements OnInit {
     this.service.update()
   }
 
-  addStudyJob() {
-    this.service.addJob()
+  addMandetoryJob() {
+    const id = this.id$.getValue()
+    if (!id) return
+    this.mandetory
+      .createMandetory(id)
+      .pipe(tap(() => this.service.update()))
+      .subscribe()
   }
+
+  addCompetenceJob() {}
+
+  addJobChoice() {}
 
   // readonly STUDY_JOBS_DATA: IStudyJobTeacherDisplay[] = [
   //   {

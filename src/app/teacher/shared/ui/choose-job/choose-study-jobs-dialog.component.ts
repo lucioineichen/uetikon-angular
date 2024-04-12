@@ -30,6 +30,7 @@ export class ChooseJobComponent {
     _id: 0,
     tasks: [],
     competences: [],
+    credits: 0,
     subject: '',
   }
 
@@ -38,7 +39,7 @@ export class ChooseJobComponent {
       .confirmJob(job)
       .pipe(
         filter((isConfirm) => isConfirm),
-        tap(() => this.dialogRef.close(job._id))
+        tap(() => this.dialogRef.close(job))
       )
       .subscribe()
   }

@@ -6,7 +6,6 @@ import { MaterialModule } from '../../shared/ui/material.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { TeacherComponent } from './teacher.component'
 import { FlexLayoutModule } from '@angular/flex-layout'
-import { StudentParticipantComponent } from '../course/course-detail/student-participant/student-participant.component'
 import { HttpClientModule } from '@angular/common/http'
 import { GradePipe } from '../ufk/ui/ufk-table/grade.pipe'
 import { ChatModule } from '../../shared/ui/chat/chat.module'
@@ -28,7 +27,7 @@ import { CourseDetailModule } from '../course/course-detail/course-detail.module
 import { CourseListModule } from '../course/course-list/course-list.module'
 
 @NgModule({
-  declarations: [TeacherComponent, StudentParticipantComponent, GradePipe],
+  declarations: [TeacherComponent, GradePipe],
   imports: [
     FolderModule,
     CommonModule,

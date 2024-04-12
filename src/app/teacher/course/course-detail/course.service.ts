@@ -8,26 +8,16 @@ import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
 import {
   IChat,
+  ICompetence,
+  ICourse,
+  IRef,
   IStudent,
+  IStudyJob,
   ITeacher,
   Student,
   Teacher,
 } from 'src/app/shared/utils/interfaces'
 import { ChooseJobService } from '../../shared/ui/choose-job/choose-job.service'
-
-export interface IPath {}
-
-export interface ICourse {
-  _id: number
-  name: string
-  credits: number
-  teachers: ITeacher[]
-  students: IStudent[]
-  chat: IChat
-  isProject: boolean
-  imageUrl: string
-  path: IPath
-}
 
 @Injectable({
   providedIn: 'root',

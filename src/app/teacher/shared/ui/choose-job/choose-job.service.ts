@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
-import { BehaviorSubject, Observable, catchError, filter, tap } from 'rxjs'
+import { BehaviorSubject, Observable, catchError, filter, map, tap } from 'rxjs'
 import { IFolder, IRef, IStudyJob } from 'src/app/shared/utils/interfaces'
 import { ChooseJobComponent } from './choose-study-jobs-dialog.component'
 import { HttpClient } from '@angular/common/http'
@@ -44,7 +44,7 @@ export class ChooseJobService {
     return this.dialog.open(ConfirmJobComponent).afterClosed()
   }
 
-  chooseJob(): Observable<undefined | number> {
+  chooseJob(): Observable<IStudyJob | undefined> {
     this.openFolder(0)
     const dialogRef = this.dialog.open(ChooseJobComponent)
 

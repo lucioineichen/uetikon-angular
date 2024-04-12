@@ -1,0 +1,8 @@
+.job-choice:hover {
+  cursor: pointer;
+}
+
+.job-choice {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
