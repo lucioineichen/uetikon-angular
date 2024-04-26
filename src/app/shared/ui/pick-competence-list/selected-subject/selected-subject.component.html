@@ -1,0 +1,59 @@
+<div *ngIf="!(competences$ | async)">
+  <mat-accordion *ngIf="subject$ | async as subject">
+    <mat-expansion-panel *ngFor="let topic of subject.topics">
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{ topic.name }} </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <app-select-topic
+        *ngIf="topic.subTopics"
+        [subTopics]="topic.subTopics"
+      ></app-select-topic>
+
+      <app-select-topic
+        *ngIf="topic.competences"
+        [competences]="topic.competences"
+      ></app-select-topic>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<mat-accordion
+  *ngIf="competences$ | async as competences"
+  class="example-headers-align"
+  multi
+>
+  <mat-expansion-panel
+    [expanded]="true"
+    style="
+      line-height: 20px;
+      font-family: Roboto, sans-serif;
+      letter-spacing: 0.0178571429em;
+    "
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> Suche ({{ searchControl.value }}): </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div *ngFor="let competence of competences.competences">
+      <div style="display: flex; align-items: center; padding-bottom: 10px">
+        <mat-checkbox
+          style="padding: 5px 5px 10px 5px"
+          [checked]="service.isSelectedComp(competence)"
+          (change)="service.toggleCompSelection($event, competence)"
+          >{{ competence.name }}</mat-checkbox
+        >
+      </div>
+    </div>
+    <div *ngFor="let competence of competences.subCompetences">
+      <div style="display: flex; align-items: center; padding-bottom: 10px">
+        <mat-checkbox
+          style="padding: 5px 5px 10px 5px"
+          [checked]="service.isSelectedSub(competence._id)"
+          (change)="service.toggleSubSelection($event, competence._id)"
+          >{{ competence.name }}</mat-checkbox
+        >
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

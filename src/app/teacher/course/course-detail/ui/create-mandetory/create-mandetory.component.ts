@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { tap } from 'rxjs'
 import { CreateMandetoryService } from './create-mandetory.service'
@@ -9,22 +9,25 @@ import { CreateMandetoryService } from './create-mandetory.service'
   styleUrls: ['./create-mandetory.component.css'],
 })
 export class CreateMandetoryComponent implements OnInit {
-  job$ = this.service.job$
+  readonly job$ = this.service.job$
+  readonly dependentContainer$ = this.service.dependentContainer$
 
-  constructor(
-    private route: ActivatedRoute,
-    private service: CreateMandetoryService
-  ) {}
+  constructor(private service: CreateMandetoryService) {}
+
+  ngOnInit(): void {
+    this.job$.next(undefined)
+    this.dependentContainer$.next(undefined)
+  }
 
   chooseJob() {
     this.service.chooseJob()
   }
 
   addDepended() {
-    this.service.chooseDepended()
+    this.service.chooseDependet(this.dependentContainer$.getValue())
   }
 
-  ngOnInit(): void {
-    this.route.params.pipe(tap(console.log)).subscribe()
+  removeDependent() {
+    this.dependentContainer$.next(undefined)
   }
 }

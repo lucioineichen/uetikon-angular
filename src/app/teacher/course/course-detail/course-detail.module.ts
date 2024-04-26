@@ -10,7 +10,9 @@ import { NecessairyCompetencesModule } from './ui/necessairy-competences/necessa
 import { JobChoicesModule } from './ui/job-choices/job-choices.module'
 import { MandetoryJobModule } from './ui/mandetory-job/mandetory-job.module'
 import { CreateMandetoryModule } from './ui/create-mandetory/create-mandetory.module'
-import { ChooseDependencyComponent } from './ui/choose-dependency/choose-dependency.component'
+import { CreateChoiceComponent } from './ui/create-choice/create-choice.component'
+import { CreateChoiceModule } from './ui/create-choice/create-choice.module'
+import { CreateCompetenceContainerModule } from './ui/create-competence-container/create-competence-container.module'
 
 @NgModule({
   declarations: [CourseDetailComponent],
@@ -26,6 +28,8 @@ import { ChooseDependencyComponent } from './ui/choose-dependency/choose-depende
     JobChoicesModule,
     MandetoryJobModule,
     CreateMandetoryModule,
+    CreateChoiceModule,
+    CreateCompetenceContainerModule
   ],
 })
 export class CourseDetailModule {}

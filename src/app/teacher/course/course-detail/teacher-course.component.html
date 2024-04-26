@@ -51,12 +51,17 @@
       (window:resize)="onResize($event)"
     >
       <mat-grid-tile *ngFor="let container of course.path">
-        <mat-card class="course-card" style="overflow: visible">
-          <div class="job" mat-ripple>
+        <mat-card class="course-card" style="overflow: visible; height: 200px">
+          <div
+            mat-ripple
+            class="job"
+            (click)="openContainer(container._id, container.name)"
+          >
             <app-mandetory-job
               *ngIf="container.type == 'mandetory' && container.mandetoryJob"
               [job]="container.mandetoryJob"
             ></app-mandetory-job>
+
             <app-job-choices
               *ngIf="container.type == 'choice'"
               [choices]="container.jobChoices"

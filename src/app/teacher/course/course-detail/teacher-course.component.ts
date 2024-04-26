@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { tap } from 'rxjs'
 import { CourseService } from './course.service'
 import { CreateMandetoryService } from './ui/create-mandetory/create-mandetory.service'
+import { CreateChoiceService } from './ui/create-choice/create-choice.service'
+import { CreateCompetenceContainerService } from './ui/create-competence-container/create-competence-container.service'
 
 interface IStudyJobTeacherDisplay {
   _id: number
@@ -51,6 +53,7 @@ class StudyJobDisplay {
 })
 export class CourseDetailComponent implements OnInit {
   readonly id$ = this.service.id$
+  readonly name$ = this.service.name$
   readonly course$ = this.service.course$
   newMessage: string = ''
   isChatOpen = false
@@ -79,8 +82,25 @@ export class CourseDetailComponent implements OnInit {
     protected route: ActivatedRoute,
     protected service: CourseService,
     private router: Router,
-    private mandetory: CreateMandetoryService
+    private mandetory: CreateMandetoryService,
+    private createChoice: CreateChoiceService,
+    private createComp: CreateCompetenceContainerService
   ) {}
+
+  openContainer(containerId: number, containerName: string) {
+    const courseId = this.id$.getValue()
+    const courseName = this.name$.getValue()
+    if (!courseId || !courseName) return
+    this.router.navigate(
+      ['teacher', 'courses', courseId, 'containers', containerId],
+      {
+        queryParams: {
+          courseName,
+          containerName,
+        },
+      }
+    )
+  }
 
   goBack() {
     this.router.navigate(['teacher', 'courses'])
@@ -88,10 +108,6 @@ export class CourseDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.mainMargin = `${this.calcMargin(window.innerWidth)}px`
-    // this.STUDY_JOBS = this.STUDY_JOBS_DATA.map((job) => {
-    //   let dJob = this.STUDY_JOBS_DATA.find((djob) => djob._id === job.dependend)
-    //   return StudyJobDisplay.Build(job, dJob)
-    // })
 
     this.breakpoint = this.calcBreakpoint(window.innerWidth)
 
@@ -123,9 +139,23 @@ export class CourseDetailComponent implements OnInit {
       .subscribe()
   }
 
-  addCompetenceJob() {}
+  addCompetenceJob() {
+    const id = this.id$.getValue()
+    if (!id) return
+    this.createComp
+      .createCompetence(id)
+      .pipe(tap(() => this.service.update()))
+      .subscribe()
+  }
 
-  addJobChoice() {}
+  addJobChoice() {
+    const id = this.id$.getValue()
+    if (!id) return
+    this.createChoice
+      .createChoice(id)
+      .pipe(tap(() => this.service.update()))
+      .subscribe()
+  }
 
   // readonly STUDY_JOBS_DATA: IStudyJobTeacherDisplay[] = [
   //   {

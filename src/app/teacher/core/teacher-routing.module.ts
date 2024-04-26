@@ -8,11 +8,16 @@ import { UfkComponent } from '../ufk/ufk.component'
 import { StudentListComponent } from '../students/student-list/competences.component'
 import { StudyJobListComponent } from '../study-job/study-job-list/study-jobs.component'
 import { StudentDetailComponent } from '../students/student-detail/student.component'
+import { ContainerDetailComponent } from '../course/container-detail/container-detail.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/teacher/courses', pathMatch: 'full' },
   { path: 'courses', component: CourseListComponent },
   { path: 'courses/:id', component: CourseDetailComponent },
+  {
+    path: 'courses/:courseId/containers/:containerId',
+    component: ContainerDetailComponent,
+  },
   { path: 'study-jobs/folder/:id', component: FolderComponent },
   {
     path: 'study-jobs/:id',

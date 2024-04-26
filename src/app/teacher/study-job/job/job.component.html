@@ -32,10 +32,7 @@
     </mat-menu>
   </mat-toolbar>
 
-  <mat-dialog-content
-    class="mat-typography"
-    *ngIf="job$ | async as job; else loading"
-  >
+  <div class="mat-typography" *ngIf="job$ | async as job; else loading">
     <div style="margin-top: 50px"></div>
     <div class="tasks">
       <h1>Aufgaben</h1>
@@ -68,7 +65,7 @@
         Diesem LernJob wurden noch keine Kompetenzen hinzugefügt
       </p>
     </div>
-  </mat-dialog-content>
+  </div>
 </div>
 
 <ng-template #loading>

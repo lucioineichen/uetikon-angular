@@ -37,7 +37,6 @@ export class CourseService {
   update() {
     this.getCourse()
       .pipe(
-        tap(console.info),
         tap((course) => {
           course.students = course.students.map(Student.Build)
           course.teachers = course.teachers.map(Teacher.Build)

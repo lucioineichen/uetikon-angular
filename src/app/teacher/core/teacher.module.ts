@@ -25,6 +25,7 @@ import { StudentDetailModule } from '../students/student-detail/student-detail.m
 import { StudentListModule } from '../students/student-list/competences.module'
 import { CourseDetailModule } from '../course/course-detail/course-detail.module'
 import { CourseListModule } from '../course/course-list/course-list.module'
+import { ContainerDetailModule } from '../course/container-detail/container-detail.module'
 
 @NgModule({
   declarations: [TeacherComponent, GradePipe],
@@ -53,6 +54,7 @@ import { CourseListModule } from '../course/course-list/course-list.module'
     StudentDetailModule,
     CourseDetailModule,
     CourseListModule,
+    ContainerDetailModule,
   ],
 })
 export class TeacherModule {}

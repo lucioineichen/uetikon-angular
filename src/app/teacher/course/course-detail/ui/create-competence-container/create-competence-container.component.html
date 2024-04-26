@@ -1,0 +1,70 @@
+<mat-dialog-content class="mat-typography" class="dialog">
+  <h2 class="sub-title">Kompetenz LernElement</h2>
+
+  <form fxLayout="column">
+    <mat-form-field fxFlex style="width: 100%">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        placeholder="Name"
+        aria-label="Name"
+        [formControl]="name"
+      />
+      <mat-error *ngIf="name.hasError('required')">
+        Name ist obligatorisch
+      </mat-error>
+      <mat-error *ngIf="name.hasError('minlength')">
+        Name muss länger als 3 sein
+      </mat-error>
+      <mat-error *ngIf="name.hasError('maxlength')">
+        Name darf nicht länger als 255 sein
+      </mat-error>
+    </mat-form-field>
+  </form>
+
+  <div>
+    <button cdkFocusInitial mat-raised-button (click)="addCompetence()">
+      <mat-icon>add</mat-icon>
+      Kompetenz Hinzufügen
+    </button>
+  </div>
+
+  <mat-chip
+    *ngFor="let comp of competenceList.valueChanges | async"
+    class="competence"
+  >
+    {{ comp.name }}
+  </mat-chip>
+
+  <div style="position: absolute; bottom: 70px">
+    <mat-chip
+      *ngIf="dependent.valueChanges | async as container"
+      class="dependent"
+      >{{ container.name
+      }}<button
+        matChipRemove
+        [attr.aria-label]="'remove ' + container.name"
+        (click)="removeDependent()"
+      >
+        <mat-icon>cancel</mat-icon>
+      </button></mat-chip
+    >
+
+    <button
+      mat-raised-button
+      style="margin-top: 15px"
+      (click)="addDependet()"
+      [disabled]="form.invalid"
+    >
+      <mat-icon>lock</mat-icon> Abhängigkeit
+      {{ dependent.value == undefined ? "Hinzufügen" : "Ändern" }}
+    </button>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Abbrechen</button>
+  <button mat-button [disabled]="form.invalid" [mat-dialog-close]="form.value">
+    Hinzufügen
+  </button>
+</mat-dialog-actions>

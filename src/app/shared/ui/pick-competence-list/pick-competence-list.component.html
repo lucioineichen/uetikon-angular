@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Kompetenzen Auswählen</h2>
+
+<mat-dialog-content style="width: 700px; height: 1500px">
+  <div
+    *ngIf="subjectList$ | async as subjectList; else loading"
+    style="padding: 5px 30px 0 30px"
+  >
+    <app-select-subject [formControl]="subjectControl"></app-select-subject>
+
+    <mat-form-field
+      *ngIf="subjectControl.value"
+      style="width: 100%"
+      appearance="outline"
+    >
+      <mat-label>Suche Kompetenzen</mat-label>
+
+      <input
+        matInput
+        [formControl]="searchControl"
+        placeholder="Suche nach Namen"
+      />
+    </mat-form-field>
+
+    <app-all-subjects *ngIf="!(selectedSubject$ | async)"></app-all-subjects>
+
+    <app-selected-subject
+      *ngIf="selectedSubject$ | async"
+    ></app-selected-subject>
+  </div>
+</mat-dialog-content>
+
+<ng-template #loading>
+  <div *ngIf="!subjectList$.hasError; else error">
+    Lädt Kompetenzen...
+  </div></ng-template
+>
+<ng-template #error
+  >Kompetenzen konnten nicht geladen werden, öffne das Feld erneut</ng-template
+>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+    Auswählen
+  </button>
+</mat-dialog-actions>
+
+<mat-dialog-actions></mat-dialog-actions>

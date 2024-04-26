@@ -91,6 +91,17 @@ export class Teacher extends User implements ITeacher {
   }
 }
 
+export interface IContainer {
+  _id: number
+  name: string
+  type: 'mandetory' | 'choice' | 'competence'
+  isDependent: boolean
+  dependentContainer: IRef
+  mandetoryJob: IStudyJob
+  jobChoices: IStudyJob[]
+  necessairyCompetences: ICompetence[]
+}
+
 export interface IStudyJob {
   _id: number
   name: string
@@ -116,20 +127,20 @@ export interface IFile {
 }
 
 export interface ICompetence {
-  _id: number
+  _id: string
   name: string
 }
 
-export interface JobContainer {
-  _id: number
-  name: string | undefined
-  isDependent: boolean
-  dependentContainer: IRef | undefined
-  type: 'mandetory' | 'choice' | 'competence'
-  necessairyCompetences: ICompetence[] | undefined
-  mandetoryJob: IStudyJob | undefined
-  jobChoices: IStudyJob[]
-}
+// export interface JobContainer {
+//   _id: number
+//   name: string | undefined
+//   isDependent: boolean
+//   dependentContainer: IRef | undefined
+//   type: 'mandetory' | 'choice' | 'competence'
+//   necessairyCompetences: ICompetence[] | undefined
+//   mandetoryJob: IStudyJob | undefined
+//   jobChoices: IStudyJob[]
+// }
 
 export interface ICourse {
   _id: number
@@ -140,7 +151,7 @@ export interface ICourse {
   chat: IChat
   isProject: boolean
   imageUrl: string
-  path: JobContainer[]
+  path: IContainer[]
 }
 
 export interface IStudentParticipant {}

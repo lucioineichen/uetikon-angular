@@ -1,0 +1,42 @@
+<mat-accordion *ngIf="subjectList$ | async as subjects">
+  <mat-expansion-panel *ngFor="let subject of subjects" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ subject.name }}
+        <button
+          style="position: absolute; right: 15px"
+          mat-stroked-button
+          (click)="service.openSubject(subject)"
+        >
+          Öffnen
+        </button>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div
+      style="display: flex; align-items: center; padding-bottom: 10px"
+      *ngFor="let topic of subject.topicList"
+    >
+      <button
+        mat-icon-button
+        [attr.aria-label]="'Toggle ' + topic.name"
+        (click)="isExpanded = !isExpanded"
+      >
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{ isExpanded ? "expand_more" : "chevron_right" }}
+        </mat-icon>
+      </button>
+      {{ subTopic.name }}
+    </div>
+    <div *ngIf="isExpanded" style="padding-left: 30px">
+      <div *ngFor="let competence of subTopic.competenceList">
+        <mat-checkbox
+          style="padding: 5px 5px 10px 5px"
+          [checked]="competence.isSelected"
+          (change)="toggleSelection(competence._id, $event.checked)"
+          >{{ competence.name }}</mat-checkbox
+        >
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,35 @@
+<mat-dialog-content class="mat-typography" class="dialog">
+  <h1>Abhängigkeit Hinzufügen</h1>
+  <h2>{{ service.forName$ | async }}</h2>
+
+  <mat-chip-listbox
+    *ngIf="service.containerList$ | async as containerLIst"
+    [formControl]="dependentControl"
+  >
+    <mat-chip-option
+      [value]="'' + container._id"
+      *ngFor="let container of containerLIst"
+      >{{ container.name }}
+    </mat-chip-option>
+  </mat-chip-listbox>
+
+  <div *ngIf="(service.containerList$ | async)?.length == 0">
+    LernWeg hat noch keine LernJobs
+  </div>
+
+  <div *ngIf="!(service.containerList$ | async)">Lädt LernJobs</div>
+  <div *ngIf="service.containerList$.hasError">
+    LernJobs konnten nicht geladen werden
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close="noChange">Abbrechen</button>
+  <button
+    mat-button
+    [disabled]="form.invalid"
+    [mat-dialog-close]="selectedContainer"
+  >
+    Hinzufügen
+  </button>
+</mat-dialog-actions>

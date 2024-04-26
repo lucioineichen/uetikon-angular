@@ -1,0 +1,100 @@
+<div style="position: absolute; top: 0; width: 100%; z-index: 100">
+  <mat-toolbar
+    color="primary"
+    fxLayoutGap="8px"
+    style="position: fixed; z-index: 10000"
+  >
+    <a mat-button (click)="goBack()"><mat-icon>arrow_back</mat-icon> Zurück</a>
+    <a mat-button (click)="service.update()"
+      ><h1>{{ containerName$ | async }}</h1></a
+    >
+  </mat-toolbar>
+
+  <div
+    class="main-content"
+    *ngIf="
+      !container$.hasError && (container$ | async) as container;
+      else loading
+    "
+  >
+    <div class="title">{{ container.name }}</div>
+    <div class="sub-title">
+      <div *ngIf="container.type == 'mandetory'">
+        Obligatorisches LernElement in {{ courseName$ | async }}
+      </div>
+      <div *ngIf="container.type == 'choice'">
+        LernJob Auswahl in {{ courseName$ | async }}
+      </div>
+      <div *ngIf="container.type == 'competence'">
+        Kompetenz Bezogenes LernElement in {{ courseName$ | async }}
+      </div>
+    </div>
+
+    <div>
+      <div *ngIf="container.isDependent">
+        Abhängig von LernElement: {{ container.dependentContainer.name }}
+        <button
+          mat-raised-button
+          style="margin-top: 20px"
+          (click)="removeDependency()"
+        >
+          <mat-icon>delete</mat-icon> Abhängigkeit Entfernen
+        </button>
+      </div>
+      <div *ngIf="!container.isDependent">
+        <button mat-raised-button (click)="addDependency()">
+          <mat-icon>lock</mat-icon> Abhängigkeit Hinzufügen
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="container.type == 'mandetory'" style="margin-top: 20px">
+      <mat-card class="job" mat-ripple>
+        <app-mandetory-job
+          *ngIf="container.type == 'mandetory' && container.mandetoryJob"
+          [job]="container.mandetoryJob"
+        ></app-mandetory-job>
+      </mat-card>
+    </div>
+
+    <div *ngIf="container.type == 'choice'" style="margin-top: 20px">
+      <mat-grid-list
+        class="jobs"
+        gutterSize="20px"
+        rowHeight="240px"
+        [cols]="breakpoint"
+        (window:resize)="onResize($event)"
+      >
+        <mat-grid-tile *ngFor="let choice of container.jobChoices">
+          <mat-card
+            class="course-card"
+            style="overflow: visible; height: 200px"
+          >
+            <div mat-ripple class="job-choice">
+              <app-mandetory-job [job]="choice"></app-mandetory-job>
+            </div> </mat-card
+        ></mat-grid-tile>
+      </mat-grid-list>
+    </div>
+
+    <button
+      mat-raised-button
+      style="margin-top: 20px"
+      (click)="deleteContainer()"
+    >
+      <mat-icon>delete</mat-icon> LernElement Entfernen
+    </button>
+  </div>
+
+  <ng-template #loading>
+    <div *ngIf="!container$.hasError; else error" class="main-content">
+      Lädt LernElement
+    </div></ng-template
+  >
+
+  <ng-template #error
+    ><div class="main-content">
+      LernElement konnten nicht geladen werden, lade die Seite neu
+    </div></ng-template
+  >
+</div>
