@@ -18,12 +18,7 @@ import { IPickSubTopic } from '../pick-competence-list.service'
     </div>
     <div *ngIf="isExpanded" style="padding-left: 30px">
       <div *ngFor="let competence of subTopic.competenceList">
-        <mat-checkbox
-          style="padding: 5px 5px 10px 5px"
-          [checked]="competence.isSelected"
-          (change)="toggleSelection(competence._id, $event.checked)"
-          >{{ competence.name }}</mat-checkbox
-        >
+        <app-pick-competence [competence]="competence"></app-pick-competence>
       </div>
     </div>
   `,
@@ -32,16 +27,4 @@ import { IPickSubTopic } from '../pick-competence-list.service'
 export class SubTopicComponent {
   @Input('sub-topic') subTopic!: IPickSubTopic
   isExpanded = false
-
-  @Output('toggle-selection') toggleSelectionEmitter = new EventEmitter<{
-    _id: string
-    isSelected: boolean
-  }>()
-
-  toggleSelection(_id: string, isSelected: boolean): void {
-    this.toggleSelectionEmitter.emit({
-      _id,
-      isSelected,
-    })
-  }
 }

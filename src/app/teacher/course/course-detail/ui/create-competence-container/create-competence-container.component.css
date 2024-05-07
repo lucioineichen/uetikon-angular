@@ -1,10 +1,19 @@
-.competence {
-  margin-right: 5px;
-}
-
 .dialog {
   width: 700px;
-  height: 350px;
+  max-height: 600px;
   padding: 45px;
   padding-bottom: 0px;
 }
+
+.competence-list {
+  margin-top: 10px;
+  min-height: 70px;
+}
+
+.competence-chip {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+/* .dependency-button {
+} */

@@ -10,10 +10,12 @@ import { SubSink } from 'subsink'
     <mat-form-field style="width: 100%" appearance="outline">
       <mat-label>Wähle ein Fach</mat-label>
       <mat-select
-        [formControl]="formControl"
+        [formControl]="control"
         [disabled]="((subjectList$ | async) ?? []).length == 0"
+        ngDefaultControl
+        name="fieldName"
       >
-        <mat-option>Keine</mat-option>
+        <mat-option [value]="undefined">Keine</mat-option>
         <mat-option
           *ngFor="let subject of subjectList$ | async"
           [value]="subject._id"
@@ -25,7 +27,7 @@ import { SubSink } from 'subsink'
   styles: [],
 })
 export class SelectSubjectComponent implements OnInit, OnDestroy {
-  @Input() formControl!: FormControl
+  @Input('form-control') control!: FormControl
   readonly sink = new SubSink()
 
   readonly subjectList$ = new BehaviorSubject<{ _id: string; name: string }[]>(
@@ -43,6 +45,8 @@ export class SelectSubjectComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('can you read this')
+    console.log(this.control)
     this.initSubjectList()
   }
 

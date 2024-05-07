@@ -29,7 +29,7 @@ import { CreateCompetenceContainerModule } from './ui/create-competence-containe
     MandetoryJobModule,
     CreateMandetoryModule,
     CreateChoiceModule,
-    CreateCompetenceContainerModule
+    CreateCompetenceContainerModule,
   ],
 })
 export class CourseDetailModule {}

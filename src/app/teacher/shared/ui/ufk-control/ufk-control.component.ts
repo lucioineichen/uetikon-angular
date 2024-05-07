@@ -26,13 +26,6 @@ export class UfkControlComponent {
   constructor(protected service: UfkControlService) {}
 
   open() {
-    this.service
-      .selectCompetences()
-      .pipe(
-        tap(() => this.mySelect.close()),
-        map((data) => data?.subCompetences),
-        this.service.setCompetences
-      )
-      .subscribe()
+    throw Error('deleted functionality')
   }
 }

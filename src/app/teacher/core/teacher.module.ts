@@ -14,7 +14,7 @@ import { AddButtonModule } from '../../shared/ui/add-button/add-button.module'
 import { FileModule } from '../../shared/ui/file/file.module'
 import { RenameFolderModule } from '../../shared/ui/rename-folder/rename-folder.module'
 import { TaskModule } from '../../shared/ui/task/task.module'
-import { SelectCompetencesModule } from '../../shared/ui/select-competences/select-competences.module'
+// import { SelectCompetencesModule } from '../../shared/ui/select-competences/select-competences.module'
 import { AddTaskControlModule } from '../shared/ui/add-task-control/add-task-control.module'
 import { CompetencesControlModule } from '../shared/ui/competences-control/competences-control.module'
 import { StudyJobListModule } from '../study-job/study-job-list/study-job-list.module'
@@ -44,7 +44,7 @@ import { ContainerDetailModule } from '../course/container-detail/container-deta
     FileModule,
     RenameFolderModule,
     TaskModule,
-    SelectCompetencesModule,
+    // SelectCompetencesModule,
     AddTaskControlModule,
     CompetencesControlModule,
     StudyJobListModule,

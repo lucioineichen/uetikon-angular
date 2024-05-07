@@ -1,37 +1,41 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
-import { SubSink } from 'subsink'
-import {
-  IPickSubject,
-  PickCompetenceListService,
-} from '../pick-competence-list.service'
-import { BehaviorSubject, tap } from 'rxjs'
+import { Component, EventEmitter, Output } from '@angular/core'
+import { PickCompetenceListService } from '../pick-competence-list.service'
 
 @Component({
   selector: 'app-all-subjects',
-  templateUrl: './all-subjects.component.html',
+  template: `
+    <mat-accordion *ngIf="subjectList$ | async as subjects">
+      <mat-expansion-panel *ngFor="let subject of subjects" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ subject.name }}
+            <button
+              style="position: absolute; right: 15px"
+              mat-stroked-button
+              (click)="openSubject(subject._id)"
+            >
+              Öffnen
+            </button>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div
+          style="display: flex; align-items: center; padding-bottom: 10px"
+          *ngFor="let topic of subject.topicList"
+        >
+          <app-topic [topic]="topic"></app-topic>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  `,
   styles: [],
 })
-export class AllSubjectsComponent implements OnInit, OnDestroy {
-  readonly sink = new SubSink()
-  readonly subjectList$ = new BehaviorSubject<undefined | IPickSubject[]>(
-    undefined
-  )
-
+export class AllSubjectsComponent {
+  @Output('open-subject') openSubjectEvent = new EventEmitter<string>()
+  readonly subjectList$ = this.service.subjectList$
   constructor(protected service: PickCompetenceListService) {}
 
-  private initSubjects() {
-    const sub = this.service.subjectList
-      .pipe(tap((subjectList) => this.subjectList$.next(subjectList)))
-      .subscribe()
-
-    this.sink.add(sub)
-  }
-
-  ngOnInit(): void {
-    this.initSubjects()
-  }
-
-  ngOnDestroy(): void {
-    this.sink.unsubscribe()
+  openSubject(subjectId: string) {
+    this.openSubjectEvent.emit(subjectId)
   }
 }

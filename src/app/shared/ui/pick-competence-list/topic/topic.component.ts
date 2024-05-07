@@ -17,8 +17,11 @@ import { IPickTopic } from '../pick-competence-list.service'
       {{ topic.name }}
     </div>
     <div *ngIf="isExpanded" style="padding-left: 30px">
+      <div *ngFor="let subTopic of topic.subTopicList">
+        <app-sub-topic [sub-topic]="subTopic"></app-sub-topic>
+      </div>
       <div *ngFor="let competence of topic.competenceList">
-        <app-pick-competence [competence]="competence" ]></app-pick-competence>
+        <app-pick-competence [competence]="competence"></app-pick-competence>
       </div>
     </div>
   `,

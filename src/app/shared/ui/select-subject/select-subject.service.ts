@@ -7,7 +7,6 @@ import { CompetencesDataService } from '../../data/competences_data/competences-
 })
 export class SelectSubjectService {
   constructor(private competenceService: CompetencesDataService) {}
-
   getSubjectList(): Observable<{ _id: string; name: string }[]> {
     return of(this.competenceService.get_subjects())
   }

@@ -67,13 +67,15 @@
               [choices]="container.jobChoices"
               [name]="container.name"
             ></app-job-choices>
+
+            <app-necessairy-competences
+              *ngIf="container.type == 'competence'"
+              [name]="container.name"
+              [competences]="container.necessairyCompetences"
+            >
+            </app-necessairy-competences>
           </div>
-          <app-necessairy-competences
-            *ngIf="container.type == 'competence'"
-            [name]="container.name"
-            [competences]="container.necessairyCompetences"
-          >
-          </app-necessairy-competences>
+
           <img
             *ngIf="container.isDependent && container.dependentContainer"
             class="lock"

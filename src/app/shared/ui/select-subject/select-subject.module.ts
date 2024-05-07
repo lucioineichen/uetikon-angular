@@ -7,5 +7,6 @@ import { ReactiveFormsModule } from '@angular/forms'
 @NgModule({
   declarations: [SelectSubjectComponent],
   imports: [CommonModule, MaterialModule, ReactiveFormsModule],
+  exports: [SelectSubjectComponent],
 })
 export class SelectSubjectModule {}

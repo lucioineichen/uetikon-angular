@@ -29,14 +29,17 @@
     </button>
   </div>
 
-  <mat-chip
-    *ngFor="let comp of competenceList.valueChanges | async"
-    class="competence"
-  >
-    {{ comp.name }}
-  </mat-chip>
+  <div class="competence-list">
+    <mat-chip
+      *ngFor="let comp of competenceList.valueChanges | async"
+      class="competence-chip"
+      [matTooltip]="comp.name"
+    >
+      {{ comp._id }}
+    </mat-chip>
+  </div>
 
-  <div style="position: absolute; bottom: 70px">
+  <div class="dependency-button">
     <mat-chip
       *ngIf="dependent.valueChanges | async as container"
       class="dependent"

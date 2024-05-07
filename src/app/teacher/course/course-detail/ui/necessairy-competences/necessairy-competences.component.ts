@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { IRef } from 'src/app/shared/utils/interfaces'
+import { ICompetence, IRef } from 'src/app/shared/utils/interfaces'
 
 @Component({
   selector: 'app-necessairy-competences',
@@ -8,5 +8,5 @@ import { IRef } from 'src/app/shared/utils/interfaces'
 })
 export class NecessairyCompetencesComponent {
   @Input('name') name?: string
-  @Input('competences') competences?: IRef[]
+  @Input('competences') competences?: ICompetence[]
 }

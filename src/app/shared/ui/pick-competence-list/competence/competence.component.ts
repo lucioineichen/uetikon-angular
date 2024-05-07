@@ -10,7 +10,7 @@ import {
     <mat-checkbox
       class="competence"
       [checked]="competence.isSelected"
-      (change)="toggleSelection(competence._id, $event.checked)"
+      (change)="service.toggleSelection(competence, $event.checked)"
       >{{ competence.name }}</mat-checkbox
     >
   `,
@@ -25,9 +25,5 @@ import {
 export class CompetenceComponent {
   @Input() competence!: IPickCompetence
 
-  constructor(private service: PickCompetenceListService) {}
-
-  toggleSelection(_id: string, isSelected: boolean): void {
-    this.service.toggleSelection(_id, isSelected)
-  }
+  constructor(protected service: PickCompetenceListService) {}
 }

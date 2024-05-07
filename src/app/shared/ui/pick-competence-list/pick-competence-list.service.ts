@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, Observable, Subject, map, of } from 'rxjs'
+import { BehaviorSubject, Observable, Subject, map, of, tap } from 'rxjs'
 import { CompetencesDataService } from '../../data/competences_data/competences-data.service'
 import {
   ISubTopic,
@@ -7,6 +7,8 @@ import {
   ITopic,
 } from '../../data/competences_data/competences.data'
 import { ICompetence } from '../../utils/interfaces'
+import { MatDialog } from '@angular/material/dialog'
+import { PickCompetenceListComponent } from './pick-competence-list.component'
 
 export interface IPickCompetence {
   _id: string
@@ -41,20 +43,92 @@ export interface IPickSubject {
   providedIn: 'root',
 })
 export class PickCompetenceListService {
-  readonly selectedCompetenceList$ = new BehaviorSubject<string[]>([])
+  readonly selectedCompetenceList$ = new BehaviorSubject<IPickCompetence[]>([])
   readonly subjectList$ = new BehaviorSubject<undefined | IPickSubject[]>(
     undefined
   )
   readonly selectedSubject$ = new BehaviorSubject<undefined | IPickSubject>(
     undefined
   )
+  readonly filteredCompetenceList$ = new BehaviorSubject<
+    undefined | IPickCompetence[]
+  >(undefined)
 
-  constructor(private competenceData: CompetencesDataService) {}
+  constructor(
+    private competenceData: CompetencesDataService,
+    private dialog: MatDialog
+  ) {}
 
-  toggleSelection(_id: string, isSelected: boolean) {
-    isSelected ? this.addCompetence(_id) : this.removeCompetence(_id)
-    const subjectList = this.subjectList$.value
-    if (!subjectList) return
+  pickCompetenceList(selectedList: string[]) {
+    const dialogRef = this.dialog.open(PickCompetenceListComponent, {
+      data: { selectedList },
+    })
+
+    return dialogRef
+      .afterClosed()
+      .pipe(
+        map((isConfirm) =>
+          isConfirm ? this.selectedCompetenceList$.value : undefined
+        )
+      )
+  }
+
+  toggleSelection(competence: IPickCompetence, isSelected: boolean) {
+    isSelected
+      ? this.addCompetence(competence)
+      : this.removeCompetence(competence)
+    if (!this.subjectList$.value) return
+    competence.isSelected = isSelected
+  }
+
+  openSubject(subject: IPickSubject | undefined) {
+    this.selectedSubject$.next(subject)
+  }
+
+  updateFilteredCompetenceList(search: string | null) {
+    if (search == null || search == '') {
+      this.filteredCompetenceList$.next(undefined)
+      return
+    }
+    if (!this.subjectList$.value) return
+    let competences = this.extractCompetenceList(this.subjectList$.value)
+
+    competences = competences.filter((competence) =>
+      competence.name.includes(search)
+    )
+    this.filteredCompetenceList$.next(competences)
+  }
+
+  updateSelectedSubject(_id?: string | null) {
+    if (!this.subjectList$.value) return
+    if (_id == undefined) this.selectedSubject$.next(undefined)
+    const subject = this.subjectList$.value.find(
+      (subject) => subject._id == _id
+    )
+    this.selectedSubject$.next(subject)
+  }
+
+  getSubjectList(): Observable<IPickSubject[]> {
+    return of(this.competenceData.get_competences()).pipe(
+      map((subjectList) => subjectList.map((subj) => this.mapSubject(subj)))
+    )
+  }
+
+  private addCompetence(competence: IPickCompetence) {
+    const competenceList = this.selectedCompetenceList$.value
+    const index = competenceList.findIndex((comp) => comp._id == competence._id)
+    if (index == -1)
+      this.selectedCompetenceList$.next(competenceList.concat(competence))
+  }
+
+  private removeCompetence(competence: IPickCompetence) {
+    const competenceList = this.selectedCompetenceList$.value
+    this.selectedCompetenceList$.next(
+      competenceList.filter((comp) => comp._id != competence._id)
+    )
+  }
+
+  extractCompetenceList(subjectList: IPickSubject[]) {
     const topics = subjectList.reduce(
       (topicList, subject) => topicList.concat(subject.topicList),
       [] as IPickTopic[]
@@ -73,30 +147,7 @@ export class PickCompetenceListService {
       [] as IPickCompetence[]
     )
     const competences = indirectCompetences.concat(directCompetences)
-  }
-
-  getSubjectList(): Observable<IPickSubject[]> {
-    return of(this.competenceData.get_competences()).pipe(
-      map((subjectList) => subjectList.map(this.mapSubject))
-    )
-  }
-
-  openSubject(subject: IPickSubject | undefined) {
-    this.selectedSubject$.next(subject)
-  }
-
-  private addCompetence(_id: string) {
-    const competenceList = this.selectedCompetenceList$.value
-    const index = competenceList.findIndex((compId) => compId == _id)
-    if (index == -1)
-      this.selectedCompetenceList$.next(competenceList.concat(_id))
-  }
-
-  private removeCompetence(_id: string) {
-    const competenceList = this.selectedCompetenceList$.value
-    this.selectedCompetenceList$.next(
-      competenceList.filter((compId) => compId != _id)
-    )
+    return competences
   }
 
   private mapCompetence(competence: ICompetence): IPickCompetence {
@@ -111,7 +162,9 @@ export class PickCompetenceListService {
     return {
       _id: subTopic._id,
       name: subTopic.name,
-      competenceList: subTopic.competences.map(this.mapCompetence),
+      competenceList: subTopic.competences.map((comp) =>
+        this.mapCompetence(comp)
+      ),
     }
   }
 
@@ -119,8 +172,10 @@ export class PickCompetenceListService {
     return {
       _id: topic._id,
       name: topic.name,
-      competenceList: topic.competences?.map(this.mapCompetence) ?? [],
-      subTopicList: topic.subTopics?.map(this.mapSubTopic) ?? [],
+      competenceList:
+        topic.competences?.map((comp) => this.mapCompetence(comp)) ?? [],
+      subTopicList:
+        topic.subTopics?.map((subTopic) => this.mapSubTopic(subTopic)) ?? [],
     }
   }
 
@@ -128,7 +183,7 @@ export class PickCompetenceListService {
     return {
       _id: subject._id,
       name: subject.name,
-      topicList: subject.topics.map(this.mapTopic),
+      topicList: subject.topics.map((topic) => this.mapTopic(topic)),
     }
   }
 }

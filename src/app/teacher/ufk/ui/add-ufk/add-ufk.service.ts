@@ -8,7 +8,7 @@ import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { ISubCompetence } from 'src/app/shared/data/competences_data/competences.data'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { environment } from 'src/app/core/environment/environment.demo'
-import { SelectCompetencesService } from 'src/app/shared/ui/select-competences/select-competences.service'
+// import { SelectCompetencesService } from 'src/app/shared/ui/select-competences/select-competences.service'
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,7 @@ export class AddUfkService {
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
-    private selectComps: SelectCompetencesService,
+    // private selectComps: SelectCompetencesService,
     private ui: DialogService,
     private builder: FormBuilder
   ) {}
@@ -59,18 +59,22 @@ export class AddUfkService {
   }
 
   chooseCompetences() {
-    this.selectComps
-      .selectCompetences(
-        this.competenceControl.value
-          ? this.competenceControl.value.map((comp: ISubCompetence) => comp._id)
-          : undefined,
-        'uk'
-      )
-      .pipe(
-        filterNullish(),
-        tap((data) => this.competenceControl.setValue(data.subCompetences))
-      )
-      .subscribe()
+    throw Error('deleted functionality')
+    // this.selectComps
+    //   .selectCompetences(
+    //     this.competenceControl.value
+    //       ? this.competenceControl.value.map((comp: ISubCompetence) => comp._id)
+    //       : undefined,
+    //     'uk'
+    //   )
+    //   .pipe(
+    //     filterNullish(),
+    //     tap(() => {
+    //       throw Error('deleted functionality')
+    //     })
+    //     // tap((data) => this.competenceControl.setValue(data.subCompetences))
+    //   )
+    //   .subscribe()
   }
 
   save() {

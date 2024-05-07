@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { SubSink } from 'subsink'
 import { CreateCompetenceContainerService } from './create-competence-container.service'
-import { IRef } from 'src/app/shared/utils/interfaces'
+import { ICompetence, IRef } from 'src/app/shared/utils/interfaces'
 import { map, tap } from 'rxjs'
-import { SelectCompetencesService } from 'src/app/shared/ui/select-competences/select-competences.service'
+// import { SelectCompetencesService } from 'src/app/shared/ui/select-competences/select-competences.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { PickCompetenceListService } from 'src/app/shared/ui/pick-competence-list/pick-competence-list.service'
 
 @Component({
   selector: 'app-create-competence-container',
@@ -25,13 +26,13 @@ export class CreateCompetenceContainerComponent implements OnInit, OnDestroy {
   }
 
   get competenceList() {
-    return this.form.get('competenceList') as FormControl<IRef[]>
+    return this.form.get('competenceList') as FormControl<ICompetence[]>
   }
 
   constructor(
     private fb: FormBuilder,
     private service: CreateCompetenceContainerService,
-    private competence: SelectCompetencesService
+    private pickCompetence: PickCompetenceListService
   ) {}
 
   private buildForm() {
@@ -65,14 +66,13 @@ export class CreateCompetenceContainerComponent implements OnInit, OnDestroy {
   }
 
   addCompetence() {
-    this.competence
-      .selectCompetences(this.competenceList.value.map((ref) => '' + ref._id))
+    this.pickCompetence
+      .pickCompetenceList(this.competenceList.value.map((comp) => comp._id))
       .pipe(
         filterNullish(),
-        map((data) => data.competences),
         map((competenceList) =>
           competenceList.map((comp) => {
-            return { _id: Number(comp._id), name: comp.name }
+            return { _id: comp._id, name: comp.name }
           })
         ),
         tap((competenceList) => this.competenceList.patchValue(competenceList))

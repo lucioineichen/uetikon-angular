@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common'
 import { CreateCompetenceContainerComponent } from './create-competence-container.component'
 import { MaterialModule } from 'src/app/shared/ui/material.module'
 import { ReactiveFormsModule } from '@angular/forms'
-import { SelectCompetencesModule } from 'src/app/shared/ui/select-competences/select-competences.module'
+// import { SelectCompetencesModule } from 'src/app/shared/ui/select-competences/select-competences.module'
+import { PickCompetenceListModule } from 'src/app/shared/ui/pick-competence-list/pick-competence-list.module'
 
 @NgModule({
   declarations: [CreateCompetenceContainerComponent],
@@ -11,7 +12,7 @@ import { SelectCompetencesModule } from 'src/app/shared/ui/select-competences/se
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
-    SelectCompetencesModule,
+    PickCompetenceListModule,
   ],
 })
 export class CreateCompetenceContainerModule {}

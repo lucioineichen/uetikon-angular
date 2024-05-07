@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core'
 import { UfkService } from '../../../ufk/ufk.service'
-import { BehaviorSubject, map, pipe, tap } from 'rxjs'
-import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
-import { HttpClient } from '@angular/common/http'
+import { map, pipe, tap } from 'rxjs'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { FormControl } from '@angular/forms'
 import { ISubCompetence } from 'src/app/shared/data/competences_data/competences.data'
-import { SelectCompetencesService } from 'src/app/shared/ui/select-competences/select-competences.service'
+// import { SelectCompetencesService } from 'src/app/shared/ui/select-competences/select-competences.service'
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +13,7 @@ export class UfkControlService {
   ufkControl = new FormControl(0)
   selectedUfks$ = this.service.selectedUfks$
 
-  constructor(
-    private select: SelectCompetencesService,
-    private service: UfkService
-  ) {
+  constructor(private service: UfkService) {
     this.selectedUfks$.pipe().subscribe()
   }
 
@@ -33,6 +28,6 @@ export class UfkControlService {
   )
 
   selectCompetences() {
-    return this.select.selectCompetences(this.selectedUfks$.value, 'uk')
+    throw Error('deleted functionality')
   }
 }
