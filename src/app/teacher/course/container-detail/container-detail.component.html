@@ -49,32 +49,21 @@
     </div>
 
     <div *ngIf="container.type == 'mandetory'" style="margin-top: 20px">
-      <mat-card class="job" mat-ripple>
-        <app-mandetory-job
-          *ngIf="container.type == 'mandetory' && container.mandetoryJob"
-          [job]="container.mandetoryJob"
-        ></app-mandetory-job>
-      </mat-card>
+      <app-job-container [job]="container.mandetoryJob"></app-job-container>
     </div>
 
     <div *ngIf="container.type == 'choice'" style="margin-top: 20px">
-      <mat-grid-list
-        class="jobs"
-        gutterSize="20px"
-        rowHeight="240px"
-        [cols]="breakpoint"
-        (window:resize)="onResize($event)"
-      >
-        <mat-grid-tile *ngFor="let choice of container.jobChoices">
-          <mat-card
-            class="course-card"
-            style="overflow: visible; height: 200px"
-          >
-            <div mat-ripple class="job-choice">
-              <app-mandetory-job [job]="choice"></app-mandetory-job>
-            </div> </mat-card
-        ></mat-grid-tile>
-      </mat-grid-list>
+      <app-choice-container
+        [id]="container._id"
+        [job-choice-list]="container.jobChoices"
+      ></app-choice-container>
+    </div>
+
+    <div *ngIf="container.type == 'competence'">
+      <app-competence-container
+        [id]="container._id"
+        [competence-list]="container.necessairyCompetences"
+      ></app-competence-container>
     </div>
 
     <button

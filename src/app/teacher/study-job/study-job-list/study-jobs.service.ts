@@ -7,6 +7,8 @@ import {
   ReplaySubject,
   Subject,
   catchError,
+  combineLatest,
+  combineLatestAll,
   map,
   mergeMap,
   tap,
@@ -23,6 +25,8 @@ import {
 import { RenameFolderService } from 'src/app/shared/ui/rename-folder/rename-folder.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { environment } from 'src/app/core/environment/environment.demo'
+import { Router } from '@angular/router'
+import { ChooseFolderService } from 'src/app/shared/ui/choose-folder/choose-folder.service'
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +41,9 @@ export class StudyJobsService {
   constructor(
     private http: HttpClient,
     private ui: DialogService,
-    private renameFolder: RenameFolderService
+    private renameFolder: RenameFolderService,
+    private router: Router,
+    private chooseFolder: ChooseFolderService
   ) {}
 
   private getRoot(): Observable<IFolder> {
@@ -45,6 +51,7 @@ export class StudyJobsService {
   }
 
   update() {
+    this.selectedJobs$.next([])
     this.getRoot()
       .pipe(
         tap((root) => this.root$.next(root)),
@@ -52,6 +59,32 @@ export class StudyJobsService {
           this.ui.showToast('Ordner konnte nicht geladen werden')
           this.root$.error(err)
           return err
+        })
+      )
+      .subscribe()
+  }
+
+  move() {
+    this.chooseFolder
+      .chooseFolder()
+      .pipe(
+        map((folder) => {
+          if (!folder) return undefined
+          if (folder._id == 0) {
+            this.selectedJobs$.next([])
+            return undefined
+          }
+          return folder
+        }),
+        filterNullish(),
+        tap((folder) => {
+          this.router.navigate(['teacher', 'study-jobs', 'folder', folder._id])
+        }),
+        mergeMap((folder) => {
+          const jobList = this.selectedJobs$.value.map((jobId) =>
+            this.putJob(jobId, folder._id)
+          )
+          return combineLatest(jobList)
         })
       )
       .subscribe()
@@ -74,5 +107,11 @@ export class StudyJobsService {
 
   private postFolder(data: any) {
     return this.http.post<{}>(`${environment.baseUrl}/teacher/folders`, data)
+  }
+
+  private putJob(jobId: number, folderId: number) {
+    return this.http.put(`${environment.baseUrl}/study-job/${jobId}`, {
+      folderId,
+    })
   }
 }

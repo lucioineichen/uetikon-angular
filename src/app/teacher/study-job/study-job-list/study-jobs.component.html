@@ -10,6 +10,17 @@
       <mat-icon>add</mat-icon>
     </button>
   </div>
+  <div *ngIf="service.isOneSelected$ | async">
+    <button
+      mat-mini-fab
+      matTooltip="Bewegen"
+      aria-label="Bewegen"
+      color="primary"
+      (click)="service.move()"
+    >
+      <mat-icon>call_made</mat-icon>
+    </button>
+  </div>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="addJob()">LernJob</button>
     <button mat-menu-item (click)="addFolder()">Ordner</button>

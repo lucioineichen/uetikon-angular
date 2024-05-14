@@ -36,7 +36,6 @@ export class ContainerDetailService {
     this.getContainer()
       .pipe(
         tap((container) => {
-          console.log('container we got in container-detail: ', container)
           this.container$.next(container)
         }),
         catchError((err) => {
@@ -63,12 +62,6 @@ export class ContainerDetailService {
       .subscribe()
   }
 
-  deleteContainer() {
-    const container = this.container$.getValue()
-    if (!container) return
-    return this._deleteContainer(container._id).pipe()
-  }
-
   addDependency() {
     const courseId = this.courseId$.getValue()
     const forName = this.containerName$.getValue()
@@ -92,7 +85,7 @@ export class ContainerDetailService {
       .subscribe()
   }
 
-  private _deleteContainer(id: number) {
+  deleteContainer(id: number) {
     return this.http.delete(`${environment.baseUrl}/container/${id}`)
   }
 

@@ -9,6 +9,18 @@
     >
       <mat-icon>add</mat-icon>
     </button>
+
+    <div *ngIf="service.isOneSelected$ | async">
+      <button
+        mat-mini-fab
+        matTooltip="Bewegen"
+        aria-label="Bewegen"
+        color="primary"
+        (click)="service.move()"
+      >
+        <mat-icon>call_made</mat-icon>
+      </button>
+    </div>
   </div>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="addJob()">LernJob</button>
@@ -46,8 +58,12 @@
       <app-folder-list-item [folder]="folder"></app-folder-list-item>
     </div>
 
-    <div *ngFor="let job of folder.studyJobs" fxLayout>
-      <app-job-list-item [job]="job"></app-job-list-item>
+    <div *ngIf="service.jobList$ | async as jobList">
+      <app-job-list-item
+        *ngFor="let job of jobList"
+        [job]="job"
+        (selection-change)="service.toggleSelection($event, job._id)"
+      ></app-job-list-item>
     </div>
   </mat-list>
 </div>

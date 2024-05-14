@@ -30,6 +30,70 @@ export interface ITopic {
   providedIn: 'root',
 })
 export class CompetencesDataService {
+  tree(competenceList: string[]): ISubject[] {
+    const tree: ISubject[] = []
+
+    for (let competenceId of competenceList) {
+      let id: any = competenceId
+      id = id.split(/(s|t|c)/)
+      const subjectPlace = Number(id[2])
+      const topicPlace = Number(id[4])
+      const subTopicPlace = Number(id[8])
+      const competencePlace = Number(id[10])
+
+      const subject = this.get_competences()[subjectPlace]
+      const topic = subject.topics[topicPlace]
+      let subTopic: undefined | ISubTopic = undefined
+      let competence!: ICompetence
+      if (subTopicPlace > -1) {
+        subTopic = topic.subTopics![subTopicPlace]
+        competence = subTopic.competences[competencePlace]
+      } else competence = topic.competences![competencePlace]
+
+      let treeSubject = tree.find((subj) => subj._id == subject._id)
+      if (treeSubject == undefined) {
+        treeSubject = {
+          _id: subject._id,
+          name: subject.name,
+          short: subject.short,
+          topics: [],
+        }
+        tree.push(treeSubject)
+      }
+
+      let treeTopic = treeSubject.topics.find((top) => top._id == topic._id)
+      if (treeTopic == undefined) {
+        treeTopic = {
+          _id: topic._id,
+          name: topic.name,
+          short: topic.short,
+          subTopics: [],
+          competences: [],
+        }
+        treeSubject.topics.push(treeTopic)
+      }
+
+      let treeSubTopic: undefined | ISubTopic = undefined
+      if (subTopic) {
+        treeSubTopic = treeTopic.subTopics!.find(
+          (sub) => sub._id == subTopic!._id
+        )
+        if (treeSubTopic == undefined) {
+          treeSubTopic = {
+            _id: subTopic._id,
+            name: subTopic.name,
+            competences: [],
+          }
+          treeTopic.subTopics!.push(treeSubTopic)
+        }
+
+        treeSubTopic.competences.push(competence)
+      } else treeTopic.competences!.push(competence)
+    }
+
+    return tree
+  }
+
   get_competences() {
     return competences.concat(this.get_uk())
   }

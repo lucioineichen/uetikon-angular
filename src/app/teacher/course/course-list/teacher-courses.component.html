@@ -28,7 +28,6 @@
           [ngClass]="{ project: course.isProject }"
           (click)="openCourse(course._id, course.name)"
           class="course-card"
-          mat-ripple
         >
           <img
             *ngIf="course.isProject"
@@ -62,8 +61,8 @@
               {{ course.studentCount }} Schüler
             </mat-chip>
           </mat-card-content>
-        </mat-card></mat-grid-tile
-      >
+        </mat-card>
+      </mat-grid-tile>
     </mat-grid-list>
   </div>
   <ng-template #noCourses>Du bist noch in keinem Kurs </ng-template>

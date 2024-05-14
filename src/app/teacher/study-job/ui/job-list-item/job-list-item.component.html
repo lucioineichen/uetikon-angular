@@ -8,6 +8,7 @@
   <mat-list-item
     [routerLink]="'/teacher/study-jobs/' + job._id"
     [queryParams]="{ name: job.name }"
+    style="cursor: pointer"
   >
     <div matListItemTitle>
       {{ job.name | titlecase }} ({{ job.subject | titlecase }}) °

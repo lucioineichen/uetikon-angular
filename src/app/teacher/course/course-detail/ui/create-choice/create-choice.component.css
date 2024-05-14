@@ -5,7 +5,7 @@
 
 .dialog {
   width: 700px;
-  height: 350px;
+  max-height: 700px;
   padding: 45px;
   padding-bottom: 0px;
 }
@@ -26,4 +26,9 @@
 .dependent {
   transform: translateY(8px);
   margin-right: 10px;
+}
+
+.choice-list {
+  margin-top: 15px;
+  min-height: 70px;
 }

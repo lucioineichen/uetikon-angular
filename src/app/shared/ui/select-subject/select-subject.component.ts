@@ -9,13 +9,8 @@ import { SubSink } from 'subsink'
   template: `
     <mat-form-field style="width: 100%" appearance="outline">
       <mat-label>Wähle ein Fach</mat-label>
-      <mat-select
-        [formControl]="control"
-        [disabled]="((subjectList$ | async) ?? []).length == 0"
-        ngDefaultControl
-        name="fieldName"
-      >
-        <mat-option [value]="undefined">Keine</mat-option>
+      <mat-select [formControl]="control" ngDefaultControl name="fieldName">
+        <mat-option [value]="undefined">Alle</mat-option>
         <mat-option
           *ngFor="let subject of subjectList$ | async"
           [value]="subject._id"

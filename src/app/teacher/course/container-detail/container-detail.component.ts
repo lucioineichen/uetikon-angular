@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ContainerDetailService } from './container-detail.service'
-import { BehaviorSubject, tap } from 'rxjs'
+import { BehaviorSubject, catchError, filter, mergeMap, tap } from 'rxjs'
+import { ConfirmDeleteService } from 'src/app/shared/ui/confirm-delete/confirm-delete.service'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 
 @Component({
   selector: 'app-container-detail',
@@ -9,8 +11,6 @@ import { BehaviorSubject, tap } from 'rxjs'
   styleUrls: ['./container-detail.component.css'],
 })
 export class ContainerDetailComponent implements OnInit {
-  breakpoint!: number
-
   readonly containerId$ = this.service.containerId$
   readonly containerName$ = this.service.containerName$
   readonly courseName$ = this.service.courseName$
@@ -19,19 +19,11 @@ export class ContainerDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private confirmDelete: ConfirmDeleteService,
     protected service: ContainerDetailService,
-    private router: Router
+    private router: Router,
+    private ui: DialogService
   ) {}
-
-  private calcBreakpoint(width: number) {
-    if (width > 1700) return 3
-    if (width > 1290) return 2
-    return 1
-  }
-
-  onResize(event: any) {
-    this.breakpoint = this.calcBreakpoint(event.target.innerWidth)
-  }
 
   getDataFromRoute() {
     this.route.params
@@ -63,13 +55,24 @@ export class ContainerDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getDataFromRoute()
     this.service.update()
-    this.breakpoint = this.calcBreakpoint(window.innerWidth)
   }
 
   deleteContainer() {
-    this.service
-      .deleteContainer()
-      ?.pipe(tap(() => this.goBack()))
+    const name = this.containerName$.value
+    const id = this.containerId$.value
+    if (!name || !id) return
+    this.confirmDelete
+      .confirmDelete(name)
+      .pipe(
+        filter((isConfirm) => isConfirm),
+        mergeMap(() => this.service.deleteContainer(id)),
+        tap(() => this.goBack()),
+        tap(() => this.ui.showToast(`${name} wurde erfolgreich gelöscht`)),
+        catchError((err) => {
+          this.ui.showToast(`${name} konnte nicht gelöscht werden`)
+          return err
+        })
+      )
       .subscribe()
   }
 

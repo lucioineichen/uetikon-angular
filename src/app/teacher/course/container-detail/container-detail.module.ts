@@ -7,6 +7,10 @@ import { MandetoryJobModule } from '../course-detail/ui/mandetory-job/mandetory-
 import { ChooseDependencyModule } from '../../shared/ui/choose-dependency/choose-dependency.module'
 import { JobChoicesModule } from '../course-detail/ui/job-choices/job-choices.module'
 import { NecessairyCompetencesModule } from '../course-detail/ui/necessairy-competences/necessairy-competences.module'
+import { ConfirmDeleteModule } from 'src/app/shared/ui/confirm-delete/confirm-delete.module'
+import { JobContainerModule } from './ui/job-container/job-container.module'
+import { CompetenceContainerModule } from './ui/competence-container/competence-container.module'
+import { ChoiceContainerModule } from './ui/choice-container/choice-container.module'
 
 @NgModule({
   declarations: [ContainerDetailComponent],
@@ -18,6 +22,10 @@ import { NecessairyCompetencesModule } from '../course-detail/ui/necessairy-comp
     ChooseDependencyModule,
     JobChoicesModule,
     NecessairyCompetencesModule,
+    ConfirmDeleteModule,
+    JobContainerModule,
+    CompetenceContainerModule,
+    ChoiceContainerModule,
   ],
 })
 export class ContainerDetailModule {}

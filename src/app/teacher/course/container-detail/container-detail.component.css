@@ -17,22 +17,3 @@
   text-align: center;
   margin-bottom: 40px;
 }
-
-.job {
-  /* background-color: #f6f6f6; */
-  width: 500px;
-  padding: 10px;
-}
-
-.job-choice {
-  height: 100%;
-  width: 400px;
-  padding: 10px;
-}
-
-.job-choice:hover,
-.job:hover {
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  transition: all 200ms ease;
-}

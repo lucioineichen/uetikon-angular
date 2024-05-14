@@ -1,0 +1,69 @@
+<mat-dialog-content class="mat-typography" class="dialog">
+  <h1>Ordner Auswählen</h1>
+
+  <div *ngIf="service.folder$ | async as folder" class="path">
+    <div *ngIf="folder._id != 0">
+      <span class="title-segment" (click)="service.openFolder(0)"
+        >LernJobs</span
+      >
+      <span *ngFor="let folderRef of folder.path">
+        <mat-icon class="folder-separator">arrow_forward_ios</mat-icon>
+        <span class="title-segment" (click)="service.openFolder(folderRef._id)"
+          >{{ folderRef.name }}
+        </span>
+      </span>
+    </div>
+  </div>
+
+  <mat-list
+    class="list"
+    *ngIf="service.folder$ | async as folder; else loading"
+  >
+    <div *ngIf="folder.folders.length + folder.studyJobs.length === 0">
+      Dieser Ordner ist leer
+    </div>
+    <div *ngFor="let folder of folder.folders">
+      <app-folder-list-item
+        [folder]="folder"
+        (click)="service.openFolder(folder._id)"
+      ></app-folder-list-item>
+    </div>
+
+    <div *ngFor="let job of folder.studyJobs" fxLayout>
+      <app-job-list-item [job]="job"></app-job-list-item>
+    </div>
+  </mat-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" style="height: 100px">
+  <span class="folder-name">
+    <mat-list-item class="folder">
+      <mat-icon matListItemIcon> folder </mat-icon>
+      <div matListItemTitle>
+        <span>{{ service.folder$.value?.name | titlecase }}</span>
+      </div>
+    </mat-list-item>
+  </span>
+  <button mat-button [mat-dialog-close]="undefined">Abbrechen</button>
+  <button mat-button [mat-dialog-close]="service.folder$.value">
+    Ordner Wählen
+  </button>
+</mat-dialog-actions>
+
+<ng-template #loading>
+  <mat-list class="">
+    <div *ngFor="let i of [0, 0, 0]">
+      <app-folder-list-item
+        [folder]="noNameFolder"
+        [hover-effect]="false"
+      ></app-folder-list-item>
+    </div>
+
+    <div *ngFor="let i of [0, 0, 0]" fxLayout>
+      <app-job-list-item
+        [job]="noNameJob"
+        [hover-effect]="false"
+      ></app-job-list-item>
+    </div>
+  </mat-list>
+</ng-template>
