@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { MatCheckboxChange } from '@angular/material/checkbox'
 
 export interface IJobListItem {
   _id: number
@@ -17,6 +16,7 @@ export interface IJobListItem {
       <mat-checkbox
         class="checkbox"
         [ngClass]="{ show: job.isOneSelected }"
+        [checked]="job.isSelected"
         (change)="toggleSelection($event.checked)"
       ></mat-checkbox>
 

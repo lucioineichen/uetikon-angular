@@ -9,18 +9,17 @@
     >
       <mat-icon>add</mat-icon>
     </button>
-
-    <div *ngIf="service.isOneSelected$ | async">
-      <button
-        mat-mini-fab
-        matTooltip="Bewegen"
-        aria-label="Bewegen"
-        color="primary"
-        (click)="service.move()"
-      >
-        <mat-icon>call_made</mat-icon>
-      </button>
-    </div>
+  </div>
+  <div>
+    <button
+      mat-mini-fab
+      matTooltip="Bewegen"
+      aria-label="Bewegen"
+      color="primary"
+      (click)="service.move()"
+    >
+      <mat-icon>call_made</mat-icon>
+    </button>
   </div>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="addJob()">LernJob</button>
@@ -28,7 +27,7 @@
   </mat-menu>
 </div>
 
-<div *ngIf="service.folder$ | async as folder; else loading">
+<div *ngIf="service.storeFolder$ | async as folder; else loading">
   <div class="title">
     <span class="title-segment" routerLink="/teacher/study-jobs">LernJobs</span>
     <ng-container>
@@ -51,10 +50,10 @@
   </div>
 
   <mat-list class="list">
-    <div *ngIf="folder.folders.length + folder.studyJobs.length === 0">
+    <div *ngIf="folder.folderList.length + folder.studyJobList.length === 0">
       Dieser Ordner ist noch leer
     </div>
-    <div *ngFor="let folder of folder.folders">
+    <div *ngFor="let folder of folder.folderList">
       <app-folder-list-item [folder]="folder"></app-folder-list-item>
     </div>
 
@@ -69,7 +68,7 @@
 </div>
 
 <ng-template #loading>
-  <div *ngIf="!service.folder$.hasError; else error">Lädt LernJobs</div>
+  <div *ngIf="!service.storeFolder$.hasError; else error">Lädt LernJobs</div>
 </ng-template>
 
 <ng-template #error>

@@ -27,15 +27,64 @@ import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { environment } from 'src/app/core/environment/environment.demo'
 import { Router } from '@angular/router'
 import { ChooseFolderService } from 'src/app/shared/ui/choose-folder/choose-folder.service'
+import { IJobListItem } from '../folder/job-list-item/job-list-item.component'
+
+export interface IShareFolder {
+  _id: number
+  name: string
+  isRead: boolean
+  isWrite: boolean
+  teacherWriteList: IRef[]
+  teacherReadList: IRef[]
+}
+
+export interface IRoot {
+  shareFolderList: IShareFolder[]
+  storeFolderList: IRef[]
+  studyJobList: IStudyJob[]
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudyJobsService {
-  readonly root$ = new BehaviorSubject<IFolder | undefined>(undefined)
+  readonly root$ = new BehaviorSubject<IRoot | undefined>(undefined)
   readonly selectedJobs$ = new BehaviorSubject<number[]>([])
   readonly isOneSelected$ = this.selectedJobs$.pipe(
     map((selected) => selected.length > 0)
+  )
+  readonly shareFolderList$ = this.root$.pipe(
+    map((root) => root?.shareFolderList)
+  )
+  readonly storeFolderList$ = this.root$.pipe(
+    map((root) => root?.storeFolderList)
+  )
+  readonly jobList$: Observable<IJobListItem[] | undefined> = combineLatest([
+    this.root$.pipe(
+      map((folder) => {
+        const jobList = folder?.studyJobList
+        return jobList?.map((job) => {
+          const job_: IJobListItem = {
+            _id: job._id,
+            isSelected: false,
+            isOneSelected: false,
+            name: job.name,
+            subject: job.subject,
+            taskListLength: job.tasks.length,
+          }
+          return job_
+        })
+      })
+    ),
+    this.selectedJobs$,
+  ]).pipe(
+    map(([jobList, selectedJobList]) => {
+      jobList?.forEach((job) => {
+        job.isOneSelected = selectedJobList.length > 0
+        job.isSelected = selectedJobList.findIndex((id) => id == job._id) != -1
+      })
+      return jobList
+    })
   )
 
   constructor(
@@ -46,8 +95,14 @@ export class StudyJobsService {
     private chooseFolder: ChooseFolderService
   ) {}
 
-  private getRoot(): Observable<IFolder> {
-    return this.http.get<IFolder>(`${environment.baseUrl}/folders/root`)
+  toggleSelection(isSelected: boolean, id: number) {
+    if (isSelected) {
+      this.selectedJobs$.next(this.selectedJobs$.value.concat(id))
+    } else {
+      this.selectedJobs$.next(
+        this.selectedJobs$.value.filter((_id) => _id != id)
+      )
+    }
   }
 
   update() {
@@ -69,8 +124,7 @@ export class StudyJobsService {
       .chooseFolder()
       .pipe(
         map((folder) => {
-          if (!folder) return undefined
-          if (folder._id == 0) {
+          if (!folder || folder._id == 0) {
             this.selectedJobs$.next([])
             return undefined
           }
@@ -85,6 +139,10 @@ export class StudyJobsService {
             this.putJob(jobId, folder._id)
           )
           return combineLatest(jobList)
+        }),
+        catchError((err) => {
+          this.ui.showToast('Elemente konnten nicht verschoben werden')
+          return err
         })
       )
       .subscribe()
@@ -103,6 +161,10 @@ export class StudyJobsService {
         })
       )
       .subscribe()
+  }
+
+  private getRoot(): Observable<IRoot> {
+    return this.http.get<IRoot>(`${environment.baseUrl}/folders/root`)
   }
 
   private postFolder(data: any) {
