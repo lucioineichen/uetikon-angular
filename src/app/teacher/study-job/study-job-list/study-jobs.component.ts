@@ -25,8 +25,4 @@ export class StudyJobListComponent implements OnInit {
       .pipe(tap(() => this.service.update()))
       .subscribe()
   }
-
-  addFolder() {
-    this.service.addFolder()
-  }
 }

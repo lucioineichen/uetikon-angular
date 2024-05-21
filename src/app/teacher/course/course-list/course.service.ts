@@ -46,7 +46,6 @@ export class CourseService {
   updateCourses() {
     this.getCourses()
       .pipe(
-        tap(console.info),
         tap((courses) => this.courses$.next(courses)),
         catchError((err) => {
           this.ui.showToast('Kurse konnten nicht geladen werden')

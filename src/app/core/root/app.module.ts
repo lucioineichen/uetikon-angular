@@ -18,6 +18,7 @@ import { AuthService } from '../auth/auth.service'
 import { PageNotFoundComponent } from '../../features/page-not-found/page-not-found.component'
 import { LoginModule } from '../../features/login/login.module'
 import { CreateUserModule } from '../../features/create-user/create-user.module'
+import { ProfileModule } from 'src/app/features/profile/profile.module'
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { CreateUserModule } from '../../features/create-user/create-user.module'
     CommonModule,
     LoginModule,
     CreateUserModule,
+    ProfileModule,
   ],
   providers: [
     { provide: AuthService, useClass: DjangoRestApiAuthService },

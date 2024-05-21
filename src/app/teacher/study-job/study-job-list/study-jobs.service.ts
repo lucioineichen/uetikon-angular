@@ -28,6 +28,8 @@ import { environment } from 'src/app/core/environment/environment.demo'
 import { Router } from '@angular/router'
 import { ChooseFolderService } from 'src/app/shared/ui/choose-folder/choose-folder.service'
 import { IJobListItem } from '../folder/job-list-item/job-list-item.component'
+import { CreateShareFolderService } from '../ui/create-share-folder/create-share-folder.service'
+import { Expansion } from '@angular/compiler'
 
 export interface IShareFolder {
   _id: number
@@ -36,6 +38,8 @@ export interface IShareFolder {
   isWrite: boolean
   teacherWriteList: IRef[]
   teacherReadList: IRef[]
+  studyJobList: IStudyJob[]
+  storeFolderList: IRef[]
 }
 
 export interface IRoot {
@@ -92,7 +96,8 @@ export class StudyJobsService {
     private ui: DialogService,
     private renameFolder: RenameFolderService,
     private router: Router,
-    private chooseFolder: ChooseFolderService
+    private chooseFolder: ChooseFolderService,
+    private createShareFolder: CreateShareFolderService
   ) {}
 
   toggleSelection(isSelected: boolean, id: number) {
@@ -148,7 +153,7 @@ export class StudyJobsService {
       .subscribe()
   }
 
-  addFolder() {
+  addStoreFolder() {
     this.renameFolder
       .renameFolder()
       .pipe(
@@ -161,6 +166,28 @@ export class StudyJobsService {
         })
       )
       .subscribe()
+  }
+
+  addShareFolder() {
+    this.createShareFolder
+      .createShareFolder()
+      .pipe(
+        filterNullish(),
+        mergeMap((folder) => this.postShareFolder(folder)),
+        tap(() => this.update()),
+        catchError((err) => {
+          this.ui.showToast('Ordner konnte nicht erstellt werden')
+          return err
+        })
+      )
+      .subscribe()
+  }
+
+  private postShareFolder(folder: {
+    name: string
+    teacherList: number[]
+  }): Observable<any> {
+    return this.http.post(`${environment.baseUrl}/share-folders`, folder)
   }
 
   private getRoot(): Observable<IRoot> {

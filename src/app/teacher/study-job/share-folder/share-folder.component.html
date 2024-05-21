@@ -1,1 +1,93 @@
-<p>share-folder works!</p>
+<div class="add-container">
+  <div style="margin-bottom: 10px">
+    <button
+      mat-mini-fab
+      matTooltip="Erstellen"
+      aria-label="Erstellen"
+      color="primary"
+      [matMenuTriggerFor]="menu"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="addJob()">LernJob</button>
+      <button mat-menu-item (click)="addStoreFolder()">Ordner</button>
+    </mat-menu>
+  </div>
+
+  <div *ngIf="isOneSelected$ | async" style="margin-bottom: 10px">
+    <button
+      mat-mini-fab
+      matTooltip="Bewegen"
+      aria-label="Bewegen"
+      color="primary"
+      (click)="move()"
+    >
+      <mat-icon>call_made</mat-icon>
+    </button>
+  </div>
+
+  <div *ngIf="shareFolder$ | async as folder">
+    <button
+      mat-mini-fab
+      matTooltip="Mitwirkende Personen"
+      aria-label="Mitwirkende Personen"
+      color="primary"
+      (click)="toggle()"
+      [@expandCollapseIcon]="
+        (isShowGroupPermission$ | async) ? 'expanded' : 'collapsed'
+      "
+    >
+      <mat-icon>group</mat-icon>
+    </button>
+
+    <div style="position: relative">
+      <div
+        [@expandCollapse]="
+          (isShowGroupPermission$ | async) ? 'expanded' : 'collapsed'
+        "
+      >
+        <app-participating-teacher-list
+          [teacher-read-list]="folder.teacherReadList"
+          [teacher-write-list]="folder.teacherWriteList"
+        ></app-participating-teacher-list>
+        <div style="height: 10px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="shareFolder$ | async as folder; else loading">
+  <div class="title">
+    <span class="path" [routerLink]="['/teacher/study-jobs']">LernJobs</span>
+    <mat-icon class="path-divider">chevron_right</mat-icon>
+    <span>{{ folder.name }} </span>
+    <mat-icon class="path-divider">group</mat-icon>
+  </div>
+
+  <mat-list class="list">
+    <div
+      *ngIf="folder.storeFolderList.length + folder.studyJobList.length === 0"
+    >
+      Dieser Ordner ist noch leer
+    </div>
+    <app-folder-list-item
+      *ngFor="let folder of folder.storeFolderList"
+      [folder]="folder"
+    ></app-folder-list-item>
+
+    <app-job-list-item
+      *ngFor="let job of jobList$ | async"
+      [job]="job"
+      (selection-change)="toggleSelection($event, job._id)"
+    ></app-job-list-item>
+  </mat-list>
+</div>
+
+<ng-template #loading>
+  <div *ngIf="!shareFolder$.hasError; else error">Lädt LernJobs</div>
+</ng-template>
+
+<ng-template #error>
+  Lern Jobs konnten nicht geladen werden, lade die Seite neu
+</ng-template>

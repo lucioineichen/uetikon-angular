@@ -23,7 +23,10 @@
   </div>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="addJob()">LernJob</button>
-    <button mat-menu-item (click)="addFolder()">Ordner</button>
+    <button mat-menu-item (click)="service.addStoreFolder()">Ordner</button>
+    <button mat-menu-item (click)="service.addShareFolder()">
+      Geteilter Ordner
+    </button>
   </mat-menu>
 </div>
 
@@ -43,10 +46,10 @@
     </div>
 
     <div *ngIf="service.shareFolderList$ | async as shareFolderList">
-      <app-folder-list-item
+      <app-share-folder-list-item
         *ngFor="let folder of shareFolderList"
         [folder]="folder"
-      ></app-folder-list-item>
+      ></app-share-folder-list-item>
     </div>
 
     <div *ngIf="service.storeFolderList$ | async as storeFolderList">

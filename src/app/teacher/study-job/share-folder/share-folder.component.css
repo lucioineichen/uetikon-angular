@@ -1,0 +1,41 @@
+.add-container {
+  position: fixed;
+  right: 0;
+  padding: 16px;
+}
+
+.title {
+  padding-left: 250px;
+  padding-top: 60px;
+  font-size: 20px;
+}
+
+.path {
+  cursor: pointer;
+}
+
+.title-segment:hover {
+  cursor: pointer;
+}
+
+.title-segment:hover + .hide {
+  opacity: 1;
+}
+
+.list {
+  margin-left: 250px;
+  margin-top: 32px;
+}
+
+.path-divider {
+  vertical-align: bottom;
+}
+
+.participating-people-board {
+  position: absolute;
+  right: 0;
+  top: 10px;
+  width: 350px;
+  transform: translateX(100%);
+  display: none;
+}

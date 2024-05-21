@@ -5,6 +5,7 @@ import { LoginComponent } from '../../features/login/login.component'
 import { AuthGuard } from '../auth/auth-guard.service'
 import { Role } from '../auth/auth.enum'
 import { PageNotFoundComponent } from '../../features/page-not-found/page-not-found.component'
+import { ProfileComponent } from 'src/app/features/profile/profile.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -48,6 +49,10 @@ const routes: Routes = [
     data: {
       expectedRole: Role.Student,
     },
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
   },
   { path: '**', component: PageNotFoundComponent },
 ]

@@ -1,10 +1,156 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  combineLatest,
+  map,
+  mergeMap,
+  tap,
+} from 'rxjs'
+import { IShareFolder } from '../study-job-list/study-jobs.service'
+import { ShareFolderService } from './share-folder.service'
+import { SubSink } from 'subsink'
+import { ActivatedRoute } from '@angular/router'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { IStudyJob } from 'src/app/shared/utils/interfaces'
+import { IJobListItem } from '../folder/job-list-item/job-list-item.component'
+import { animate, state, style, transition, trigger } from '@angular/animations'
 
 @Component({
   selector: 'app-share-folder',
   templateUrl: './share-folder.component.html',
-  styleUrls: ['./share-folder.component.css']
-})
-export class ShareFolderComponent {
+  styleUrls: ['./share-folder.component.css'],
+  animations: [
+    trigger('expandCollapse', [
+      state(
+        'collapsed',
+        style({
+          position: 'absolute',
+          right: 0,
+          top: '10px',
+          width: '350px',
+          transform: 'translateX(105%)',
+          display: 'none',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          position: 'absolute',
+          right: 0,
+          top: '10px',
+          width: '350px',
+          transform: 'translateX(0)',
+          display: 'block',
+        })
+      ),
 
+      transition('collapsed => expanded', [animate('200ms ease-out')]),
+      transition('expanded => collapsed', [animate('200ms ease-in')]),
+    ]),
+    trigger('expandCollapseIcon', [
+      state(
+        'collapsed',
+        style({
+          transform: 'rotate(0deg)',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          transform: 'rotate(30deg)',
+        })
+      ),
+
+      transition('collapsed => expanded', [animate('200ms ease-out')]),
+      transition('expanded => collapsed', [animate('200ms ease-in')]),
+    ]),
+  ],
+})
+export class ShareFolderComponent implements OnInit, OnDestroy {
+  readonly sink = new SubSink()
+  readonly shareFolder$ = new BehaviorSubject<IShareFolder | undefined>(
+    undefined
+  )
+  readonly id$ = new BehaviorSubject<number | undefined>(undefined)
+  readonly selectedJobList$ = new BehaviorSubject<number[]>([])
+  readonly isOneSelected$ = this.selectedJobList$.pipe(
+    map((list) => list.length > 0)
+  )
+  readonly jobList$: Observable<IJobListItem[] | undefined> = combineLatest([
+    this.shareFolder$.pipe(
+      map((folder) => {
+        const jobList = folder?.studyJobList
+        return jobList?.map((job) => {
+          const job_: IJobListItem = {
+            _id: job._id,
+            isSelected: false,
+            isOneSelected: false,
+            name: job.name,
+            subject: job.subject,
+            taskListLength: job.tasks.length,
+          }
+          return job_
+        })
+      })
+    ),
+    this.selectedJobList$,
+  ]).pipe(
+    map(([jobList, selectedJobList]) => {
+      jobList?.forEach((job) => {
+        job.isOneSelected = selectedJobList.length > 0
+        job.isSelected = selectedJobList.findIndex((id) => id == job._id) != -1
+      })
+      return jobList
+    })
+  )
+  readonly isShowGroupPermission$ = new BehaviorSubject<boolean>(false)
+
+  constructor(
+    protected service: ShareFolderService,
+    private route: ActivatedRoute,
+    private ui: DialogService
+  ) {}
+
+  toggle() {
+    this.isShowGroupPermission$.next(!this.isShowGroupPermission$.value)
+  }
+
+  ngOnInit(): void {
+    const sub = this.route.params
+      .pipe(
+        tap((params) => this.id$.next(params['id'])),
+        mergeMap((params) => this.service.getShareFolder(params['id'])),
+        tap(console.info),
+        tap((folder) => this.shareFolder$.next(folder)),
+        catchError((err) => {
+          this.ui.showToast('Ordner konnte nicht geladen werden')
+          this.shareFolder$.error(err)
+          return err
+        })
+      )
+      .subscribe()
+    this.sink.add(sub)
+  }
+
+  ngOnDestroy(): void {
+    this.sink.unsubscribe()
+  }
+
+  toggleSelection(isSelected: boolean, id: number) {
+    if (isSelected) {
+      this.selectedJobList$.next(this.selectedJobList$.value.concat(id))
+    } else {
+      this.selectedJobList$.next(
+        this.selectedJobList$.value.filter((_id) => _id != id)
+      )
+    }
+  }
+
+  move() {}
+
+  addJob() {}
+
+  addStoreFolder() {}
 }
