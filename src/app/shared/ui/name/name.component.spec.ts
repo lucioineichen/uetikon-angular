@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JobListItemComponent } from './job-list-item.component';
+import { NameComponent } from './name.component';
 
-describe('JobListItemComponent', () => {
-  let component: JobListItemComponent;
-  let fixture: ComponentFixture<JobListItemComponent>;
+describe('NameComponent', () => {
+  let component: NameComponent;
+  let fixture: ComponentFixture<NameComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ JobListItemComponent ]
+      declarations: [ NameComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(JobListItemComponent);
+    fixture = TestBed.createComponent(NameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

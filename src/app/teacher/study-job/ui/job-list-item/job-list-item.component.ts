@@ -1,27 +1,45 @@
-import { Component, Input } from '@angular/core'
-import { IStudyJob } from 'src/app/shared/utils/interfaces'
-import { StudyJobsService } from '../../study-job-list/study-jobs.service'
-import { MatCheckboxChange } from '@angular/material/checkbox'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
+
+export interface IJobListItem {
+  _id: number
+  isSelected: boolean
+  isOneSelected: boolean
+  name: string
+  subject: string
+  taskListLength: number
+}
 
 @Component({
-  selector: 'app-job-list-item [job]',
-  templateUrl: './job-list-item.component.html',
+  selector: 'app-job-list-item',
+  template: `
+    <div class="job" [ngClass]="{ 'job-selected': job.isSelected }">
+      <mat-checkbox
+        class="checkbox"
+        [ngClass]="{ show: job.isOneSelected }"
+        [checked]="job.isSelected"
+        (change)="toggleSelection($event.checked)"
+      ></mat-checkbox>
+
+      <mat-list-item
+        [routerLink]="'/teacher/study-jobs/' + job._id"
+        [queryParams]="{ name: job.name }"
+        style="cursor: pointer"
+      >
+        <div matListItemTitle>
+          <span>{{ job.name | titlecase }} </span>
+          <span *ngIf="job.subject">({{ job.subject | titlecase }})</span>
+          <span> ° {{ job.taskListLength }}</span>
+        </div>
+      </mat-list-item>
+    </div>
+  `,
   styleUrls: ['./job-list-item.component.css'],
 })
 export class JobListItemComponent {
-  @Input() job!: IStudyJob
-  readonly selected$ = this.service.selectedJobs$
+  @Input() job!: IJobListItem
+  @Output('selection-change') selectionChangeEvent = new EventEmitter<boolean>()
 
-  constructor(protected service: StudyJobsService) {}
-
-  toggleSelection(event: MatCheckboxChange) {
-    let isInList =
-      this.selected$.value.findIndex((id) => id === this.job._id) !== -1
-    if (event.checked && !isInList)
-      this.selected$.next(this.selected$.value.concat(this.job._id))
-    if (!event.checked && isInList)
-      this.selected$.next(
-        this.selected$.value.filter((id) => id !== this.job._id)
-      )
+  toggleSelection(isChecked: boolean) {
+    this.selectionChangeEvent.emit(isChecked)
   }
 }

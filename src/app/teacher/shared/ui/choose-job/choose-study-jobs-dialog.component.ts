@@ -1,8 +1,10 @@
 import { Component } from '@angular/core'
 import { ChooseJobService } from './choose-job.service'
-import { IFolder, IStudyJob } from 'src/app/shared/utils/interfaces'
+import { IStudyJob } from 'src/app/shared/utils/interfaces'
 import { MatDialogRef } from '@angular/material/dialog'
 import { filter, tap } from 'rxjs'
+import { IAbstractFolder } from 'src/app/shared/ui/choose-folder/choose-folder.service'
+import { IStoreFolder } from 'src/app/teacher/study-job/folder/folder.service'
 
 @Component({
   selector: 'app-choose-study-jobs-dialogg',
@@ -17,11 +19,11 @@ export class ChooseJobComponent {
     private dialogRef: MatDialogRef<ChooseJobComponent>
   ) {}
 
-  protected readonly noNameFolder: IFolder = {
-    name: 'loading...',
+  protected readonly noNameFolder: IStoreFolder = {
     _id: 0,
-    folders: [],
-    studyJobs: [],
+    name: 'loading...',
+    studyJobList: [],
+    storeFolderList: [],
     path: [],
   }
 

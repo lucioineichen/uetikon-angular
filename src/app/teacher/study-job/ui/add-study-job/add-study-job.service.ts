@@ -20,13 +20,16 @@ export class AddStudyJobService {
     private ui: DialogService
   ) {}
 
-  addJob(folderId?: number) {
+  addJob(
+    toRoot: boolean,
+    shareFolderId: number | undefined,
+    storeFolderId: number | undefined
+  ) {
+    throw Error('depreciated')
     const dialogRef = this.dialog.open(AddStudyJobComponent)
 
     return dialogRef.afterClosed().pipe(
-      tap(console.log),
       filterNullish(),
-      tap(console.log),
       tap(
         (data) =>
           (data.competences = data.competences.map(
@@ -34,18 +37,17 @@ export class AddStudyJobService {
           ))
       ),
       mergeMap((data) => {
-        return this.postJob(data, folderId)
-      }),
-      catchError((err) => {
-        this.ui.showToast('LernJob konnte nicht erstellt werden')
-        return err
+        data = data.saveAt = {
+          toRoot,
+          shareFolderId,
+          storeFolderId,
+        }
+        return this.postJob(data)
       })
     )
   }
 
-  private postJob(data: any, folderId?: number): Observable<{}> {
-    let url = `${environment.baseUrl}/teacher/study-jobs`
-    url += folderId ? `/folders/${folderId}` : ''
-    return this.http.post(url, data)
+  private postJob(jobInfo: {}): Observable<{}> {
+    return this.http.post(`${environment.baseUrl}/study-jobs`, jobInfo)
   }
 }

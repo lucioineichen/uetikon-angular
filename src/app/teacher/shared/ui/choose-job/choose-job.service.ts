@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { BehaviorSubject, Observable, catchError, filter, map, tap } from 'rxjs'
-import { IFolder, IRef, IStudyJob } from 'src/app/shared/utils/interfaces'
+import { IRef, IStudyJob } from 'src/app/shared/utils/interfaces'
 import { ChooseJobComponent } from './choose-study-jobs-dialog.component'
 import { HttpClient } from '@angular/common/http'
 import { environment } from 'src/app/core/environment/environment.demo'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { ConfirmJobComponent } from './confirm-job/confirm-job.component'
 import { DialogRef } from '@angular/cdk/dialog'
+import { IAbstractFolder } from 'src/app/shared/ui/choose-folder/choose-folder.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChooseJobService {
-  readonly folder$ = new BehaviorSubject<undefined | IFolder>(undefined)
+  readonly folder$ = new BehaviorSubject<undefined | IAbstractFolder>(undefined)
   readonly job$ = new BehaviorSubject<undefined | IStudyJob>(undefined)
 
   constructor(
@@ -51,10 +52,12 @@ export class ChooseJobService {
     return dialogRef.afterClosed()
   }
 
-  private getFolder(id?: number): Observable<IFolder> {
+  private getFolder(id?: number): Observable<IAbstractFolder> {
     if (id && id != 0)
-      return this.http.get<IFolder>(`${environment.baseUrl}/folders/${id}`)
+      return this.http.get<IAbstractFolder>(
+        `${environment.baseUrl}/folders/${id}`
+      )
 
-    return this.http.get<IFolder>(`${environment.baseUrl}/folders/root`)
+    return this.http.get<IAbstractFolder>(`${environment.baseUrl}/folders/root`)
   }
 }

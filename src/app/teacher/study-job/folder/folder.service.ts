@@ -12,18 +12,20 @@ import {
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
-import { IFolder, IRef, IStudyJob } from 'src/app/shared/utils/interfaces'
+import { IRef, IStudyJob } from 'src/app/shared/utils/interfaces'
 import { RenameFolderService } from 'src/app/shared/ui/rename-folder/rename-folder.service'
 import { ChooseFolderService } from 'src/app/shared/ui/choose-folder/choose-folder.service'
 import { Router } from '@angular/router'
-import { IJobListItem } from './job-list-item/job-list-item.component'
+import { IJobListItem } from '../ui/job-list-item/job-list-item.component'
+import { ISaveAt } from '../job/job.service'
 
 export interface IStoreFolder {
   _id: number
   name: string
-  folderList: IRef[]
+  storeFolderList: IRef[]
   studyJobList: IStudyJob[]
   path: IRef[]
+  shareFolder?: IRef
 }
 
 @Injectable({
@@ -38,7 +40,7 @@ export class FolderService {
     map((jobList) => jobList.length > 0)
   )
   readonly folderList$ = this.storeFolder$.pipe(
-    map((folder) => folder?.folderList)
+    map((folder) => folder?.storeFolderList)
   )
   readonly jobList$: Observable<IJobListItem[] | undefined> = combineLatest([
     this.storeFolder$.pipe(
@@ -105,7 +107,13 @@ export class FolderService {
       .renameFolder()
       .pipe(
         filterNullish(),
-        mergeMap((name) => this.postFolder(name, id)),
+        mergeMap((name) =>
+          this.postFolder(name, {
+            toRoot: false,
+            shareFolderId: null,
+            storeFolderId: id,
+          })
+        ),
         tap(() => this.update(id)),
         catchError((err) => {
           this.ui.showToast('Ordner konnte nicht erstellt werden')
@@ -116,58 +124,67 @@ export class FolderService {
   }
 
   move() {
-    const currentFolder = this.storeFolder$.value
-    if (!currentFolder) return
-    this.chooseFolder
-      .chooseFolder()
-      .pipe(
-        map((folder) => {
-          if (!folder || folder._id == currentFolder._id) {
-            this.selectedJobs$.next([])
-            return undefined
-          }
-          return folder
-        }),
-        filterNullish(),
-        tap((folder) => {
-          if (folder._id == 0) this.router.navigate(['teacher', 'study-jobs'])
-          else
-            this.router.navigate([
-              'teacher',
-              'study-jobs',
-              'folder',
-              folder._id,
-            ])
-        }),
-        mergeMap((folder) => {
-          const selectedJobList = this.selectedJobs$.value
-          if (selectedJobList.length > 0) {
-            const jobList = selectedJobList.map((jobId) =>
-              this.putJob(jobId, folder._id)
-            )
-            return combineLatest(jobList)
-          }
-          return this.putFolder(
-            this.storeFolder$.value?._id as number,
-            folder._id
-          )
-        }),
-        catchError((err) => {
-          this.ui.showToast('Elemente konnten nicht verschoben werden')
-          return err
-        })
-      )
-      .subscribe()
+    // const currentFolder = this.storeFolder$.value
+    // if (!currentFolder) return
+    // this.chooseFolder
+    //   .chooseFolder()
+    //   .pipe(
+    //     map((folder) => {
+    //       if (!folder || folder._id == currentFolder._id) {
+    //         this.selectedJobs$.next([])
+    //         return undefined
+    //       }
+    //       return folder
+    //     }),
+    //     filterNullish(),
+    //     tap((folder) => {
+    //       if (folder._id == 0) this.router.navigate(['teacher', 'study-jobs'])
+    //       else
+    //         this.router.navigate([
+    //           'teacher',
+    //           'study-jobs',
+    //           'folder',
+    //           folder._id,
+    //         ])
+    //     }),
+    //     mergeMap((folder) => {
+    //       const selectedJobList = this.selectedJobs$.value
+    //       if (selectedJobList.length > 0) {
+    //         const jobList = selectedJobList.map((jobId) =>
+    //           this.putJob(jobId, folder._id)
+    //         )
+    //         return combineLatest(jobList)
+    //       }
+    //       return this.putFolder(
+    //         this.storeFolder$.value?._id as number,
+    //         folder._id
+    //       )
+    //     }),
+    //     catchError((err) => {
+    //       this.ui.showToast('Elemente konnten nicht verschoben werden')
+    //       return err
+    //     })
+    //   )
+    //   .subscribe()
   }
 
   private getFolder(id: number): Observable<IStoreFolder> {
-    return this.http.get<IStoreFolder>(`${environment.baseUrl}/folders/${id}`)
+    return this.http.get<IStoreFolder>(
+      `${environment.baseUrl}/store-folders/${id}`
+    )
   }
 
-  private postFolder(name: string, parentFolderId?: number) {
-    return this.http.post<{}>(`${environment.baseUrl}/folders`, {
+  private postFolder(
+    name: string,
+    saveAt: {
+      toRoot: boolean
+      shareFolderId: number | null
+      storeFolderId: number | null
+    }
+  ) {
+    return this.http.post(`${environment.baseUrl}/store-folders`, {
       name,
-      folderId: parentFolderId,
+      saveAt,
     })
   }
 
@@ -177,9 +194,7 @@ export class FolderService {
     })
   }
 
-  private putFolder(moveFolderId: number, toFolderId: number) {
-    return this.http.put(`${environment.baseUrl}/folder/${moveFolderId}`, {
-      folderId: toFolderId,
-    })
+  putFolder(id: number, putData: { name?: string; saveAt?: ISaveAt }) {
+    return this.http.put(`${environment.baseUrl}/store-folder/${id}`, putData)
   }
 }

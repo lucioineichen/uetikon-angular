@@ -6,6 +6,12 @@ import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
 import { IStudyJob } from 'src/app/shared/utils/interfaces'
 
+export interface ISaveAt {
+  toRoot: boolean
+  shareFolderId: number | null
+  storeFolderId: number | null
+}
+
 @Injectable({
   providedIn: 'root',
 })

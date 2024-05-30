@@ -33,9 +33,22 @@
 
 .participating-people-board {
   position: absolute;
+  z-index: 1000;
   right: 0;
   top: 10px;
   width: 350px;
   transform: translateX(100%);
   display: none;
+}
+
+.edit-icon {
+  font-size: 16px;
+  height: 16px;
+  margin-left: 3px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.folder-name:hover .edit-icon {
+  opacity: 1;
 }

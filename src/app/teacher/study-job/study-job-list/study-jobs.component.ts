@@ -20,9 +20,6 @@ export class StudyJobListComponent implements OnInit {
   }
 
   addJob() {
-    this.addStudyJob
-      .addJob()
-      .pipe(tap(() => this.service.update()))
-      .subscribe()
+    throw Error('Not Implemented')
   }
 }

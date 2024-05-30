@@ -15,18 +15,6 @@
     </mat-menu>
   </div>
 
-  <div *ngIf="isOneSelected$ | async" style="margin-bottom: 10px">
-    <button
-      mat-mini-fab
-      matTooltip="Bewegen"
-      aria-label="Bewegen"
-      color="primary"
-      (click)="move()"
-    >
-      <mat-icon>call_made</mat-icon>
-    </button>
-  </div>
-
   <div *ngIf="shareFolder$ | async as folder">
     <button
       mat-mini-fab
@@ -41,7 +29,7 @@
       <mat-icon>group</mat-icon>
     </button>
 
-    <div style="position: relative">
+    <div style="position: relative; z-index: 1000">
       <div
         [@expandCollapse]="
           (isShowGroupPermission$ | async) ? 'expanded' : 'collapsed'
@@ -54,6 +42,18 @@
         <div style="height: 10px"></div>
       </div>
     </div>
+
+    <div *ngIf="isOneSelected$ | async" style="margin-top: 10px">
+      <button
+        mat-mini-fab
+        matTooltip="Bewegen"
+        aria-label="Bewegen"
+        color="primary"
+        (click)="move()"
+      >
+        <mat-icon>call_made</mat-icon>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -61,8 +61,11 @@
   <div class="title">
     <span class="path" [routerLink]="['/teacher/study-jobs']">LernJobs</span>
     <mat-icon class="path-divider">chevron_right</mat-icon>
-    <span>{{ folder.name }} </span>
-    <mat-icon class="path-divider">group</mat-icon>
+    <span class="folder-name">
+      <span>{{ folder.name }} </span>
+      <mat-icon class="path-divider">group</mat-icon>
+      <mat-icon class="edit-icon" (click)="rename()">edit</mat-icon>
+    </span>
   </div>
 
   <mat-list class="list">
@@ -71,6 +74,7 @@
     >
       Dieser Ordner ist noch leer
     </div>
+
     <app-folder-list-item
       *ngFor="let folder of folder.storeFolderList"
       [folder]="folder"

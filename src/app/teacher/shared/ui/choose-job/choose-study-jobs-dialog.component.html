@@ -16,17 +16,29 @@
   </div>
 
   <mat-list class="list" *ngIf="folder$ | async as folder; else loading">
-    <div *ngIf="folder.folders.length + folder.studyJobs.length === 0">
+    <div
+      *ngIf="
+        folder.storeFolderList.length +
+          folder.studyJobList.length +
+          (folder.shareFolderList?.length ?? 0) ==
+        0
+      "
+    >
       Dieser Ordner ist leer
     </div>
-    <div *ngFor="let folder of folder.folders">
+
+    <div *ngFor="let job of folder.studyJobList" fxLayout>
+      <app-share-folder-list-item share> </app-share-folder-list-item>
+    </div>
+
+    <div *ngFor="let folder of folder.storeFolderList">
       <app-folder-list-item
         [folder]="folder"
         (click)="service.openFolder(folder._id)"
       ></app-folder-list-item>
     </div>
 
-    <div *ngFor="let job of folder.studyJobs" fxLayout>
+    <div *ngFor="let job of folder.studyJobList" fxLayout>
       <app-job-list-item
         [job]="job"
         (click)="chooseJob(job)"

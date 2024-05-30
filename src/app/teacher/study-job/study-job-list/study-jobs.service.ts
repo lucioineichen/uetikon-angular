@@ -16,20 +16,16 @@ import {
 } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { getNewFolderNumber } from 'src/app/shared/utils/folder'
-import {
-  IFolder,
-  IRef,
-  IStudyJob,
-  ITask,
-} from 'src/app/shared/utils/interfaces'
+import { IRef, IStudyJob, ITask } from 'src/app/shared/utils/interfaces'
 import { RenameFolderService } from 'src/app/shared/ui/rename-folder/rename-folder.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { environment } from 'src/app/core/environment/environment.demo'
 import { Router } from '@angular/router'
 import { ChooseFolderService } from 'src/app/shared/ui/choose-folder/choose-folder.service'
-import { IJobListItem } from '../folder/job-list-item/job-list-item.component'
+import { IJobListItem } from '../ui/job-list-item/job-list-item.component'
 import { CreateShareFolderService } from '../ui/create-share-folder/create-share-folder.service'
 import { Expansion } from '@angular/compiler'
+import { ISaveAt } from '../job/job.service'
 
 export interface IShareFolder {
   _id: number
@@ -129,7 +125,7 @@ export class StudyJobsService {
       .chooseFolder()
       .pipe(
         map((folder) => {
-          if (!folder || folder._id == 0) {
+          if (!folder || !folder._id) {
             this.selectedJobs$.next([])
             return undefined
           }
@@ -140,10 +136,15 @@ export class StudyJobsService {
           this.router.navigate(['teacher', 'study-jobs', 'folder', folder._id])
         }),
         mergeMap((folder) => {
-          const jobList = this.selectedJobs$.value.map((jobId) =>
-            this.putJob(jobId, folder._id)
+          const saveAt = {
+            toRoot: folder._id ? true : false,
+            shareFolder: folder.path ? null : folder._id || null,
+            storeFolder: folder.path ? folder._id || null : null,
+          }
+          const putJobRequestList = this.selectedJobs$.value.map((jobId) =>
+            this.putJob(jobId, saveAt)
           )
-          return combineLatest(jobList)
+          return combineLatest(putJobRequestList)
         }),
         catchError((err) => {
           this.ui.showToast('Elemente konnten nicht verschoben werden')
@@ -158,7 +159,13 @@ export class StudyJobsService {
       .renameFolder()
       .pipe(
         filterNullish(),
-        mergeMap((name) => this.postFolder({ name })),
+        mergeMap((name) =>
+          this.postFolder(name, {
+            toRoot: true,
+            storeFolderId: null,
+            shareFolderId: null,
+          })
+        ),
         tap(() => this.update()),
         catchError((err) => {
           this.ui.showToast('Ordner konnte nicht erstellt werden')
@@ -194,13 +201,23 @@ export class StudyJobsService {
     return this.http.get<IRoot>(`${environment.baseUrl}/folders/root`)
   }
 
-  private postFolder(data: any) {
-    return this.http.post<{}>(`${environment.baseUrl}/teacher/folders`, data)
+  private postFolder(name: string, saveAt: ISaveAt) {
+    return this.http.post<{}>(`${environment.baseUrl}/store-folders`, {
+      name,
+      saveAt,
+    })
   }
 
-  private putJob(jobId: number, folderId: number) {
+  private putJob(
+    jobId: number,
+    saveAt: {
+      toRoot: boolean
+      storeFolder: number | null
+      shareFolder: number | null
+    }
+  ) {
     return this.http.put(`${environment.baseUrl}/study-job/${jobId}`, {
-      folderId,
+      saveAt,
     })
   }
 }

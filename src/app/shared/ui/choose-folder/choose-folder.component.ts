@@ -1,7 +1,8 @@
 import { Component } from '@angular/core'
-import { ChooseFolderService } from './choose-folder.service'
+import { ChooseFolderService, IAbstractFolder } from './choose-folder.service'
 import { MatDialogRef } from '@angular/material/dialog'
-import { IFolder, IStudyJob } from '../../utils/interfaces'
+import { IStudyJob } from '../../utils/interfaces'
+import { IStoreFolder } from 'src/app/teacher/study-job/folder/folder.service'
 
 @Component({
   selector: 'app-choose-folder',
@@ -11,11 +12,11 @@ import { IFolder, IStudyJob } from '../../utils/interfaces'
 export class ChooseFolderComponent {
   constructor(protected service: ChooseFolderService) {}
 
-  protected readonly noNameFolder: IFolder = {
+  protected readonly noNameFolder: IStoreFolder = {
     name: 'loading...',
     _id: 0,
-    folders: [],
-    studyJobs: [],
+    studyJobList: [],
+    storeFolderList: [],
     path: [],
   }
 

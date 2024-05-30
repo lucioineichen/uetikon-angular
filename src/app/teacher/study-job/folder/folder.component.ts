@@ -1,8 +1,9 @@
 import { Component } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
-import { tap } from 'rxjs'
-import { AddStudyJobService } from '../ui/add-study-job/add-study-job.service'
+import { ActivatedRoute } from '@angular/router'
+import { map, mergeMap, tap } from 'rxjs'
 import { FolderService } from './folder.service'
+import { NameService } from 'src/app/shared/ui/name/name.service'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 
 @Component({
   selector: 'app-folder',
@@ -16,8 +17,8 @@ export class FolderComponent {
 
   constructor(
     protected service: FolderService,
-    private addStudyJob: AddStudyJobService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private nameService: NameService
   ) {}
 
   ngOnInit(): void {
@@ -27,15 +28,26 @@ export class FolderComponent {
   }
 
   addJob() {
-    this.addStudyJob
-      .addJob()
-      .pipe(tap(() => this.service.update(this.id)))
-      .subscribe()
+    throw Error('not implemented')
   }
 
   addFolder() {
     this.service.addFolder(this.id)
   }
 
-  rename() {}
+  rename() {
+    const folder = this.service.storeFolder$.value
+    if (!folder) return
+    this.nameService
+      .name('Ordner Umbenennen', folder.name)
+      .pipe(
+        map((name) => (name == folder.name ? undefined : name)),
+        filterNullish(),
+        mergeMap((newName) =>
+          this.service.putFolder(folder._id, { name: newName })
+        ),
+        tap(() => this.ngOnInit())
+      )
+      .subscribe()
+  }
 }

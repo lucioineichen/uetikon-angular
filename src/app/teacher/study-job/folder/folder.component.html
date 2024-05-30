@@ -29,31 +29,42 @@
 
 <div *ngIf="service.storeFolder$ | async as folder; else loading">
   <div class="title">
-    <span class="title-segment" routerLink="/teacher/study-jobs">LernJobs</span>
-    <ng-container>
-      <span *ngFor="let folderRef of folder.path">
-        <mat-icon class="folder-separator">arrow_forward_ios</mat-icon>
-        <span
-          class="title-segment"
-          [routerLink]="'/teacher/study-jobs/folder/' + folderRef._id"
-          >{{ folderRef.name }}
-        </span>
-      </span>
+    <span class="title-segment" [routerLink]="['/teacher/study-jobs']"
+      >LernJobs</span
+    >
+    <mat-icon class="path-divider">chevron_right</mat-icon>
 
-      <mat-icon class="folder-separator">arrow_forward_ios</mat-icon>
-      <span class="folder-name" (click)="rename()">
-        <mat-icon class="folder-icon">folder</mat-icon>
-        <span class="title-segment">{{ folder.name }} </span>
-        <mat-icon class="edit-icon">edit</mat-icon></span
+    <span *ngIf="folder.shareFolder as shareFolder">
+      <span
+        class="title-segment"
+        [routerLink]="['/teacher/study-jobs/share-folder/' + shareFolder._id]"
+        >{{ shareFolder.name }}</span
       >
-    </ng-container>
+      <mat-icon class="path-divider">chevron_right</mat-icon>
+    </span>
+
+    <span *ngFor="let folder of folder.path">
+      <span
+        class="title-segment"
+        [routerLink]="['/teacher/study-jobs/folder/' + folder._id]"
+        >{{ folder.name }}</span
+      >
+      <mat-icon class="path-divider">chevron_right</mat-icon>
+    </span>
+
+    <span class="folder-name" (click)="rename()">
+      <span>{{ folder.name }} </span>
+      <mat-icon class="edit-icon">edit</mat-icon>
+    </span>
   </div>
 
   <mat-list class="list">
-    <div *ngIf="folder.folderList.length + folder.studyJobList.length === 0">
+    <div
+      *ngIf="folder.storeFolderList.length + folder.studyJobList.length === 0"
+    >
       Dieser Ordner ist noch leer
     </div>
-    <div *ngFor="let folder of folder.folderList">
+    <div *ngFor="let folder of folder.storeFolderList">
       <app-folder-list-item [folder]="folder"></app-folder-list-item>
     </div>
 

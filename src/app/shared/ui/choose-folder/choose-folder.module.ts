@@ -5,6 +5,7 @@ import { MaterialModule } from '../material.module'
 import { FolderModule } from 'src/app/teacher/study-job/folder/folder.module'
 import { JobListItemModule } from 'src/app/teacher/shared/ui/job-list-item/job-list-item.module'
 import { FolderListItemModule } from 'src/app/teacher/shared/ui/folder-list-item/folder-list-item.module'
+import { ShareFolderListItemModule } from 'src/app/teacher/study-job/ui/share-folder-list-item/share-folder-list-item.module'
 
 @NgModule({
   declarations: [ChooseFolderComponent],
@@ -13,6 +14,7 @@ import { FolderListItemModule } from 'src/app/teacher/shared/ui/folder-list-item
     MaterialModule,
     FolderListItemModule,
     JobListItemModule,
+    ShareFolderListItemModule,
   ],
 })
 export class ChooseFolderModule {}

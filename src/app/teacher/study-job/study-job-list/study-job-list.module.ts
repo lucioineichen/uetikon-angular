@@ -4,9 +4,9 @@ import { StudyJobListComponent } from './study-jobs.component'
 import { MaterialModule } from 'src/app/shared/ui/material.module'
 import { FolderListItemModule } from '../ui/folder-list-item/folder-list-item.module'
 import { ChooseFolderModule } from 'src/app/shared/ui/choose-folder/choose-folder.module'
-import { JobListItemModule } from '../folder/job-list-item/job-list-item.module'
 import { CreateShareFolderModule } from '../ui/create-share-folder/create-share-folder.module'
 import { ShareFolderListItemModule } from '../ui/share-folder-list-item/share-folder-list-item.module'
+import { JobListItemModule } from '../ui/job-list-item/job-list-item.module'
 
 @NgModule({
   declarations: [StudyJobListComponent],

@@ -14,13 +14,13 @@ export interface IRef {
   name: string
 }
 
-export interface IFolder {
-  _id: number
-  name: string
-  folders: IRef[]
-  studyJobs: IStudyJob[]
-  path: IRef[]
-}
+// export interface IFolder {
+//   _id: number
+//   name: string
+//   folders: IRef[]
+//   studyJobs: IStudyJob[]
+//   path: IRef[]
+// }
 
 export interface IChat {
   messages: IMessage[]

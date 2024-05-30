@@ -3,6 +3,10 @@
   border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
 
+.job-selected {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
 .job:hover {
   background-color: rgba(0, 0, 0, 0.06);
   cursor: pointer;

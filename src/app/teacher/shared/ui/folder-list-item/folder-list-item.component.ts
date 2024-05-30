@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { IFolder, IRef } from 'src/app/shared/utils/interfaces'
+import { IRef } from 'src/app/shared/utils/interfaces'
 
 @Component({
   selector: 'app-folder-list-item [folder]',
