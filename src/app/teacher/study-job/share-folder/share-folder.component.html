@@ -36,8 +36,11 @@
         "
       >
         <app-participating-teacher-list
-          [teacher-read-list]="folder.teacherReadList"
-          [teacher-write-list]="folder.teacherWriteList"
+          [teacher-read-list]="(teacherReadList$ | async)!"
+          [teacher-write-list]="(teacherWriteList$ | async)!"
+          (add)="addTeacher()"
+          (remove)="removeTeacher($event)"
+          (change-permission)="changeTeacherPermission($event)"
         ></app-participating-teacher-list>
         <div style="height: 10px"></div>
       </div>
@@ -76,6 +79,7 @@
     </div>
 
     <app-folder-list-item
+      [routerLink]="'/teacher/study-jobs/folder/' + folder._id"
       *ngFor="let folder of folder.storeFolderList"
       [folder]="folder"
     ></app-folder-list-item>

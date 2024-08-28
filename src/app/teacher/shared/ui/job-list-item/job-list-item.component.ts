@@ -6,7 +6,7 @@ import { IStudyJob } from 'src/app/shared/utils/interfaces'
   template: `
     <mat-list-item class="job" [ngClass]="{ hover: hover }">
       <div matListItemTitle>
-        {{ job.name | titlecase }} ({{ job.subject | titlecase }}) °
+        {{ job.name | titlecase }} ({{ job.subject.name | titlecase }}) °
         {{ job.tasks.length }}
       </div>
     </mat-list-item>

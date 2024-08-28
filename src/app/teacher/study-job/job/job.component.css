@@ -6,3 +6,53 @@
 mat-dialog-content {
   margin-top: 40px;
 }
+
+.status {
+  font-style: italic;
+}
+
+.toolbar {
+  position: fixed;
+  z-index: 1000;
+}
+
+.edit-icon {
+  /* font-size: 24px; */
+  /* height: 24px; */
+  margin-left: 6px;
+  cursor: pointer;
+  opacity: 0;
+  vertical-align: middle;
+}
+
+.job-name:hover {
+  cursor: pointer;
+}
+
+.job-name:hover .edit-icon {
+  opacity: 1;
+}
+
+.info {
+  margin-left: 15vw;
+  margin-right: 30vw;
+  margin-top: 50px;
+  margin-bottom: 150px;
+}
+
+.description {
+  width: 100%;
+}
+
+.save-button {
+  float: right;
+}
+
+.competence-button {
+  margin-top: 20px;
+}
+
+.competence-chip {
+  margin-left: 5px;
+  margin-bottom: 5px;
+}

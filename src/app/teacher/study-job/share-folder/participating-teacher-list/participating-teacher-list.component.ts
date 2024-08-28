@@ -27,9 +27,11 @@ import { IRef } from 'src/app/shared/utils/interfaces'
           <mat-list-item
             *ngFor="let teach of teacherWriteList"
             class="teacher-item"
-            >{{ teach.name }}
+            >{{ teach.name | titlecase }}
+            <span *ngIf="teach.isUser"> (Ich)</span>
             <span class="more-icon-wrapper">
               <button
+                *ngIf="teacherWriteList.length > 1"
                 class="more-icon"
                 mat-icon-button
                 [matMenuTriggerFor]="menu"
@@ -71,10 +73,35 @@ import { IRef } from 'src/app/shared/utils/interfaces'
         </mat-expansion-panel-header>
         <mat-list>
           <mat-list-item *ngFor="let teach of teacherReadList"
-            >{{ teach.name }}
-            <button class="more-icon" mat-icon-button>
-              <mat-icon>more_vert</mat-icon>
-            </button></mat-list-item
+            >{{ teach.name | titlecase }}
+            <span *ngIf="teach.isUser"> (Ich)</span>
+            <span class="more-icon-wrapper">
+              <button
+                class="more-icon"
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" xPosition="before">
+                <button
+                  mat-menu-item
+                  (click)="
+                    removeEvent.emit({ isWrite: false, teacherId: teach._id })
+                  "
+                >
+                  Entfernen
+                </button>
+                <button
+                  mat-menu-item
+                  (click)="
+                    changeEvent.emit({ isWrite: false, teacherId: teach._id })
+                  "
+                >
+                  Recht Ändern
+                </button>
+              </mat-menu>
+            </span></mat-list-item
           >
         </mat-list>
         <div *ngIf="teacherReadList.length == 0">
@@ -109,8 +136,8 @@ import { IRef } from 'src/app/shared/utils/interfaces'
   ],
 })
 export class ParticipatingTeacherListComponent implements OnInit {
-  @Input('teacher-write-list') teacherWriteList!: IRef[]
-  @Input('teacher-read-list') teacherReadList!: IRef[]
+  @Input('teacher-write-list') teacherWriteList!: ITeacherPermission[]
+  @Input('teacher-read-list') teacherReadList!: ITeacherPermission[]
   @Output('remove') removeEvent = new EventEmitter<{
     isWrite: boolean
     teacherId: number
@@ -121,5 +148,15 @@ export class ParticipatingTeacherListComponent implements OnInit {
   }>()
   @Output('add') addEvent = new EventEmitter<true>()
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.teacherReadList = this.teacherReadList.sort((a, b) =>
+      a.isUser ? -1 : b.isUser ? 1 : 0
+    )
+  }
+}
+
+export interface ITeacherPermission {
+  _id: number
+  name: string
+  isUser: boolean
 }

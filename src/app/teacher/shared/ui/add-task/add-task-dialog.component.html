@@ -1,4 +1,4 @@
-<!-- <mat-dialog-content class="mat-typography" style="width: 700px; height: 400px">
+<mat-dialog-content class="mat-typography" style="width: 700px; height: 400px">
   <h4>Aufgabe Erstellen</h4>
   <form [formGroup]="form" fxLayout="column">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
@@ -50,6 +50,8 @@
         >Benotet</mat-slide-toggle
       >
     </div>
+
+    <app-file-upload></app-file-upload>
   </form>
 </mat-dialog-content>
 
@@ -58,4 +60,4 @@
   <button mat-button [disabled]="form.invalid" [mat-dialog-close]="form.value">
     Speichern
   </button>
-</mat-dialog-actions> -->
+</mat-dialog-actions>

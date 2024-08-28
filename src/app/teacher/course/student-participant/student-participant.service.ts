@@ -10,30 +10,14 @@ import { IStudentParticipant } from 'src/app/shared/utils/interfaces'
   providedIn: 'root',
 })
 export class StudentParticipantService {
-  student$ = new BehaviorSubject<IStudentParticipant | undefined>(undefined)
+  constructor(private httpClient: HttpClient) {}
 
-  constructor(
-    private dialog: MatDialog,
-    private httpClient: HttpClient,
-    private uiService: DialogService
-  ) {}
-
-  private getStudent(
+  getStudent(
     studentId: number,
     courseId: number
   ): Observable<IStudentParticipant> {
     return this.httpClient.get<IStudentParticipant>(
-      `${environment.baseUrl}/teacher/course/${courseId}/student${studentId}`
-    )
-  }
-
-  updatePath(studentId: number, courseId: number) {
-    this.getStudent(studentId, courseId).pipe(
-      tap((student) => this.student$.next(student)),
-      catchError((err) => {
-        this.uiService.showToast('Schüler konnten nicht geladen werden')
-        return err
-      })
+      `${environment.baseUrl}/courses/${courseId}/student/${studentId}`
     )
   }
 }

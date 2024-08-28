@@ -18,6 +18,7 @@ import {
   Teacher,
 } from 'src/app/shared/utils/interfaces'
 import { ChooseJobService } from '../../shared/ui/choose-job/choose-job.service'
+import { EditCourseService } from './ui/edit-course/edit-course.service'
 
 @Injectable({
   providedIn: 'root',
@@ -37,10 +38,6 @@ export class CourseService {
   update() {
     this.getCourse()
       .pipe(
-        tap((course) => {
-          course.students = course.students.map(Student.Build)
-          course.teachers = course.teachers.map(Teacher.Build)
-        }),
         tap((course) => this.course$.next(course)),
         catchError((err) => {
           this.ui.showToast('Kurs konnte nicht geladen werden')
@@ -51,17 +48,17 @@ export class CourseService {
       .subscribe()
   }
 
-  editStudents(
-    course: ICourse,
-    newStudents: IStudent[]
-  ): Observable<IStudent[]> {
-    return this.httpClient.put<IStudent[]>(
-      `${environment.baseUrl}/teacher/course/${course._id}`,
-      {
-        students: newStudents?.map((student) => student._id),
-      }
-    )
-  }
+  // editStudents(
+  //   course: ICourse,
+  //   newStudents: IStudent[]
+  // ): Observable<IStudent[]> {
+  //   return this.httpClient.put<IStudent[]>(
+  //     `${environment.baseUrl}/teacher/course/${course._id}`,
+  //     {
+  //       students: newStudents?.map((student) => student._id),
+  //     }
+  //   )
+  // }
 
   navigateToStudent(student: IStudent) {
     this.router.navigate(
@@ -82,6 +79,10 @@ export class CourseService {
         this.httpClient.get<ICourse>(`${environment.baseUrl}/courses/${id}`)
       )
     )
+  }
+
+  putCourse(id: number, data: any) {
+    return this.httpClient.put(`${environment.baseUrl}/courses/${id}`, data)
   }
 
   addJob() {

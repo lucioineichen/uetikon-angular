@@ -58,3 +58,30 @@
   padding: 16px;
   z-index: 1000;
 }
+
+.course-information {
+  margin-bottom: 50px;
+}
+
+.course-information-card {
+  padding: 16px;
+}
+
+.wrapper {
+  /* width: 500px; */
+  /* border: 1px solid black; */
+  overflow: hidden; /* add this to contain floated children */
+}
+
+.left {
+  width: 50%;
+  float: left; /* add this */
+  /* border: 1px solid red; */
+}
+
+.right {
+  /* margin-left: 10px; */
+  /* border: 1px solid green; */
+  float: left;
+  width: 49%;
+}

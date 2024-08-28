@@ -40,8 +40,6 @@ export class SelectSubjectComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('can you read this')
-    console.log(this.control)
     this.initSubjectList()
   }
 

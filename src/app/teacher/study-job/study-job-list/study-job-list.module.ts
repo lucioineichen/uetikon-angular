@@ -7,6 +7,7 @@ import { ChooseFolderModule } from 'src/app/shared/ui/choose-folder/choose-folde
 import { CreateShareFolderModule } from '../ui/create-share-folder/create-share-folder.module'
 import { ShareFolderListItemModule } from '../ui/share-folder-list-item/share-folder-list-item.module'
 import { JobListItemModule } from '../ui/job-list-item/job-list-item.module'
+import { RouterModule } from '@angular/router'
 
 @NgModule({
   declarations: [StudyJobListComponent],
@@ -19,6 +20,7 @@ import { JobListItemModule } from '../ui/job-list-item/job-list-item.module'
     JobListItemModule,
     CreateShareFolderModule,
     ShareFolderListItemModule,
+    RouterModule,
   ],
 })
 export class StudyJobListModule {}

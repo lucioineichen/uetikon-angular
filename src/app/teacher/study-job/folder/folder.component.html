@@ -65,7 +65,10 @@
       Dieser Ordner ist noch leer
     </div>
     <div *ngFor="let folder of folder.storeFolderList">
-      <app-folder-list-item [folder]="folder"></app-folder-list-item>
+      <app-folder-list-item
+        [routerLink]="'/teacher/study-jobs/folder/' + folder._id"
+        [folder]="folder"
+      ></app-folder-list-item>
     </div>
 
     <div *ngIf="service.jobList$ | async as jobList">

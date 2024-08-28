@@ -1,16 +1,47 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
+import {
+  ICompetence,
+  IRef,
+  IStudyJob,
+  ITask,
+} from 'src/app/shared/utils/interfaces'
 
-export interface IJobListItem {
-  _id: number
-  isSelected: boolean
-  isOneSelected: boolean
-  name: string
-  subject: string
-  taskListLength: number
+export class IJobListItem implements IStudyJob {
+  get tasks(): ITask[] {
+    throw Error('not property of job list item')
+  }
+  get competences(): ICompetence[] {
+    throw Error('not property of job list item')
+  }
+  get credits(): number {
+    throw Error('not property of job list item')
+  }
+
+  constructor(
+    public _id: number,
+    public name: string,
+    public subject: { _id: string; name: string },
+    public taskListLength: number,
+    public isPublished: boolean,
+    public status: number,
+    public isSelected = false,
+    public isOneSelected = false
+  ) {}
+
+  static Build(job: IStudyJob) {
+    return new IJobListItem(
+      job._id,
+      job.name,
+      job.subject,
+      job.tasks.length,
+      job.isPublished,
+      job.status
+    )
+  }
 }
 
 @Component({
-  selector: 'app-job-list-item',
+  selector: 'app-job-list-item [job]',
   template: `
     <div class="job" [ngClass]="{ 'job-selected': job.isSelected }">
       <mat-checkbox
@@ -27,8 +58,14 @@ export interface IJobListItem {
       >
         <div matListItemTitle>
           <span>{{ job.name | titlecase }} </span>
-          <span *ngIf="job.subject">({{ job.subject | titlecase }})</span>
+          <span *ngIf="job.subject">({{ job.subject.name | titlecase }})</span>
           <span> ° {{ job.taskListLength }}</span>
+          <span class="status">
+            <span *ngIf="!job.isPublished">
+              ({{ job.status | jobStatus }})</span
+            >
+            <span *ngIf="job.isPublished"> (Publiziert)</span>
+          </span>
         </div>
       </mat-list-item>
     </div>

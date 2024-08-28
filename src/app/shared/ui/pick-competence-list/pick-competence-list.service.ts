@@ -60,17 +60,22 @@ export class PickCompetenceListService {
   ) {}
 
   pickCompetenceList(selectedList: string[]) {
+    this.selectedCompetenceList$.next([])
     const dialogRef = this.dialog.open(PickCompetenceListComponent, {
       data: { selectedList },
     })
 
-    return dialogRef
-      .afterClosed()
-      .pipe(
-        map((isConfirm) =>
-          isConfirm ? this.selectedCompetenceList$.value : undefined
-        )
-      )
+    return dialogRef.afterClosed().pipe(
+      map((isConfirm) =>
+        isConfirm ? this.selectedCompetenceList$.value : undefined
+      ),
+      map((competenceList) => {
+        if (!competenceList) return competenceList
+        return competenceList.map((comp) => {
+          return { _id: comp._id, name: comp.name }
+        })
+      })
+    )
   }
 
   toggleSelection(competence: IPickCompetence, isSelected: boolean) {

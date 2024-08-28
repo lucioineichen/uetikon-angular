@@ -12,6 +12,17 @@ export interface ISaveAt {
   storeFolderId: number | null
 }
 
+export interface IPutJob {
+  saveAt?: ISaveAt
+  name?: string
+  status?: number
+  isPublished?: { value: boolean }
+  description?: string
+  credits?: number
+  subjectId?: string
+  competenceList?: string[]
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -27,7 +38,6 @@ export class JobService {
   update(id: number) {
     this.getStudyJob(id)
       .pipe(
-        tap(console.log),
         tap((job) => this.job$.next(job)),
         catchError((err) => {
           this.ui.showToast('LernJob konnte nicht geladen werden')
@@ -36,5 +46,13 @@ export class JobService {
         })
       )
       .subscribe()
+  }
+
+  putJob(id: number, putJob: IPutJob) {
+    return this.http.put(`${environment.baseUrl}/study-job/${id}`, putJob)
+  }
+
+  deleteJob(id: number) {
+    return this.http.delete(`${environment.baseUrl}/study-job/${id}`)
   }
 }

@@ -33,7 +33,9 @@ export class ChooseJobComponent {
     tasks: [],
     competences: [],
     credits: 0,
-    subject: '',
+    subject: { _id: '', name: '' },
+    isPublished: false,
+    status: 1,
   }
 
   chooseJob(job: IStudyJob) {

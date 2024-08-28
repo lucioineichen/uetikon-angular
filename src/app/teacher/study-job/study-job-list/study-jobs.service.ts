@@ -63,17 +63,7 @@ export class StudyJobsService {
     this.root$.pipe(
       map((folder) => {
         const jobList = folder?.studyJobList
-        return jobList?.map((job) => {
-          const job_: IJobListItem = {
-            _id: job._id,
-            isSelected: false,
-            isOneSelected: false,
-            name: job.name,
-            subject: job.subject,
-            taskListLength: job.tasks.length,
-          }
-          return job_
-        })
+        return jobList?.map(IJobListItem.Build)
       })
     ),
     this.selectedJobs$,
@@ -133,13 +123,26 @@ export class StudyJobsService {
         }),
         filterNullish(),
         tap((folder) => {
-          this.router.navigate(['teacher', 'study-jobs', 'folder', folder._id])
+          if (folder.path)
+            this.router.navigate([
+              'teacher',
+              'study-jobs',
+              'folder',
+              folder._id,
+            ])
+          else
+            this.router.navigate([
+              'teacher',
+              'study-jobs',
+              'share-folder',
+              folder._id,
+            ])
         }),
         mergeMap((folder) => {
           const saveAt = {
-            toRoot: folder._id ? true : false,
-            shareFolder: folder.path ? null : folder._id || null,
-            storeFolder: folder.path ? folder._id || null : null,
+            toRoot: folder._id ? false : true,
+            shareFolderId: folder.path ? null : folder._id || null,
+            storeFolderId: folder.path ? folder._id || null : null,
           }
           const putJobRequestList = this.selectedJobs$.value.map((jobId) =>
             this.putJob(jobId, saveAt)
@@ -208,14 +211,7 @@ export class StudyJobsService {
     })
   }
 
-  private putJob(
-    jobId: number,
-    saveAt: {
-      toRoot: boolean
-      storeFolder: number | null
-      shareFolder: number | null
-    }
-  ) {
+  private putJob(jobId: number, saveAt: ISaveAt) {
     return this.http.put(`${environment.baseUrl}/study-job/${jobId}`, {
       saveAt,
     })

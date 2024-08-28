@@ -6,12 +6,14 @@ import {
   Observable,
   catchError,
   filter,
+  map,
   mergeMap,
   tap,
 } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
 import { CourseCreatorService } from '../../shared/ui/teacher-course-creator/teacher-course-creator.service'
+import { ICourse } from 'src/app/shared/utils/interfaces'
 
 export interface ICoursePre {
   _id: number
@@ -35,10 +37,10 @@ export class CourseService {
     private courseCreator: CourseCreatorService
   ) {}
 
-  private getCourses(): Observable<ICoursePre[]> {
+  private getCourses(): Observable<ICourse[]> {
     let params = new HttpParams().set('self', true)
 
-    return this.httpClient.get<ICoursePre[]>(`${environment.baseUrl}/courses`, {
+    return this.httpClient.get<ICourse[]>(`${environment.baseUrl}/courses`, {
       params: params,
     })
   }
@@ -46,6 +48,19 @@ export class CourseService {
   updateCourses() {
     this.getCourses()
       .pipe(
+        map((courses) => {
+          return courses.map((course) => {
+            return {
+              _id: course._id,
+              name: course.name,
+              credits: course.credits,
+              teacherCount: course.teacherList.length,
+              studentCount: course.studentList.length,
+              isProject: course.isProject,
+              imageUrl: course.imageUrl,
+            }
+          })
+        }),
         tap((courses) => this.courses$.next(courses)),
         catchError((err) => {
           this.ui.showToast('Kurse konnten nicht geladen werden')

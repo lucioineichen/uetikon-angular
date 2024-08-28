@@ -23,10 +23,22 @@ export class ChooseJobService {
     private ui: DialogService
   ) {}
 
-  update() {}
-
   openFolder(id: number) {
     this.getFolder(id)
+      .pipe(
+        tap((folder) => {
+          this.folder$.next(folder)
+        }),
+        catchError((err, caught) => {
+          this.ui.showToast('Ordner konnte nicht geladen werden')
+          return err
+        })
+      )
+      .subscribe()
+  }
+
+  openShareFolder(id: number) {
+    this.getShareFolder(id)
       .pipe(
         tap((folder) => {
           this.folder$.next(folder)
@@ -52,10 +64,16 @@ export class ChooseJobService {
     return dialogRef.afterClosed()
   }
 
+  private getShareFolder(id: number): Observable<IAbstractFolder> {
+    return this.http.get<IAbstractFolder>(
+      `${environment.baseUrl}/share-folders/${id}`
+    )
+  }
+
   private getFolder(id?: number): Observable<IAbstractFolder> {
     if (id && id != 0)
       return this.http.get<IAbstractFolder>(
-        `${environment.baseUrl}/folders/${id}`
+        `${environment.baseUrl}/store-folders/${id}`
       )
 
     return this.http.get<IAbstractFolder>(`${environment.baseUrl}/folders/root`)

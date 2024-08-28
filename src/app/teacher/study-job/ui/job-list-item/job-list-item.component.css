@@ -25,3 +25,8 @@
 .show {
   opacity: 1;
 }
+
+.status {
+  float: right;
+  font-style: italic;
+}

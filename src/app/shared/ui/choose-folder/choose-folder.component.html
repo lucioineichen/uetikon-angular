@@ -2,26 +2,37 @@
   <h1>Ordner Auswählen</h1>
 
   <div *ngIf="service.folder$ | async as folder" class="path">
-    <div *ngIf="folder._id != 0">
-      <span class="title-segment" (click)="service.openFolder(0)"
-        >LernJobs</span
-      >
-      <span *ngFor="let folderRef of folder.path">
-        <mat-icon class="folder-separator">arrow_forward_ios</mat-icon>
-        <span class="title-segment" (click)="service.openFolder(folderRef._id)"
-          >{{ folderRef.name }}
-        </span>
+    <span class="title-segment" (click)="service.openRoot()">LernJobs</span>
+    <span *ngFor="let folderRef of folder.path">
+      <mat-icon class="folder-separator">arrow_forward_ios</mat-icon>
+      <span class="title-segment" (click)="service.openFolder(folderRef._id)"
+        >{{ folderRef.name }}
       </span>
-    </div>
+    </span>
   </div>
 
   <mat-list
     class="list"
     *ngIf="service.folder$ | async as folder; else loading"
   >
-    <div *ngIf="folder.storeFolderList.length + folder.studyJobList.length + (folder.shareFolderList?.length ?? 0) === 0">
+    <div
+      *ngIf="
+        folder.storeFolderList.length +
+          folder.studyJobList.length +
+          (folder.shareFolderList?.length ?? 0) ===
+        0
+      "
+    >
       Dieser Ordner ist leer
     </div>
+
+    <div *ngFor="let folder of folder.shareFolderList">
+      <app-share-folder-list-item
+        [folder]="folder"
+        (click)="service.openShareFolder(folder)"
+      ></app-share-folder-list-item>
+    </div>
+
     <div *ngFor="let folder of folder.storeFolderList">
       <app-folder-list-item
         [folder]="folder"
@@ -30,13 +41,10 @@
     </div>
 
     <div *ngFor="let job of folder.studyJobList" fxLayout>
-      <app-job-list-item [job]="job"></app-job-list-item>
-    </div>
-
-    <div *ngFor="let folder of folder.shareFolderList">
-      <app-share-folder-list-item
-      (click)="service.openShareFolder(folder)"
-      ></app-share-folder-list-item>
+      <app-job-list-item
+        style="cursor: pointer"
+        [job]="job"
+      ></app-job-list-item>
     </div>
   </mat-list>
 </mat-dialog-content>

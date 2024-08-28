@@ -2,22 +2,25 @@
 
 <div style="padding: 50px">
   <div>
-    <app-class-control class="control"></app-class-control>
-    <app-student-control class="control"></app-student-control>
-    <app-subject-control
+    <app-group-control
+      [control]="groupControl"
       class="control"
-      [control]="service.subjectControl"
-      styleOption="filter"
-    ></app-subject-control>
-    <app-teacher-control class="control"></app-teacher-control>
-    <app-ufk-control class="control"></app-ufk-control>
-    <mat-form-field appearance="outline">
+    ></app-group-control>
+    <app-course-control
+      [control]="courseControl"
+      class="control"
+    ></app-course-control>
+    <app-teacher-control
+      [control]="teacherControl"
+      class="control"
+    ></app-teacher-control>
+    <app-ufk-control
+      [control]="competenceControl"
+      class="control"
+    ></app-ufk-control>
+    <mat-form-field appearance="outline" class="control">
       <mat-label>Datum</mat-label>
-      <input
-        [formControl]="service.dateControl"
-        matInput
-        [matDatepicker]="picker"
-      />
+      <input [formControl]="dateControl" matInput [matDatepicker]="picker" />
       <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle
         matIconSuffix
@@ -25,11 +28,21 @@
       ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    <app-subject-control
+      class="control"
+      [control]="subjectControl"
+      styleOption="filter"
+    ></app-subject-control>
+    <app-job-control [control]="jobControl" class="control"></app-job-control>
     <mat-form-field style="width: 100%">
       <mat-label>Filter</mat-label>
-      <input matInput [formControl]="service.searchControl" />
+      <input matInput [formControl]="searchControl" />
     </mat-form-field>
   </div>
 
-  <app-competences-table></app-competences-table>
+  <div *ngIf="coursePerformanceList$ | async as performanceList">
+    <app-competences-table
+      [competenceList]="performanceList"
+    ></app-competences-table>
+  </div>
 </div>

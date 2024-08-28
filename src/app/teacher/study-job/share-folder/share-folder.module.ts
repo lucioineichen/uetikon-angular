@@ -7,6 +7,8 @@ import { JobListItemModule } from '../ui/job-list-item/job-list-item.module'
 import { RouterModule } from '@angular/router'
 import { ParticipatingTeacherListComponent } from './participating-teacher-list/participating-teacher-list.component'
 import { NameModule } from 'src/app/shared/ui/name/name.module'
+import { ChooseFolderModule } from 'src/app/shared/ui/choose-folder/choose-folder.module'
+import { ChooseTeacherDialogModule } from 'src/app/shared/ui/choose-teacher-dialog/choose-teacher-dialog.module'
 
 @NgModule({
   declarations: [ShareFolderComponent, ParticipatingTeacherListComponent],
@@ -17,6 +19,8 @@ import { NameModule } from 'src/app/shared/ui/name/name.module'
     JobListItemModule,
     RouterModule,
     NameModule,
+    ChooseFolderModule,
+    ChooseTeacherDialogModule,
   ],
 })
 export class ShareFolderModule {}

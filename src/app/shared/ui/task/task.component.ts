@@ -11,18 +11,16 @@ import { IFile, ITask } from 'src/app/shared/utils/interfaces'
 export class TaskComponent {
   @Input() task!: ITask
   isExpanded = false
-
+  deleteJob() {}
+  editJob() {}
   toggleExpanded() {
     this.isExpanded = !this.isExpanded
   }
-
   constructor(private domSanitizer: DomSanitizer) {}
-
   isPicture(extension: string) {
     if (extension === 'png') return true
     return false
   }
-
   getFileIcon(extension: string | undefined): string {
     switch (extension) {
       case 'pdf':
@@ -37,7 +35,6 @@ export class TaskComponent {
         return ''
     }
   }
-
   getSafeFileUrl(url: string): SafeUrl {
     return this.domSanitizer.bypassSecurityTrustUrl(url)
   }

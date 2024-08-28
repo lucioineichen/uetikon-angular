@@ -4,6 +4,20 @@
   color: #0366d6; /* Link color */
 }
 
+.expand-button {
+  float: right;
+  position: relative;
+  top: -7px;
+  right: -15px;
+}
+
+.edit-button {
+  float: right;
+  position: relative;
+  top: -7px;
+  right: -15px;
+}
+
 /* Hover effect */
 .file-link:hover {
   text-decoration: underline;

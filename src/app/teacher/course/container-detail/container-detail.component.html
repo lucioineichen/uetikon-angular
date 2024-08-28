@@ -32,14 +32,31 @@
 
     <div>
       <div *ngIf="container.isDependent">
-        Abhängig von LernElement: {{ container.dependentContainer.name }}
-        <button
-          mat-raised-button
-          style="margin-top: 20px"
-          (click)="removeDependency()"
-        >
-          <mat-icon>delete</mat-icon> Abhängigkeit Entfernen
-        </button>
+        <mat-card class="dependency">
+          <button
+            class="menu-button"
+            style="position: absolute; top: 0px; right: 0px"
+            mat-icon-button
+            [mat-menu-trigger-for]="menu"
+            class="edit-button"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="after">
+            <button mat-menu-item (click)="removeDependency()">
+              <mat-icon style="vertical-align: bottom">delete</mat-icon>
+              <span>Löschen</span>
+            </button>
+          </mat-menu>
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon style="text-align: bottom">lock</mat-icon> Abhängigkeit
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            {{ container.dependentContainer.name }}
+          </mat-card-content>
+        </mat-card>
       </div>
       <div *ngIf="!container.isDependent">
         <button mat-raised-button (click)="addDependency()">

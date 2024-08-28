@@ -27,8 +27,12 @@
       Dieser Ordner ist leer
     </div>
 
-    <div *ngFor="let job of folder.studyJobList" fxLayout>
-      <app-share-folder-list-item share> </app-share-folder-list-item>
+    <div *ngFor="let folder of folder.shareFolderList" fxLayout>
+      <app-share-folder-list-item
+        [folder]="folder"
+        (click)="service.openShareFolder(folder._id)"
+      >
+      </app-share-folder-list-item>
     </div>
 
     <div *ngFor="let folder of folder.storeFolderList">

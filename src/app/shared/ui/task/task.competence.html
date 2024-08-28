@@ -4,11 +4,24 @@
   <a [href]="getSafeFileUrl('')" target="_blank" class="file-link"
     >{{ task.title.toLocaleLowerCase() }}.pdf</a
   >
+  <button mat-icon-button [mat-menu-trigger-for]="menu" class="edit-button">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" xPosition="before">
+    <button mat-menu-item (click)="deleteJob()">
+      <mat-icon>delete</mat-icon>
+      <span>Löschen</span>
+    </button>
+    <button mat-menu-item (click)="editJob()">
+      <mat-icon>edit</mat-icon>
+      <span>Bearbeiten</span>
+    </button>
+  </mat-menu>
   <button
     *ngIf="task.text"
     mat-icon-button
-    style="float: right; position: relative; top: -7px; right: -15px"
     (click)="this.toggleExpanded()"
+    class="expand-button"
   >
     <mat-icon *ngIf="!isExpanded">expand_more</mat-icon>
     <mat-icon *ngIf="isExpanded">expand_less</mat-icon>

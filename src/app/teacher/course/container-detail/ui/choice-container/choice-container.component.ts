@@ -5,7 +5,6 @@ import { IStudyJob } from 'src/app/shared/utils/interfaces'
 import { ChooseJobService } from 'src/app/teacher/shared/ui/choose-job/choose-job.service'
 import { SubSink } from 'subsink'
 import { ChoiceContainerService } from './choice-container.service'
-import { ConfirmDeleteModule } from 'src/app/shared/ui/confirm-delete/confirm-delete.module'
 import { ConfirmDeleteService } from 'src/app/shared/ui/confirm-delete/confirm-delete.service'
 
 @Component({
@@ -19,18 +18,22 @@ import { ConfirmDeleteService } from 'src/app/shared/ui/confirm-delete/confirm-d
       (window:resize)="onResize($event)"
     >
       <mat-grid-tile *ngFor="let choice of jobChoiceList$ | async">
-        <mat-card
-          class="course-card"
-          [ngClass]="{ 'delete-card': isDelete$ | async }"
-          (click)="actionOnJob(choice)"
-        >
+        <mat-card class="course-card">
           <button
-            class="delete-job-button"
+            class="menu-button"
             mat-icon-button
-            *ngIf="isDelete$ | async"
+            (click)="$event.preventDefault(); $event.stopPropagation()"
+            [mat-menu-trigger-for]="menu"
+            class="edit-button"
           >
-            <mat-icon>delete</mat-icon>
+            <mat-icon>more_vert</mat-icon>
           </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="deleteJob(choice)">
+              <mat-icon style="vertical-align: bottom">delete</mat-icon>
+              <span>Löschen</span>
+            </button>
+          </mat-menu>
           <div mat-ripple class="job-choice">
             <app-mandetory-job [job]="choice"></app-mandetory-job>
           </div>
@@ -42,25 +45,17 @@ import { ConfirmDeleteService } from 'src/app/shared/ui/confirm-delete/confirm-d
       <button class="add-job-button" mat-raised-button (click)="addJob()">
         <mat-icon>add</mat-icon>Job Hinzufügen
       </button>
-
-      <button
-        *ngIf="!(isDelete$ | async)"
-        mat-raised-button
-        (click)="setIsDelete(true)"
-      >
-        <mat-icon>delete</mat-icon>Job Löschen
-      </button>
-
-      <button
-        *ngIf="isDelete$ | async"
-        mat-raised-button
-        (click)="setIsDelete(false)"
-      >
-        <mat-icon>delete</mat-icon>Job Löschen Beenden
-      </button>
     </div>
   `,
   styles: [
+    `
+      .edit-button {
+        z-index: 1000;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+      }
+    `,
     `
       .course-card {
         overflow: visible;
@@ -113,26 +108,28 @@ export class ChoiceContainerComponent implements OnInit, OnDestroy {
     private confirmDelete: ConfirmDeleteService
   ) {}
 
-  actionOnJob(job: IStudyJob) {
-    if (this.isDelete$.value) {
-      this.confirmDelete
-        .confirmDelete(job.name)
-        .pipe(
-          map((isConfirm) => (isConfirm ? true : undefined)),
-          filterNullish(),
-          map(() =>
-            this.jobChoiceList$.value.filter((_job) => _job._id != job._id)
-          ),
-          tap((list) =>
-            this.service.putJobList(
-              this.id,
-              list.map((job) => job._id)
-            )
-          ),
-          tap((list) => this.jobChoiceList$.next(list))
-        )
-        .subscribe()
-    }
+  clickMenu(event: Event) {
+    event.preventDefault()
+  }
+
+  deleteJob(job: IStudyJob) {
+    this.confirmDelete
+      .confirmDelete(job.name)
+      .pipe(
+        map((isConfirm) => (isConfirm ? true : undefined)),
+        filterNullish(),
+        map(() =>
+          this.jobChoiceList$.value.filter((_job) => _job._id != job._id)
+        ),
+        tap((list) =>
+          this.service.putJobList(
+            this.id,
+            list.map((job) => job._id)
+          )
+        ),
+        tap((list) => this.jobChoiceList$.next(list))
+      )
+      .subscribe()
   }
 
   onResize(event: any) {

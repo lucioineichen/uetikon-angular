@@ -10,6 +10,7 @@ import { StudyJobListComponent } from '../study-job/study-job-list/study-jobs.co
 import { StudentDetailComponent } from '../students/student-detail/student.component'
 import { ContainerDetailComponent } from '../course/container-detail/container-detail.component'
 import { ShareFolderComponent } from '../study-job/share-folder/share-folder.component'
+import { StudentParticipantComponent } from '../course/student-participant/student-participant.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/teacher/courses', pathMatch: 'full' },
@@ -32,6 +33,10 @@ const routes: Routes = [
   { path: 'ufk', component: UfkComponent },
   { path: 'students/:id', component: StudentDetailComponent },
   { path: 'study-jobs/share-folder/:id', component: ShareFolderComponent },
+  {
+    path: 'courses/:courseId/student-participant/:id',
+    component: StudentParticipantComponent,
+  },
 ]
 
 @NgModule({

@@ -4,7 +4,12 @@ import { JobComponent } from './job.component'
 import { MaterialModule } from 'src/app/shared/ui/material.module'
 import { AddButtonModule } from 'src/app/shared/ui/add-button/add-button.module'
 import { TaskModule } from 'src/app/shared/ui/task/task.module'
-import { CompetencesControlModule } from '../../shared/ui/competences-control/competences-control.module'
+import { JobStatusModule } from 'src/app/shared/ui/job-status/job-status.module'
+import { ChangeStatusModule } from '../ui/change-status/change-status.module'
+import { SelectSubjectModule } from 'src/app/shared/ui/select-subject/select-subject.module'
+import { ReactiveFormsModule } from '@angular/forms'
+import { PickCompetenceListModule } from 'src/app/shared/ui/pick-competence-list/pick-competence-list.module'
+import { AddTaskModule } from '../../shared/ui/add-task/add-task.module'
 
 @NgModule({
   declarations: [JobComponent],
@@ -13,7 +18,12 @@ import { CompetencesControlModule } from '../../shared/ui/competences-control/co
     MaterialModule,
     AddButtonModule,
     TaskModule,
-    CompetencesControlModule,
+    JobStatusModule,
+    ChangeStatusModule,
+    SelectSubjectModule,
+    ReactiveFormsModule,
+    PickCompetenceListModule,
+    AddTaskModule,
   ],
 })
 export class JobModule {}

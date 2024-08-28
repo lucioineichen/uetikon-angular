@@ -32,7 +32,7 @@
     <a mat-button routerLink="/teacher/students" (click)="goBack()"
       ><mat-icon>arrow_back</mat-icon> Zurück</a
     >
-    <a mat-button (click)="(service.update)"
+    <a mat-button (click)="service.update()"
       ><h1>{{ service.name$ | async }}</h1></a
     >
   </mat-toolbar>
@@ -50,7 +50,7 @@
       [cols]="breakpoint"
       (window:resize)="onResize($event)"
     >
-      <mat-grid-tile *ngFor="let container of course.path">
+      <mat-grid-tile *ngFor="let container of course.containerList">
         <mat-card class="course-card" style="overflow: visible; height: 200px">
           <div
             mat-ripple
@@ -84,15 +84,100 @@
             [matTooltip]="'Abhängig von ' + container.dependentContainer.name"
           /> </mat-card
       ></mat-grid-tile>
-
-      <!-- <mat-grid-tile>
-        <mat-card class="course-card" style="overflow: visible">
-          <div class="job-choice-container" mat-ripple></div> </mat-card
-      ></mat-grid-tile> -->
     </mat-grid-list>
 
-    <div class="title">Schüler</div>
-    <app-table></app-table>
+    <div class="course-information">
+      <div class="title">Kurs Informationen</div>
+      <mat-card class="course-information-card">
+        <button
+          class="menu-button"
+          style="position: absolute; top: 16px; right: 16px"
+          mat-icon-button
+          [mat-menu-trigger-for]="menu"
+          class="edit-button"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item (click)="editCourseInfo()">
+            <mat-icon style="vertical-align: bottom">edit</mat-icon>
+            <span>Bearbeiten</span>
+          </button>
+        </mat-menu>
+        <mat-card-header>
+          <mat-card-title style="margin-bottom: 20px">
+            {{ course.name }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <mat-chip class="chip">{{ course.credits }} Credits </mat-chip>
+            <mat-chip class="chip" *ngIf="!course.isProject"
+              >Regel Unterricht</mat-chip
+            >
+            <mat-chip class="chip" *ngIf="course.isProject"
+              >Überfachliches Projekt</mat-chip
+            >
+            <mat-chip class="chip" *ngIf="!course.imageUrl"
+              >Ohne Kursbild</mat-chip
+            >
+            <mat-chip *ngIf="course.imageUrl" style="vertical-align: middle">
+              <img
+                matChipAvatar
+                [src]="course.imageUrl"
+                alt="URL existiert nicht"
+              />
+              Kurs Bild
+            </mat-chip>
+          </div>
+          <div>
+            <div class="wrapper">
+              <div class="left">
+                <div>
+                  <div class="teacher-list">
+                    <mat-list>
+                      <mat-card-title>Lehrer </mat-card-title>
+                      <mat-list-item
+                        *ngFor="let teacher of course.teacherList"
+                        >{{ teacher.name | titlecase }}</mat-list-item
+                      >
+                    </mat-list>
+                  </div>
+                </div>
+              </div>
+              <div class="right">
+                <div class="teacher-list">
+                  <mat-list>
+                    <mat-card-title>Schüler </mat-card-title>
+                    <mat-list-item *ngIf="course.studentList.length == 0">
+                      Keine Schüler
+                    </mat-list-item>
+                    <mat-list-item
+                      (click)="
+                        routeToParticipant(
+                          course._id,
+                          course.name,
+                          student._id,
+                          student.name
+                        )
+                      "
+                      style="cursor: pointer"
+                      *ngFor="let student of course.studentList"
+                      >{{ student.name | titlecase }}</mat-list-item
+                    >
+                  </mat-list>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div>
+      <div class="title">Leistungen</div>
+      <app-table></app-table>
+    </div>
     <div style="height: 250px"></div>
   </div>
 
@@ -105,6 +190,4 @@
   <ng-template #error
     >Kurs konnten nicht geladen werden, lade die Seite neu</ng-template
   >
-
-  <app-chat></app-chat>
 </div>

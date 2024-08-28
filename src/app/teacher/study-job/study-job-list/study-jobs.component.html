@@ -45,8 +45,12 @@
       Dieser Ordner ist noch leer
     </div>
 
-    <div *ngIf="service.shareFolderList$ | async as shareFolderList">
+    <div
+      *ngIf="service.shareFolderList$ | async as shareFolderList"
+      style="width: 80%"
+    >
       <app-share-folder-list-item
+        [routerLink]="'/teacher/study-jobs/share-folder/' + folder._id"
         *ngFor="let folder of shareFolderList"
         [folder]="folder"
       ></app-share-folder-list-item>
@@ -54,6 +58,7 @@
 
     <div *ngIf="service.storeFolderList$ | async as storeFolderList">
       <app-folder-list-item
+        [routerLink]="'/teacher/study-jobs/folder/' + folder._id"
         *ngFor="let folder of storeFolderList"
         [folder]="folder"
       ></app-folder-list-item>

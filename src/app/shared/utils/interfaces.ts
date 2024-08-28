@@ -109,7 +109,9 @@ export interface IStudyJob {
   tasks: ITask[]
   competences: ICompetence[]
   credits: number
-  subject: string
+  subject: { _id: string; name: string }
+  isPublished: boolean
+  status: number
 }
 
 export interface ITask {
@@ -146,12 +148,26 @@ export interface ICourse {
   _id: number
   name: string
   credits: number
-  teachers: ITeacher[]
-  students: IStudent[]
+  studentList: IRef[]
+  teacherList: IRef[]
   chat: IChat
   isProject: boolean
   imageUrl: string
-  path: IContainer[]
+  containerList: IContainer[]
 }
 
-export interface IStudentParticipant {}
+export interface IProgress {
+  _id: number
+  job: IStudyJob
+  progress: number
+  grade: number
+}
+
+export interface IStudentParticipant {
+  _id: number
+  student: IRef
+  course: IRef
+  credits: number
+  isActive: boolean
+  progress: { container: IRef; progress: IProgress[] }[]
+}

@@ -1,13 +1,10 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { IShareFolder } from '../../study-job-list/study-jobs.service'
 
 @Component({
-  selector: 'app-share-folder-list-item',
+  selector: 'app-share-folder-list-item [folder]',
   template: `
-    <mat-list-item
-      class="folder"
-      [routerLink]="'/teacher/study-jobs/share-folder/' + folder._id"
-    >
+    <mat-list-item class="folder">
       <mat-icon matListItemIcon> folder </mat-icon>
       <div matListItemTitle>
         <span>{{ folder.name | titlecase }}</span>
@@ -26,7 +23,7 @@ import { IShareFolder } from '../../study-job-list/study-jobs.service'
   styles: [
     `
       .folder {
-        width: 80%;
+        width: 100%;
         border-top: 1px solid rgba(0, 0, 0, 0.12);
       }
     `,
@@ -44,6 +41,10 @@ import { IShareFolder } from '../../study-job-list/study-jobs.service'
     `,
   ],
 })
-export class ShareFolderListItemComponent {
+export class ShareFolderListItemComponent implements OnInit {
   @Input() folder!: IShareFolder
+
+  ngOnInit(): void {
+    console.log('folder in share-folder-list-item-component: ', this.folder)
+  }
 }

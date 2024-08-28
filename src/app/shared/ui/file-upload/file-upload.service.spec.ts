@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UfkControlService } from './ufk-control.service';
+import { FileUploadService } from './file-upload.service';
 
-describe('UfkControlService', () => {
-  let service: UfkControlService;
+describe('FileUploadService', () => {
+  let service: FileUploadService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(UfkControlService);
+    service = TestBed.inject(FileUploadService);
   });
 
   it('should be created', () => {

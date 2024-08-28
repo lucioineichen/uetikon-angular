@@ -13,6 +13,8 @@ import { CreateMandetoryModule } from './ui/create-mandetory/create-mandetory.mo
 import { CreateChoiceComponent } from './ui/create-choice/create-choice.component'
 import { CreateChoiceModule } from './ui/create-choice/create-choice.module'
 import { CreateCompetenceContainerModule } from './ui/create-competence-container/create-competence-container.module'
+import { EditCourseModule } from './ui/edit-course/edit-course.module'
+import { RouterModule } from '@angular/router'
 
 @NgModule({
   declarations: [CourseDetailComponent],
@@ -30,6 +32,8 @@ import { CreateCompetenceContainerModule } from './ui/create-competence-containe
     CreateMandetoryModule,
     CreateChoiceModule,
     CreateCompetenceContainerModule,
+    EditCourseModule,
+    RouterModule,
   ],
 })
 export class CourseDetailModule {}

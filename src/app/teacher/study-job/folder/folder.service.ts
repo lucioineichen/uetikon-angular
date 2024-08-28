@@ -46,17 +46,7 @@ export class FolderService {
     this.storeFolder$.pipe(
       map((folder) => {
         const jobList = folder?.studyJobList
-        return jobList?.map((job) => {
-          const job_: IJobListItem = {
-            _id: job._id,
-            isSelected: false,
-            isOneSelected: false,
-            name: job.name,
-            subject: job.subject,
-            taskListLength: job.tasks.length,
-          }
-          return job_
-        })
+        return jobList?.map(IJobListItem.Build)
       })
     ),
     this.selectedJobs$,
@@ -92,6 +82,7 @@ export class FolderService {
     this.selectedJobs$.next([])
     this.getFolder(id)
       .pipe(
+        tap(console.info),
         tap((folder) => this.storeFolder$.next(folder)),
         catchError((err) => {
           this.ui.showToast('Ordner konnte nicht geladen werden')
@@ -124,48 +115,56 @@ export class FolderService {
   }
 
   move() {
-    // const currentFolder = this.storeFolder$.value
-    // if (!currentFolder) return
-    // this.chooseFolder
-    //   .chooseFolder()
-    //   .pipe(
-    //     map((folder) => {
-    //       if (!folder || folder._id == currentFolder._id) {
-    //         this.selectedJobs$.next([])
-    //         return undefined
-    //       }
-    //       return folder
-    //     }),
-    //     filterNullish(),
-    //     tap((folder) => {
-    //       if (folder._id == 0) this.router.navigate(['teacher', 'study-jobs'])
-    //       else
-    //         this.router.navigate([
-    //           'teacher',
-    //           'study-jobs',
-    //           'folder',
-    //           folder._id,
-    //         ])
-    //     }),
-    //     mergeMap((folder) => {
-    //       const selectedJobList = this.selectedJobs$.value
-    //       if (selectedJobList.length > 0) {
-    //         const jobList = selectedJobList.map((jobId) =>
-    //           this.putJob(jobId, folder._id)
-    //         )
-    //         return combineLatest(jobList)
-    //       }
-    //       return this.putFolder(
-    //         this.storeFolder$.value?._id as number,
-    //         folder._id
-    //       )
-    //     }),
-    //     catchError((err) => {
-    //       this.ui.showToast('Elemente konnten nicht verschoben werden')
-    //       return err
-    //     })
-    //   )
-    //   .subscribe()
+    const currentFolder = this.storeFolder$.value
+    if (!currentFolder) return
+    this.chooseFolder
+      .chooseFolder()
+      .pipe(
+        map((folder) => {
+          if (!folder || folder._id == this.storeFolder$.value?._id) {
+            this.selectedJobs$.next([])
+            return undefined
+          }
+          return folder
+        }),
+        filterNullish(),
+        tap((folder) => {
+          if (!folder._id) this.router.navigate(['teacher', 'study-jobs'])
+          else if (folder.path)
+            this.router.navigate([
+              'teacher',
+              'study-jobs',
+              'folder',
+              folder._id,
+            ])
+          else
+            this.router.navigate([
+              'teacher',
+              'study-jobs',
+              'share-folder',
+              folder._id,
+            ])
+        }),
+        mergeMap((folder) => {
+          const saveAt = {
+            toRoot: folder._id ? false : true,
+            shareFolderId: folder.path ? null : folder._id || null,
+            storeFolderId: folder.path ? folder._id || null : null,
+          }
+          const putJobRequestList = this.selectedJobs$.value.map((jobId) =>
+            this.putJob(jobId, saveAt)
+          )
+          if (putJobRequestList.length != 0) {
+            return combineLatest(putJobRequestList)
+          }
+          return this.putFolder(currentFolder._id, { saveAt })
+        }),
+        catchError((err) => {
+          this.ui.showToast('Elemente konnten nicht verschoben werden')
+          return err
+        })
+      )
+      .subscribe()
   }
 
   private getFolder(id: number): Observable<IStoreFolder> {
@@ -188,9 +187,9 @@ export class FolderService {
     })
   }
 
-  private putJob(jobId: number, folderId: number) {
+  private putJob(jobId: number, saveAt: ISaveAt) {
     return this.http.put(`${environment.baseUrl}/study-job/${jobId}`, {
-      folderId,
+      saveAt,
     })
   }
 

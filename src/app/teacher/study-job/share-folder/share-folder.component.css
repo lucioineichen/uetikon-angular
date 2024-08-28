@@ -2,6 +2,7 @@
   position: fixed;
   right: 0;
   padding: 16px;
+  z-index: 1000;
 }
 
 .title {

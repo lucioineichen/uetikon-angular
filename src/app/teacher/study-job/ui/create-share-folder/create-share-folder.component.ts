@@ -24,7 +24,7 @@ import { IRef } from 'src/app/shared/utils/interfaces'
           </mat-error>
         </mat-form-field>
 
-        <app-choose-teacher [teacher-list$]="teacherList$"></app-choose-teacher>
+        <app-choose-teacher [teacher-list]="teacherList$"></app-choose-teacher>
       </form>
     </div>
     <mat-dialog-actions align="end">

@@ -7,7 +7,7 @@ import { filterNullish } from '../../utils/filternullish'
 import { IRef } from '../../utils/interfaces'
 
 @Component({
-  selector: 'app-choose-teacher',
+  selector: 'app-choose-teacher[teacher-list]',
   template: `
     <form>
       <mat-form-field style="width: 100%;">
@@ -59,7 +59,7 @@ import { IRef } from '../../utils/interfaces'
   ],
 })
 export class ChooseTeacherComponent implements OnInit, OnDestroy {
-  @Input('teacher-list$') selectedTeacherList$!: BehaviorSubject<IRef[]>
+  @Input('teacher-list') selectedTeacherList$!: BehaviorSubject<IRef[]>
   readonly sink = new SubSink()
   readonly teacherCtrl = new FormControl<string>('')
   readonly filteredTeacherList$ = new BehaviorSubject<IRef[] | undefined>(

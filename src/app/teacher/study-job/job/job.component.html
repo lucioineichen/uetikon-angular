@@ -1,17 +1,18 @@
-<app-add-button
-  *ngIf="isEditing"
-  icon="save"
-  hint="Speichern"
-  (click)="toggleEdit(false)"
-></app-add-button>
-
 <div style="position: absolute; width: 100%; top: 0; z-index: 100">
-  <mat-toolbar color="primary" class="mat-elevation-z8">
+  <mat-toolbar color="primary" class="mat-elevation-z8 toolbar">
     <a mat-button (click)="navigateBack()"
       ><mat-icon>arrow_back</mat-icon> Zurück</a
     >
     <span style="width: 2rem"></span>
-    <h1>{{ name | async | titlecase }}</h1>
+    <h1 class="job-name" *ngIf="job$ | async as job">
+      <span>{{ job.name | titlecase }}</span>
+      <span class="status">
+        <span *ngIf="job.isPublished">
+          (Publiziert: {{ job.status | jobStatus }})</span
+        ><span *ngIf="!job.isPublished"> ({{ job.status | jobStatus }})</span>
+      </span>
+      <mat-icon class="edit-icon" (click)="rename()">edit</mat-icon>
+    </h1>
     <span class="flex-spacer"></span>
     <button
       mat-icon-button
@@ -21,16 +22,26 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="toggleEdit(true)">
-        <mat-icon>edit</mat-icon>
-        <span>Edit</span>
-      </button>
       <button mat-menu-item (click)="delete()">
         <mat-icon>delete</mat-icon>
         <span>Löschen</span>
       </button>
+      <button mat-menu-item (click)="changeStatus()">
+        <mat-icon>edit</mat-icon>
+        <span>Status Ändern</span>
+      </button>
+      <div *ngIf="job$ | async as job">
+        <button *ngIf="!job.isPublished" mat-menu-item (click)="publish()">
+          <span>Publizieren</span>
+        </button>
+        <button *ngIf="job.isPublished" mat-menu-item (click)="depublish()">
+          <span>Nicht Publizieren</span>
+        </button>
+      </div>
     </mat-menu>
   </mat-toolbar>
+
+  <div style="height: 64px"></div>
 
   <div class="mat-typography" *ngIf="job$ | async as job; else loading">
     <div style="margin-top: 50px"></div>
@@ -41,30 +52,61 @@
         Dieser LernJob hat noch keine Aufgaben
       </div>
 
-      <button mat-raised-button *ngIf="!isEditing" (click)="addTask()">
+      <button mat-raised-button (click)="addTask()">
         <mat-icon>add</mat-icon>Aufgabe Hinzufügen
       </button>
     </div>
 
     <div style="margin-top: 50px" class="tasks">
       <h1>Kompetenzen</h1>
-      <div *ngIf="!isEditing">
-        <mat-chip
-          *ngFor="let comp of job.competences"
-          style="margin-left: 5px"
-          [matTooltip]="comp.name"
-        >
-          {{ comp._id }}
-        </mat-chip>
-      </div>
-      <app-competences-control
-        *ngIf="isEditing"
-        [control]="competencesControl"
-      ></app-competences-control>
+      <mat-chip
+        *ngFor="let comp of job.competences"
+        [matTooltip]="comp.name"
+        class="competence-chip"
+      >
+        {{ comp._id }}
+      </mat-chip>
       <p *ngIf="job.competences.length === 0">
         Diesem LernJob wurden noch keine Kompetenzen hinzugefügt
       </p>
+
+      <div class="competence-button">
+        <a mat-raised-button (click)="pickCompetences()">
+          <mat-icon>add</mat-icon>
+          Kompetenzen
+          <span>{{
+            job.competences.length === 0 ? "Hinzufügen" : "Anpassen"
+          }}</span></a
+        >
+      </div>
     </div>
+
+    <mat-card class="info">
+      <mat-card-header> <h1>LernJob Informationen</h1> </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="jobInfoForm">
+          <app-select-subject
+            [form-control]="subjectControl"
+          ></app-select-subject>
+          <mat-form-field class="description">
+            <mat-label>Credits</mat-label>
+            <input formControlName="credits" matInput type="number" />
+          </mat-form-field>
+          <mat-form-field class="description">
+            <mat-label>Beschreibung</mat-label>
+            <textarea formControlName="description" matInput></textarea>
+          </mat-form-field>
+          <button
+            [disabled]="!(unsavedChanges$ | async)"
+            mat-raised-button
+            (click)="saveInfo()"
+            class="save-button"
+          >
+            Speichern
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>
 
