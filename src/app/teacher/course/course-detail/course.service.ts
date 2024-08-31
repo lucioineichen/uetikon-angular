@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -10,6 +10,7 @@ import {
   IChat,
   ICompetence,
   ICourse,
+  IProgress,
   IRef,
   IStudent,
   IStudyJob,
@@ -87,5 +88,13 @@ export class CourseService {
 
   addJob() {
     this.chooseJob.chooseJob().pipe().subscribe()
+  }
+
+  getCurrentProgress(id: number) {
+    let params = new HttpParams().set('course', id)
+
+    return this.httpClient.get<IProgress[]>(`${environment.baseUrl}/progress`, {
+      params: params,
+    })
   }
 }

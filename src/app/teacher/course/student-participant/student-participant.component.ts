@@ -1,14 +1,27 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { StudentParticipantService } from './student-participant.service'
-import { BehaviorSubject, catchError, tap } from 'rxjs'
+import { BehaviorSubject, catchError, map, mergeMap, tap } from 'rxjs'
 import {
   IContainer,
+  IProgress,
   IRef,
   IStudentParticipant,
+  ITaskProgress,
 } from 'src/app/shared/utils/interfaces'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { MatDialog } from '@angular/material/dialog'
+import { CommitContainerService } from 'src/app/shared/ui/commit-container/commit-container.service'
+import { SetGradeService } from 'src/app/shared/ui/set-grade/set-grade.service'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
+
+export interface IShowProgress extends IProgress {
+  isShowTaskProgress: boolean
+}
+
+interface IShowStudentParticipant extends IStudentParticipant {
+  selectedContainerList: { container: IRef; jobProgressList: IShowProgress[] }[]
+}
 
 @Component({
   selector: 'app-student-participant',
@@ -16,9 +29,11 @@ import { MatDialog } from '@angular/material/dialog'
   styles: [],
 })
 export class StudentParticipantComponent implements OnInit {
-  participant$ = new BehaviorSubject<IStudentParticipant | undefined>(undefined)
-  id: number
-  name: string
+  participant$ = new BehaviorSubject<IShowStudentParticipant | undefined>(
+    undefined
+  )
+  id: number // studentId
+  name: string // studentName
   courseId: number
   courseName: string
 
@@ -26,8 +41,10 @@ export class StudentParticipantComponent implements OnInit {
     protected route: ActivatedRoute,
     private router: Router,
     private service: StudentParticipantService,
-    private uiService: DialogService,
-    private dialog: MatDialog
+    private ui: DialogService,
+    private dialog: MatDialog,
+    private commitContainerService: CommitContainerService,
+    private setGrade: SetGradeService
   ) {
     this.id = this.route.snapshot.params['id']
     this.courseId = this.route.snapshot.params['courseId']
@@ -35,7 +52,50 @@ export class StudentParticipantComponent implements OnInit {
     this.courseName = this.route.snapshot.queryParams['courseName']
   }
 
-  commitContainer(container: IRef) {}
+  editGrade(taskProgress: ITaskProgress) {
+    this.setGrade
+      .setGrade(`${this.name}: ${taskProgress.task.title}`, taskProgress.grade)
+      .pipe(
+        filterNullish(),
+        mergeMap((grade) =>
+          this.service.putTaskProgress(taskProgress._id, { grade })
+        ),
+        tap(() => this.ngOnInit()),
+        catchError((err) => {
+          this.ui.showToast('Note konnte nicht Bearbeitet werden')
+          return err
+        })
+      )
+      .subscribe()
+  }
+
+  addGrade(taskProgress: ITaskProgress) {
+    this.setGrade
+      .setGrade(`${this.name}: ${taskProgress.task.title}`)
+      .pipe(
+        filterNullish(),
+        mergeMap((grade) =>
+          this.service.putTaskProgress(taskProgress._id, { grade })
+        ),
+        tap(() => this.ngOnInit()),
+        catchError((err) => {
+          this.ui.showToast('Note konnte nicht Bearbeitet werden')
+          return err
+        })
+      )
+      .subscribe()
+  }
+
+  toggle(jobProgress: IShowProgress) {
+    jobProgress.isShowTaskProgress = !jobProgress.isShowTaskProgress
+  }
+
+  commitContainer(container: IRef) {
+    this.commitContainerService
+      .commitContainer(container._id, this.id, this.courseId)
+      .pipe(tap(() => this.ngOnInit()))
+      .subscribe()
+  }
 
   navigateBack() {
     this.router.navigate(['teacher', 'courses', this.courseId], {
@@ -47,9 +107,10 @@ export class StudentParticipantComponent implements OnInit {
     this.service
       .getStudent(this.id, this.courseId)
       .pipe(
+        map((student) => student as IShowStudentParticipant),
         tap((student) => this.participant$.next(student)),
         catchError((err) => {
-          this.uiService.showToast('Schüler konnten nicht geladen werden')
+          this.ui.showToast('Schüler konnten nicht geladen werden')
           return err
         })
       )

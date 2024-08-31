@@ -20,6 +20,7 @@ import { ConfirmDeleteService } from 'src/app/shared/ui/confirm-delete/confirm-d
       <mat-grid-tile *ngFor="let choice of jobChoiceList$ | async">
         <mat-card class="course-card">
           <button
+            style="z-index: 1000; position: absolute; top: 4px; right: 4px;"
             class="menu-button"
             mat-icon-button
             (click)="$event.preventDefault(); $event.stopPropagation()"

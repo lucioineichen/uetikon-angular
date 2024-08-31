@@ -1,12 +1,12 @@
-import { PercentPipe } from '@angular/common'
-import { Component } from '@angular/core'
-import { BehaviorSubject, delay, delayWhen, interval, map, of } from 'rxjs'
-import { trigger, state, style, animate, transition } from '@angular/animations'
+import { Component, Input } from '@angular/core'
+import { IProgress } from '../../utils/interfaces'
+import { animate, state, style, transition, trigger } from '@angular/animations'
+import { BehaviorSubject } from 'rxjs'
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css'],
+  selector: 'app-progress-table',
+  templateUrl: './progress-table.component.html',
+  styleUrls: ['./progress-table.component.css'],
   animations: [
     trigger('expandCollapse', [
       state(
@@ -28,7 +28,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     ]),
   ],
 })
-export class TableComponent {
+export class ProgressTableComponent {
   readonly index$ = new BehaviorSubject<number>(-1)
 
   dataFromKey(data: any, key: string) {

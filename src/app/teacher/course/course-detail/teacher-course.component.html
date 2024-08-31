@@ -174,9 +174,13 @@
       </mat-card>
     </div>
 
-    <div>
-      <div class="title">Leistungen</div>
-      <app-table></app-table>
+    <div *ngIf="currentProgress$ | async as currentProgress">
+      <div class="title">Aktuelle Leistungen</div>
+      <div class="mat-elevation-z8">
+        <app-job-progress-table
+          [job-progress-list]="currentProgress"
+        ></app-job-progress-table>
+      </div>
     </div>
     <div style="height: 250px"></div>
   </div>

@@ -15,6 +15,7 @@ import { CreateChoiceModule } from './ui/create-choice/create-choice.module'
 import { CreateCompetenceContainerModule } from './ui/create-competence-container/create-competence-container.module'
 import { EditCourseModule } from './ui/edit-course/edit-course.module'
 import { RouterModule } from '@angular/router'
+import { JobProgressTableModule } from 'src/app/shared/ui/job-progress-table/job-progress-table.module'
 
 @NgModule({
   declarations: [CourseDetailComponent],
@@ -34,6 +35,7 @@ import { RouterModule } from '@angular/router'
     CreateCompetenceContainerModule,
     EditCourseModule,
     RouterModule,
+    JobProgressTableModule
   ],
 })
 export class CourseDetailModule {}

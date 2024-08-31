@@ -14,14 +14,6 @@ export interface IRef {
   name: string
 }
 
-// export interface IFolder {
-//   _id: number
-//   name: string
-//   folders: IRef[]
-//   studyJobs: IStudyJob[]
-//   path: IRef[]
-// }
-
 export interface IChat {
   messages: IMessage[]
 }
@@ -156,11 +148,19 @@ export interface ICourse {
   containerList: IContainer[]
 }
 
+export interface ITaskProgress {
+  _id: number
+  task: ITask
+  completed: boolean
+  grade: number
+}
+
 export interface IProgress {
   _id: number
   job: IStudyJob
   progress: number
   grade: number
+  taskProgressList: ITaskProgress[]
 }
 
 export interface IStudentParticipant {
@@ -169,5 +169,5 @@ export interface IStudentParticipant {
   course: IRef
   credits: number
   isActive: boolean
-  progress: { container: IRef; progress: IProgress[] }[]
+  selectedContainerList: { container: IRef; jobProgressList: IProgress[] }[]
 }

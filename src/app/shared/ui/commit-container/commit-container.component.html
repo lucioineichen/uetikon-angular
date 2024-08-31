@@ -1,1 +1,58 @@
-<p>commit-container works!</p>
+<mat-dialog-content class="mat-typography" style="width: 850px">
+  <div *ngIf="container$ | async as container">
+    <h2 mat-dialog-title>{{ container.name }} Annehmen</h2>
+
+    <div *ngIf="container.jobChoices">
+      <div>
+        <mat-form-field>
+          <mat-label>Job Auswahl</mat-label>
+          <mat-select [formControl]="jobChoiceControl" required>
+            <mat-option>--</mat-option>
+            <mat-option
+              *ngFor="let job of container.jobChoices"
+              [value]="job._id"
+              >{{ job.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div *ngIf="container.necessairyCompetences">
+      <div>
+        <mat-card-title>Nötige Kompetenzen</mat-card-title>
+        <app-competence-list-by-subject
+          [competence-list]="container.necessairyCompetences"
+        ></app-competence-list-by-subject>
+      </div>
+
+      <div>
+        <mat-card-title>Ausgewählte LernJobs</mat-card-title>
+        <mat-list>
+          <mat-list-item *ngFor="let job of studyJobList$ | async">
+            {{ job.name }}
+          </mat-list-item>
+          <mat-list-item *ngIf="(studyJobList$ | async)?.length == 0"
+            >Kein Job Ausgewählt</mat-list-item
+          >
+        </mat-list>
+        <button class="add-job-button" mat-raised-button (click)="addJob()">
+          <mat-icon>add</mat-icon>Job Hinzufügen
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Abrechen</button>
+  <button
+    [disabled]="!(isCommitable$ | async)"
+    mat-button
+    (click)="commit()"
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+  >
+    Annehmen
+  </button>
+</mat-dialog-actions>

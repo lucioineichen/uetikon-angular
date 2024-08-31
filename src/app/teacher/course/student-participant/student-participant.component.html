@@ -5,20 +5,6 @@
     >
     <span style="width: 2rem"></span>
     <h1>{{ courseName + ": " + name | titlecase }}</h1>
-    <span class="flex-spacer"></span>
-    <button
-      mat-icon-button
-      [matMenuTriggerFor]="menu"
-      aria-label="Example icon-button with a menu"
-    >
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>edit</mat-icon>
-        <span>Edit</span>
-      </button>
-    </mat-menu>
   </mat-toolbar>
 
   <div
@@ -36,20 +22,92 @@
 
         <mat-card-content *ngIf="participant$ | async as participant">
           <mat-list>
-            <div *ngFor="let progress of participant.progress">
-              <mat-list-item *ngFor="let prog of progress.progress">
-                <span matListItemTitle>{{ prog.job.name }}</span>
-                <span matListItemLine>Fortschritt: {{ prog.progress }}</span>
-                <span matListItemLine>Note: {{ prog.grade }}</span>
-              </mat-list-item>
-              <div *ngIf="!progress.progress">
+            <div
+              *ngFor="
+                let selectedContainer of participant.selectedContainerList
+              "
+            >
+              <div
+                *ngFor="let jobProgress of selectedContainer.jobProgressList"
+              >
                 <mat-list-item>
-                  {{ progress.container.name }}: Nicht Angenommen
+                  <span matListItemTitle>{{ jobProgress.job.name }}</span>
+                  <span matListItemLine
+                    >Fortschritt: {{ jobProgress.progress | percent }}</span
+                  >
+                  <span matListItemLine *ngIf="jobProgress.grade"
+                    >Note: {{ jobProgress.grade | percent }}</span
+                  >
+                  <span matListItemLine *ngIf="!jobProgress.grade"
+                    >Keine Bewertung</span
+                  >
+                </mat-list-item>
+                <mat-card-subtitle
+                  >Aufgaben
+                  <mat-icon
+                    (click)="toggle(jobProgress)"
+                    style="vertical-align: bottom; cursor: pointer"
+                    >{{
+                      jobProgress.isShowTaskProgress
+                        ? "keyboard_arrow_up"
+                        : "keyboard_arrow_down"
+                    }}</mat-icon
+                  >
+                </mat-card-subtitle>
+                <div *ngIf="jobProgress.isShowTaskProgress">
+                  <mat-list-item
+                    *ngFor="let taskProgress of jobProgress.taskProgressList"
+                  >
+                    <span matListItemTitle
+                      >{{ taskProgress.task.title | titlecase }}
+                      <button
+                        *ngIf="taskProgress.grade"
+                        mat-icon-button
+                        style="vertical-align: bottom"
+                        (click)="editGrade(taskProgress)"
+                      >
+                        <mat-icon style="font-size: 16px">edit</mat-icon>
+                      </button>
+                    </span>
+                    <span matListItemLine *ngIf="taskProgress.grade"
+                      >Note: {{ taskProgress.grade | percent }}
+                    </span>
+                    <div *ngIf="!taskProgress.task.graded">
+                      <span matListItemLine *ngIf="!taskProgress.completed"
+                        >Nicht Begonnen</span
+                      >
+                      <span matListItemLine *ngIf="taskProgress.completed"
+                        >Bearbeitet</span
+                      >
+                    </div>
+                    <div *ngIf="taskProgress.task.graded">
+                      <span
+                        matListItemLine
+                        *ngIf="!taskProgress.grade"
+                        style="margin-bottom: 20px"
+                      >
+                        <button
+                          color="primary"
+                          mat-raised-button
+                          (click)="addGrade(taskProgress)"
+                        >
+                          Note Eintragen
+                        </button>
+                      </span>
+                      <span matListItemLine *ngIf="!taskProgress.grade"></span>
+                    </div>
+                  </mat-list-item>
+                </div>
+              </div>
+
+              <div *ngIf="!selectedContainer.jobProgressList">
+                <mat-list-item>
+                  {{ selectedContainer.container.name }}: Nicht Angenommen
                   <button
                     color="primary"
                     mat-raised-button
                     style="float: right"
-                    (click)="commitContainer(progress.container)"
+                    (click)="commitContainer(selectedContainer.container)"
                   >
                     Annehmen
                   </button>
