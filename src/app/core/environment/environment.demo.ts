@@ -1,4 +1,4 @@
 export const environment = {
   baseUrl: 'https://lucioapi.hauri.io',
-  appId: 'xxxx',
+  appId: 'xxxxx',
 }
