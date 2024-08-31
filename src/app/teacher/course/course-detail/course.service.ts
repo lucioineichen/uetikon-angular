@@ -49,18 +49,6 @@ export class CourseService {
       .subscribe()
   }
 
-  // editStudents(
-  //   course: ICourse,
-  //   newStudents: IStudent[]
-  // ): Observable<IStudent[]> {
-  //   return this.httpClient.put<IStudent[]>(
-  //     `${environment.baseUrl}/teacher/course/${course._id}`,
-  //     {
-  //       students: newStudents?.map((student) => student._id),
-  //     }
-  //   )
-  // }
-
   navigateToStudent(student: IStudent) {
     this.router.navigate(
       ['teacher', 'courses', this.course$.value?._id, 'student', student._id],
