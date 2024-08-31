@@ -1,4 +1,4 @@
 export const environment = {
-  baseUrl: 'http://127.0.0.1:8000',
+  baseUrl: 'http://ec2-51-20-181-43.eu-north-1.compute.amazonaws.com',
   appId: 'xxxx',
 }
