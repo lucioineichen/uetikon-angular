@@ -1,7 +1,4 @@
-<div
-  style="position: absolute; right: 0; padding: 16px"
-  *ngIf="courses$ | async"
->
+<div style="position: fixed; right: 0; padding: 16px" *ngIf="courses$ | async">
   <button
     mat-mini-fab
     matTooltip="Kurs Erstellen"
@@ -40,11 +37,15 @@
             <mat-card-title>{{ course.name }}</mat-card-title>
           </mat-card-header>
           <img
+            *ngIf="course.imageUrl"
             mat-card-image
             alt="Photo of a Shiba Inu"
             [src]="course.imageUrl"
-            style="height: 210px"
+            class="image"
           />
+          <div class="no-image" *ngIf="!course.imageUrl">
+            <div class="no-image-letter">{{ course.name.charAt(0) }}</div>
+          </div>
           <mat-card-content class="card-content">
             <mat-chip class="chip">
               <img src="../../../assets/credits.svg" matChipAvatar alt="" />

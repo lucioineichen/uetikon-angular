@@ -22,7 +22,7 @@
   right: -15px;
   top: -15px;
   transform: rotate(10deg);
-  z-index: 1000;
+  z-index: 1;
   transition: height 0.1s;
 }
 
@@ -33,4 +33,29 @@
 .card-content {
   text-align: center;
   padding-top: 12px;
+}
+
+.image {
+  height: 210px;
+}
+
+.no-image {
+  height: 210px;
+  background-color: var(--color-primary);
+  /* Use a flexbox layout */
+  display: flex;
+
+  /* Make a horizontal flexbox (the default) */
+  flex-direction: row;
+
+  /* The important part: vertically center the items */
+  align-items: center;
+  text-align: center;
+  font-size: 150px;
+  color: white;
+}
+
+.no-image-letter {
+  width: 100%;
+  text-align: center;
 }

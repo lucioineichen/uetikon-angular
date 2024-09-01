@@ -47,7 +47,7 @@ export class TeacherCourseCreatorComponent {
       name: this.createCourseForm.value.name,
       credits: this.createCourseForm.value.credits,
       isProject: this.createCourseForm.value.isProject,
-      students: this.selectedStudents$.value.map((stud) => stud._id),
+      studentIdList: this.selectedStudents$.value.map((stud) => stud._id),
     }
   }
 }

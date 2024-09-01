@@ -14,6 +14,7 @@ import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
 import { CourseCreatorService } from '../../shared/ui/teacher-course-creator/teacher-course-creator.service'
 import { ICourse } from 'src/app/shared/utils/interfaces'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 
 export interface ICoursePre {
   _id: number
@@ -82,7 +83,8 @@ export class CourseService {
     this.courseCreator
       .createCourse()
       .pipe(
-        filter((data) => data != undefined),
+        filterNullish(),
+        tap(console.info),
         mergeMap((data) => this.postCourse(data)),
         tap(() => {
           this.updateCourses()

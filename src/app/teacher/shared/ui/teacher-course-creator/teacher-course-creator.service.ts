@@ -15,7 +15,7 @@ export class CourseCreatorService {
         name: any
         credits: any
         isProject: any
-        students: any
+        studentIdList: any
       }
   > {
     const dialogRef = this.dialog.open(TeacherCourseCreatorComponent)
