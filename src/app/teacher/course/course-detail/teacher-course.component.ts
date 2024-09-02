@@ -8,7 +8,12 @@ import { CreateCompetenceContainerService } from './ui/create-competence-contain
 import { EditCourseService } from './ui/edit-course/edit-course.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
-import { IProgress } from 'src/app/shared/utils/interfaces'
+import {
+  IProgress,
+  ITask,
+  ITaskProgress,
+  Progress,
+} from 'src/app/shared/utils/interfaces'
 
 interface IStudyJobTeacherDisplay {
   _id: number
@@ -56,9 +61,12 @@ class StudyJobDisplay {
   styleUrls: ['./teacher-course.component.css'],
 })
 export class CourseDetailComponent implements OnInit {
-  readonly currentProgress$ = new BehaviorSubject<IProgress[] | undefined>(
+  readonly currentProgress$ = new BehaviorSubject<Progress[] | undefined>(
     undefined
   )
+  readonly currentTaskProgress$ = new BehaviorSubject<
+    ITaskProgress[] | undefined
+  >(undefined)
   readonly id$ = this.service.id$
   readonly name$ = this.service.name$
   readonly course$ = this.service.course$
@@ -175,7 +183,12 @@ export class CourseDetailComponent implements OnInit {
     this.service
       .getCurrentProgress(id)
       .pipe(
-        tap((progress) => this.currentProgress$.next(progress)),
+        tap((progress) =>
+          this.currentProgress$.next(progress.map(Progress.Build))
+        ),
+        tap((progress) =>
+          this.currentTaskProgress$.next(progress[1].taskProgressList)
+        ),
         catchError((err) => {
           this.ui.showToast('Aktuelle Leistungen konnten nicht geladen werden')
           return err
@@ -211,86 +224,90 @@ export class CourseDetailComponent implements OnInit {
       .subscribe()
   }
 
-  readonly JOB_LIST_DUMMY_DATA: IProgress[] = [
-    {
-      _id: 1,
-      job: {
-        _id: 101,
-        name: 'Mathematics 101',
-        notes: 'Basic Mathematics course',
-        tasks: [],
-        competences: [
-          { _id: 'comp1', name: 'Algebra' },
-          { _id: 'comp2', name: 'Geometry' },
-        ],
-        credits: 3,
-        subject: { _id: 'subj1', name: 'Mathematics' },
-        isPublished: true,
-        status: 1,
-      },
-      progress: 75,
-      grade: 85,
-      taskProgressList: [],
-    },
-    {
-      _id: 2,
-      job: {
-        _id: 102,
-        name: 'Physics 101',
-        notes: 'Introductory Physics course',
-        tasks: [],
-        competences: [
-          { _id: 'comp3', name: 'Mechanics' },
-          { _id: 'comp4', name: 'Thermodynamics' },
-        ],
-        credits: 4,
-        subject: { _id: 'subj2', name: 'Physics' },
-        isPublished: false,
-        status: 2,
-      },
-      progress: 50,
-      grade: 78,
-      taskProgressList: [],
-    },
-    {
-      _id: 3,
-      job: {
-        _id: 103,
-        name: 'Computer Science 101',
-        notes: 'Introduction to Programming',
-        tasks: [],
-        competences: [
-          { _id: 'comp5', name: 'Programming' },
-          { _id: 'comp6', name: 'Data Structures' },
-        ],
-        credits: 5,
-        subject: { _id: 'subj3', name: 'Computer Science' },
-        isPublished: true,
-        status: 3,
-      },
-      progress: 90,
-      grade: 95,
-      taskProgressList: [],
-    },
-    {
-      _id: 4,
-      job: {
-        _id: 104,
-        name: 'English Literature',
-        notes: 'Study of classic literature',
-        tasks: [],
-        competences: [
-          { _id: 'comp7', name: 'Literary Analysis' },
-          { _id: 'comp8', name: 'Creative Writing' },
-        ],
-        credits: 2,
-        subject: { _id: 'subj4', name: 'English' },
-        isPublished: true,
-        status: 1,
-      },
-      progress: 65,
-      grade: 88,
-      taskProgressList: [],
-    },
-  ]
+  // readonly JOB_LIST_DUMMY_DATA: IProgress[] = [
+  //   {
+  //     _id: 1,
+  //     job: {
+  //       _id: 101,
+  //       name: 'Mathematics 101',
+  //       notes: 'Basic Mathematics course',
+  //       tasks: [],
+  //       competences: [
+  //         { _id: 'comp1', name: 'Algebra' },
+  //         { _id: 'comp2', name: 'Geometry' },
+  //       ],
+  //       credits: 3,
+  //       subject: { _id: 'subj1', name: 'Mathematics' },
+  //       isPublished: true,
+  //       status: 1,
+  //     },
+  //     progress: 75,
+  //     grade: 85,
+  //     taskProgressList: [],
+  //   },
+  //   {
+  //     _id: 2,
+  //     job: {
+  //       _id: 102,
+  //       name: 'Physics 101',
+  //       notes: 'Introductory Physics course',
+  //       tasks: [],
+  //       competences: [
+  //         { _id: 'comp3', name: 'Mechanics' },
+  //         { _id: 'comp4', name: 'Thermodynamics' },
+  //       ],
+  //       credits: 4,
+  //       subject: { _id: 'subj2', name: 'Physics' },
+  //       isPublished: false,
+  //       status: 2,
+  //     },
+  //     progress: 50,
+  //     grade: 78,
+  //     taskProgressList: [],
+  //   },
+  //   {
+  //     _id: 3,
+  //     job: {
+  //       _id: 103,
+  //       name: 'Computer Science 101',
+  //       notes: 'Introduction to Programming',
+  //       tasks: [],
+  //       competences: [
+  //         { _id: 'comp5', name: 'Programming' },
+  //         { _id: 'comp6', name: 'Data Structures' },
+  //       ],
+  //       credits: 5,
+  //       subject: { _id: 'subj3', name: 'Computer Science' },
+  //       isPublished: true,
+  //       status: 3,
+  //     },
+  //     progress: 90,
+  //     grade: 95,
+  //     taskProgressList: [],
+  //   },
+  //   {
+  //     _id: 4,
+  //     job: {
+  //       _id: 104,
+  //       name: 'English Literature',
+  //       notes: 'Study of classic literature',
+  //       tasks: [],
+  //       competences: [
+  //         { _id: 'comp7', name: 'Literary Analysis' },
+  //         { _id: 'comp8', name: 'Creative Writing' },
+  //       ],
+  //       credits: 2,
+  //       subject: { _id: 'subj4', name: 'English' },
+  //       isPublished: true,
+  //       status: 1,
+  //     },
+  //     progress: 65,
+  //     grade: 88,
+  //     taskProgressList: [],
+  //   },
+  // ]
+
+  // readonly JOB_LIST_DUMMY: Progress[] = this.JOB_LIST_DUMMY_DATA.map(
+  //   Progress.Build
+  // )
 }

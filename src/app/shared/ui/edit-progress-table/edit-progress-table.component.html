@@ -53,9 +53,10 @@
       class="sub-table mat-elevation-z8"
       [@expandCollapse]="index$.value == i ? 'expanded' : 'collapsed'"
     >
-      <app-task-progress-table
+      <app-edit-task-progress-table
+        (updated)="update()"
         [task-progress-list]="progress.taskProgressList"
-      ></app-task-progress-table>
+      ></app-edit-task-progress-table>
     </div>
   </div>
 </div>

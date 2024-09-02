@@ -107,11 +107,12 @@ export interface IStudyJob {
 }
 
 export interface ITask {
+  _id: number
   title: string
   text?: string
   graded: boolean
   weight: number
-  file?: IFile
+  isSelfControl: boolean
 }
 
 export interface IFile {
@@ -123,6 +124,12 @@ export interface IFile {
 export interface ICompetence {
   _id: string
   name: string
+}
+
+export interface IMaterial {
+  _id: number
+  name: string
+  text: string | undefined
 }
 
 // export interface JobContainer {
@@ -152,15 +159,41 @@ export interface ITaskProgress {
   _id: number
   task: ITask
   completed: boolean
-  grade: number
+  grade: number | undefined
 }
 
 export interface IProgress {
   _id: number
   job: IStudyJob
   progress: number
-  grade: number
+  grade: number | undefined
   taskProgressList: ITaskProgress[]
+}
+
+export class Progress implements IProgress {
+  constructor(
+    public _id: number,
+    public job: IStudyJob,
+    public progress: number,
+    public taskProgressList: ITaskProgress[],
+    public grade: number | undefined
+  ) {}
+
+  get isGraded() {
+    for (let taskProg of this.taskProgressList)
+      if (taskProg.task.graded) return true
+    return false
+  }
+
+  static Build(progress: IProgress) {
+    return new Progress(
+      progress._id,
+      progress.job,
+      progress.progress,
+      progress.taskProgressList,
+      progress.grade
+    )
+  }
 }
 
 export interface IStudentParticipant {
@@ -169,5 +202,9 @@ export interface IStudentParticipant {
   course: IRef
   credits: number
   isActive: boolean
-  selectedContainerList: { container: IRef; jobProgressList: IProgress[] }[]
+  progressList: IProgress[]
+  selectedContainerList: {
+    container: IContainer
+    jobProgressList?: IProgress[]
+  }[]
 }

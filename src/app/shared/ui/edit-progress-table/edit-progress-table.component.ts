@@ -1,12 +1,12 @@
-import { Component, Input } from '@angular/core'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { IProgress } from '../../utils/interfaces'
-import { animate, state, style, transition, trigger } from '@angular/animations'
 import { BehaviorSubject } from 'rxjs'
+import { animate, state, style, transition, trigger } from '@angular/animations'
 
 @Component({
-  selector: 'app-progress-table [progress-list]',
-  templateUrl: './progress-table.component.html',
-  styleUrls: ['./progress-table.component.css'],
+  selector: 'app-edit-progress-table [progress-list]',
+  templateUrl: './edit-progress-table.component.html',
+  styleUrls: ['./edit-progress-table.component.css'],
   animations: [
     trigger('expandCollapse', [
       state(
@@ -28,8 +28,9 @@ import { BehaviorSubject } from 'rxjs'
     ]),
   ],
 })
-export class ProgressTableComponent {
+export class EditProgressTableComponent {
   @Input('progress-list') progressList!: IProgress[]
+  @Output('updated') updated = new EventEmitter<true>()
 
   readonly index$ = new BehaviorSubject<number>(-1)
 
@@ -43,5 +44,9 @@ export class ProgressTableComponent {
   toggleIndex(i: number) {
     if (this.index$.value == i) this.index$.next(-1)
     else this.index$.next(i)
+  }
+
+  update() {
+    this.updated.emit(true)
   }
 }

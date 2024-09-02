@@ -41,7 +41,7 @@
 
 .no-image {
   height: 210px;
-  background-color: var(--color-primary);
+  background-color: #3f51b5;
   /* Use a flexbox layout */
   display: flex;
 

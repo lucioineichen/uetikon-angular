@@ -1,0 +1,40 @@
+<div class="table">
+  <div class="header">
+    <div class="sub-row">
+      <div
+        class="header-element"
+        *ngFor="let header of headers"
+        [ngStyle]="{ width: header.cssWidth }"
+      >
+        {{ header.name | titlecase }}
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngFor="let progress of progressList">
+    <div class="sub-row">
+      <!-- name -->
+      <div [ngStyle]="{ width: this.headers[0].cssWidth }" class="col">
+        {{ progress.task.title }}
+      </div>
+      <!-- grade -->
+      <div class="col" [ngStyle]="{ width: this.headers[1].cssWidth }">
+        <span *ngIf="progress.completed">
+          <span *ngIf="progress.grade">
+            {{ progress.grade | percent }}
+          </span>
+          <span *ngIf="!progress.grade"> Nicht Benotet </span>
+        </span>
+        <span *ngIf="!progress.completed"> -- </span>
+      </div>
+      <!-- completed -->
+      <div [ngStyle]="{ width: this.headers[2].cssWidth }" class="col">
+        <span *ngIf="progress.completed">Erfüllt</span>
+        <span *ngIf="!progress.completed">Offen</span>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="progressList.length == 0">
+    <div class="sub-row">Keine Aufgaben</div>
+  </div>
+</div>

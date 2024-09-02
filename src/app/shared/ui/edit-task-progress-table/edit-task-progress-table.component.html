@@ -1,0 +1,50 @@
+<div class="table">
+  <div class="header">
+    <div class="sub-row">
+      <div
+        class="header-element"
+        *ngFor="let header of headers"
+        [ngStyle]="{ width: header.width + '%' }"
+      >
+        {{ header.name | titlecase }}
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngFor="let progress of progressList">
+    <div class="sub-row">
+      <!-- name -->
+      <div class="col" [ngStyle]="{ width: this.headers[0].width + '%' }">
+        {{ progress.task.title }}
+      </div>
+      <!-- grade -->
+      <div class="col" [ngStyle]="{ width: this.headers[1].width + '%' }">
+        <span *ngIf="progress.completed">
+          <span *ngIf="progress.grade">
+            {{ progress.grade | percent }}
+          </span>
+          <span *ngIf="!progress.grade"> Nicht Benotet </span>
+        </span>
+        <span *ngIf="!progress.completed"> -- </span>
+      </div>
+      <!-- completed -->
+      <div class="col" [ngStyle]="{ width: this.headers[2].width + '%' }">
+        <span *ngIf="progress.completed">Erfüllt</span>
+        <span *ngIf="!progress.completed">Offen</span>
+      </div>
+      <!-- enter -->
+      <div class="col" [ngStyle]="{ width: this.headers[3].width + '%' }">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="enterTaskProgress(progress)"
+        >
+          Eingeben
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="progressList.length == 0">
+    <div class="sub-row">Keine Aufgaben</div>
+  </div>
+</div>

@@ -4,6 +4,7 @@
 
 .header {
   width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .header-element {
@@ -14,18 +15,13 @@
 
 .row {
   width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .sub-row {
   padding-top: 12px;
   padding-bottom: 12px;
   padding-left: 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.sub-row:hover {
-  background-color: rgba(0, 0, 0, 0.06);
-  cursor: pointer;
 }
 
 .col {
@@ -35,15 +31,4 @@
 
 .chip {
   margin-right: 5px;
-}
-
-.expand-icon {
-  float: right;
-  margin-right: 20px;
-  vertical-align: bottom;
-}
-
-.sub-table {
-  margin-top: 10px;
-  margin-bottom: 10px;
 }

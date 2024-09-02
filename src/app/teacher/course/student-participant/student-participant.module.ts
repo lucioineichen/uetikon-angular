@@ -6,6 +6,9 @@ import { FileModule } from 'src/app/shared/ui/file/file.module'
 import { CommitContainerModule } from 'src/app/shared/ui/commit-container/commit-container.module'
 import { CompetenceListBySubjectModule } from 'src/app/shared/ui/competence-list-by-subject/competence-list-by-subject.module'
 import { SetGradeModule } from 'src/app/shared/ui/set-grade/set-grade.module'
+import { CompetenceTableModule } from 'src/app/shared/ui/competence-table/competence-table.module'
+import { ProgressTableModule } from 'src/app/shared/ui/progress-table/progress-table.module'
+import { EditProgressTableModule } from 'src/app/shared/ui/edit-progress-table/edit-progress-table.module'
 
 @NgModule({
   declarations: [StudentParticipantComponent],
@@ -14,7 +17,9 @@ import { SetGradeModule } from 'src/app/shared/ui/set-grade/set-grade.module'
     MaterialModule,
     CommitContainerModule,
     CompetenceListBySubjectModule,
-    SetGradeModule
+    SetGradeModule,
+    CompetenceTableModule,
+    EditProgressTableModule,
   ],
 })
 export class StudentParticipantModule {}

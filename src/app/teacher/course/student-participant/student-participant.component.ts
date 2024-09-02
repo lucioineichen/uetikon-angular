@@ -15,23 +15,21 @@ import { CommitContainerService } from 'src/app/shared/ui/commit-container/commi
 import { SetGradeService } from 'src/app/shared/ui/set-grade/set-grade.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 
-export interface IShowProgress extends IProgress {
-  isShowTaskProgress: boolean
-}
-
-interface IShowStudentParticipant extends IStudentParticipant {
-  selectedContainerList: { container: IRef; jobProgressList: IShowProgress[] }[]
-}
-
 @Component({
   selector: 'app-student-participant',
   templateUrl: './student-participant.component.html',
-  styles: [],
+  styles: [
+    `
+      .title {
+        font-size: 32px;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+    `,
+  ],
 })
 export class StudentParticipantComponent implements OnInit {
-  participant$ = new BehaviorSubject<IShowStudentParticipant | undefined>(
-    undefined
-  )
+  participant$ = new BehaviorSubject<IStudentParticipant | undefined>(undefined)
   id: number // studentId
   name: string // studentName
   courseId: number
@@ -86,10 +84,6 @@ export class StudentParticipantComponent implements OnInit {
       .subscribe()
   }
 
-  toggle(jobProgress: IShowProgress) {
-    jobProgress.isShowTaskProgress = !jobProgress.isShowTaskProgress
-  }
-
   commitContainer(container: IRef) {
     this.commitContainerService
       .commitContainer(container._id, this.id, this.courseId)
@@ -107,7 +101,7 @@ export class StudentParticipantComponent implements OnInit {
     this.service
       .getStudent(this.id, this.courseId)
       .pipe(
-        map((student) => student as IShowStudentParticipant),
+        tap(console.info),
         tap((student) => this.participant$.next(student)),
         catchError((err) => {
           this.ui.showToast('Schüler konnten nicht geladen werden')
