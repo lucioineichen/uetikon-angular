@@ -1,0 +1,55 @@
+<mat-dialog-content style="width: 700px; height: 500px">
+  <mat-form-field style="width: 100%" appearance="outline">
+    <mat-label>Suche ÜFK</mat-label>
+
+    <input matInput [formControl]="search" placeholder="Suche beim Namen" />
+  </mat-form-field>
+
+  <div *ngIf="!(filtered$ | async)">
+    <mat-accordion *ngIf="ufkSubject$ | async as subject">
+      <mat-expansion-panel *ngFor="let topic of subject.topics">
+        <mat-expansion-panel-header>
+          <mat-panel-title> {{ topic.name }} </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-checkbox
+          class="competence"
+          *ngFor="let comp of topic.competences"
+          [checked]="isSelected(comp)"
+          (change)="toggleSelection(comp, $event.checked)"
+          >{{ comp.name }}</mat-checkbox
+        >
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <mat-accordion *ngIf="filtered$ | async as filtered" multi>
+    <mat-expansion-panel
+      [expanded]="true"
+      style="
+        line-height: 20px;
+        font-family: Roboto, sans-serif;
+        letter-spacing: 0.0178571429em;
+      "
+    >
+      <div *ngFor="let comp of filtered">
+        <mat-checkbox
+          class="competence"
+          [checked]="isSelected(comp)"
+          (change)="toggleSelection(comp, $event.checked)"
+          >{{ comp.name }}</mat-checkbox
+        >
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
+  <button
+    mat-button
+    [mat-dialog-close]="selected$.value"
+    [disabled]="!(selected$ | async)"
+  >
+    Auswählen
+  </button>
+</mat-dialog-actions>

@@ -47,7 +47,13 @@
     <div style="margin-top: 50px"></div>
     <div class="tasks">
       <h1>Aufgaben</h1>
-      <app-task *ngFor="let task of job.tasks" [task]="task"> </app-task>
+      <app-task
+        *ngFor="let task of job.tasks"
+        [task]="task"
+        (delete)="deleteTask(task)"
+        (edit)="editTask(task)"
+      >
+      </app-task>
       <div *ngIf="job.tasks.length === 0">
         Dieser LernJob hat noch keine Aufgaben
       </div>
@@ -85,9 +91,9 @@
       <mat-card-header> <h1>LernJob Informationen</h1> </mat-card-header>
       <mat-card-content>
         <form [formGroup]="jobInfoForm">
-          <app-select-subject
+          <!-- <app-select-subject
             [form-control]="subjectControl"
-          ></app-select-subject>
+          ></app-select-subject> -->
           <mat-form-field class="description">
             <mat-label>Credits</mat-label>
             <input formControlName="credits" matInput type="number" />

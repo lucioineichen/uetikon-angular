@@ -101,7 +101,7 @@ export interface IStudyJob {
   tasks: ITask[]
   competences: ICompetence[]
   credits: number
-  subject: { _id: string; name: string }
+  subject?: { _id: string; name: string }
   isPublished: boolean
   status: number
 }
@@ -113,6 +113,7 @@ export interface ITask {
   graded: boolean
   weight: number
   isSelfControl: boolean
+  file?: IFile
 }
 
 export interface IFile {

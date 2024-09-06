@@ -1,6 +1,8 @@
 <mat-card-header>
   <mat-card-title>{{ job.name }}</mat-card-title>
-  <mat-card-subtitle>{{ job.subject.name }}</mat-card-subtitle>
+  <mat-card-subtitle *ngIf="job.subject">{{
+    job.subject.name
+  }}</mat-card-subtitle>
 </mat-card-header>
 <mat-card-content>
   <mat-chip class="chip">

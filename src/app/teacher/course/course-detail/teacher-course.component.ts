@@ -64,9 +64,6 @@ export class CourseDetailComponent implements OnInit {
   readonly currentProgress$ = new BehaviorSubject<Progress[] | undefined>(
     undefined
   )
-  readonly currentTaskProgress$ = new BehaviorSubject<
-    ITaskProgress[] | undefined
-  >(undefined)
   readonly id$ = this.service.id$
   readonly name$ = this.service.name$
   readonly course$ = this.service.course$
@@ -185,9 +182,6 @@ export class CourseDetailComponent implements OnInit {
       .pipe(
         tap((progress) =>
           this.currentProgress$.next(progress.map(Progress.Build))
-        ),
-        tap((progress) =>
-          this.currentTaskProgress$.next(progress[1].taskProgressList)
         ),
         catchError((err) => {
           this.ui.showToast('Aktuelle Leistungen konnten nicht geladen werden')

@@ -9,7 +9,7 @@ import {
 } from 'rxjs'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { AddUfkService } from '../../ufk/ui/add-ufk/add-ufk.service'
-import { CompetencesService, ICoursePerformance } from './competences.service'
+import { CompetencesService } from './competences.service'
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { IRef } from 'src/app/shared/utils/interfaces'
@@ -23,9 +23,9 @@ export class StudentListComponent {
   filterControl!: FormGroup
   studentListFromClass!: Observable<IRef[]>
 
-  coursePerformanceList$ = new BehaviorSubject<
-    ICoursePerformance[] | undefined
-  >(undefined)
+  // coursePerformanceList$ = new BehaviorSubject<
+  //   ICoursePerformance[] | undefined
+  // >(undefined)
 
   constructor(
     protected service: CompetencesService,
@@ -72,7 +72,7 @@ export class StudentListComponent {
   private update() {
     this.service.getCompetenceList(this.filterControl.value).pipe(
       tap((comps) => {
-        this.coursePerformanceList$.next(comps)
+        // this.coursePerformanceList$.next(comps)
       }),
       catchError((err) => {
         this.ui.showToast('ÜFKs konnten nicht geladen werden')

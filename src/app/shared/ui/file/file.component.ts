@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { environment } from 'src/app/core/environment/environment.demo'
 import { IFile } from 'src/app/shared/utils/interfaces'
 
 @Component({
@@ -15,15 +16,18 @@ import { IFile } from 'src/app/shared/utils/interfaces'
       <ng-template #picture>
         <img
           *ngIf="isPicture(file.extension)"
-          [src]="file.url"
+          [src]="environment.baseUrl + '/' + file.url"
           alt="task-picture"
           style="width: 30px; height: 30px; padding-right: 10px"
         />
       </ng-template>
 
-      <a [href]="getSafeFileUrl(file.url)" target="_blank" class="file-link">{{
-        file.name
-      }}</a>
+      <a
+        [href]="environment.baseUrl + '/' + file.url"
+        target="_blank"
+        class="file-link"
+        >{{ file.name }}</a
+      >
     </div>
   `,
   styles: [
@@ -40,19 +44,9 @@ import { IFile } from 'src/app/shared/utils/interfaces'
       }
     `,
     `
-      .task-card {
-        background-color: #fff;
-        border-radius: 4px;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
-          0 2px 10px 0 rgba(0, 0, 0, 0.12);
-        padding: 16px;
-        margin-bottom: 16px;
-      }
-
       .file-container {
         display: flex;
         align-items: center;
-        margin-top: 16px;
       }
 
       .file {
@@ -80,6 +74,7 @@ import { IFile } from 'src/app/shared/utils/interfaces'
 })
 export class FileComponent {
   @Input() file!: IFile
+  environment = environment
 
   constructor(private domSanitizer: DomSanitizer) {}
 
@@ -88,7 +83,7 @@ export class FileComponent {
     return false
   }
 
-  getFileIcon(extension: string | undefined): string {
+  getFileIcon(extension: string | undefined): string | undefined {
     switch (extension) {
       case 'pdf':
         return 'pdf'
@@ -99,7 +94,7 @@ export class FileComponent {
       case 'xlsx':
         return 'excel'
       default:
-        return ''
+        return undefined
     }
   }
 

@@ -12,7 +12,7 @@
 
 <!-- content -->
 <div *ngIf="courses$ | async as courses; else loading">
-  <div *ngIf="courses.length; else noCourses" style="padding: 60px 180px">
+  <div style="padding: 60px 180px">
     <mat-grid-list
       cols="4"
       gutterSize="20px"
@@ -61,6 +61,24 @@
 
               {{ course.studentCount }} Schüler
             </mat-chip>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="courses.length == 0">
+        <mat-card class="course-card">
+          <mat-card-header>
+            <mat-card-title>Du bist noch in keinem Kurs</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div style="height: 20px"></div>
+            <div class="no-course">
+              <div>Werde einem Kurs hinzugefügt</div>
+              <div>
+                oder
+                <a class="file-link" (click)="service.addCourse()">erstelle</a>
+                einen Kurs
+              </div>
+            </div>
           </mat-card-content>
         </mat-card>
       </mat-grid-tile>

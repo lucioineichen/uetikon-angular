@@ -47,13 +47,20 @@
       routerLinkActive="active-link"
       >Bibliothek</a
     >
-    <a
+    <!-- <a
       *ngIf="isPermitted(5, auth.status)"
       class="link"
       mat-button
       routerLink="/teacher/students"
       routerLinkActive="active-link"
       >Leistungen</a
+    > -->
+    <a
+      class="link"
+      mat-button
+      routerLink="/teacher/ufk"
+      routerLinkActive="active-link"
+      >ÜFK</a
     >
   </div>
 
@@ -85,15 +92,6 @@
 
   <!-- Shared Routes -->
   <span class="flex-spacer"></span>
-  <a
-    *ngIf="auth.status?.userRole === 'teacher'"
-    mat-raised-button
-    color="accent"
-    routerLink="/teacher/ufk"
-    routerLinkActive="active-accent-link"
-    >ÜFK</a
-  >
-  <span style="width: 10px"></span>
 
   <button
     *ngIf="auth?.status?.isAuthenticated"

@@ -26,6 +26,12 @@ export interface ITopic {
   competences?: ICompetence[]
 }
 
+export interface IRawSubject {
+  _id: string;
+  name: string
+  short: string
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -102,9 +108,9 @@ export class CompetencesDataService {
     return uk
   }
 
-  get_subjects(): { _id: string; name: string }[] {
+  get_subjects(): IRawSubject[] {
     return competences.concat(this.get_uk()).map((subject) => {
-      return { _id: subject._id, name: subject.name }
+      return { _id: subject._id, name: subject.name, short: subject.short }
     })
   }
 

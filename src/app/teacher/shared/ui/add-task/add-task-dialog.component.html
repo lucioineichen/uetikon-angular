@@ -1,25 +1,82 @@
-<mat-dialog-content class="mat-typography" style="width: 700px; height: 400px">
+<mat-dialog-content class="mat-typography" style="width: 700px">
   <h4>Aufgabe Erstellen</h4>
   <form [formGroup]="form" fxLayout="column">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-      <mat-form-field fxFlex style="width: 100%">
-        <input
-          matInput
-          placeholder="Titel"
-          aria-label="Titel"
-          formControlName="title"
-        />
-        <mat-error *ngIf="form.get('title')?.hasError('required')">
-          Titel ist obligatorisch
-        </mat-error>
-        <mat-error *ngIf="form.get('title')?.hasError('maxlength')">
-          Titel darf nicht länger als 50 sein
-        </mat-error>
-      </mat-form-field>
+      <app-file-upload
+        (discard-file)="discardFile()"
+        (select-file)="selectFile($event)"
+      ></app-file-upload>
+
+      <div style="height: 10px"></div>
+
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <mat-form-field fxFlex>
+          <mat-label>Gewichtung</mat-label>
+          <input
+            type="number"
+            matInput
+            placeholder="Gewichtung"
+            aria-label="Gewichtung"
+            formControlName="weight"
+          />
+        </mat-form-field>
+
+        <mat-slide-toggle
+          color="primary"
+          formControlName="isSelfControl"
+          style="margin-left: 15px"
+          >Selbst Kontrolle</mat-slide-toggle
+        >
+
+        <mat-slide-toggle
+          color="primary"
+          formControlName="graded"
+          style="margin-left: 15px"
+          >Benotet</mat-slide-toggle
+        >
+      </div>
+
+      <div>
+        <div>
+          <span class="expand-text" (click)="toggleShowName()"
+            >Name Hinzufügen
+            <mat-icon class="expand-icon" *ngIf="!showName"
+              >expand_more</mat-icon
+            >
+            <mat-icon class="expand-icon" *ngIf="showName"
+              >expand_less</mat-icon
+            ></span
+          >
+        </div>
+
+        <mat-form-field *ngIf="showName" fxFlex style="width: 100%">
+          <input
+            matInput
+            placeholder="Name"
+            aria-label="Name"
+            formControlName="title"
+          />
+          <mat-error *ngIf="form.get('title')?.hasError('maxlength')">
+            Name darf nicht länger als 50 sein
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
 
+    <div style="height: 10px"></div>
+
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-      <mat-form-field fxFlex style="width: 100%">
+      <div>
+        <span class="expand-text" (click)="toggleShowText()"
+          >Text Hinzufügen
+          <mat-icon class="expand-icon" *ngIf="!showText">expand_more</mat-icon>
+          <mat-icon class="expand-icon" *ngIf="showText"
+            >expand_less</mat-icon
+          ></span
+        >
+      </div>
+      <mat-form-field *ngIf="showText" fxFlex style="width: 100%">
+        <mat-label>Text</mat-label>
         <textarea
           matInput
           placeholder="Text"
@@ -29,35 +86,16 @@
         ></textarea>
       </mat-form-field>
     </div>
-
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-      <mat-form-field fxFlex>
-        <mat-label>Gewichtung</mat-label>
-        <input
-          type="number"
-          matInput
-          placeholder="Gewichtung"
-          aria-label="Gewichtung"
-          formControlName="weight"
-        />
-      </mat-form-field>
-
-      <mat-slide-toggle
-        color="primary"
-        formControlName="graded"
-        style="margin-left: 15px"
-        (click)="toggleGraded()"
-        >Benotet</mat-slide-toggle
-      >
-    </div>
-
-    <app-file-upload></app-file-upload>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
-  <button mat-button [disabled]="form.invalid" [mat-dialog-close]="form.value">
+  <button
+    mat-button
+    [disabled]="form.invalid || (!file && !form.get('title')?.value)"
+    [mat-dialog-close]="taskData"
+  >
     Speichern
   </button>
 </mat-dialog-actions>

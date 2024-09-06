@@ -1,0 +1,26 @@
+<mat-dialog-content>
+  <mat-label>Wähle ein Fach</mat-label>
+  <mat-chip-listbox
+    [formControl]="subjectControl"
+    ngDefaultControl
+    name="fieldName"
+  >
+    <mat-chip-option
+      [matTooltip]="subject.name"
+      *ngFor="let subject of subjectList$ | async"
+      [value]="subject"
+      >{{ subject.short }}</mat-chip-option
+    >
+  </mat-chip-listbox>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
+  <button
+    mat-button
+    [mat-dialog-close]="subjectControl.value"
+    [disabled]="!subjectControl.valid"
+  >
+    Auswählen
+  </button>
+</mat-dialog-actions>

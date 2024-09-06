@@ -10,6 +10,7 @@ import { SelectSubjectModule } from 'src/app/shared/ui/select-subject/select-sub
 import { ReactiveFormsModule } from '@angular/forms'
 import { PickCompetenceListModule } from 'src/app/shared/ui/pick-competence-list/pick-competence-list.module'
 import { AddTaskModule } from '../../shared/ui/add-task/add-task.module'
+import { TaskFormModule } from '../../shared/ui/task-form/task-form.module'
 
 @NgModule({
   declarations: [JobComponent],
@@ -24,6 +25,7 @@ import { AddTaskModule } from '../../shared/ui/add-task/add-task.module'
     ReactiveFormsModule,
     PickCompetenceListModule,
     AddTaskModule,
+    TaskFormModule,
   ],
 })
 export class JobModule {}

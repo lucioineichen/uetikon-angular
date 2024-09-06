@@ -2,6 +2,12 @@
   display: inline-block;
   text-decoration: none;
   color: #0366d6; /* Link color */
+  cursor: pointer;
+}
+
+/* Hover effect */
+.file-link:hover {
+  text-decoration: underline;
 }
 
 .expand-button {
@@ -18,11 +24,6 @@
   right: -15px;
 }
 
-/* Hover effect */
-.file-link:hover {
-  text-decoration: underline;
-}
-
 .task-card {
   background-color: #fff;
   border-radius: 4px;
@@ -32,6 +33,15 @@
   padding-right: 16px;
   padding-bottom: 12px;
   margin-bottom: 16px;
+}
+
+.main {
+  height: 28px;
+}
+
+.title {
+  display: inline-block;
+  transform: translateY(7px);
 }
 
 .file-container {

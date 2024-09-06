@@ -5,7 +5,7 @@
     *ngIf="service.subjectList$ | async as subjectList; else loading"
     style="padding: 5px 30px 0 30px"
   >
-    <app-select-subject [form-control]="subjectControl"></app-select-subject>
+    <!-- <app-select-subject [form-control]="subjectControl"></app-select-subject> -->
 
     <app-all-subjects
       (open-subject)="openSubject($event)"

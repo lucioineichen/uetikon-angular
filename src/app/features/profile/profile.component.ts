@@ -7,11 +7,11 @@ import { SubSink } from 'subsink'
 @Component({
   selector: 'app-profile',
   template: `
-    <div *ngIf="user$ | async as user">
+    <div class="title" *ngIf="user$ | async as user">
       {{ user.fullName }}
     </div>
   `,
-  styles: [],
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   readonly user$ = new BehaviorSubject<User | undefined>(undefined)

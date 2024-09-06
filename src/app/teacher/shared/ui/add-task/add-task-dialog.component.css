@@ -24,3 +24,10 @@ input[type="file"] {
 .label:valid + span {
   color: #ffffff;
 }
+.expand-icon {
+  vertical-align: bottom;
+}
+
+.expand-text {
+  cursor: pointer;
+}

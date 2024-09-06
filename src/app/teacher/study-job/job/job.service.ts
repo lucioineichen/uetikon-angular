@@ -31,8 +31,12 @@ export class JobService {
 
   constructor(private http: HttpClient, private ui: DialogService) {}
 
-  private getStudyJob(id: number): Observable<IStudyJob> {
-    return this.http.get<IStudyJob>(`${environment.baseUrl}/study-job/${id}`)
+  deleteTask(id: number) {
+    return this.http.delete(`${environment.baseUrl}/tasks/${id}`)
+  }
+
+  putTask(id: number, data: FormData) {
+    return this.http.post(`${environment.baseUrl}/tasks/${id}`, data)
   }
 
   update(id: number) {
@@ -54,5 +58,9 @@ export class JobService {
 
   deleteJob(id: number) {
     return this.http.delete(`${environment.baseUrl}/study-job/${id}`)
+  }
+
+  private getStudyJob(id: number): Observable<IStudyJob> {
+    return this.http.get<IStudyJob>(`${environment.baseUrl}/study-job/${id}`)
   }
 }

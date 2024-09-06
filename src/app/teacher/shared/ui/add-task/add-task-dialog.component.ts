@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { startWith, tap } from 'rxjs'
 
 @Component({
   selector: 'app-add-task-dialhjog',
@@ -8,7 +9,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 })
 export class AddTaskComponent implements OnInit {
   form!: FormGroup
-  selectedFile?: File
+  file?: File
+  showText = false
+  showName = false
+
+  toggleShowText() {
+    this.showText = !this.showText
+    if (this.showText) this.showName = false
+  }
+  toggleShowName() {
+    this.showName = !this.showName
+    if (this.showName) this.showText = false
+  }
 
   constructor(private fb: FormBuilder) {}
 
@@ -16,41 +28,57 @@ export class AddTaskComponent implements OnInit {
     this.buildForm()
   }
 
-  onFileSelected(event: any) {
-    const document = event.target.files[0]
-    if (document) this.selectedFile = document
+  selectFile(file: File) {
+    this.file = file
+  }
+
+  discardFile() {
+    this.file = undefined
   }
 
   get taskData() {
     const formData: FormData = new FormData()
-    if (this.selectedFile) formData.append('file', this.selectedFile)
+
+    if (this.file) formData.append('file', this.file)
 
     const data = this.form.value
-    formData.append('title', data.title)
+    if (data.title) formData.append('title', data.title)
     if (data.text) formData.append('text', data.text)
-    formData.append('graded', data.graded)
-    formData.append('weight', data.weight || 1)
+    formData.append('graded', JSON.stringify(data.graded))
+    formData.append('weight', JSON.stringify(data.weight || 1))
+    formData.append(
+      'isSelfControl',
+      JSON.stringify(data.isSelfControl || false)
+    )
 
     return formData
   }
 
-  toggleGraded() {
-    const graded: boolean = this.form.value.graded
-    const weightControl = this.form.get('weight')
-    if (graded) weightControl?.enable()
-    else weightControl?.disable()
-  }
-
-  removeFile() {
-    this.selectedFile = undefined
-  }
-
   private buildForm() {
     this.form = this.fb.group({
-      title: ['', [Validators.required, Validators.maxLength(50)]],
+      title: ['', [Validators.maxLength(50)]],
       text: [''],
       weight: [1],
       graded: [false, Validators.required],
+      isSelfControl: [false, Validators.required],
     })
+
+    const weightControl = this.form.get('weight')
+    const isSelfControl = this.form.get('isSelfControl')
+    this.form
+      .get('graded')
+      ?.valueChanges.pipe(
+        startWith(false),
+        tap((isGraded) => {
+          if (isGraded) {
+            weightControl?.enable()
+            isSelfControl?.enable()
+          } else {
+            weightControl?.disable()
+            isSelfControl?.disable()
+          }
+        })
+      )
+      .subscribe()
   }
 }

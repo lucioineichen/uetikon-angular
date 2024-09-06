@@ -1,4 +1,13 @@
-import { Component } from '@angular/core'
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core'
+import { FileUploadService } from './file-upload.service'
 
 @Component({
   selector: 'app-file-upload',
@@ -11,7 +20,15 @@ import { Component } from '@angular/core'
     />
 
     <div class="file-upload">
-      {{ fileName || 'No file uploaded yet.' }}
+      <button
+        mat-icon-button
+        *ngIf="fileName"
+        (click)="onDiscardFile()"
+        style="transform: translateY(4px); font-size: 16px"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+      <span>{{ fileName || 'No file uploaded yet.' }}</span>
 
       <button
         mat-mini-fab
@@ -29,9 +46,33 @@ import { Component } from '@angular/core'
         display: none;
       }
     `,
+    `
+      .upload-btn {
+        margin-left: 10px;
+      }
+    `,
   ],
 })
-export class FileUploadComponent {
+export class FileUploadComponent implements OnInit {
+  @Output('select-file') selectFileEvent = new EventEmitter<File>()
+  @Output('discard-file') discardFileEvent = new EventEmitter<true>()
+  @Input('file-name') initialFileName?: string
   fileName?: string
-  onFileSelected(event: any) {}
+
+  constructor(private service: FileUploadService) {}
+
+  ngOnInit(): void {
+    if (this.initialFileName) this.fileName = this.initialFileName
+  }
+
+  onFileSelected(event: Event) {
+    if ((event.target as any).files.length == 0) return
+    this.fileName = (event.target as any).files[0].name
+    this.selectFileEvent.emit((event.target as any).files[0])
+  }
+
+  onDiscardFile() {
+    this.fileName = undefined
+    this.discardFileEvent.emit(true)
+  }
 }

@@ -1,0 +1,25 @@
+<mat-dialog-content>
+  <mat-label>Wähle ein Kurs</mat-label>
+  <mat-chip-listbox
+    [formControl]="courseControl"
+    ngDefaultControl
+    name="fieldName"
+  >
+    <mat-chip-option
+      *ngFor="let course of courseList$ | async"
+      [value]="course._id"
+      >{{ course.name }}</mat-chip-option
+    >
+  </mat-chip-listbox>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
+  <button
+    mat-button
+    [mat-dialog-close]="getCourse(courseControl.value)"
+    [disabled]="!courseControl.valid"
+  >
+    Auswählen
+  </button>
+</mat-dialog-actions>

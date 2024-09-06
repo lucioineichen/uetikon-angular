@@ -41,10 +41,6 @@ import { IShareFolder } from '../../study-job-list/study-jobs.service'
     `,
   ],
 })
-export class ShareFolderListItemComponent implements OnInit {
+export class ShareFolderListItemComponent {
   @Input() folder!: IShareFolder
-
-  ngOnInit(): void {
-    console.log('folder in share-folder-list-item-component: ', this.folder)
-  }
 }

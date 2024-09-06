@@ -84,6 +84,33 @@
             [matTooltip]="'Abhängig von ' + container.dependentContainer.name"
           /> </mat-card
       ></mat-grid-tile>
+
+      <mat-grid-tile *ngIf="course.containerList.length == 0">
+        <mat-card
+          class="course-card"
+          style="overflow: visible; height: 200px; background-color: #3f51b5"
+        >
+          <div
+            mat-ripple
+            class="job"
+            style="
+              text-align: center;
+              display: flex;
+
+              flex-direction: row;
+
+              align-items: center;
+            "
+          >
+            <div style="width: 100%; text-align: center">
+              <mat-icon
+                style="color: white; font-size: 80px; height: 80px; width: 80px"
+                >add</mat-icon
+              >
+            </div>
+          </div>
+        </mat-card></mat-grid-tile
+      >
     </mat-grid-list>
 
     <div class="course-information">

@@ -19,6 +19,8 @@ import { ChangeStatusService } from '../ui/change-status/change-status.service'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { NameService } from 'src/app/shared/ui/name/name.service'
 import { PickCompetenceListService } from 'src/app/shared/ui/pick-competence-list/pick-competence-list.service'
+import { ITask } from 'src/app/shared/utils/interfaces'
+import { TaskFormService } from '../../shared/ui/task-form/task-form.service'
 
 @Component({
   selector: 'app-job',
@@ -51,8 +53,37 @@ export class JobComponent implements OnInit {
     private ui: DialogService,
     private nameService: NameService,
     private fb: FormBuilder,
-    private pickCompetence: PickCompetenceListService
+    private pickCompetence: PickCompetenceListService,
+    private editTaskService: TaskFormService
   ) {}
+
+  editTask(task: ITask) {
+    this.editTaskService
+      .editTask(task)
+      .pipe(
+        filterNullish(),
+        mergeMap((data) => this.service.putTask(task._id, data)),
+        tap(() => this.update()),
+        catchError((err) => {
+          this.ui.showToast('Aufgabe konnte nicht angepasst werden')
+          return err
+        })
+      )
+      .subscribe()
+  }
+
+  deleteTask(task: ITask) {
+    this.service
+      .deleteTask(task._id)
+      .pipe(
+        tap(() => this.update()),
+        catchError((err) => {
+          this.ui.showToast('Aufgabe konnte nicht gelöscht werden')
+          return err
+        })
+      )
+      .subscribe()
+  }
 
   publish() {
     const job = this.job$.value
@@ -109,6 +140,10 @@ export class JobComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateForm()
+    this.update()
+  }
+
+  private update() {
     this.route.params
       .pipe(
         tap((params) => {
@@ -145,7 +180,6 @@ export class JobComponent implements OnInit {
     this.pickCompetence
       .pickCompetenceList(job.competences.map((comp) => comp._id))
       .pipe(
-        tap((d) => console.info(d)),
         filterNullish(),
         map((competenceList) => competenceList.map((comp) => comp._id)),
         mergeMap((competenceList) =>
@@ -166,7 +200,7 @@ export class JobComponent implements OnInit {
         filterNullish(),
         tap((job) => {
           this.jobInfoForm.setValue({
-            subject: job.subject._id,
+            subject: job.subject?._id || null,
             credits: job.credits,
             description: job.notes || null,
           })
@@ -187,7 +221,11 @@ export class JobComponent implements OnInit {
       .addTask(job._id)
       .pipe(
         filterNullish(),
-        tap(() => this.service.update(job._id))
+        tap(() => this.service.update(job._id)),
+        catchError((err) => {
+          this.ui.showToast('Aufgabe Konnte nicht Hinzugefügt werden')
+          return err
+        })
       )
       .subscribe()
   }

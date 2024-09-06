@@ -11,6 +11,10 @@
     </div>
   </div>
 
+  <div class="row" *ngIf="progressList.length == 0">
+    <div class="sub-row">Keine Leistungen</div>
+  </div>
+
   <div class="row" *ngFor="let progress of progressList">
     <div class="sub-row">
       <!-- name -->

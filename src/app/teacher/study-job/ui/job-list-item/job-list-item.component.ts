@@ -20,10 +20,10 @@ export class IJobListItem implements IStudyJob {
   constructor(
     public _id: number,
     public name: string,
-    public subject: { _id: string; name: string },
     public taskListLength: number,
     public isPublished: boolean,
     public status: number,
+    public subject?: { _id: string; name: string },
     public isSelected = false,
     public isOneSelected = false
   ) {}
@@ -32,10 +32,10 @@ export class IJobListItem implements IStudyJob {
     return new IJobListItem(
       job._id,
       job.name,
-      job.subject,
       job.tasks.length,
       job.isPublished,
-      job.status
+      job.status,
+      job.subject
     )
   }
 }

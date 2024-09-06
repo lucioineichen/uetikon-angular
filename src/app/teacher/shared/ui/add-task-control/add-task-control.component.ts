@@ -33,13 +33,13 @@ export class AddTaskControlComponent implements OnInit {
   }
 
   addTask() {
-    this.service
-      .addTask()
-      .pipe(
-        filterNullish(),
-        tap((data) => this.control.value.push(data))
-      )
-      .subscribe()
+    // this.service
+    //   .addTask()
+    //   .pipe(
+    //     filterNullish(),
+    //     tap((data) => this.control.value.push(data))
+    //   )
+    //   .subscribe()
   }
 
   removeTask(i: number) {

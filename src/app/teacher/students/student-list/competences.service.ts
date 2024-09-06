@@ -8,25 +8,25 @@ import { IUfk } from '../../ufk/ufk.service'
 import { environment } from 'src/app/core/environment/environment.demo'
 import { IRef } from 'src/app/shared/utils/interfaces'
 
-export interface ICoursePerformance {
-  _id: number
-  student: {
-    _id: number
-    name: Name
-  }
-  teacher: {
-    _id: number
-    name: Name
-  }
-  competence: {
-    _id: string
-    name: string
-  }
-  title: string
-  grade: number
-  text: string
-  date: Date | string
-}
+// export interface ICoursePerformance {
+//   _id: number
+//   student: {
+//     _id: number
+//     name: Name
+//   }
+//   teacher: {
+//     _id: number
+//     name: Name
+//   }
+//   competence: {
+//     _id: string
+//     name: string
+//   }
+//   title: string
+//   grade: number
+//   text: string
+//   date: Date | string
+// }
 
 @Injectable({
   providedIn: 'root',
@@ -47,13 +47,6 @@ export class CompetencesService {
   }
 
   getCompetenceList(filter?: any) {
-    return this.getUfks().pipe(
-      tap((ufks) => {
-        ufks.forEach((ufk) => {
-          ufk.student.name = Name.Build(ufk.student.name)
-          ufk.teacher.name = Name.Build(ufk.teacher.name)
-        })
-      })
-    )
+    return this.getUfks()
   }
 }

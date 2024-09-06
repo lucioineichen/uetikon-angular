@@ -1,54 +1,90 @@
 <h1 mat-dialog-title>ÜFK Hinzufügen</h1>
 
 <mat-dialog-content class="mat-typography" style="width: 500px">
-  <mat-form-field style="width: 100%">
-    <mat-label>Titel</mat-label>
-    <input [formControl]="service.titleControl" matInput />
-  </mat-form-field>
+  <form [formGroup]="ufkForm">
+    <mat-form-field style="width: 100%">
+      <mat-label>Titel</mat-label>
+      <input formControlName="title" matInput />
+    </mat-form-field>
 
-  <app-select-ufk-students></app-select-ufk-students>
+    <div class="vertical-space"></div>
 
-  <div style="height: 20px"></div>
+    <mat-chip-listbox formControlName="grade" aria-label="Bewertung">
+      <mat-chip-option [value]="1">Gut</mat-chip-option>
+      <mat-chip-option [value]="0.4" color="warn">Schlecht</mat-chip-option>*
+    </mat-chip-listbox>
 
-  <mat-chip-listbox [formControl]="service.gradeControl" aria-label="Bewertung">
-    <mat-chip-option [value]="1">Gut</mat-chip-option>
-    <mat-chip-option [value]="0.6" color="accent">Genügend</mat-chip-option>
-    <mat-chip-option [value]="0.4" color="warn">Schlecht</mat-chip-option>
-  </mat-chip-listbox>
+    <div class="vertical-space"></div>
 
-  <div style="height: 20px"></div>
+    <div>
+      <span *ngIf="!ufkForm.get('student')?.value"
+        >Kein Schüler Ausgesucht*</span
+      >
+      <span *ngIf="ufkForm.get('student')?.value">{{ studentName }}</span>
+      <button mat-icon-button (click)="selectStudent()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
 
-  <app-subjects></app-subjects>
+    <div class="vertical-space"></div>
 
-  <div style="height: 20px"></div>
+    <div>
+      <span *ngIf="!ufkForm.get('competence')?.value"
+        >Keine Kompetenz Ausgesucht*</span
+      >
+      <span *ngIf="ufkForm.get('competence')?.value"
+        ><mat-chip [matTooltip]="competenceName!">{{
+          competenceName | slice : 0 : 35
+        }}</mat-chip></span
+      >
+      <button mat-icon-button (click)="selectCompetence()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
 
-  <mat-form-field style="width: 100%">
-    <mat-label>Kommentar</mat-label>
-    <textarea [formControl]="service.commentControl" matInput></textarea>
-  </mat-form-field>
+    <div class="vertical-space"></div>
 
-  <p *ngIf="service.competenceControl.value">
-    <span
-      *ngFor="let comp of service.competenceControl.value"
-      [matTooltip]="comp.name"
-      >{{ comp._id }}</span
-    >
-  </p>
+    <div>
+      <span *ngIf="!ufkForm.get('course')?.value">Kein Kurs Ausgesucht</span>
+      <span *ngIf="ufkForm.get('course')?.value">{{ courseName }}</span>
+      <button mat-icon-button (click)="selectCourse()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
 
-  <a mat-button color="primary" (click)="service.chooseCompetences()"
-    >+ Kompetenz Wählen</a
-  >
+    <div class="vertical-space"></div>
 
-  <div style="height: 30px"></div>
+    <div>
+      <span *ngIf="!ufkForm.get('subject')?.value">Kein Fach Ausgesucht</span>
+      <span
+        *ngIf="ufkForm.get('subject')?.value"
+        [matTooltip]="subjectLongName!"
+        >{{ subjectName }}</span
+      >
+      <button mat-icon-button (click)="selectSubject()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+
+    <div class="vertical-space"></div>
+
+    <app-file-upload (discard-file)="discardFile()" (select-file)="selectFile($event)"></app-file-upload>
+
+    <div class="vertical-space"></div>
+
+    <mat-form-field style="width: 100%">
+      <mat-label>Kommentar</mat-label>
+      <textarea formControlName="comment" matInput></textarea>
+    </mat-form-field>
+  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
   <button
     mat-button
-    [mat-dialog-close]="true"
-    [disabled]="service.form.invalid"
-    (click)="service.save()"
+    [mat-dialog-close]="{ form: ufkForm.value, file }"
+    [disabled]="ufkForm.invalid"
   >
     Speichern
   </button>

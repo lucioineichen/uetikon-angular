@@ -2,30 +2,28 @@
 
 <div style="padding: 50px">
   <div>
-    <!-- <app-class-control class="control"></app-class-control> -->
-    <app-student-control class="control"></app-student-control>
-    <app-subject-control
-      class="control"
-      [control]="service.subjectControl"
-      styleOption="filter"
-    ></app-subject-control>
-    <!-- <app-teacher-control class="control"></app-teacher-control> -->
-    <!-- <app-ufk-control class="control"></app-ufk-control> -->
-    <mat-form-field appearance="outline">
-      <mat-label>Datum</mat-label>
-      <input
-        [formControl]="service.dateControl"
-        matInput
-        [matDatepicker]="picker"
-      />
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="picker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+    <app-student-control [control]="studentControl"></app-student-control>
+    <span style="width: 10px; display: inline-block"></span>
+    <app-course-control [control]="courseControl"></app-course-control>
+    <span style="width: 10px; display: inline-block"></span>
+    <app-subject-control [control]="subjectControl"></app-subject-control>
+    <span style="width: 10px; display: inline-block"></span>
+    <app-ufk-control [control]="ufkControl"></app-ufk-control>
   </div>
 
-  <app-ufk-table></app-ufk-table>
+  <!-- <mat-form-field appearance="outline" style="width: 100%">
+    <mat-label>Suche</mat-label>
+    <input mat-input type="search" [formControl]="search" />
+  </mat-form-field> -->
+
+  <mat-form-field style="width: 100%">
+    <mat-label>Filter</mat-label>
+    <input type="search" matInput [formControl]="search" />
+  </mat-form-field>
+
+  <app-ufk-table
+    *ngIf="ufks$ | async as ufks"
+    [ufks]="ufks"
+    (delete)="deleteUfk($event)"
+  ></app-ufk-table>
 </div>

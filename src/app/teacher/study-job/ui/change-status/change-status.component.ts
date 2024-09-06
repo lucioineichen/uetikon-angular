@@ -14,7 +14,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog'
         [formControl]="statusCtrl"
       >
         <mat-radio-button class="example-radio-button" [value]="1">
-          Nicht Begonen
+          Nicht Begonnen
         </mat-radio-button>
         <mat-radio-button class="example-radio-button" [value]="2">
           In Bearbeitung

@@ -1,9 +1,0 @@
-<mat-chip-listbox
-  aria-label="Fach"
-  *ngIf="service.subjects$ | async as subs"
-  [formControl]="service.control"
->
-  <mat-chip-option [value]="sub._id" *ngFor="let sub of subs">{{
-    sub.name
-  }}</mat-chip-option>
-</mat-chip-listbox>

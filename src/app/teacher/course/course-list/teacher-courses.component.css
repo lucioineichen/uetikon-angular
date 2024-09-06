@@ -55,7 +55,22 @@
   color: white;
 }
 
+.no-course {
+  height: 210px;
+}
+
 .no-image-letter {
   width: 100%;
   text-align: center;
+}
+
+.file-link {
+  display: inline-block;
+  text-decoration: none;
+  color: #0366d6; /* Link color */
+  cursor: pointer;
+}
+/* Hover effect */
+.file-link:hover {
+  text-decoration: underline;
 }

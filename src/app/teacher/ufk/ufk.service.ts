@@ -1,49 +1,44 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { BehaviorSubject, Observable, catchError, map, tap } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
-import { CompetencesDataService } from 'src/app/shared/data/competences_data/competences-data.service'
-import { Name } from 'src/app/core/auth/user'
+import {
+  CompetencesDataService,
+  IRawSubject,
+} from 'src/app/shared/data/competences_data/competences-data.service'
 import { environment } from 'src/app/core/environment/environment.demo'
+import { ICompetence, IFile, IRef } from 'src/app/shared/utils/interfaces'
 
 export interface IUfk {
   _id: number
-  student: {
-    _id: number
-    name: Name
-  }
-  teacher: {
-    _id: number
-    name: Name
-  }
-  competence: {
-    _id: string
-    name: string
-  }
+  student: IRef
+  teacher: IRef
+  competence: ICompetence
   title: string
   grade: number
   text: string
   date: Date | string
+  course?: IRef
+  subject?: IRawSubject
+  file: IFile
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class UfkService {
-  classControl = new FormControl()
-  studentControl = new FormControl()
-  teacherControl = new FormControl()
-  subjectControl = new FormControl()
-  selectedUfks$ = new BehaviorSubject<string[]>([])
-  dateControl = new FormControl()
-  searchControl = new FormControl()
+  // classControl = new FormControl()
+  // studentControl = new FormControl()
+  // teacherControl = new FormControl()
+  // subjectControl = new FormControl()
+  // selectedUfks$ = new BehaviorSubject<string[]>([])
+  // dateControl = new FormControl()
+  // searchControl = new FormControl()
 
-  ufks$ = new BehaviorSubject<IUfk[] | undefined>(undefined)
-
-  classes$ = new BehaviorSubject<{ _id: number; name: string }[] | undefined>(
-    undefined
-  )
+  // classes$ = new BehaviorSubject<{ _id: number; name: string }[] | undefined>(
+  //   undefined
+  // )
 
   constructor(
     private http: HttpClient,
@@ -51,27 +46,53 @@ export class UfkService {
     private competencesData: CompetencesDataService
   ) {}
 
-  private getUfks(): Observable<IUfk[]> {
+  postUfk(data: {
+    form: {
+      title: string
+      grade: number
+      student: number
+      competence: string
+      course: number | null
+      subject: number | null
+      comment: string | null
+    }
+    file: File | null
+  }) {
+    const formData = new FormData()
+    if (data.file) formData.append('file', data.file)
+    formData.append('title', data.form.title)
+    formData.append('grade', JSON.stringify(data.form.grade))
+    formData.append('student', JSON.stringify(data.form.student))
+    formData.append('competence', data.form.competence)
+    if (data.form.course)
+      formData.append('course', JSON.stringify(data.form.course))
+    if (data.form.subject)
+      formData.append('subject', JSON.stringify(data.form.subject))
+    if (data.form.comment) formData.append('comment', data.form.comment)
+
+    return this.http.post(`${environment.baseUrl}/ufks`, formData)
+  }
+
+  deleteUfk(id: number) {
+    return this.http.delete(`${environment.baseUrl}/ufks/${id}`)
+  }
+
+  getUfks(): Observable<IUfk[]> {
     return this.http.get<IUfk[]>(`${environment.baseUrl}/ufks`)
   }
 
-  update() {
-    this.getUfks()
-      .pipe(
-        tap((ufks) => {
-          ufks.forEach((ufk) => {
-            ufk.student.name = Name.Build(ufk.student.name)
-            ufk.teacher.name = Name.Build(ufk.teacher.name)
-          })
-        }),
-        tap((ufks) => {
-          this.ufks$.next(ufks)
-        }),
-        catchError((err) => {
-          this.ui.showToast('ÜFKs konnten nicht geladen werden')
-          return err
-        })
-      )
-      .subscribe()
+  getFilteredUfks(
+    student?: number,
+    course?: number,
+    subject?: number,
+    competence?: string
+  ) {
+    let params = new HttpParams()
+    if (student) params = params.set('student', student)
+    if (course) params = params.set('course', course)
+    if (subject) params = params.set('subject', subject)
+    if (competence) params = params.set('competence', competence)
+
+    return this.http.get<IUfk[]>(`${environment.baseUrl}/ufks`, { params })
   }
 }
