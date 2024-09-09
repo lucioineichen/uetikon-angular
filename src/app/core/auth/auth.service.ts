@@ -49,11 +49,13 @@ export const defaultAuthStatus: IAuthStatus = {
 }
 
 export interface IAuthService {
-  readonly authStatus$: BehaviorSubject<IAuthStatus>
+  readonly authStatus$: BehaviorSubject<IAuthStatus | undefined>
   readonly currentUser$: BehaviorSubject<IUser>
   login(email: string, password: string): Observable<Role>
   logout(clearToken?: boolean): void
   getToken(): IJwtToken | null
+  getCurrentUser(): Observable<User>
+  transformJwtToken(token: IJwtToken): IAuthStatus
 }
 
 @Injectable()
@@ -75,7 +77,7 @@ export abstract class AuthService implements IAuthService {
     }
   }
 
-  readonly authStatus$ = new BehaviorSubject<IAuthStatus>(defaultAuthStatus)
+  readonly authStatus$ = new BehaviorSubject<IAuthStatus | undefined>(undefined)
   readonly currentUser$ = new BehaviorSubject<IUser>(new User())
 
   login(email: string, password: string): Observable<Role> {
@@ -122,6 +124,6 @@ export abstract class AuthService implements IAuthService {
     email: string,
     password: string
   ): Observable<IJwtToken>
-  protected abstract transformJwtToken(token: IJwtToken): IAuthStatus
-  protected abstract getCurrentUser(): Observable<User>
+  abstract transformJwtToken(token: IJwtToken): IAuthStatus
+  abstract getCurrentUser(): Observable<User>
 }

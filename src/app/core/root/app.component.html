@@ -32,7 +32,6 @@
 
   <div *ngIf="auth.status?.userRole === 'teacher'">
     <a
-      *ngIf="isPermitted(0, auth.status)"
       class="link"
       mat-button
       routerLink="/teacher/courses"
@@ -40,7 +39,6 @@
       >Kurse</a
     >
     <a
-      *ngIf="isPermitted(2, auth.status)"
       class="link"
       mat-button
       routerLink="/teacher/study-jobs"

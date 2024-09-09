@@ -11,7 +11,7 @@ import {
   UrlSegment,
   UrlTree,
 } from '@angular/router'
-import { Observable, map } from 'rxjs'
+import { Observable, map, mergeMap, of, tap } from 'rxjs'
 
 import { DialogService } from '../../shared/ui/dialogs/ui.service'
 import { Role } from './auth.enum'
@@ -61,14 +61,24 @@ export class AuthGuard {
 
   protected checkLogin(route?: ActivatedRouteSnapshot): Observable<boolean> {
     return this.authService.authStatus$.pipe(
+      mergeMap((status) => {
+        if (status) return of(status)
+        return this.authService
+          .getCurrentUser()
+          .pipe(
+            map((user) =>
+              this.authService.transformJwtToken(this.authService.getToken()!)
+            )
+          )
+      }),
       map((authStatus) => {
         const roleMatch = route
           ? this.checkRoleMatch(authStatus.userRole, route)
           : true
         const allowLogin = authStatus.isAuthenticated && roleMatch
         if (!allowLogin) {
-          console.log('authStatus', authStatus)
-          console.log('expectedRole', route?.data['expectedRole'])
+          // console.log('authStatus', authStatus)
+          // console.log('expectedRole', route?.data['expectedRole'])
           this.showAlert(authStatus.isAuthenticated, roleMatch)
           this.router.navigate(['login'], {
             queryParams: {
