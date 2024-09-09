@@ -25,8 +25,10 @@ import { MatNativeDateModule } from '@angular/material/core'
 import { MatTreeModule } from '@angular/material/tree'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatBadgeModule } from '@angular/material/badge'
+import { StatusPipe } from './status.pipe'
 
-const modules = [
+const modules: any[] = [
   MatChipsModule,
   MatTreeModule,
   MatNativeDateModule,
@@ -53,10 +55,12 @@ const modules = [
   MatMenuModule,
   MatTableModule,
   MatAutocompleteModule,
+  MatBadgeModule,
 ]
 
 @NgModule({
   imports: modules,
-  exports: modules,
+  exports: modules.concat(StatusPipe),
+  declarations: [StatusPipe],
 })
 export class MaterialModule {}

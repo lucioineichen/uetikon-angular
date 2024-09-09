@@ -15,6 +15,7 @@ import { environment } from 'src/app/core/environment/environment.demo'
 import { CourseCreatorService } from '../../shared/ui/teacher-course-creator/teacher-course-creator.service'
 import { ICourse } from 'src/app/shared/utils/interfaces'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { AuthService } from 'src/app/core/auth/auth.service'
 
 export interface ICoursePre {
   _id: number
@@ -35,11 +36,15 @@ export class CourseService {
   constructor(
     private httpClient: HttpClient,
     private ui: DialogService,
-    private courseCreator: CourseCreatorService
+    private courseCreator: CourseCreatorService,
+    private auth: AuthService
   ) {}
 
   private getCourses(): Observable<ICourse[]> {
-    let params = new HttpParams().set('self', true)
+    let params = new HttpParams().set(
+      'teacher',
+      this.auth.currentUser$.value._id
+    )
 
     return this.httpClient.get<ICourse[]>(`${environment.baseUrl}/courses`, {
       params: params,

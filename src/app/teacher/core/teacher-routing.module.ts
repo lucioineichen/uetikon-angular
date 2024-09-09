@@ -29,7 +29,7 @@ const routes: Routes = [
     },
   },
   { path: 'study-jobs', component: StudyJobListComponent },
-  { path: 'students', component: StudentListComponent },
+  // { path: 'students', component: StudentListComponent },
   { path: 'ufk', component: UfkComponent },
   { path: 'students/:id', component: StudentDetailComponent },
   { path: 'study-jobs/share-folder/:id', component: ShareFolderComponent },

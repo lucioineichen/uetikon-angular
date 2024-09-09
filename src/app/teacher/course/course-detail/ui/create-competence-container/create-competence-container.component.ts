@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { SubSink } from 'subsink'
 import { CreateCompetenceContainerService } from './create-competence-container.service'
-import { ICompetence, IRef } from 'src/app/shared/utils/interfaces'
+import { ICompetence, IRef, IStringRef } from 'src/app/shared/utils/interfaces'
 import { map, tap } from 'rxjs'
 // import { SelectCompetencesService } from 'src/app/shared/ui/select-competences/select-competences.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
@@ -26,7 +26,7 @@ export class CreateCompetenceContainerComponent implements OnInit, OnDestroy {
   }
 
   get competenceList() {
-    return this.form.get('competenceList') as FormControl<ICompetence[]>
+    return this.form.get('competenceList') as FormControl<IStringRef[]>
   }
 
   constructor(

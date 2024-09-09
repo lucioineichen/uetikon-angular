@@ -1,5 +1,7 @@
+import { Location } from '@angular/common'
 import { Component } from '@angular/core'
 import { IFile } from 'src/app/shared/utils/interfaces'
+import { JobService } from './job.service'
 
 @Component({
   selector: 'app-study-job',
@@ -7,9 +9,9 @@ import { IFile } from 'src/app/shared/utils/interfaces'
   styleUrls: ['./study-job.component.css'],
 })
 export class JobDetialComponent {
-  file: IFile = {
-    extension: 'pdf',
-    name: 'Essay_Studienstiftung_eUFi0uq.pdf',
-    url: 'http://127.0.0.1:8000/download/Essay_Studienstiftung_eUFi0uq.pdf',
+  constructor(private service: JobService, private location: Location) {}
+
+  goBack() {
+    this.location.back()
   }
 }

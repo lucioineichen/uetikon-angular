@@ -26,6 +26,7 @@ export class ChooseJobService {
   openFolder(id: number) {
     this.getFolder(id)
       .pipe(
+        tap(console.info),
         tap((folder) => {
           this.folder$.next(folder)
         }),

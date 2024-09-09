@@ -7,7 +7,7 @@ import {
 } from 'src/app/shared/data/competences_data/competences.data'
 import { PickCompetenceListService } from 'src/app/shared/ui/pick-competence-list/pick-competence-list.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
-import { ICompetence, IStudyJob } from 'src/app/shared/utils/interfaces'
+import { IStudyJob, IStringRef } from 'src/app/shared/utils/interfaces'
 import { SubSink } from 'subsink'
 import { CompetenceContainerService } from './competence-container.service'
 
@@ -56,7 +56,7 @@ import { CompetenceContainerService } from './competence-container.service'
   ],
 })
 export class CompetenceContainerComponent implements OnInit, OnDestroy {
-  @Input('competence-list') competenceList!: ICompetence[]
+  @Input('competence-list') competenceList!: IStringRef[]
   @Input() id!: number
   readonly tree$ = new BehaviorSubject<ISubject[]>([])
   readonly sink = new SubSink()
@@ -76,7 +76,7 @@ export class CompetenceContainerComponent implements OnInit, OnDestroy {
 
   extractCompetenceList(subject: ISubject) {
     const topicList = subject.topics
-    let competenceList: ICompetence[] = []
+    let competenceList: IStringRef[] = []
     for (let topic of topicList) {
       if (topic.competences)
         competenceList = competenceList.concat(topic.competences)
@@ -89,7 +89,7 @@ export class CompetenceContainerComponent implements OnInit, OnDestroy {
   }
 
   extractFromSubTopicList(subTopicList: ISubTopic[]) {
-    let competenceList: ICompetence[] = []
+    let competenceList: IStringRef[] = []
     for (let sub of subTopicList)
       competenceList = competenceList.concat(sub.competences)
     return competenceList

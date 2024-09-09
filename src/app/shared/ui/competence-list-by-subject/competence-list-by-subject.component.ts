@@ -6,7 +6,7 @@ import {
 } from '../../data/competences_data/competences.data'
 import { CompetencesDataService } from '../../data/competences_data/competences-data.service'
 import { filterNullish } from '../../utils/filternullish'
-import { ICompetence } from '../../utils/interfaces'
+import { IStringRef } from '../../utils/interfaces'
 import { ChooseJobService } from 'src/app/teacher/shared/ui/choose-job/choose-job.service'
 import { SubSink } from 'subsink'
 
@@ -46,7 +46,7 @@ import { SubSink } from 'subsink'
   ],
 })
 export class CompetenceListBySubjectComponent {
-  @Input('competence-list') competenceList!: ICompetence[]
+  @Input('competence-list') competenceList!: IStringRef[]
   readonly tree$ = new BehaviorSubject<ISubject[]>([])
 
   constructor(private competenceData: CompetencesDataService) {}
@@ -60,7 +60,7 @@ export class CompetenceListBySubjectComponent {
 
   extractCompetenceList(subject: ISubject) {
     const topicList = subject.topics
-    let competenceList: ICompetence[] = []
+    let competenceList: IStringRef[] = []
     for (let topic of topicList) {
       if (topic.competences)
         competenceList = competenceList.concat(topic.competences)
@@ -73,7 +73,7 @@ export class CompetenceListBySubjectComponent {
   }
 
   extractFromSubTopicList(subTopicList: ISubTopic[]) {
-    let competenceList: ICompetence[] = []
+    let competenceList: IStringRef[] = []
     for (let sub of subTopicList)
       competenceList = competenceList.concat(sub.competences)
     return competenceList

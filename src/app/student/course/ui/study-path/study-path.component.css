@@ -1,0 +1,39 @@
+.lock {
+  height: 45px;
+  position: absolute;
+  right: -15px;
+  bottom: -15px;
+  z-index: 1000;
+  transition: height 0.1s;
+}
+
+.lock:hover {
+  height: 48px;
+}
+
+.job {
+  /* background-color: #f6f6f6; */
+  height: 100%;
+  width: 350px;
+  padding: 0px 10px;
+}
+
+.chip {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.job-choice-container {
+  width: 350px;
+  padding: 20px 20px;
+}
+
+.job:hover {
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 200ms ease;
+}
+
+.jobs {
+  margin-bottom: 50px;
+}

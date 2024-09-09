@@ -6,7 +6,7 @@ import {
   ISubject,
   ITopic,
 } from '../../data/competences_data/competences.data'
-import { ICompetence } from '../../utils/interfaces'
+import { IStringRef } from '../../utils/interfaces'
 import { MatDialog } from '@angular/material/dialog'
 import { PickCompetenceListComponent } from './pick-competence-list.component'
 
@@ -155,7 +155,7 @@ export class PickCompetenceListService {
     return competences
   }
 
-  private mapCompetence(competence: ICompetence): IPickCompetence {
+  private mapCompetence(competence: IStringRef): IPickCompetence {
     return {
       _id: competence._id,
       name: competence.name,

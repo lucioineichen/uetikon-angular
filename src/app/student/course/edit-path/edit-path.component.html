@@ -1,0 +1,50 @@
+<div style="position: absolute; top: 0; width: 100%; z-index: 100">
+  <!-- Sub Header -->
+  <mat-toolbar
+    color="primary"
+    fxLayoutGap="8px"
+    style="position: fixed; z-index: 10000"
+  >
+    <a mat-button routerLink="/teacher/students" (click)="goBack()"
+      ><mat-icon>arrow_back</mat-icon> Zurück</a
+    >
+    <span class="toolbar-title">LernWeg: {{ name }}</span>
+  </mat-toolbar>
+
+  <div
+    class="main-content"
+    *ngIf="containerPaths$ | async as containerPaths; else loading"
+  >
+    <div *ngFor="let cPath of containerPaths">
+      <div class="container">
+        <app-mandetory-path
+          *ngIf="cPath.container.type == 'mandetory'"
+          [path]="cPath"
+        ></app-mandetory-path>
+
+        <app-choice-path
+          *ngIf="cPath.container.type == 'choice'"
+          [path]="cPath"
+        ></app-choice-path>
+
+        <app-competence-path
+          *ngIf="cPath.container.type == 'competence'"
+          [path]="cPath"
+        >
+        </app-competence-path>
+      </div>
+    </div>
+
+    <div style="height: 500px"></div>
+  </div>
+
+  <ng-template #loading>
+    <div *ngIf="!containerPaths$.hasError; else error">
+      Lädt Kurs...
+    </div></ng-template
+  >
+
+  <ng-template #error
+    >Kurs konnten nicht geladen werden, lade die Seite neu</ng-template
+  >
+</div>

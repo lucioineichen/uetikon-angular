@@ -1,0 +1,74 @@
+<mat-grid-list
+  class="jobs"
+  gutterSize="20px"
+  rowHeight="240px"
+  [cols]="breakpoint"
+  (window:resize)="onResize($event)"
+>
+  <mat-grid-tile *ngFor="let selection of path$ | async">
+    <mat-card class="course-card" style="overflow: visible">
+      <div mat-ripple class="job" (click)="openJob(selection.studyJob)">
+        <mat-card-header>
+          <mat-card-title>{{ selection.studyJob.name }}</mat-card-title>
+          <mat-card-subtitle>
+            <span *ngIf="selection.container.mandetoryJob"
+              >Obligatorischer LernJob</span
+            >
+            <span *ngIf="!selection.container.mandetoryJob">{{
+              selection.container.name
+            }}</span>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div style="height: 40px"></div>
+          <mat-chip class="chip">{{ selection.deadline | date }}</mat-chip>
+          <mat-chip class="chip" *ngIf="selection.status != 1"
+            >{{ selection.status | status }}
+          </mat-chip>
+          <mat-chip class="chip" *ngIf="selection.progress"
+            >Fortschritt: {{ selection.progress.progress | percent }} </mat-chip
+          ><mat-chip class="chip" *ngIf="selection.progress?.grade"
+            >Note: {{ selection.progress?.grade | percent }}
+          </mat-chip>
+        </mat-card-content>
+      </div>
+
+      <img
+        *ngIf="selection.dependentContainer && selection.isLocked"
+        class="lock"
+        src="../../../assets/lock.svg"
+        alt="no svg"
+        [matTooltip]="'Abhängig von ' + selection.dependentContainer.name"
+      /> </mat-card
+  ></mat-grid-tile>
+
+  <mat-grid-tile *ngIf="((path$ | async)?.length || 0) == 0">
+    <mat-card class="course-card" style="overflow: visible; height: 200px">
+      <div
+        mat-ripple
+        class="job"
+        style="
+          text-align: center;
+          display: flex;
+
+          flex-direction: row;
+          height: 100%;
+          align-items: center;
+        "
+      >
+        <div style="width: 100%; text-align: center">
+          <p
+            style="
+              margin-left: 20px;
+              margin-right: 20px;
+              font-size: 20px;
+              /* color: white; */
+            "
+          >
+            LernWeg Erstellen
+          </p>
+        </div>
+      </div>
+    </mat-card></mat-grid-tile
+  >
+</mat-grid-list>

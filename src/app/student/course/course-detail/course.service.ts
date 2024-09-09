@@ -1,14 +1,10 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
-
-export interface ICourse {
-  _id: number
-  name: string
-  credits: number
-}
+import { ICourse, IStudentCourse } from 'src/app/shared/utils/interfaces'
+import { AuthService } from 'src/app/core/auth/auth.service'
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +34,8 @@ export class CourseDetailService {
   }
 
   getCourse(id: number) {
-    return this.httpClient.get<ICourse>(`${environment.baseUrl}/course/${id}`)
+    return this.httpClient.get<IStudentCourse>(
+      `${environment.baseUrl}/student/course/${id}`
+    )
   }
 }

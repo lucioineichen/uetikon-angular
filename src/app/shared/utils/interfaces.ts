@@ -1,5 +1,6 @@
 import { Role } from '../../core/auth/auth.enum'
 import { IName, IUser, Name, User } from '../../core/auth/user'
+import { IRawSubject } from '../data/competences_data/competences-data.service'
 
 export interface IStudentCourse {
   _id: number
@@ -7,6 +8,11 @@ export interface IStudentCourse {
   credits: number
   grade?: number
   progress: number
+}
+
+export interface IStringRef {
+  _id: string
+  name: string
 }
 
 export interface IRef {
@@ -125,6 +131,9 @@ export interface IFile {
 export interface ICompetence {
   _id: string
   name: string
+  subTopic?: IStringRef
+  topic: IStringRef
+  subject: IRawSubject
 }
 
 export interface IMaterial {
@@ -154,6 +163,10 @@ export interface ICourse {
   isProject: boolean
   imageUrl: string
   containerList: IContainer[]
+}
+
+export interface IStudentCourse extends ICourse {
+  notMetContainerList: IRef[]
 }
 
 export interface ITaskProgress {
@@ -197,6 +210,19 @@ export class Progress implements IProgress {
   }
 }
 
+export interface IJobSelection {
+  _id: number
+  name: string
+  container: IContainer
+  studentParticipant: IRef
+  studyJob: IStudyJob
+  deadline: string
+  status: number
+  dependentContainer?: IRef
+  isLocked: boolean
+  progress: IProgress | undefined
+}
+
 export interface IStudentParticipant {
   _id: number
   student: IRef
@@ -204,8 +230,15 @@ export interface IStudentParticipant {
   credits: number
   isActive: boolean
   progressList: IProgress[]
-  selectedContainerList: {
-    container: IContainer
-    jobProgressList?: IProgress[]
-  }[]
+  // selectedContainerList: {
+  //   container: IContainer
+  //   jobProgressList?: IProgress[]
+  // }[]
+}
+
+export interface IContainerPath {
+  container: IContainer
+  isMet: boolean
+  selections: IJobSelection[]
+  missingCompetences: ICompetence[]
 }

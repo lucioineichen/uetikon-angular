@@ -1,0 +1,21 @@
+.toolbar-title {
+  margin-left: 20px;
+}
+
+.main-content {
+  margin-top: 150px;
+  margin-left: 14%;
+  margin-right: 14%;
+  z-index: 0;
+}
+
+.container {
+  /* background-color: #f6f6f6; */
+  height: 200px;
+  width: 350px;
+  padding: 20px 20px;
+}
+
+.chip:hover {
+  cursor: default;
+}

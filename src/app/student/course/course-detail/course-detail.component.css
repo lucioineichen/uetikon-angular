@@ -1,0 +1,105 @@
+.clickable:hover {
+  cursor: pointer;
+}
+
+:host /deep/ .mat-badge-medium.mat-badge-below .mat-badge-content {
+  bottom: -14px !important;
+}
+
+:host
+  /deep/
+  .mat-badge-medium.mat-badge-overlap.mat-badge-before
+  .mat-badge-content {
+  left: -14px;
+}
+
+.toolbar-title {
+  margin-left: 20px;
+}
+
+.main-content {
+  margin-top: 150px;
+  margin-left: 14%;
+  margin-right: 14%;
+  z-index: 0;
+}
+
+.title {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.lock {
+  height: 45px;
+  position: absolute;
+  right: -15px;
+  bottom: -15px;
+  z-index: 1000;
+  transition: height 0.1s;
+}
+
+.lock:hover {
+  height: 48px;
+}
+
+.job {
+  /* background-color: #f6f6f6; */
+  height: 100%;
+  width: 350px;
+  padding: 20px 20px;
+}
+
+.chip {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.job-choice-container {
+  width: 350px;
+  padding: 20px 20px;
+}
+
+.job:hover {
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 200ms ease;
+}
+
+.jobs {
+  margin-bottom: 50px;
+}
+
+/* .container {
+  position: fixed;
+  right: 0;
+  padding: 16px;
+  z-index: 1000;
+} */
+
+.course-information {
+  margin-bottom: 50px;
+}
+
+.course-information-card {
+  padding: 16px;
+}
+
+.wrapper {
+  /* width: 500px; */
+  /* border: 1px solid black; */
+  overflow: hidden; /* add this to contain floated children */
+}
+
+.left {
+  width: 50%;
+  float: left; /* add this */
+  /* border: 1px solid red; */
+}
+
+.right {
+  /* margin-left: 10px; */
+  /* border: 1px solid green; */
+  float: left;
+  width: 49%;
+}
