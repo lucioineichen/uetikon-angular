@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core'
 export class CacheService {
   getItem<T>(key: string): T | null {
     const data = localStorage.getItem(key)
+    console.log('local storgage, key: ', key, ', data: ', data)
     if (data != null) {
       return JSON.parse(data)
     }
