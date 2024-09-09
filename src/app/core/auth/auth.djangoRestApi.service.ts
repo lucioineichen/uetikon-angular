@@ -61,6 +61,7 @@ export class DjangoRestApiAuthService extends AuthService {
 
   getCurrentUser(): Observable<User> {
     return this.httpClient.get<IUser>(`${environment.baseUrl}/user/me`).pipe(
+      tap(console.log),
       map(User.Build),
       tap((currentUser) => {
         this.currentUser$.next(currentUser)
