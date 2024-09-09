@@ -67,6 +67,8 @@ export class AuthGuard {
           : true
         const allowLogin = authStatus.isAuthenticated && roleMatch
         if (!allowLogin) {
+          console.log('authStatus', authStatus)
+          console.log('expectedRole', route?.data['expectedRole'])
           this.showAlert(authStatus.isAuthenticated, roleMatch)
           this.router.navigate(['login'], {
             queryParams: {
