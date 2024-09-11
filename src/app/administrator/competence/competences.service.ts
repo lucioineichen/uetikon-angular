@@ -24,10 +24,9 @@ export class CompetencesService {
 
   init() {
     this.httpClient
-      .post<ICompetence[]>(
-        `${environment.baseUrl}/administrator/competences/init`,
-        { subjects: this.data.get_competences() }
-      )
+      .put<ICompetence[]>(`${environment.baseUrl}/competences`, {
+        subjects: this.data.get_competences(),
+      })
       .pipe(
         tap(() => this.ui.showToast('Erfolgreich Kompetenzen Initialisiert')),
         catchError((err) => {
