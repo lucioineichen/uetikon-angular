@@ -4,7 +4,7 @@
     <span class="title" *ngIf="task.title">{{ task.title | titlecase }}</span>
 
     <span *ngIf="!task.title && task.file">
-      <img
+      <!-- <img
         class="fileIcon"
         *ngIf="isKnownExtension(task.file.extension)"
         src="../../../assets/pdf.png"
@@ -14,7 +14,8 @@
         [ngClass]="{'title': !isKnownExtension(task.file.extension)}"
         (click)="openFile(task.file.url)"
         >{{ task.file.name }}</a
-      >
+      > -->
+      <app-file [file]="task.file"></app-file>
     </span>
 
     <button class="edit-button" mat-icon-button [mat-menu-trigger-for]="menu">
@@ -59,7 +60,7 @@
   <!-- Detail -->
   <div *ngIf="isExpanded">
     <span class="title" *ngIf="task.title && task.file">
-      <img
+      <!-- <img
         class="fileIcon"
         *ngIf="isKnownExtension(task.file.extension)"
         src="../../../assets/pdf.png"
@@ -69,7 +70,8 @@
         [ngClass]="{'title': !isKnownExtension(task.file.extension)}"
         (click)="openFile(task.file.url)"
         >{{ task.file.name }}</a
-      >
+      > -->
+      <app-file [file]="task.file"></app-file>
     </span>
     <p style="margin-bottom: 0; margin-top: 16px" class="mat-typographie">
       {{ task.text }}
