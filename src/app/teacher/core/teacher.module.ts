@@ -25,6 +25,7 @@ import { CourseListModule } from '../course/course-list/course-list.module'
 import { ContainerDetailModule } from '../course/container-detail/container-detail.module'
 import { ShareFolderModule } from '../study-job/share-folder/share-folder.module'
 import { StudentParticipantModule } from '../course/student-participant/student-participant.module'
+import { EditPathModule } from 'src/app/student/course/edit-path/edit-path.module'
 
 @NgModule({
   declarations: [TeacherComponent],
@@ -47,7 +48,7 @@ import { StudentParticipantModule } from '../course/student-participant/student-
     AddTaskControlModule,
     StudyJobListModule,
     UfkModule,
-    // StudentListModule,
+    EditPathModule,
     JobModule,
     StudentDetailModule,
     CourseDetailModule,

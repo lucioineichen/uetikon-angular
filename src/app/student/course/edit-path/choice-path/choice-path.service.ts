@@ -16,9 +16,9 @@ export class ChoicePathService {
     })
   }
 
-  postJobSelection(containerId: number, date: string, job?: number) {
+  postJobSelection(containerId: number, studentId: number, date: string, job?: number) {
     return this.http.post(
-      `${environment.baseUrl}/container/${containerId}/student/${this.auth.currentUser$.value._id}/path`,
+      `${environment.baseUrl}/container/${containerId}/student/${studentId}/path`,
       job ? { deadline: date, job } : { deadline: date }
     )
   }

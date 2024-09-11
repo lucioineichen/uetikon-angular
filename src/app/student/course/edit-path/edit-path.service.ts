@@ -8,11 +8,11 @@ import { IContainerPath } from 'src/app/shared/utils/interfaces'
   providedIn: 'root',
 })
 export class EditPathService {
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private http: HttpClient) {}
 
-  getContainerPaths(courseId: number) {
+  getContainerPaths(courseId: number, studentId: number) {
     return this.http.get<IContainerPath[]>(
-      `${environment.baseUrl}/course/${courseId}/student/${this.auth.currentUser$.value._id}/edit-path`
+      `${environment.baseUrl}/course/${courseId}/student/${studentId}/edit-path`
     )
   }
 }

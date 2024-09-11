@@ -11,6 +11,7 @@ import { StudentDetailComponent } from '../students/student-detail/student.compo
 import { ContainerDetailComponent } from '../course/container-detail/container-detail.component'
 import { ShareFolderComponent } from '../study-job/share-folder/share-folder.component'
 import { StudentParticipantComponent } from '../course/student-participant/student-participant.component'
+import { EditPathComponent } from 'src/app/student/course/edit-path/edit-path.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/teacher/courses', pathMatch: 'full' },
@@ -34,8 +35,12 @@ const routes: Routes = [
   { path: 'students/:id', component: StudentDetailComponent },
   { path: 'study-jobs/share-folder/:id', component: ShareFolderComponent },
   {
-    path: 'courses/:courseId/student-participant/:id',
+    path: 'courses/:courseId/student/:studentId',
     component: StudentParticipantComponent,
+  },
+  {
+    path: 'course/:courseId/student/:studentId/edit-path',
+    component: EditPathComponent,
   },
 ]
 

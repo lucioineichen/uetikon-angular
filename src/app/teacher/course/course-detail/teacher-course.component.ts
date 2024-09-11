@@ -108,7 +108,7 @@ export class CourseDetailComponent implements OnInit {
     studentName: string
   ) {
     this.router.navigate(
-      ['teacher', 'courses', courseId, 'student-participant', studentId],
+      ['teacher', 'courses', courseId, 'student', studentId],
       { queryParams: { courseName: courseName, name: studentName } }
     )
   }

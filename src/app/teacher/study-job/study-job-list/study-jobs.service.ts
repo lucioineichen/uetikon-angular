@@ -86,6 +86,17 @@ export class StudyJobsService {
     private createShareFolder: CreateShareFolderService
   ) {}
 
+  postJob(name: string): Observable<{}> {
+    return this.http.post(`${environment.baseUrl}/study-jobs`, {
+      name,
+      saveAt: {
+        storeFolderId: null,
+        shareFolderId: null,
+        toRoot: true
+      }
+    })
+  }
+
   toggleSelection(isSelected: boolean, id: number) {
     if (isSelected) {
       this.selectedJobs$.next(this.selectedJobs$.value.concat(id))

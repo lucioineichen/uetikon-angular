@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { PlanDateService } from 'src/app/shared/ui/plan-date/plan-date.service'
 import { IContainerPath, IStudyJob } from 'src/app/shared/utils/interfaces'
 import { ChoicePathService } from './choice-path.service'
@@ -6,6 +6,8 @@ import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { catchError, map, merge, mergeMap, tap } from 'rxjs'
 import { SelectJobService } from './select-job/select-job.service'
+import { ActivatedRoute } from '@angular/router'
+import { AuthService } from 'src/app/core/auth/auth.service'
 
 @Component({
   selector: 'app-choice-path [path]',
@@ -80,12 +82,15 @@ import { SelectJobService } from './select-job/select-job.service'
 })
 export class ChoicePathComponent {
   @Input() path!: IContainerPath
+  @Output() update = new EventEmitter<true>()
 
   constructor(
     private planDate: PlanDateService,
     private service: ChoicePathService,
     private ui: DialogService,
-    private selectJobService: SelectJobService
+    private selectJobService: SelectJobService,
+    private route: ActivatedRoute,
+    private auth: AuthService
   ) {}
 
   selectJob() {
@@ -109,6 +114,8 @@ export class ChoicePathComponent {
               data.job
             )
           ),
+          tap(() => this.update.emit(true)),
+
           catchError((err) => {
             this.ui.showToast('Konnte nicht Updaten')
             return err
@@ -123,10 +130,14 @@ export class ChoicePathComponent {
           mergeMap((data) =>
             this.service.postJobSelection(
               this.path.container._id,
+              this.route.snapshot.params['studentId'] ||
+                this.auth.currentUser$.value._id,
               data.deadline,
               data.job
             )
           ),
+          tap(() => this.update.emit(true)),
+
           catchError((err) => {
             this.ui.showToast('Konnte nicht Updaten')
             return err
@@ -158,8 +169,14 @@ export class ChoicePathComponent {
           if (this.path.selections.length > 0)
             return this.service.putPath(this.path.selections[0]._id, date)
 
-          return this.service.postJobSelection(this.path.container._id, date)
+          return this.service.postJobSelection(
+            this.path.container._id,
+            this.route.snapshot.params['studentId'] ||
+              this.auth.currentUser$.value._id,
+            date
+          )
         }),
+        tap(() => this.update.emit(true)),
         catchError((err) => {
           this.ui.showToast('Datum konnte nicht geändert werden')
           return err

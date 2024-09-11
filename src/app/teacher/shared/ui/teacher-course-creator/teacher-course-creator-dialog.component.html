@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Erstelle einen Kurs</h2>
 <mat-dialog-content class="mat-typography" style="width: 350px">
-  <form [formGroup]="createCourseForm" fxLayout="column">
+  <form [formGroup]="form" fxLayout="column">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
       <mat-form-field fxFlex style="width: 100%">
         <input
@@ -9,10 +9,10 @@
           aria-label="Name"
           formControlName="name"
         />
-        <mat-error *ngIf="createCourseForm.get('name')?.hasError('required')">
+        <mat-error *ngIf="form.get('name')?.hasError('required')">
           Name ist obligatorisch
         </mat-error>
-        <mat-error *ngIf="createCourseForm.get('name')?.hasError('maxlength')">
+        <mat-error *ngIf="form.get('name')?.hasError('maxlength')">
           Name darf nicht länger als 50 sein
         </mat-error>
       </mat-form-field>
@@ -28,9 +28,7 @@
           type="number"
           formControlName="credits"
         />
-        <mat-error
-          *ngIf="createCourseForm.get('credits')?.hasError('required')"
-        >
+        <mat-error *ngIf="form.get('credits')?.hasError('required')">
           Credits sind obligatorisch
         </mat-error>
       </mat-form-field>
@@ -49,15 +47,20 @@
       <mat-icon>add</mat-icon> Schüler Hinzufügen
     </button>
 
-    <div *ngIf="selectedStudents$ | async as selected">
-      <span *ngFor="let stud of selected">{{ stud.name.firstName + " " }}</span>
+    <div>
+      <span *ngFor="let stud of studentNames">{{ stud + " " }}</span>
     </div>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
-  <button mat-button [mat-dialog-close]="createCourseData" cdkFocusInitial>
+  <button
+    mat-button
+    [mat-dialog-close]="form.value"
+    cdkFocusInitial
+    [disabled]="form.invalid"
+  >
     Erstellen
   </button>
 </mat-dialog-actions>

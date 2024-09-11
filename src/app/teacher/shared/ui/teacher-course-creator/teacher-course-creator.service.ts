@@ -12,10 +12,10 @@ export class CourseCreatorService {
   createCourse(): Observable<
     | undefined
     | {
-        name: any
-        credits: any
-        isProject: any
-        studentIdList: any
+        name: string
+        credits: number
+        isProject: boolean
+        studentIdList: number[]
       }
   > {
     const dialogRef = this.dialog.open(TeacherCourseCreatorComponent)

@@ -77,6 +77,10 @@ export class CourseService {
       .subscribe()
   }
 
+  deleteCourse(id: number) {
+    return this.httpClient.delete(`${environment.baseUrl}/courses/${id}`)
+  }
+
   postCourse(data: any) {
     return this.httpClient.post<ICoursePre[]>(
       `${environment.baseUrl}/courses`,
@@ -89,10 +93,13 @@ export class CourseService {
       .createCourse()
       .pipe(
         filterNullish(),
-        tap(console.info),
         mergeMap((data) => this.postCourse(data)),
         tap(() => {
           this.updateCourses()
+        }),
+        catchError((err) => {
+          this.ui.showToast('Kurst konnte nicht erstellt werden')
+          return err
         })
       )
       .subscribe()

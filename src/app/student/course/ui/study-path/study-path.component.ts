@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { BehaviorSubject, catchError, tap } from 'rxjs'
 import { IJobSelection, IStudyJob } from 'src/app/shared/utils/interfaces'
 import { StudyPathService } from './study-path.service'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { AuthService } from 'src/app/core/auth/auth.service'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 
@@ -18,8 +18,44 @@ export class StudyPathComponent implements OnInit {
     private service: StudyPathService,
     private route: ActivatedRoute,
     private auth: AuthService,
-    private ui: DialogService
+    private ui: DialogService,
+    private router: Router
   ) {}
+
+  navigateEdit() {
+    if (this.route.snapshot.params['studentId']) {
+      this.router.navigate(
+        [
+          'teacher',
+          'course',
+          this.route.snapshot.params['courseId'],
+          'student',
+          this.route.snapshot.params['studentId'],
+          'edit-path',
+        ],
+        {
+          queryParams: {
+            courseName: this.route.snapshot.queryParams['courseName'],
+            studentName: this.route.snapshot.queryParams['studentName'],
+          },
+        }
+      )
+    } else {
+      this.router.navigate(
+        [
+          'teacher',
+          'course',
+          this.route.snapshot.params['courseId'],
+          'edit-path',
+        ],
+        {
+          queryParams: {
+            courseName: this.route.snapshot.queryParams['courseName'],
+          },
+        }
+      )
+    }
+  }
 
   ngOnInit(): void {
     this.breakpoint = this.calcBreakpoint(window.innerWidth)
@@ -31,11 +67,14 @@ export class StudyPathComponent implements OnInit {
   private updatePath() {
     this.service
       .getPath(
-        this.route.snapshot.params['id'],
-        this.auth.currentUser$.value._id
+        this.route.snapshot.params['courseId'],
+        this.route.snapshot.params['studentId'] ||
+          this.auth.currentUser$.value._id
       )
       .pipe(
-        tap(console.log),
+        tap((path) => {
+          if (path.length == 0) this.breakpoint = 1
+        }),
         tap((path) => this.path$.next(path)),
         catchError((err) => {
           this.ui.showToast('LernWeg konnte nicht geladen werden')
@@ -49,7 +88,8 @@ export class StudyPathComponent implements OnInit {
   breakpoint!: number
 
   private calcBreakpoint(width: number) {
-    if (width > 1700) return 3
+    if (this.path$.value?.length == 0) return 1
+    if (width > 2000) return 3
     if (width > 1170) return 2
     return 1
   }

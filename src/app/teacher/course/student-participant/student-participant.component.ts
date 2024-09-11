@@ -29,7 +29,7 @@ import { filterNullish } from 'src/app/shared/utils/filternullish'
   ],
 })
 export class StudentParticipantComponent implements OnInit {
-  participant$ = new BehaviorSubject<IStudentParticipant | undefined>(undefined)
+  progressList$ = new BehaviorSubject<IProgress[] | undefined>(undefined)
   id: number // studentId
   name: string // studentName
   courseId: number
@@ -44,10 +44,17 @@ export class StudentParticipantComponent implements OnInit {
     private commitContainerService: CommitContainerService,
     private setGrade: SetGradeService
   ) {
-    this.id = this.route.snapshot.params['id']
+    this.id = this.route.snapshot.params['studentId']
     this.courseId = this.route.snapshot.params['courseId']
     this.name = this.route.snapshot.queryParams['name']
     this.courseName = this.route.snapshot.queryParams['courseName']
+  }
+
+  editPath() {
+    this.router.navigate(
+      ['teacher', 'course', this.courseId, 'student', this.id, 'edit-path'],
+      { queryParams: { studentName: this.name, courseName: this.courseName } }
+    )
   }
 
   editGrade(taskProgress: ITaskProgress) {
@@ -98,13 +105,16 @@ export class StudentParticipantComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateProgress()
+  }
+
+  private updateProgress() {
     this.service
-      .getStudent(this.id, this.courseId)
+      .getProgressList(this.id, this.courseId)
       .pipe(
-        tap(console.info),
-        tap((student) => this.participant$.next(student)),
+        tap((list) => this.progressList$.next(list)),
         catchError((err) => {
-          this.ui.showToast('Schüler konnten nicht geladen werden')
+          this.ui.showToast('Fortschritt konnten nicht geladen werden')
           return err
         })
       )

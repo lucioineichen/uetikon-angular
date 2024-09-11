@@ -1,9 +1,10 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { map, mergeMap, tap } from 'rxjs'
+import { catchError, map, mergeMap, tap } from 'rxjs'
 import { FolderService } from './folder.service'
-import { NameService } from 'src/app/shared/ui/name/name.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { NameService } from 'src/app/shared/ui/name/name.service'
 
 @Component({
   selector: 'app-folder',
@@ -18,7 +19,8 @@ export class FolderComponent {
   constructor(
     protected service: FolderService,
     private route: ActivatedRoute,
-    private nameService: NameService
+    private name: NameService,
+    private ui: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +30,18 @@ export class FolderComponent {
   }
 
   addJob() {
-    throw Error('not implemented')
+    this.name
+      .name('LernJob Benennen')
+      .pipe(
+        filterNullish(),
+        mergeMap((name) => this.service.postJob(this.id, name)),
+        tap(() => this.service.update(this.id)),
+        catchError((err) => {
+          this.ui.showToast('LernJob konnte nicht hinzugefügt werden')
+          return err
+        })
+      )
+      .subscribe()
   }
 
   addFolder() {
@@ -38,7 +51,7 @@ export class FolderComponent {
   rename() {
     const folder = this.service.storeFolder$.value
     if (!folder) return
-    this.nameService
+    this.name
       .name('Ordner Umbenennen', folder.name)
       .pipe(
         map((name) => (name == folder.name ? undefined : name)),

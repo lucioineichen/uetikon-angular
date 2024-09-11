@@ -68,6 +68,17 @@ export class FolderService {
     private router: Router
   ) {}
 
+  postJob(folderId: number, name: string): Observable<{}> {
+    return this.http.post(`${environment.baseUrl}/study-jobs`, {
+      name,
+      saveAt: {
+        storeFolderId: folderId,
+        shareFolderId: null,
+        toRoot: false,
+      },
+    })
+  }
+
   toggleSelection(isSelected: boolean, id: number) {
     if (isSelected) {
       this.selectedJobs$.next(this.selectedJobs$.value.concat(id))

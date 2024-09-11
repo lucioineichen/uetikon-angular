@@ -7,7 +7,7 @@ import { environment } from 'src/app/core/environment/environment.demo'
   providedIn: 'root',
 })
 export class MandetoryPathService {
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   putPath(id: number, date: string) {
     return this.http.put(`${environment.baseUrl}/job-selection/${id}`, {
@@ -15,9 +15,14 @@ export class MandetoryPathService {
     })
   }
 
-  postJobSelection(containerId: number, date: string, job?: number) {
+  postJobSelection(
+    containerId: number,
+    studentId: number,
+    date: string,
+    job?: number
+  ) {
     return this.http.post(
-      `${environment.baseUrl}/container/${containerId}/student/${this.auth.currentUser$.value._id}/path`,
+      `${environment.baseUrl}/container/${containerId}/student/${studentId}/path`,
       job ? { deadline: date, job } : { deadline: date }
     )
   }

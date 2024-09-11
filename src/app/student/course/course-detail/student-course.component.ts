@@ -25,8 +25,8 @@ import { HttpParams } from '@angular/common/http'
 export class StudentCourseComponent implements OnInit {
   currentProgress$ = new BehaviorSubject<IProgress[] | undefined>(undefined)
   course$ = new BehaviorSubject<IStudentCourse | undefined>(undefined)
-  id: number
-  name: string
+  courseId: number
+  courseName: string
 
   constructor(
     protected route: ActivatedRoute,
@@ -35,16 +35,16 @@ export class StudentCourseComponent implements OnInit {
     private uiService: DialogService,
     private location: Location
   ) {
-    this.id = this.route.snapshot.params['id']
-    this.name = this.route.snapshot.queryParams['name']
+    this.courseId = this.route.snapshot.params['courseId']
+    this.courseName = this.route.snapshot.queryParams['courseName']
   }
 
   openContainer(containerId: number, containerName: string) {
     this.router.navigate(
-      ['student', 'courses', this.id, 'containers', containerId],
+      ['student', 'course', this.courseId, 'container', containerId],
       {
         queryParams: {
-          name: this.name,
+          courseName: this.courseName,
           containerName,
         },
       }
@@ -52,9 +52,9 @@ export class StudentCourseComponent implements OnInit {
   }
 
   editPath() {
-    this.router.navigate(['student', 'courses', this.id, 'edit-path'], {
+    this.router.navigate(['student', 'course', this.courseId, 'edit-path'], {
       queryParams: {
-        name: this.name,
+        courseName: this.courseName,
       },
     })
   }
@@ -65,7 +65,7 @@ export class StudentCourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.service
-      .getCourse(this.id)
+      .getCourse(this.courseId)
       .pipe(
         tap((course) => this.course$.next(course)),
         catchError((err) => {

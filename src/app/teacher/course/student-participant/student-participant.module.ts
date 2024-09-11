@@ -9,6 +9,7 @@ import { SetGradeModule } from 'src/app/shared/ui/set-grade/set-grade.module'
 import { CompetenceTableModule } from 'src/app/shared/ui/competence-table/competence-table.module'
 import { ProgressTableModule } from 'src/app/shared/ui/progress-table/progress-table.module'
 import { EditProgressTableModule } from 'src/app/shared/ui/edit-progress-table/edit-progress-table.module'
+import { StudyPathModule } from 'src/app/student/course/ui/study-path/study-path.module'
 
 @NgModule({
   declarations: [StudentParticipantComponent],
@@ -20,6 +21,7 @@ import { EditProgressTableModule } from 'src/app/shared/ui/edit-progress-table/e
     SetGradeModule,
     CompetenceTableModule,
     EditProgressTableModule,
+    StudyPathModule,
   ],
 })
 export class StudentParticipantModule {}

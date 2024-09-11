@@ -10,13 +10,13 @@
   <div
     style="padding: 20px; margin-left: 20%; width: 60%; margin-top: 150px"
     class="mat-typography"
-    *ngIf="participant$ | async as participant"
+    *ngIf="progressList$ | async as progressList"
   >
     <div class="title">Leistungen</div>
 
     <app-edit-progress-table
       (updated)="ngOnInit()"
-      [progress-list]="participant.progressList"
+      [progress-list]="progressList"
     ></app-edit-progress-table>
   </div>
 
@@ -29,103 +29,13 @@
       margin-bottom: 100px;
     "
     class="mat-typography"
-    *ngIf="participant$ | async as participant"
   >
-    <div class="title">LernWeg</div>
-    <!-- <mat-card>
-      <mat-card-content *ngIf="participant$ | async as participant">
-        <mat-list>
-          <div
-            *ngFor="let selectedContainer of participant.selectedContainerList"
-          >
-            <div *ngIf="selectedContainer.jobProgressList">
-              <div
-                *ngIf="
-                  selectedContainer.container.mandetoryJob ||
-                  selectedContainer.container.jobChoices
-                "
-              >
-                <mat-list-item>
-                  <span
-                    *ngIf="selectedContainer.container.mandetoryJob"
-                    matListItemTitle
-                    >{{ selectedContainer.container.mandetoryJob.name }}</span
-                  >
-                  <span
-                    *ngIf="!selectedContainer.container.mandetoryJob"
-                    matListItemTitle
-                    >{{
-                      selectedContainer.container.name +
-                        ": " +
-                        selectedContainer.jobProgressList[0].job.name
-                    }}</span
-                  >
-                  <span matListItemLine
-                    >Fortschritt:
-                    {{
-                      selectedContainer.jobProgressList[0].progress | percent
-                    }}</span
-                  >
-                  <span
-                    matListItemLine
-                    *ngIf="selectedContainer.jobProgressList[0].progress == 1"
-                    ><span *ngIf="selectedContainer.jobProgressList[0].grade">
-                      Note:
-                      {{ selectedContainer.jobProgressList[0].grade | percent }}
-                    </span>
-                    <span *ngIf="!selectedContainer.jobProgressList[0].grade"
-                      >Note: Keine Bewertung</span
-                    >
-                  </span>
-                  <span
-                    matListItemLine
-                    *ngIf="selectedContainer.jobProgressList[0].progress != 1"
-                    >Note: --</span
-                  >
-                </mat-list-item>
-              </div>
-            </div>
-
-            <div *ngIf="selectedContainer.container.necessairyCompetences">
-              <div *ngFor="let progress of selectedContainer.jobProgressList">
-                <mat-list-item>
-                  <span matListItemTitle>{{
-                    selectedContainer.container.name + ": " + progress.job.name
-                  }}</span>
-                  <span matListItemLine
-                    >Fortschritt: {{ progress.progress | percent }}</span
-                  >
-                  <span matListItemLine *ngIf="progress.progress == 1"
-                    ><span *ngIf="progress.grade">
-                      Note:
-                      {{ progress.grade | percent }}
-                    </span>
-                    <span *ngIf="!progress.grade">Note: Keine Bewertung</span>
-                  </span>
-                  <span matListItemLine *ngIf="progress.progress != 1"
-                    >Note: --</span
-                  >
-                </mat-list-item>
-              </div>
-            </div>
-
-            <div *ngIf="!selectedContainer.jobProgressList">
-              <mat-list-item>
-                {{ selectedContainer.container.name }}: Nicht Angenommen
-                <button
-                  color="primary"
-                  mat-raised-button
-                  style="float: right"
-                  (click)="commitContainer(selectedContainer.container)"
-                >
-                  Annehmen
-                </button>
-              </mat-list-item>
-            </div>
-            <mat-divider></mat-divider>
-          </div>
-        </mat-list>
-      </mat-card-content>
-    </mat-card> -->
+    <div class="title">
+      LernWeg
+      <button mat-icon-button (click)="editPath()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+    <app-study-path></app-study-path>
   </div>
 </div>

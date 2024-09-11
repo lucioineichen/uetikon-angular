@@ -6,7 +6,7 @@
   (window:resize)="onResize($event)"
 >
   <mat-grid-tile *ngFor="let selection of path$ | async">
-    <mat-card class="course-card" style="overflow: visible">
+    <mat-card style="overflow: visible">
       <div mat-ripple class="job" (click)="openJob(selection.studyJob)">
         <mat-card-header>
           <mat-card-title>{{ selection.studyJob.name }}</mat-card-title>
@@ -45,6 +45,7 @@
   <mat-grid-tile *ngIf="((path$ | async)?.length || 0) == 0">
     <mat-card class="course-card" style="overflow: visible; height: 200px">
       <div
+        (click)="navigateEdit()"
         mat-ripple
         class="job"
         style="

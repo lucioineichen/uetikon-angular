@@ -12,8 +12,8 @@ import { SelectStudentsService } from 'src/app/shared/ui/select-students/select-
   styles: [],
 })
 export class TeacherCourseCreatorComponent {
-  createCourseForm!: FormGroup
-  selectedStudents$ = new BehaviorSubject<IStudent[]>([])
+  form!: FormGroup
+  studentNames: string[] = []
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,29 +25,23 @@ export class TeacherCourseCreatorComponent {
   }
 
   buildcreateUserForm() {
-    this.createCourseForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       credits: [undefined, [Validators.required]],
       isProject: [false, [Validators.required]],
+      studentIdList: [[], []]
     })
   }
 
   addStudents() {
     this.selectStudents
-      .selectStudents(this.selectedStudents$.value.map((stud) => stud._id))
+      .selectStudents(this.form.get('studentIdList')?.value)
       .pipe(
         filterNullish(),
-        tap((selected) => this.selectedStudents$.next(selected))
+        tap((selected) => this.studentNames = selected.map((stud) => stud.fullName)),
+        tap((selected) => this.form.get('studentIdList')?.setValue(selected.map((stud) => stud._id)))
+
       )
       .subscribe()
-  }
-
-  get createCourseData() {
-    return {
-      name: this.createCourseForm.value.name,
-      credits: this.createCourseForm.value.credits,
-      isProject: this.createCourseForm.value.isProject,
-      studentIdList: this.selectedStudents$.value.map((stud) => stud._id),
-    }
   }
 }

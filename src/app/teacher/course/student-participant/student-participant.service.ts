@@ -2,27 +2,24 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable, tap } from 'rxjs'
 import { environment } from 'src/app/core/environment/environment.demo'
-import { IStudentParticipant } from 'src/app/shared/utils/interfaces'
+import { IProgress, IStudentParticipant } from 'src/app/shared/utils/interfaces'
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentParticipantService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-  getStudent(
-    studentId: number,
-    courseId: number
-  ): Observable<IStudentParticipant> {
-    return this.httpClient
-      .get<IStudentParticipant>(
-        `${environment.baseUrl}/courses/${courseId}/student/${studentId}`
+  getProgressList(studentId: number, courseId: number) {
+    return this.http
+      .get<IProgress[]>(
+        `${environment.baseUrl}/course/${courseId}/student/${studentId}/progress`
       )
       .pipe(tap(console.info))
   }
 
   putTaskProgress(id: number, data: any): Observable<any> {
-    return this.httpClient.put<any>(
+    return this.http.put<any>(
       `${environment.baseUrl}/task-progress/${id}`,
       data
     )

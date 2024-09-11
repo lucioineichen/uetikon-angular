@@ -11,13 +11,16 @@ const routes: Routes = [
   { path: '', redirectTo: '/student/courses', pathMatch: 'full' },
   { path: 'competences', component: CompetenceListComponent },
   { path: 'courses', component: StudentCoursesComponent },
-  { path: 'courses/:id', component: StudentCourseComponent },
-  { path: 'course/:id', redirectTo: 'courses/:id' },
-  { path: 'study-jobs/:id', component: JobDetialComponent },
-  { path: 'study-job/:id', redirectTo: 'study-jobs/:id' },
-  { path: 'tasks/:id', component: TaskComponent },
-  { path: 'task/:id', redirectTo: 'tasks/:id' },
-  { path: 'courses/:id/edit-path', component: EditPathComponent },
+  { path: 'courses/:courseId', redirectTo: 'course/:courseId' },
+  { path: 'course/:courseId', component: StudentCourseComponent },
+  // { path: 'study-jobs/:id', component: JobDetialComponent },
+  // { path: 'study-job/:id', redirectTo: 'study-jobs/:id' },
+  // { path: 'tasks/:id', component: TaskComponent },
+  // { path: 'task/:id', redirectTo: 'tasks/:id' },
+  {
+    path: 'course/:courseId/edit-path',
+    component: EditPathComponent,
+  },
 ]
 
 @NgModule({

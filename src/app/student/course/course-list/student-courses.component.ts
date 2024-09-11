@@ -19,7 +19,7 @@ export class StudentCoursesComponent implements OnInit {
   }
 
   openCourse(id: number, name: string) {
-    this.router.navigate(['student', 'courses', id], {
+    this.router.navigate(['student', 'course', id], {
       queryParams: {
         name,
       },

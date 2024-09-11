@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { IContainerPath } from 'src/app/shared/utils/interfaces'
 import { ChoicePathService } from '../choice-path/choice-path.service'
 import { AddCompetencePathService } from './add-competence-path/add-competence-path.service'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
-import { mergeMap } from 'rxjs'
+import { mergeMap, tap } from 'rxjs'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { ActivatedRoute } from '@angular/router'
+import { AuthService } from 'src/app/core/auth/auth.service'
 
 @Component({
   selector: 'app-competence-path [path]',
@@ -75,11 +77,15 @@ import { filterNullish } from 'src/app/shared/utils/filternullish'
 })
 export class CompetencePathComponent {
   @Input() path!: IContainerPath
+  @Output() update = new EventEmitter<true>()
+
 
   constructor(
     private service: ChoicePathService,
     private ui: DialogService,
-    private addCompetencePath: AddCompetencePathService
+    private addCompetencePath: AddCompetencePathService,
+    private route: ActivatedRoute,
+    private auth: AuthService
   ) {}
 
   addSel() {
@@ -94,10 +100,13 @@ export class CompetencePathComponent {
         mergeMap((data) =>
           this.service.postJobSelection(
             this.path.container._id,
+            this.route.snapshot.params['studentId'] ||
+              this.auth.currentUser$.value._id,
             data.deadline,
             data.job
           )
-        )
+        ),
+        tap(()=> this.update.emit(true)),
       )
       .subscribe()
   }
