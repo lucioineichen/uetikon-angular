@@ -91,6 +91,7 @@
           style="overflow: visible; height: 200px; background-color: #3f51b5"
         >
           <div
+            (click)="add()"
             mat-ripple
             class="job"
             style="
@@ -109,8 +110,8 @@
               >
             </div>
           </div>
-        </mat-card></mat-grid-tile
-      >
+        </mat-card>
+      </mat-grid-tile>
     </mat-grid-list>
 
     <div class="course-information">

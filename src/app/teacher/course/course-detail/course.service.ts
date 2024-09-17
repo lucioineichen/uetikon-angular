@@ -20,6 +20,7 @@ import {
 } from 'src/app/shared/utils/interfaces'
 import { ChooseJobService } from '../../shared/ui/choose-job/choose-job.service'
 import { EditCourseService } from './ui/edit-course/edit-course.service'
+import { ChooserService } from 'src/app/shared/ui/chooser/chooser.service'
 
 @Injectable({
   providedIn: 'root',

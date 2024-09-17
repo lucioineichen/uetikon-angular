@@ -14,6 +14,7 @@ import {
   ITaskProgress,
   Progress,
 } from 'src/app/shared/utils/interfaces'
+import { ChooserService } from 'src/app/shared/ui/chooser/chooser.service'
 
 interface IStudyJobTeacherDisplay {
   _id: number
@@ -70,13 +71,55 @@ export class CourseDetailComponent implements OnInit {
   newMessage: string = ''
   isChatOpen = false
   breakpoint!: number
-  // STUDY_JOBS!: StudyJobDisplay[]
   mainMargin = '150px'
 
+  constructor(
+    protected route: ActivatedRoute,
+    protected service: CourseService,
+    private router: Router,
+    private mandetory: CreateMandetoryService,
+    private createChoice: CreateChoiceService,
+    private createComp: CreateCompetenceContainerService,
+    private editCourseService: EditCourseService,
+    private ui: DialogService,
+    private chooser: ChooserService
+  ) {}
+
+  add() {
+    this.chooser
+      .choose('LernElement Hinzufügen', [
+        { _id: 0, name: 'Festgelegt' },
+        { _id: 1, name: 'Auswahl' },
+        { _id: 2, name: 'Kompetenzen' },
+      ])
+      .pipe(
+        tap((choice) => {
+          switch (choice) {
+            case 0:
+              this.addMandetoryJob()
+              return
+            case 1:
+              this.addJobChoice()
+              return
+            case 2:
+              this.addCompetenceJob()
+              return
+          }
+        })
+      )
+      .subscribe()
+  }
+
   private calcBreakpoint(width: number) {
+    const course = this.course$.value
+    if (course && course.containerList.length <= 1) return 1
     if (width > 1600) return 3
     if (width > 1170) return 2
     return 1
+  }
+
+  private setBreakpoint() {
+    this.breakpoint = this.calcBreakpoint(window.innerWidth)
   }
 
   private calcMargin(width: number) {
@@ -89,17 +132,6 @@ export class CourseDetailComponent implements OnInit {
     this.breakpoint = this.calcBreakpoint(event.target.innerWidth)
     this.mainMargin = `${this.calcMargin(event.target.innerWidth)}px`
   }
-
-  constructor(
-    protected route: ActivatedRoute,
-    protected service: CourseService,
-    private router: Router,
-    private mandetory: CreateMandetoryService,
-    private createChoice: CreateChoiceService,
-    private createComp: CreateCompetenceContainerService,
-    private editCourseService: EditCourseService,
-    private ui: DialogService
-  ) {}
 
   routeToParticipant(
     courseId: number,
@@ -154,7 +186,7 @@ export class CourseDetailComponent implements OnInit {
   ngOnInit(): void {
     this.mainMargin = `${this.calcMargin(window.innerWidth)}px`
 
-    this.breakpoint = this.calcBreakpoint(window.innerWidth)
+    this.setBreakpoint()
 
     this.route.params
       .pipe(
@@ -174,6 +206,8 @@ export class CourseDetailComponent implements OnInit {
       .subscribe()
 
     this.service.update()
+
+    this.course$.pipe(tap(() => this.setBreakpoint())).subscribe()
   }
 
   private updateCurrentProgress(id: number) {
@@ -217,91 +251,4 @@ export class CourseDetailComponent implements OnInit {
       .pipe(tap(() => this.service.update()))
       .subscribe()
   }
-
-  // readonly JOB_LIST_DUMMY_DATA: IProgress[] = [
-  //   {
-  //     _id: 1,
-  //     job: {
-  //       _id: 101,
-  //       name: 'Mathematics 101',
-  //       notes: 'Basic Mathematics course',
-  //       tasks: [],
-  //       competences: [
-  //         { _id: 'comp1', name: 'Algebra' },
-  //         { _id: 'comp2', name: 'Geometry' },
-  //       ],
-  //       credits: 3,
-  //       subject: { _id: 'subj1', name: 'Mathematics' },
-  //       isPublished: true,
-  //       status: 1,
-  //     },
-  //     progress: 75,
-  //     grade: 85,
-  //     taskProgressList: [],
-  //   },
-  //   {
-  //     _id: 2,
-  //     job: {
-  //       _id: 102,
-  //       name: 'Physics 101',
-  //       notes: 'Introductory Physics course',
-  //       tasks: [],
-  //       competences: [
-  //         { _id: 'comp3', name: 'Mechanics' },
-  //         { _id: 'comp4', name: 'Thermodynamics' },
-  //       ],
-  //       credits: 4,
-  //       subject: { _id: 'subj2', name: 'Physics' },
-  //       isPublished: false,
-  //       status: 2,
-  //     },
-  //     progress: 50,
-  //     grade: 78,
-  //     taskProgressList: [],
-  //   },
-  //   {
-  //     _id: 3,
-  //     job: {
-  //       _id: 103,
-  //       name: 'Computer Science 101',
-  //       notes: 'Introduction to Programming',
-  //       tasks: [],
-  //       competences: [
-  //         { _id: 'comp5', name: 'Programming' },
-  //         { _id: 'comp6', name: 'Data Structures' },
-  //       ],
-  //       credits: 5,
-  //       subject: { _id: 'subj3', name: 'Computer Science' },
-  //       isPublished: true,
-  //       status: 3,
-  //     },
-  //     progress: 90,
-  //     grade: 95,
-  //     taskProgressList: [],
-  //   },
-  //   {
-  //     _id: 4,
-  //     job: {
-  //       _id: 104,
-  //       name: 'English Literature',
-  //       notes: 'Study of classic literature',
-  //       tasks: [],
-  //       competences: [
-  //         { _id: 'comp7', name: 'Literary Analysis' },
-  //         { _id: 'comp8', name: 'Creative Writing' },
-  //       ],
-  //       credits: 2,
-  //       subject: { _id: 'subj4', name: 'English' },
-  //       isPublished: true,
-  //       status: 1,
-  //     },
-  //     progress: 65,
-  //     grade: 88,
-  //     taskProgressList: [],
-  //   },
-  // ]
-
-  // readonly JOB_LIST_DUMMY: Progress[] = this.JOB_LIST_DUMMY_DATA.map(
-  //   Progress.Build
-  // )
 }

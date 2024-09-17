@@ -9,19 +9,7 @@
     Noch kein LernJob ausgewählt
   </div>
 
-  <mat-card *ngIf="job$ | async as job" class="card">
-    <mat-card-header>
-      {{ job.name }}
-    </mat-card-header>
-    <mat-card-content>
-      <mat-chip class="chip"> {{ job.subject }} </mat-chip>
-      <mat-chip class="chip"> Credits: {{ job.credits }} </mat-chip>
-      <mat-chip class="chip"> Aufgaben: {{ job.tasks.length }}</mat-chip>
-      <mat-chip class="chip">
-        Kompetenzen: {{ job.competences.length }}
-      </mat-chip>
-    </mat-card-content>
-  </mat-card>
+  <app-job-summary *ngIf="job$ | async as job" [job]="job"></app-job-summary>
 
   <div style="position: absolute; bottom: 70px">
     <mat-chip *ngIf="dependentContainer$ | async as container" class="dependent"

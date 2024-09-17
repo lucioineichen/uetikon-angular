@@ -13,6 +13,7 @@ import { StudentControlModule } from 'src/app/shared/ui/student-control/student-
 import { CourseControlModule } from 'src/app/shared/ui/course-control/course-control.module'
 import { SubjectControlModule } from 'src/app/shared/ui/subject-control/subject-control.module'
 import { UfkControlModule } from 'src/app/shared/ui/ufk-control/ufk-control.module'
+import { LoadingUfkTableModule } from './ui/loading-ufk-table/loading-ufk-table.module'
 
 @NgModule({
   declarations: [UfkComponent],
@@ -30,6 +31,7 @@ import { UfkControlModule } from 'src/app/shared/ui/ufk-control/ufk-control.modu
     SelectStudentModule,
     CourseControlModule,
     SubjectControlModule,
+    LoadingUfkTableModule,
   ],
 })
 export class UfkModule {}

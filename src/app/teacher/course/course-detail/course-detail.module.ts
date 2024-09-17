@@ -17,6 +17,7 @@ import { EditCourseModule } from './ui/edit-course/edit-course.module'
 import { RouterModule } from '@angular/router'
 import { JobProgressTableModule } from 'src/app/shared/ui/job-progress-table/job-progress-table.module'
 import { TaskProgressTableModule } from 'src/app/shared/ui/task-progress-table/task-progress-table.module'
+import { ChooserModule } from 'src/app/shared/ui/chooser/chooser.module'
 
 @NgModule({
   declarations: [CourseDetailComponent],
@@ -38,6 +39,7 @@ import { TaskProgressTableModule } from 'src/app/shared/ui/task-progress-table/t
     RouterModule,
     JobProgressTableModule,
     TaskProgressTableModule,
+    ChooserModule,
   ],
 })
 export class CourseDetailModule {}

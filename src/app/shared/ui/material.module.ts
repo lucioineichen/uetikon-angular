@@ -27,8 +27,10 @@ import { MatChipsModule } from '@angular/material/chips'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatBadgeModule } from '@angular/material/badge'
 import { StatusPipe } from './status.pipe'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 const modules: any[] = [
+  MatProgressSpinnerModule,
   MatChipsModule,
   MatTreeModule,
   MatNativeDateModule,

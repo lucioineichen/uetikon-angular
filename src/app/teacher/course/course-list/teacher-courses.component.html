@@ -88,8 +88,28 @@
 </div>
 
 <ng-template #loading>
-  <div *ngIf="!courses$.hasError; else error">Lädt kurse...</div></ng-template
->
+  <div *ngIf="!courses$.hasError; else error">
+    <div style="padding: 60px 180px">
+      <mat-grid-list
+        cols="4"
+        gutterSize="20px"
+        rowHeight="360px"
+        [cols]="breakpoint"
+        (window:resize)="onResize($event)"
+      >
+        <mat-grid-tile *ngFor="let i of [1, 2, 3, 4]">
+          <mat-card class="course-card">
+            <mat-card-header> </mat-card-header>
+            <mat-card-content>
+              <div class="loading-course">
+                <mat-spinner></mat-spinner>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div></div
+></ng-template>
 
 <ng-template #error
   >Kurse konnten nicht geladen werden, lade die Seite neu</ng-template

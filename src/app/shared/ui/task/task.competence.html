@@ -2,19 +2,7 @@
   <!-- Main Body -->
   <div class="main">
     <span class="title" *ngIf="task.title">{{ task.title | titlecase }}</span>
-
-    <span *ngIf="!task.title && task.file">
-      <!-- <img
-        class="fileIcon"
-        *ngIf="isKnownExtension(task.file.extension)"
-        src="../../../assets/pdf.png"
-      />
-      <a
-        class="file-link"
-        [ngClass]="{'title': !isKnownExtension(task.file.extension)}"
-        (click)="openFile(task.file.url)"
-        >{{ task.file.name }}</a
-      > -->
+    <span class="center-content" *ngIf="!task.title && task.file">
       <app-file [file]="task.file"></app-file>
     </span>
 

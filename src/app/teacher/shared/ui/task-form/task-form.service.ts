@@ -21,6 +21,15 @@ export class TaskFormService {
   editTask(task?: ITask) {
     let dialogRef = this.dialog.open(TaskFormComponent, { data: task })
 
-    return dialogRef.afterClosed()
+    return dialogRef
+      .afterClosed()
+      .pipe
+      // tap((formData: any) => {
+      //   for (var pair of formData.entries()) {
+      //     console.log(pair[0] + ': ')
+      //     console.info(pair[1])
+      //   }
+      // })
+      ()
   }
 }

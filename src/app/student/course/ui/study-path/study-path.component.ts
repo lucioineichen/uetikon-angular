@@ -43,7 +43,7 @@ export class StudyPathComponent implements OnInit {
     } else {
       this.router.navigate(
         [
-          'teacher',
+          'student',
           'course',
           this.route.snapshot.params['courseId'],
           'edit-path',
@@ -62,7 +62,11 @@ export class StudyPathComponent implements OnInit {
     this.updatePath()
   }
 
-  openJob(job: IStudyJob) {}
+  openJob(job: IStudyJob) {
+    this.router.navigate(['teacher', 'study-jobs', job._id], {
+      queryParams: { name: job.name },
+    })
+  }
 
   private updatePath() {
     this.service
@@ -89,7 +93,7 @@ export class StudyPathComponent implements OnInit {
 
   private calcBreakpoint(width: number) {
     if (this.path$.value?.length == 0) return 1
-    if (width > 2000) return 3
+    if (width > 1800) return 3
     if (width > 1170) return 2
     return 1
   }

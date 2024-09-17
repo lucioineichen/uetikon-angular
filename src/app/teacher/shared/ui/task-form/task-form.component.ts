@@ -46,11 +46,15 @@ export class TaskFormComponent {
     if (this.file) formData.append('file', this.file)
     if (!this.fileName) formData.append('file', '')
     const data = this.form.value
-    formData.append('title', data.title)
-    formData.append('text', data.text)
+    formData.append('title', JSON.stringify(data.title))
+    formData.append('text', JSON.stringify(data.text))
     formData.append('graded', JSON.stringify(data.graded))
-    formData.append('weight', JSON.stringify(data.weight || 1))
-    formData.append('isSelfControl', JSON.stringify(data.isSelfControl))
+    formData.append('weight', JSON.stringify(data.weight))
+    formData.append(
+      'isSelfControl',
+      JSON.stringify(data.isSelfControl || false)
+    )
+
     return formData
   }
   private buildForm() {
@@ -59,8 +63,8 @@ export class TaskFormComponent {
         title: [this.task.title, [Validators.maxLength(50)]],
         text: [this.task.text],
         weight: [this.task.weight],
-        graded: [this.task.graded, Validators.required],
         isSelfControl: [this.task.isSelfControl, Validators.required],
+        graded: [this.task.graded, Validators.required],
       })
       if (this.task.file) this.fileName = this.task.file.name
     } else {
@@ -80,10 +84,9 @@ export class TaskFormComponent {
         startWith(this.form.get('graded')?.value),
         tap((isGraded) => {
           if (isGraded) {
-            weightControl?.enable()
             isSelfControl?.enable()
           } else {
-            weightControl?.disable()
+            isSelfControl?.setValue(false)
             isSelfControl?.disable()
           }
         })

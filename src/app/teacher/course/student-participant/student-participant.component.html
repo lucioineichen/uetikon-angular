@@ -4,21 +4,8 @@
       ><mat-icon>arrow_back</mat-icon> Zurück</a
     >
     <span style="width: 2rem"></span>
-    <h1>{{ courseName + ": " + name | titlecase }}</h1>
+    <h1>{{ courseName + ": " }} {{ name | titlecase }}</h1>
   </mat-toolbar>
-
-  <div
-    style="padding: 20px; margin-left: 20%; width: 60%; margin-top: 150px"
-    class="mat-typography"
-    *ngIf="progressList$ | async as progressList"
-  >
-    <div class="title">Leistungen</div>
-
-    <app-edit-progress-table
-      (updated)="ngOnInit()"
-      [progress-list]="progressList"
-    ></app-edit-progress-table>
-  </div>
 
   <div
     style="
@@ -26,7 +13,7 @@
       margin-left: 20%;
       width: 60%;
       margin-top: 150px;
-      margin-bottom: 100px;
+      margin-bottom: 50px;
     "
     class="mat-typography"
   >
@@ -37,5 +24,18 @@
       </button>
     </div>
     <app-study-path></app-study-path>
+  </div>
+
+  <div
+    style="padding: 20px; margin-left: 20%; width: 60%"
+    class="mat-typography"
+    *ngIf="progressList$ | async as progressList"
+  >
+    <div class="title">Leistungen</div>
+
+    <app-edit-progress-table
+      (updated)="ngOnInit()"
+      [progress-list]="progressList"
+    ></app-edit-progress-table>
   </div>
 </div>

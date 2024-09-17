@@ -37,6 +37,14 @@
 
 .main {
   height: 28px;
+  /* display: flex;
+  align-items: center; */
+}
+
+.center-content {
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
 }
 
 .title {

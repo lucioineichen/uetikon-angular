@@ -30,10 +30,10 @@
   </mat-menu>
 </div>
 
-<div *ngIf="service.root$ | async as root; else loading">
+<div>
   <div class="title">LernJobs</div>
 
-  <mat-list class="list">
+  <mat-list class="list" *ngIf="service.root$ | async as root; else loading">
     <div
       *ngIf="
         root.shareFolderList.length +
@@ -75,7 +75,12 @@
 </div>
 
 <ng-template #loading>
-  <div *ngIf="!service.root$.hasError; else error">Lädt LernJobs</div>
+  <mat-list class="list" *ngIf="!service.root$.hasError; else error">
+    <app-loading-folder></app-loading-folder>
+    <app-loading-folder></app-loading-folder>
+    <app-loading-job></app-loading-job>
+    <app-loading-job></app-loading-job>
+  </mat-list>
 </ng-template>
 
 <ng-template #error>

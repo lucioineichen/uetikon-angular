@@ -59,6 +59,13 @@
   height: 210px;
 }
 
+.loading-course {
+  height: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .no-image-letter {
   width: 100%;
   text-align: center;

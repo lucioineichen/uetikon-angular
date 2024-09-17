@@ -22,8 +22,11 @@
   </mat-form-field>
 
   <app-ufk-table
-    *ngIf="ufks$ | async as ufks"
+    *ngIf="ufks$ | async as ufks; else loading"
     [ufks]="ufks"
     (delete)="deleteUfk($event)"
   ></app-ufk-table>
+
+  <ng-template #loading><app-loading-ufk-table></app-loading-ufk-table></ng-template>
+
 </div>
