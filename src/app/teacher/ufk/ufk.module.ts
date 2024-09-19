@@ -14,6 +14,7 @@ import { CourseControlModule } from 'src/app/shared/ui/course-control/course-con
 import { SubjectControlModule } from 'src/app/shared/ui/subject-control/subject-control.module'
 import { UfkControlModule } from 'src/app/shared/ui/ufk-control/ufk-control.module'
 import { LoadingUfkTableModule } from './ui/loading-ufk-table/loading-ufk-table.module'
+import { ToolbarModule } from 'src/app/shared/ui/toolbar/toolbar.module'
 
 @NgModule({
   declarations: [UfkComponent],
@@ -32,6 +33,7 @@ import { LoadingUfkTableModule } from './ui/loading-ufk-table/loading-ufk-table.
     CourseControlModule,
     SubjectControlModule,
     LoadingUfkTableModule,
+    ToolbarModule,
   ],
 })
 export class UfkModule {}

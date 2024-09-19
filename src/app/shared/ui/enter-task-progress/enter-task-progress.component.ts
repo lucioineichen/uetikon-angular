@@ -1,8 +1,23 @@
 import { Component, Inject, OnInit } from '@angular/core'
-import { FormControl, Validators } from '@angular/forms'
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms'
 import { MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { ITaskProgress } from '../../utils/interfaces'
-import { combineLatest, map, Observable, tap } from 'rxjs'
+import { combineLatest, map, Observable, startWith, tap } from 'rxjs'
+
+const taskProgressValidator: (isGraded: boolean) => ValidatorFn =
+  (isGraded: boolean) => (group: AbstractControl) => {
+    if (!isGraded) return null
+    if (group.get('status')?.value != 2) return null
+    if (group.get('grade')?.value) return null
+    return { noGrade: true }
+  }
 
 @Component({
   selector: 'app-enter-task-progress',
@@ -10,28 +25,22 @@ import { combineLatest, map, Observable, tap } from 'rxjs'
     <h1 mat-dialog-title>{{ taskProg.task.title | titlecase }}</h1>
 
     <div mat-dialog-content>
-      <form fxLayout="column">
+      <form fxLayout="column" [formGroup]="form">
         <mat-form-field fxFlex style="width: 100%" *ngIf="taskProg.task.graded">
           <mat-label>Note</mat-label>
           <input
             matInput
             placeholder="Note"
             aria-label="Note"
-            [formControl]="gradeControl"
-            [disabled]="!completedControl.value"
+            formControlName="grade"
             type="percent"
           />
-          <mat-error *ngIf="gradeControl.hasError('required')">
-            Note ist obligatorisch
-          </mat-error>
         </mat-form-field>
 
-        <mat-radio-group
-          aria-label="Select an option"
-          [formControl]="completedControl"
-        >
-          <mat-radio-button [value]="true">Erfüllt</mat-radio-button>
-          <mat-radio-button [value]="false">Nicht Erfüllt</mat-radio-button>
+        <mat-radio-group aria-label="Select an option" formControlName="status">
+          <mat-radio-button [value]="0">Nicht Begonnen</mat-radio-button>
+          <mat-radio-button [value]="1">Am Bearbeiten</mat-radio-button>
+          <mat-radio-button [value]="2">Fertig</mat-radio-button>
         </mat-radio-group>
       </form>
     </div>
@@ -40,10 +49,8 @@ import { combineLatest, map, Observable, tap } from 'rxjs'
       <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
       <button
         mat-button
-        [disabled]="
-          !gradeControl.valid && taskProg.task.graded && completedControl.value
-        "
-        [mat-dialog-close]="value"
+        [disabled]="this.form.status != 'VALID'"
+        [mat-dialog-close]="form.value"
       >
         Speichern
       </button>
@@ -52,35 +59,37 @@ import { combineLatest, map, Observable, tap } from 'rxjs'
   styles: [],
 })
 export class EnterTaskProgressComponent implements OnInit {
-  gradeControl!: FormControl
-  completedControl!: FormControl
-  constructor(@Inject(MAT_DIALOG_DATA) protected taskProg: ITaskProgress) {}
+  form!: FormGroup
+  constructor(
+    @Inject(MAT_DIALOG_DATA) protected taskProg: ITaskProgress,
+    private fb: FormBuilder
+  ) {}
 
-  ngOnInit(): void {
-    this.gradeControl = new FormControl(
-      this.taskProg.grade,
-      Validators.required
-    )
-    this.completedControl = new FormControl(
-      this.taskProg.completed,
-      Validators.required
-    )
-
-    this.completedControl.valueChanges
-      .pipe(
-        tap((isCompleted) =>
-          isCompleted ? this.gradeControl.enable() : this.gradeControl.disable()
-        )
-      )
-      .subscribe()
+  ngOnInit() {
+    this.buildForm()
   }
 
-  get value() {
-    return this.taskProg.task.graded
-      ? {
-          grade: this.gradeControl.value,
-          completed: this.completedControl.value,
-        }
-      : { completed: this.completedControl.value }
+  private buildForm() {
+    this.form = this.fb.group(
+      {
+        grade: [this.taskProg.grade],
+        status: [this.taskProg.status, Validators.required],
+      },
+      {
+        validators: [taskProgressValidator(this.taskProg.task.graded)],
+      }
+    )
+
+    const gradeCtr = this.form.get('grade')
+    const statusCtr = this.form.get('status')
+    statusCtr?.valueChanges
+      .pipe(
+        startWith(statusCtr.value),
+        tap((status) => {
+          if (status == 2) gradeCtr?.enable()
+          else gradeCtr?.disable()
+        })
+      )
+      .subscribe()
   }
 }

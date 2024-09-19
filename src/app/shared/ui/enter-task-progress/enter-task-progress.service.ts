@@ -10,7 +10,9 @@ import { ITaskProgress } from '../../utils/interfaces'
 export class EnterTaskProgressService {
   constructor(private dialog: MatDialog) {}
 
-  enterTaskProgress(taskProg: ITaskProgress): Observable<{grade: number} | {completed: boolean} | undefined> {
+  enterTaskProgress(
+    taskProg: ITaskProgress
+  ): Observable<{ grade: number | undefined; status: 0 | 1 | 2 } | undefined> {
     const dialogRef = this.dialog.open(EnterTaskProgressComponent, {
       data: taskProg,
     })

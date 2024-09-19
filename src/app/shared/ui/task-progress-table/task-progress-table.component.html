@@ -19,18 +19,17 @@
       </div>
       <!-- grade -->
       <div class="col" [ngStyle]="{ width: this.headers[1].cssWidth }">
-        <span *ngIf="progress.completed">
+        <span *ngIf="progress.status == 2">
           <span *ngIf="progress.grade">
             {{ progress.grade | percent }}
           </span>
           <span *ngIf="!progress.grade"> Nicht Benotet </span>
         </span>
-        <span *ngIf="!progress.completed"> -- </span>
+        <span *ngIf="progress.status != 2"> -- </span>
       </div>
       <!-- completed -->
       <div [ngStyle]="{ width: this.headers[2].cssWidth }" class="col">
-        <span *ngIf="progress.completed">Erfüllt</span>
-        <span *ngIf="!progress.completed">Offen</span>
+        <span>{{ progress.status | status }}</span>
       </div>
     </div>
   </div>

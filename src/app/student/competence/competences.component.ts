@@ -1,5 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import * as d3 from 'd3'
+import { BehaviorSubject, catchError, tap } from 'rxjs'
+import { ISubjectTree } from 'src/app/shared/ui/competence-tree/competence-tree.component'
+import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { CompetencesService } from './competences.service'
 
 @Component({
   selector: 'app-competences',
@@ -7,43 +11,28 @@ import * as d3 from 'd3'
   styleUrls: ['./competences.component.css'],
 })
 export class CompetenceListComponent implements OnInit {
-  ngOnInit(): void {
-    // Access the SVG container using ElementRef and D3.js
-    const svg = d3.select('#treeContainer')
+  tree$ = new BehaviorSubject<ISubjectTree | undefined>(undefined)
 
-    // Define the trunk's coordinates
-    const trunkX1 = 400 // Starting x-coordinate
-    const trunkY1 = 600 // Starting y-coordinate
-    const trunkX2 = 400 // Ending x-coordinate (same as starting for a vertical trunk)
-    const trunkY2 = 400 // Ending y-coordinate
+  constructor(
+    private uiService: DialogService,
+    private service: CompetencesService
+  ) {}
 
-    // Create the trunk line
-    svg
-      .append('line')
-      .attr('x1', trunkX1)
-      .attr('y1', trunkY1)
-      .attr('x2', trunkX2)
-      .attr('y2', trunkY2)
-      .style('stroke', 'brown') // Trunk color
-      .style('stroke-width', 10) // Trunk thickness
+  ngOnInit() {
+    this.updateTree()
+  }
 
-    const leafData = [
-      { cx: 400, cy: 350, radius: 30, color: 'green' },
-      { cx: 380, cy: 320, radius: 30, color: 'green' },
-      { cx: 420, cy: 320, radius: 30, color: 'green' },
-      // Add more leaf data as needed
-    ]
-
-    // Create the leaves
-    const leaves = svg
-      .selectAll('.leaf') // Use a class selector
-      .data(leafData)
-      .enter()
-      .append('circle')
-      .attr('class', 'leaf')
-      .attr('cx', (d) => d.cx) // x-coordinate of the leaf center
-      .attr('cy', (d) => d.cy) // y-coordinate of the leaf center
-      .attr('r', (d) => d.radius) // radius of the leaf
-      .style('fill', (d) => d.color) // leaf color
+  private updateTree() {
+    this.service
+      .getTree()
+      .pipe(
+        tap(console.info),
+        tap((tree) => this.tree$.next(tree)),
+        catchError((err) => {
+          this.uiService.showToast('Kompetenzen konnten nicht geladen werden')
+          return err
+        })
+      )
+      .subscribe()
   }
 }

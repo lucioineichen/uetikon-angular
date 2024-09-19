@@ -22,7 +22,7 @@
         <mat-card-content>
           <div style="height: 40px"></div>
           <mat-chip class="chip">{{ selection.deadline | date }}</mat-chip>
-          <mat-chip class="chip" *ngIf="selection.status != 1"
+          <mat-chip class="chip" *ngIf="selection.status == 0"
             >{{ selection.status | status }}
           </mat-chip>
           <mat-chip class="chip" *ngIf="selection.progress"

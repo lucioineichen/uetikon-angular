@@ -3,14 +3,14 @@
 }
 
 :host /deep/ .mat-badge-medium.mat-badge-below .mat-badge-content {
-  bottom: -14px !important;
+  bottom: 8px !important;
 }
 
 :host
   /deep/
   .mat-badge-medium.mat-badge-overlap.mat-badge-before
   .mat-badge-content {
-  left: -14px;
+  left: -8px;
 }
 
 .toolbar-title {

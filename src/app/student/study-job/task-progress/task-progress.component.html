@@ -1,0 +1,63 @@
+<div class="task-card">
+  <!-- Main Body -->
+  <div class="main">
+    <span class="title" *ngIf="task.title">{{ task.title | titlecase }}</span>
+    <span *ngIf="!task.title && task.file">
+      <app-file [file]="task.file"></app-file>
+    </span>
+
+    <span style="margin-left: 5px; font-style: italic"
+      >(<span *ngIf="!progress.grade">{{ progress.status | status }}</span
+      ><span *ngIf="progress.grade">Note: {{ progress.grade | percent }}</span
+      >)</span
+    >
+
+    <span class="spacer"></span>
+
+    <mat-chip *ngIf="task.isSelfControl">Selbstkontrolle</mat-chip>
+    <mat-chip style="margin-left: 5px" *ngIf="task.graded">Benotet</mat-chip>
+    <mat-chip style="margin-left: 5px">Gewichtung: {{ task.weight }}</mat-chip>
+
+    <button
+      *ngIf="task.text || (task.file && task.title); else expandReplacement"
+      mat-icon-button
+      (click)="this.toggleExpanded()"
+    >
+      <mat-icon *ngIf="!isExpanded">expand_more</mat-icon>
+      <mat-icon *ngIf="isExpanded">expand_less</mat-icon>
+    </button>
+
+    <ng-template #expandReplacement>
+      <span style="width: 48px; display: inline-block"></span>
+    </ng-template>
+
+    <button
+      class="edit-button"
+      mat-icon-button
+      [mat-menu-trigger-for]="menu"
+      *ngIf="task.isSelfControl || !task.graded; else editReplacement"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="enterProgress()">
+        <mat-icon>edit</mat-icon>
+        Status
+      </button>
+    </mat-menu>
+
+    <ng-template #editReplacement>
+      <span style="width: 48px; display: inline-block"></span>
+    </ng-template>
+  </div>
+
+  <!-- Detail -->
+  <div *ngIf="isExpanded">
+    <span class="title" *ngIf="task.title && task.file">
+      <app-file [file]="task.file"></app-file>
+    </span>
+    <p style="margin-bottom: 0; margin-top: 16px" class="mat-typographie">
+      {{ task.text }}
+    </p>
+  </div>
+</div>

@@ -1,3 +1,6 @@
+<app-toolbar></app-toolbar>
+<div style="height: 64px"></div>
+
 <app-add-button (click)="addUfk()"></app-add-button>
 
 <div style="padding: 50px">
@@ -27,6 +30,7 @@
     (delete)="deleteUfk($event)"
   ></app-ufk-table>
 
-  <ng-template #loading><app-loading-ufk-table></app-loading-ufk-table></ng-template>
-
+  <ng-template #loading
+    ><app-loading-ufk-table></app-loading-ufk-table
+  ></ng-template>
 </div>

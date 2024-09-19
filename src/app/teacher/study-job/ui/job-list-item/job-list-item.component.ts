@@ -16,6 +16,12 @@ export class IJobListItem implements IStudyJob {
   get credits(): number {
     throw Error('not property of job list item')
   }
+  get niveau(): number {
+    throw Error('not property of job list item')
+  }
+  get isSelfAssessment(): boolean {
+    throw Error('not property of job list item')
+  }
 
   constructor(
     public _id: number,

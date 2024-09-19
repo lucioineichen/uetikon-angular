@@ -22,6 +22,4 @@ export class TaskComponent {
   toggleExpanded() {
     this.isExpanded = !this.isExpanded
   }
-
-  constructor(private domSanitizer: DomSanitizer) {}
 }

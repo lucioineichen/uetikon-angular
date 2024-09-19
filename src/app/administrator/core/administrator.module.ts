@@ -10,6 +10,7 @@ import { TeacherDetailModule } from '../teachers/teacher-detail/teacher.module'
 import { StudentDetailModule } from '../students/student-detail/student-detail.module'
 import { StudentListModule } from '../students/student-list/student-list.module'
 import { StudentFormModule } from '../students/student-list/ui/student-form/student-form.module'
+import { ToolbarModule } from 'src/app/shared/ui/toolbar/toolbar.module'
 
 @NgModule({
   declarations: [AdministratorComponent],
@@ -24,6 +25,7 @@ import { StudentFormModule } from '../students/student-list/ui/student-form/stud
     TeacherDetailModule,
     StudentDetailModule,
     StudentFormModule,
+    ToolbarModule,
   ],
 })
 export class AdministratorModule {}

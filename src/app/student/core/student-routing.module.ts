@@ -6,6 +6,7 @@ import { JobDetialComponent } from '../job-detail/study-job.component'
 import { TaskComponent } from '../job-detail/ui/task/task.component'
 import { CompetenceListComponent } from '../competence/competences.component'
 import { EditPathComponent } from '../course/edit-path/edit-path.component'
+import { StudyJobComponent } from '../study-job/study-job.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/student/courses', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'courses', component: StudentCoursesComponent },
   { path: 'courses/:courseId', redirectTo: 'course/:courseId' },
   { path: 'course/:courseId', component: StudentCourseComponent },
+  { path: 'study-jobs/:id', component: StudyJobComponent },
   // { path: 'study-jobs/:id', component: JobDetialComponent },
   // { path: 'study-job/:id', redirectTo: 'study-jobs/:id' },
   // { path: 'tasks/:id', component: TaskComponent },

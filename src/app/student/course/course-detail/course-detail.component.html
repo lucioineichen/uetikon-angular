@@ -1,4 +1,4 @@
-<div style="position: fixed; right: 0; padding: 32px; z-index: 101">
+<!-- <div style="position: fixed; right: 0; padding: 32px; z-index: 101">
   <button
     mat-mini-fab
     matTooltip="LernWeg Bearbeiten"
@@ -16,105 +16,119 @@
       >add</mat-icon
     >
   </button>
-</div>
+</div> -->
 
-<div style="position: absolute; top: 0; width: 100%; z-index: 100">
-  <!-- Sub Header -->
-  <mat-toolbar
-    color="primary"
-    fxLayoutGap="8px"
-    style="position: fixed; z-index: 10000"
+<mat-toolbar
+  color="primary"
+  fxLayoutGap="8px"
+  style="position: fixed; top: 0; z-index: 10000"
+  class="mat-elevation-z8"
+>
+  <a mat-button routerLink="/teacher/students" (click)="goBack()"
+    ><mat-icon>arrow_back</mat-icon> Zurück</a
   >
-    <a mat-button routerLink="/teacher/students" (click)="goBack()"
-      ><mat-icon>arrow_back</mat-icon> Zurück</a
+  <span class="toolbar-title">{{ courseName }}</span>
+</mat-toolbar>
+
+<div class="main-content" *ngIf="course$ | async as course; else loading">
+  <div class="title">
+    LernWeg
+    <button
+      mat-mini-fab
+      (click)="editPath()"
+      [matBadge]="
+        course$.value?.notMetContainerList?.length == 0
+          ? ''
+          : course$.value?.notMetContainerList?.length
+      "
+      matBadgeColor="accent"
+      matBadgePosition="above before"
+      color="pirmary"
     >
-    <span class="toolbar-title">{{ courseName }}</span>
-  </mat-toolbar>
+      <mat-icon>edit</mat-icon>
+    </button>
+  </div>
 
-  <div class="main-content" *ngIf="course$ | async as course; else loading">
-    <div class="title">LernWeg</div>
-    <app-study-path></app-study-path>
+  <app-study-path></app-study-path>
 
-    <div class="course-information">
-      <div class="title">Kurs Informationen</div>
-      <mat-card class="course-information-card">
-        <mat-card-header>
-          <mat-card-title style="margin-bottom: 20px">
-            {{ course.name }}
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div>
-            <mat-chip class="chip">{{ course.credits }} Credits </mat-chip>
-            <mat-chip class="chip" *ngIf="!course.isProject"
-              >Regel Unterricht</mat-chip
-            >
-            <mat-chip class="chip" *ngIf="course.isProject"
-              >Überfachliches Projekt</mat-chip
-            >
-            <mat-chip class="chip" *ngIf="!course.imageUrl"
-              >Ohne Kursbild</mat-chip
-            >
-            <mat-chip *ngIf="course.imageUrl" style="vertical-align: middle">
-              <img
-                matChipAvatar
-                [src]="course.imageUrl"
-                alt="URL existiert nicht"
-              />
-              Kurs Bild
-            </mat-chip>
-          </div>
-          <div>
-            <div class="wrapper">
-              <div class="left">
-                <div>
-                  <div class="teacher-list">
-                    <mat-list>
-                      <mat-card-title>Lehrer </mat-card-title>
-                      <mat-list-item
-                        *ngFor="let teacher of course.teacherList"
-                        >{{ teacher.name | titlecase }}</mat-list-item
-                      >
-                    </mat-list>
-                  </div>
-                </div>
-              </div>
-              <div class="right">
+  <div class="course-information">
+    <div class="title">Kurs Informationen</div>
+    <mat-card class="course-information-card">
+      <mat-card-header>
+        <mat-card-title style="margin-bottom: 20px">
+          {{ course.name }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <mat-chip class="chip">{{ course.credits }} Credits </mat-chip>
+          <mat-chip class="chip" *ngIf="!course.isProject"
+            >Regel Unterricht</mat-chip
+          >
+          <mat-chip class="chip" *ngIf="course.isProject"
+            >Überfachliches Projekt</mat-chip
+          >
+          <mat-chip class="chip" *ngIf="!course.imageUrl"
+            >Ohne Kursbild</mat-chip
+          >
+          <mat-chip *ngIf="course.imageUrl" style="vertical-align: middle">
+            <img
+              matChipAvatar
+              [src]="course.imageUrl"
+              alt="URL existiert nicht"
+            />
+            Kurs Bild
+          </mat-chip>
+        </div>
+        <div>
+          <div class="wrapper">
+            <div class="left">
+              <div>
                 <div class="teacher-list">
                   <mat-list>
-                    <mat-card-title>Schüler </mat-card-title>
-                    <mat-list-item *ngIf="course.studentList.length == 0">
-                      Keine Schüler
-                    </mat-list-item>
-                    <mat-list-item *ngFor="let student of course.studentList">{{
-                      student.name | titlecase
+                    <mat-card-title>Lehrer </mat-card-title>
+                    <mat-list-item *ngFor="let teacher of course.teacherList">{{
+                      teacher.name | titlecase
                     }}</mat-list-item>
                   </mat-list>
                 </div>
               </div>
             </div>
+            <div class="right">
+              <div class="teacher-list">
+                <mat-list>
+                  <mat-card-title>Schüler </mat-card-title>
+                  <mat-list-item *ngIf="course.studentList.length == 0">
+                    Keine Schüler
+                  </mat-list-item>
+                  <mat-list-item *ngFor="let student of course.studentList">{{
+                    student.name | titlecase
+                  }}</mat-list-item>
+                </mat-list>
+              </div>
+            </div>
           </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div *ngIf="currentProgress$ | async as currentProgress">
-      <div class="title">Aktuelle Leistungen</div>
-      <div class="mat-elevation-z8">
-        <app-job-progress-table
-          [job-progress-list]="currentProgress"
-        ></app-job-progress-table>
-      </div>
-    </div>
-
-    <div style="height: 250px"></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  <ng-template #loading>
-    <div *ngIf="!course$.hasError; else error">Lädt Kurs...</div></ng-template
-  >
+  <div *ngIf="currentProgress$ | async as currentProgress">
+    <div class="title">Aktuelle Leistungen</div>
+    <div class="mat-elevation-z8">
+      <app-job-progress-table
+        [job-progress-list]="currentProgress"
+      ></app-job-progress-table>
+    </div>
+  </div>
 
-  <ng-template #error
-    >Kurs konnten nicht geladen werden, lade die Seite neu</ng-template
-  >
+  <div style="height: 250px"></div>
 </div>
+
+<ng-template #loading>
+  <div *ngIf="!course$.hasError; else error">Lädt Kurs...</div></ng-template
+>
+
+<ng-template #error
+  >Kurs konnten nicht geladen werden, lade die Seite neu</ng-template
+>

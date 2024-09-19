@@ -5,6 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout'
 import { ParentComponent } from './parent.component'
 import { NgModule } from '@angular/core'
 import { ParentRoutingModule } from './parent-routing.module'
+import { ToolbarModule } from '../shared/ui/toolbar/toolbar.module'
 
 @NgModule({
   declarations: [ParentComponent],
@@ -15,6 +16,7 @@ import { ParentRoutingModule } from './parent-routing.module'
     FormsModule,
     FlexLayoutModule,
     ParentRoutingModule,
+    ToolbarModule,
   ],
 })
 export class ParentModule {}

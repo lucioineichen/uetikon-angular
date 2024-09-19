@@ -110,6 +110,8 @@ export interface IStudyJob {
   subject?: { _id: string; name: string }
   isPublished: boolean
   status: number
+  niveau: number
+  isSelfAssessment: boolean
 }
 
 export interface ITask {
@@ -120,6 +122,23 @@ export interface ITask {
   weight: number
   isSelfControl: boolean
   file?: IFile
+  isSubmission: boolean
+}
+
+export interface ISubmission {
+  _id: number
+  name: string
+  file: IFile
+  forCorrection: ICorrection
+  corrections: ICorrection[]
+}
+
+export interface ICorrection {
+  _id: number
+  name: string
+  file?: IFile
+  text?: string
+  forSubmission: IRef[]
 }
 
 export interface IFile {
@@ -142,17 +161,6 @@ export interface IMaterial {
   text: string | undefined
 }
 
-// export interface JobContainer {
-//   _id: number
-//   name: string | undefined
-//   isDependent: boolean
-//   dependentContainer: IRef | undefined
-//   type: 'mandetory' | 'choice' | 'competence'
-//   necessairyCompetences: ICompetence[] | undefined
-//   mandetoryJob: IStudyJob | undefined
-//   jobChoices: IStudyJob[]
-// }
-
 export interface ICourse {
   _id: number
   name: string
@@ -172,7 +180,7 @@ export interface IStudentCourse extends ICourse {
 export interface ITaskProgress {
   _id: number
   task: ITask
-  completed: boolean
+  status: 0 | 1 | 2
   grade: number | undefined
 }
 

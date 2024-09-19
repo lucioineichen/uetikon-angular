@@ -11,7 +11,7 @@
 
     <mat-chip-listbox formControlName="grade" aria-label="Bewertung">
       <mat-chip-option [value]="1">Gut</mat-chip-option>
-      <mat-chip-option [value]="0.4" color="warn">Schlecht</mat-chip-option>*
+      <mat-chip-option [value]="0" color="warn">Schlecht</mat-chip-option>*
     </mat-chip-listbox>
 
     <div class="vertical-space"></div>
@@ -68,7 +68,10 @@
 
     <div class="vertical-space"></div>
 
-    <app-file-upload (discard-file)="discardFile()" (select-file)="selectFile($event)"></app-file-upload>
+    <app-file-upload
+      (discard-file)="discardFile()"
+      (select-file)="selectFile($event)"
+    ></app-file-upload>
 
     <div class="vertical-space"></div>
 

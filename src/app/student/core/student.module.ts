@@ -10,9 +10,11 @@ import { CompetenceListModule } from '../competence/competence-list.module'
 import { JobDetailModule } from '../job-detail/job-detail.module'
 import { CourseDetailModule } from '../course/course-detail/course-detail.module'
 import { EditPathModule } from '../course/edit-path/edit-path.module'
+import { CourseListModule } from '../course/course-list/course-list.module'
+import { StudyJobModule } from '../study-job/study-job.module'
 
 @NgModule({
-  declarations: [StudentCoursesComponent, StudentComponent],
+  declarations: [StudentComponent],
   imports: [
     CommonModule,
     StudentRoutingModule,
@@ -23,6 +25,8 @@ import { EditPathModule } from '../course/edit-path/edit-path.module'
     JobDetailModule,
     CourseDetailModule,
     EditPathModule,
+    CourseListModule,
+    StudyJobModule,
   ],
 })
 export class StudentModule {}

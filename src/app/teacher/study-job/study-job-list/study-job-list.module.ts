@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router'
 import { NameModule } from 'src/app/shared/ui/name/name.module'
 import { LoadingFolderModule } from '../ui/loading-folder/loading-folder.module'
 import { LoadingJobModule } from '../ui/loading-job/loading-job.module'
+import { ToolbarModule } from 'src/app/shared/ui/toolbar/toolbar.module'
 
 @NgModule({
   declarations: [StudyJobListComponent],
@@ -27,6 +28,7 @@ import { LoadingJobModule } from '../ui/loading-job/loading-job.module'
     NameModule,
     LoadingFolderModule,
     LoadingJobModule,
+    ToolbarModule,
   ],
 })
 export class StudyJobListModule {}

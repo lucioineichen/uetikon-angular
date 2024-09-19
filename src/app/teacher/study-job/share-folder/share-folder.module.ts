@@ -9,6 +9,7 @@ import { ParticipatingTeacherListComponent } from './participating-teacher-list/
 import { NameModule } from 'src/app/shared/ui/name/name.module'
 import { ChooseFolderModule } from 'src/app/shared/ui/choose-folder/choose-folder.module'
 import { ChooseTeacherDialogModule } from 'src/app/shared/ui/choose-teacher-dialog/choose-teacher-dialog.module'
+import { ToolbarModule } from 'src/app/shared/ui/toolbar/toolbar.module'
 
 @NgModule({
   declarations: [ShareFolderComponent, ParticipatingTeacherListComponent],
@@ -21,6 +22,7 @@ import { ChooseTeacherDialogModule } from 'src/app/shared/ui/choose-teacher-dial
     NameModule,
     ChooseFolderModule,
     ChooseTeacherDialogModule,
+    ToolbarModule,
   ],
 })
 export class ShareFolderModule {}

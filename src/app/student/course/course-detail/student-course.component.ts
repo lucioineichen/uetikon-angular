@@ -25,8 +25,8 @@ import { HttpParams } from '@angular/common/http'
 export class StudentCourseComponent implements OnInit {
   currentProgress$ = new BehaviorSubject<IProgress[] | undefined>(undefined)
   course$ = new BehaviorSubject<IStudentCourse | undefined>(undefined)
-  courseId: number
-  courseName: string
+  courseId!: number
+  courseName!: string
 
   constructor(
     protected route: ActivatedRoute,
@@ -34,10 +34,7 @@ export class StudentCourseComponent implements OnInit {
     private service: CourseDetailService,
     private uiService: DialogService,
     private location: Location
-  ) {
-    this.courseId = this.route.snapshot.params['courseId']
-    this.courseName = this.route.snapshot.queryParams['courseName']
-  }
+  ) {}
 
   openContainer(containerId: number, containerName: string) {
     this.router.navigate(
@@ -64,13 +61,18 @@ export class StudentCourseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.courseId = this.route.snapshot.params['courseId']
+    this.courseName = this.route.snapshot.queryParams['name']
+    this.updateCourse()
+  }
+
+  private updateCourse() {
     this.service
       .getCourse(this.courseId)
       .pipe(
         tap((course) => this.course$.next(course)),
         catchError((err) => {
           this.uiService.showToast('Kurs konnte nicht geladen werden')
-          this.course$.error('server 500')
           return err
         })
       )

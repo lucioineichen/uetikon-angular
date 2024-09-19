@@ -63,9 +63,14 @@ export class StudyPathComponent implements OnInit {
   }
 
   openJob(job: IStudyJob) {
-    this.router.navigate(['teacher', 'study-jobs', job._id], {
-      queryParams: { name: job.name },
-    })
+    if (this.auth.authStatus$.value?.userRole == 'student')
+      this.router.navigate(['student', 'study-jobs', job._id], {
+        queryParams: { name: job.name },
+      })
+    else
+      this.router.navigate(['teacher', 'study-jobs', job._id], {
+        queryParams: { name: job.name },
+      })
   }
 
   private updatePath() {

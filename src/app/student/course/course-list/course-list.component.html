@@ -1,69 +1,69 @@
-<div *ngIf="courses$ | async as courses">
-  <div style="padding: 60px 180px">
-    <mat-grid-list
-      cols="4"
-      gutterSize="20px"
-      rowHeight="360px"
-      [cols]="breakpoint"
-      (window:resize)="onResize($event)"
-    >
-      <mat-grid-tile *ngFor="let course of courses">
-        <mat-card
-          [ngClass]="{ project: course.isProject }"
-          (click)="openCourse(course._id, course.name)"
-          class="course-card"
-        >
-          <img
-            *ngIf="course.isProject"
-            class="project-icon"
-            src="assets/light-bulb-svgrepo-com.svg"
-            alt="no svg"
-            matTooltip="Überfachliches Projekt"
-          />
-          <mat-card-header>
-            <mat-card-title>{{ course.name }}</mat-card-title>
-          </mat-card-header>
-          <img
-            *ngIf="course.imageUrl"
-            mat-card-image
-            alt="Photo of a Shiba Inu"
-            [src]="course.imageUrl"
-            class="image"
-          />
-          <div class="no-image" *ngIf="!course.imageUrl">
-            <div class="no-image-letter">{{ course.name.charAt(0) }}</div>
+<app-toolbar></app-toolbar>
+
+<div class="main-content" *ngIf="courses$ | async as courses">
+  <mat-grid-list
+    cols="4"
+    gutterSize="20px"
+    rowHeight="360px"
+    [cols]="breakpoint"
+    (window:resize)="onResize($event)"
+  >
+    <mat-grid-tile *ngFor="let course of courses">
+      <mat-card
+        [ngClass]="{ project: course.isProject }"
+        (click)="openCourse(course._id, course.name)"
+        class="course-card"
+      >
+        <img
+          *ngIf="course.isProject"
+          class="project-icon"
+          src="assets/light-bulb-svgrepo-com.svg"
+          alt="no svg"
+          matTooltip="Überfachliches Projekt"
+        />
+        <mat-card-header>
+          <mat-card-title>{{ course.name }}</mat-card-title>
+        </mat-card-header>
+        <img
+          *ngIf="course.imageUrl"
+          mat-card-image
+          alt="Photo of a Shiba Inu"
+          [src]="course.imageUrl"
+          class="image"
+        />
+        <div class="no-image" *ngIf="!course.imageUrl">
+          <div class="no-image-letter">{{ course.name.charAt(0) }}</div>
+        </div>
+        <mat-card-content class="card-content">
+          <mat-chip class="chip">
+            <img src="../../../assets/credits.svg" matChipAvatar alt="" />
+            {{ course.credits }} Credits
+          </mat-chip>
+          <mat-chip class="chip">
+            <mat-icon matChipAvatar svgIcon="teacher"></mat-icon>
+
+            {{ course.teacherList.length }} Lehrer
+          </mat-chip>
+          <mat-chip class="chip">
+            <mat-icon matChipAvatar svgIcon="student"></mat-icon>
+
+            {{ course.studentList.length }} Schüler
+          </mat-chip>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="courses.length == 0">
+      <mat-card class="course-card">
+        <mat-card-header>
+          <mat-card-title>Du bist noch in keinem Kurs</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div style="height: 20px"></div>
+          <div class="no-course">
+            <div>Werde einem Kurs hinzugefügt</div>
           </div>
-          <mat-card-content class="card-content">
-            <mat-chip class="chip">
-              <img src="../../../assets/credits.svg" matChipAvatar alt="" />
-              {{ course.credits }} Credits
-            </mat-chip>
-            <mat-chip class="chip">
-              <mat-icon matChipAvatar svgIcon="teacher"></mat-icon>
-
-              {{ course.teacherList.length }} Lehrer
-            </mat-chip>
-            <mat-chip class="chip">
-              <mat-icon matChipAvatar svgIcon="student"></mat-icon>
-
-              {{ course.studentList.length }} Schüler
-            </mat-chip>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-      <mat-grid-tile *ngIf="courses.length == 0">
-        <mat-card class="course-card">
-          <mat-card-header>
-            <mat-card-title>Du bist noch in keinem Kurs</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div style="height: 20px"></div>
-            <div class="no-course">
-              <div>Werde einem Kurs hinzugefügt</div>
-            </div>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>

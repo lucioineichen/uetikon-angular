@@ -19,6 +19,7 @@ import { PageNotFoundComponent } from '../../features/page-not-found/page-not-fo
 import { LoginModule } from '../../features/login/login.module'
 import { CreateUserModule } from '../../features/create-user/create-user.module'
 import { ProfileModule } from 'src/app/features/profile/profile.module'
+import { ToolbarModule } from 'src/app/shared/ui/toolbar/toolbar.module'
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { ProfileModule } from 'src/app/features/profile/profile.module'
     LoginModule,
     CreateUserModule,
     ProfileModule,
+    ToolbarModule,
   ],
   providers: [
     { provide: AuthService, useClass: DjangoRestApiAuthService },
