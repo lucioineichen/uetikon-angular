@@ -4,6 +4,16 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { startWith, tap } from 'rxjs'
 import { ITask } from 'src/app/shared/utils/interfaces'
 
+export const emptyTask: ITask = {
+  _id: 0,
+  title: '',
+  text: '',
+  weight: 1,
+  graded: false,
+  isSelfControl: false,
+  isSubmission: false,
+}
+
 @Component({
   selector: 'app-task-form',
   templateUrl: './task-form.component.html',
@@ -26,7 +36,7 @@ export class TaskFormComponent {
   }
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) protected task?: ITask
+    @Inject(MAT_DIALOG_DATA) protected task: ITask = emptyTask
   ) {}
   ngOnInit(): void {
     this.buildForm()
@@ -54,40 +64,36 @@ export class TaskFormComponent {
       'isSelfControl',
       JSON.stringify(data.isSelfControl || false)
     )
+    formData.append('isSubmission', JSON.stringify(data.isSubmission || false))
 
     return formData
   }
   private buildForm() {
-    if (this.task) {
-      this.form = this.fb.group({
-        title: [this.task.title, [Validators.maxLength(50)]],
-        text: [this.task.text],
-        weight: [this.task.weight],
-        isSelfControl: [this.task.isSelfControl, Validators.required],
-        graded: [this.task.graded, Validators.required],
-      })
-      if (this.task.file) this.fileName = this.task.file.name
-    } else {
-      this.form = this.fb.group({
-        title: ['', [Validators.maxLength(50)]],
-        text: [''],
-        weight: [1],
-        graded: [false, Validators.required],
-        isSelfControl: [false, Validators.required],
-      })
-    }
-    const weightControl = this.form.get('weight')
+    this.form = this.fb.group({
+      title: [this.task.title, [Validators.maxLength(50)]],
+      text: [this.task.text],
+      weight: [this.task.weight],
+      isSelfControl: [this.task.isSelfControl, Validators.required],
+      graded: [this.task.graded, Validators.required],
+      isSubmission: [this.task.isSubmission, Validators.required],
+    })
+    if (this.task.file) this.fileName = this.task.file.name
+
+    const gradedCtrl = this.form.get('graded')
     const isSelfControl = this.form.get('isSelfControl')
-    this.form
-      .get('graded')
-      ?.valueChanges.pipe(
-        startWith(this.form.get('graded')?.value),
+    const isSubmission = this.form.get('isSubmission')
+    gradedCtrl?.valueChanges
+      .pipe(
+        startWith(gradedCtrl?.value),
         tap((isGraded) => {
           if (isGraded) {
             isSelfControl?.enable()
+            isSubmission?.enable()
           } else {
             isSelfControl?.setValue(false)
+            isSubmission?.setValue(false)
             isSelfControl?.disable()
+            isSubmission?.disable()
           }
         })
       )

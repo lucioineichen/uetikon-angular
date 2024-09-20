@@ -9,7 +9,12 @@ import { ITaskProgress } from 'src/app/shared/utils/interfaces'
 export class TaskProgressComponent {
   @Input() progress!: ITaskProgress
   @Output('enter-progress') enterProgressEvent = new EventEmitter<true>()
+  @Output('add-submission') addSubmissionEvent = new EventEmitter<true>()
   isExpanded = false
+
+  addSubmission() {
+    this.addSubmissionEvent.emit(true)
+  }
 
   enterProgress() {
     this.enterProgressEvent.emit(true)

@@ -20,6 +20,7 @@
     <app-task-progress
       [progress]="taskProgress"
       (enter-progress)="enterProgress(taskProgress)"
+      (add-submission)="addSubmission(taskProgress)"
       *ngFor="let taskProgress of progress.taskProgressList"
     ></app-task-progress>
     <div *ngIf="progress.job.tasks.length === 0">

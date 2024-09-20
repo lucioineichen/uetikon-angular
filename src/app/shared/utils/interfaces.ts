@@ -182,6 +182,7 @@ export interface ITaskProgress {
   task: ITask
   status: 0 | 1 | 2
   grade: number | undefined
+  submissions: ISubmission[]
 }
 
 export interface IProgress {

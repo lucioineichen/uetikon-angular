@@ -19,7 +19,10 @@
     <mat-chip style="margin-left: 5px">Gewichtung: {{ task.weight }}</mat-chip>
 
     <button
-      *ngIf="task.text || (task.file && task.title); else expandReplacement"
+      *ngIf="
+        task.text || (task.file && task.title) || task.isSubmission;
+        else expandReplacement
+      "
       mat-icon-button
       (click)="this.toggleExpanded()"
     >
@@ -44,6 +47,10 @@
         <mat-icon>edit</mat-icon>
         Status
       </button>
+      <button mat-menu-item (click)="addSubmission()" *ngIf="task.isSubmission">
+        <mat-icon>add</mat-icon>
+        Abgabe
+      </button>
     </mat-menu>
 
     <ng-template #editReplacement>
@@ -56,8 +63,17 @@
     <span class="title" *ngIf="task.title && task.file">
       <app-file [file]="task.file"></app-file>
     </span>
-    <p style="margin-bottom: 0; margin-top: 16px" class="mat-typographie">
+    <p *ngIf="task.text">
       {{ task.text }}
     </p>
+    <div style="margin-bottom: 12px">
+      <div *ngFor="let submission of progress.submissions">
+        <app-file [file]="submission.file"></app-file>
+      </div>
+      <div *ngIf="progress.submissions.length == 0">
+        <p style="display: block">Noch keine Abgabe</p>
+      </div>
+    </div>
+    <div style="height: 0.1px"></div>
   </div>
 </div>

@@ -7,7 +7,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core'
-import { FileUploadService } from './file-upload.service'
 
 @Component({
   selector: 'app-file-upload',
@@ -59,7 +58,7 @@ export class FileUploadComponent implements OnInit {
   @Input('file-name') initialFileName?: string
   fileName?: string
 
-  constructor(private service: FileUploadService) {}
+  constructor() {}
 
   ngOnInit(): void {
     if (this.initialFileName) this.fileName = this.initialFileName

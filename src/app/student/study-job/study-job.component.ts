@@ -11,6 +11,7 @@ import {
 } from 'src/app/shared/utils/interfaces'
 import { EnterTaskProgressService } from 'src/app/shared/ui/enter-task-progress/enter-task-progress.service'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { AddSubmissionService } from './add-submission/add-submission.service'
 
 @Component({
   selector: 'app-study-job',
@@ -27,12 +28,20 @@ export class StudyJobComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private service: StudyJobService,
-    private enterProgessService: EnterTaskProgressService
+    private enterProgessService: EnterTaskProgressService,
+    private addSubmissionService: AddSubmissionService
   ) {}
 
   ngOnInit(): void {
     this.updateQueryInfo()
     this.updateProgress()
+  }
+
+  addSubmission(prog: ITaskProgress) {
+    this.addSubmissionService
+      .addSubmission(prog._id, prog.task.title)
+      .pipe(tap(() => this.updateProgress()))
+      .subscribe()
   }
 
   enterProgress(prog: ITaskProgress) {

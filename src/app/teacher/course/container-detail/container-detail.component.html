@@ -1,106 +1,105 @@
-<div style="position: absolute; top: 0; width: 100%; z-index: 100">
-  <mat-toolbar
-    color="primary"
-    fxLayoutGap="8px"
-    style="position: fixed; z-index: 10000"
+<mat-toolbar
+  color="primary"
+  fxLayoutGap="8px"
+  class="mat-elevation-z8"
+  style="position: fixed; z-index: 10000"
+>
+  <a mat-button (click)="goBack()"><mat-icon>arrow_back</mat-icon> Zurück</a>
+  <a mat-button (click)="service.update()"
+    ><h1>{{ containerName$ | async }}</h1></a
   >
-    <a mat-button (click)="goBack()"><mat-icon>arrow_back</mat-icon> Zurück</a>
-    <a mat-button (click)="service.update()"
-      ><h1>{{ containerName$ | async }}</h1></a
-    >
-  </mat-toolbar>
+</mat-toolbar>
 
-  <div
-    class="main-content"
-    *ngIf="
-      !container$.hasError && (container$ | async) as container;
-      else loading
-    "
-  >
-    <div class="title">{{ container.name }}</div>
-    <div class="sub-title">
-      <div *ngIf="container.type == 'mandetory'">
-        Obligatorisches LernElement in {{ courseName$ | async }}
-      </div>
-      <div *ngIf="container.type == 'choice'">
-        LernJob Auswahl in {{ courseName$ | async }}
-      </div>
-      <div *ngIf="container.type == 'competence'">
-        Kompetenz Bezogenes LernElement in {{ courseName$ | async }}
-      </div>
+<div
+  class="main-content"
+  *ngIf="
+    !container$.hasError && (container$ | async) as container;
+    else loading
+  "
+>
+  <div class="title">{{ container.name }}</div>
+  <div class="sub-title">
+    <div *ngIf="container.type == 'mandetory'">
+      Obligatorisches LernElement in {{ courseName$ | async }}
     </div>
-
-    <div>
-      <div *ngIf="container.isDependent">
-        <mat-card class="dependency">
-          <button
-            class="menu-button"
-            style="position: absolute; top: 0px; right: 0px"
-            mat-icon-button
-            [mat-menu-trigger-for]="menu"
-            class="edit-button"
-          >
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" xPosition="after">
-            <button mat-menu-item (click)="removeDependency()">
-              <mat-icon style="vertical-align: bottom">delete</mat-icon>
-              <span>Löschen</span>
-            </button>
-          </mat-menu>
-          <mat-card-header>
-            <mat-card-title>
-              <mat-icon style="text-align: bottom">lock</mat-icon> Abhängigkeit
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            {{ container.dependentContainer.name }}
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div *ngIf="!container.isDependent">
-        <button mat-raised-button (click)="addDependency()">
-          <mat-icon>lock</mat-icon> Abhängigkeit Hinzufügen
-        </button>
-      </div>
+    <div *ngIf="container.type == 'choice'">
+      LernJob Auswahl in {{ courseName$ | async }}
     </div>
-
-    <div *ngIf="container.type == 'mandetory'" style="margin-top: 20px">
-      <app-job-container [job]="container.mandetoryJob"></app-job-container>
-    </div>
-
-    <div *ngIf="container.type == 'choice'" style="margin-top: 20px">
-      <app-choice-container
-        [id]="container._id"
-        [job-choice-list]="container.jobChoices"
-      ></app-choice-container>
-    </div>
-
     <div *ngIf="container.type == 'competence'">
-      <app-competence-container
-        [id]="container._id"
-        [competence-list]="container.necessairyCompetences"
-      ></app-competence-container>
+      Kompetenz Bezogenes LernElement in {{ courseName$ | async }}
     </div>
-
-    <button
-      mat-raised-button
-      style="margin-top: 20px"
-      (click)="deleteContainer()"
-    >
-      <mat-icon>delete</mat-icon> LernElement Entfernen
-    </button>
   </div>
 
-  <ng-template #loading>
-    <div *ngIf="!container$.hasError; else error" class="main-content">
-      Lädt LernElement
-    </div></ng-template
-  >
+  <div>
+    <div *ngIf="container.isDependent">
+      <mat-card class="dependency">
+        <button
+          class="menu-button"
+          style="position: absolute; top: 0px; right: 0px"
+          mat-icon-button
+          [mat-menu-trigger-for]="menu"
+          class="edit-button"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="after">
+          <button mat-menu-item (click)="removeDependency()">
+            <mat-icon style="vertical-align: bottom">delete</mat-icon>
+            <span>Löschen</span>
+          </button>
+        </mat-menu>
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon style="text-align: bottom">lock</mat-icon> Abhängigkeit
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          {{ container.dependentContainer.name }}
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div *ngIf="!container.isDependent">
+      <button mat-raised-button (click)="addDependency()">
+        <mat-icon>lock</mat-icon> Abhängigkeit Hinzufügen
+      </button>
+    </div>
+  </div>
 
-  <ng-template #error
-    ><div class="main-content">
-      LernElement konnten nicht geladen werden, lade die Seite neu
-    </div></ng-template
+  <div *ngIf="container.type == 'mandetory'" style="margin-top: 20px">
+    <app-job-container [job]="container.mandetoryJob"></app-job-container>
+  </div>
+
+  <div *ngIf="container.type == 'choice'" style="margin-top: 20px">
+    <app-choice-container
+      [id]="container._id"
+      [job-choice-list]="container.jobChoices"
+    ></app-choice-container>
+  </div>
+
+  <div *ngIf="container.type == 'competence'">
+    <app-competence-container
+      [id]="container._id"
+      [competence-list]="container.necessairyCompetences"
+    ></app-competence-container>
+  </div>
+
+  <button
+    mat-raised-button
+    style="margin-top: 20px"
+    (click)="deleteContainer()"
   >
+    <mat-icon>delete</mat-icon> LernElement Entfernen
+  </button>
 </div>
+
+<ng-template #loading>
+  <div *ngIf="!container$.hasError; else error" class="main-content">
+    Lädt LernElement
+  </div></ng-template
+>
+
+<ng-template #error
+  ><div class="main-content">
+    LernElement konnten nicht geladen werden, lade die Seite neu
+  </div></ng-template
+>
