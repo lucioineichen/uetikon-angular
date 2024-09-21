@@ -27,29 +27,14 @@ import { ChooserService } from 'src/app/shared/ui/chooser/chooser.service'
 })
 export class CourseService {
   course$ = new BehaviorSubject<ICourse | undefined>(undefined)
-  id$ = new BehaviorSubject<number | undefined>(undefined)
-  name$ = new BehaviorSubject<string | undefined>(undefined)
+  // id$ = new BehaviorSubject<number | undefined>(undefined)
+  // name$ = new BehaviorSubject<string | undefined>(undefined)
 
   constructor(
     private httpClient: HttpClient,
-    private ui: DialogService,
     private router: Router,
     private chooseJob: ChooseJobService
   ) {}
-
-  update() {
-    this.getCourse()
-      .pipe(
-        tap(console.info),
-        tap((course) => this.course$.next(course)),
-        catchError((err) => {
-          this.ui.showToast('Kurs konnte nicht geladen werden')
-          this.course$.error(err)
-          return err
-        })
-      )
-      .subscribe()
-  }
 
   navigateToStudent(student: IStudent) {
     this.router.navigate(
@@ -63,13 +48,8 @@ export class CourseService {
     )
   }
 
-  private getCourse() {
-    return this.id$.pipe(
-      filterNullish(),
-      mergeMap((id) =>
-        this.httpClient.get<ICourse>(`${environment.baseUrl}/courses/${id}`)
-      )
-    )
+  getCourse(id: number) {
+    return this.httpClient.get<ICourse>(`${environment.baseUrl}/courses/${id}`)
   }
 
   putCourse(id: number, data: any) {

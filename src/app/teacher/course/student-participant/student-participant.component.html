@@ -1,41 +1,43 @@
-<div style="position: absolute; width: 100%; top: 0; z-index: 100">
-  <mat-toolbar color="primary" style="position: fixed; z-index: 1000">
-    <a mat-button (click)="navigateBack()"
-      ><mat-icon>arrow_back</mat-icon> Zurück</a
-    >
-    <span style="width: 2rem"></span>
-    <h1>{{ courseName + ": " }} {{ name | titlecase }}</h1>
-  </mat-toolbar>
-
-  <div
-    style="
-      padding: 20px;
-      margin-left: 20%;
-      width: 60%;
-      margin-top: 150px;
-      margin-bottom: 50px;
-    "
-    class="mat-typography"
+<mat-toolbar
+  class="mat-elevation-z8"
+  color="primary"
+  style="position: fixed; z-index: 1000; top: 0"
+>
+  <a mat-button (click)="navigateBack()"
+    ><mat-icon>arrow_back</mat-icon> Zurück</a
   >
-    <div class="title">
-      LernWeg
-      <button mat-icon-button (click)="editPath()">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </div>
-    <app-study-path></app-study-path>
-  </div>
+  <span style="width: 2rem"></span>
+  <h1>{{ courseName + ": " }} {{ studentName | titlecase }}</h1>
+</mat-toolbar>
 
-  <div
-    style="padding: 20px; margin-left: 20%; width: 60%"
-    class="mat-typography"
-    *ngIf="progressList$ | async as progressList"
-  >
-    <div class="title">Leistungen</div>
-
-    <app-edit-progress-table
-      (updated)="ngOnInit()"
-      [progress-list]="progressList"
-    ></app-edit-progress-table>
+<div
+  style="
+    padding: 20px;
+    margin-left: 20%;
+    width: 60%;
+    margin-top: 150px;
+    margin-bottom: 50px;
+  "
+  class="mat-typography"
+>
+  <div class="title">
+    LernWeg
+    <button mat-icon-button (click)="editPath()">
+      <mat-icon>edit</mat-icon>
+    </button>
   </div>
+  <app-study-path></app-study-path>
+</div>
+
+<div
+  style="padding: 20px; margin-left: 20%; width: 60%"
+  class="mat-typography"
+  *ngIf="progressList$ | async as progressList"
+>
+  <div class="title">Leistungen</div>
+
+  <app-edit-progress-table
+    (updated)="ngOnInit()"
+    [progress-list]="progressList"
+  ></app-edit-progress-table>
 </div>

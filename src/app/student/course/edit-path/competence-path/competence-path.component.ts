@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { IContainerPath } from 'src/app/shared/utils/interfaces'
+import { IContainerPath, IJobSelection } from 'src/app/shared/utils/interfaces'
 import { ChoicePathService } from '../choice-path/choice-path.service'
 import { AddCompetencePathService } from './add-competence-path/add-competence-path.service'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
-import { mergeMap, tap } from 'rxjs'
+import { catchError, map, mergeMap, tap } from 'rxjs'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { ActivatedRoute } from '@angular/router'
 import { AuthService } from 'src/app/core/auth/auth.service'
+import { ConfirmDeleteService } from 'src/app/shared/ui/confirm-delete/confirm-delete.service'
+import { CompetencePathService } from './competence-path.service'
 
 @Component({
   selector: 'app-competence-path [path]',
@@ -32,7 +34,10 @@ import { AuthService } from 'src/app/core/auth/auth.service'
         ></div>
         <div style="margin-bottom: 10px;" *ngIf="path.selections.length > 0">
           <mat-chip class="chip" *ngFor="let sel of path.selections">
-            {{ sel.studyJob.name }} | {{ sel.deadline | date }}
+            {{ sel.studyJob.name }} | {{ sel.deadline | date
+            }}<button matChipRemove (click)="removeSelection(sel)">
+              <mat-icon>cancel</mat-icon>
+            </button>
           </mat-chip>
         </div>
         <mat-list *ngIf="path.missingCompetences.length > 0">
@@ -79,17 +84,38 @@ export class CompetencePathComponent {
   @Input() path!: IContainerPath
   @Output() update = new EventEmitter<true>()
 
-
   constructor(
-    private service: ChoicePathService,
+    private service: CompetencePathService,
     private ui: DialogService,
     private addCompetencePath: AddCompetencePathService,
     private route: ActivatedRoute,
-    private auth: AuthService
+    private auth: AuthService,
+    private confirmDelete: ConfirmDeleteService
   ) {}
 
   addSel() {
     setTimeout(() => this._addSel(), 0)
+  }
+
+  removeSelection(sel: IJobSelection) {
+    this.confirmDelete
+      .confirmDelete(sel.name)
+      .pipe(
+        map((isDelete) => (isDelete ? true : undefined)),
+        filterNullish(),
+        mergeMap(() => this.service.deleteSelection(sel._id)),
+        tap(
+          () =>
+            (this.path.selections = this.path.selections.filter(
+              (selection) => selection._id != sel._id
+            ))
+        ),
+        catchError((err) => {
+          this.ui.showToast('Job konnte nicht entfernt werden')
+          return err
+        })
+      )
+      .subscribe()
   }
 
   private _addSel() {
@@ -106,7 +132,7 @@ export class CompetencePathComponent {
             data.job
           )
         ),
-        tap(()=> this.update.emit(true)),
+        tap(() => this.update.emit(true))
       )
       .subscribe()
   }

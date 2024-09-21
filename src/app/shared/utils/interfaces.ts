@@ -131,6 +131,7 @@ export interface ISubmission {
   file: IFile
   forCorrection: ICorrection
   corrections: ICorrection[]
+  date: string
 }
 
 export interface ICorrection {
@@ -139,6 +140,7 @@ export interface ICorrection {
   file?: IFile
   text?: string
   forSubmission: IRef[]
+  date: string
 }
 
 export interface IFile {

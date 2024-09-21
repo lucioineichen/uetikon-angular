@@ -65,9 +65,9 @@ export class CourseDetailComponent implements OnInit {
   readonly currentProgress$ = new BehaviorSubject<Progress[] | undefined>(
     undefined
   )
-  readonly id$ = this.service.id$
-  readonly name$ = this.service.name$
   readonly course$ = this.service.course$
+  courseId!: number
+  courseName!: string
   newMessage: string = ''
   isChatOpen = false
   breakpoint!: number
@@ -141,7 +141,7 @@ export class CourseDetailComponent implements OnInit {
   ) {
     this.router.navigate(
       ['teacher', 'courses', courseId, 'student', studentId],
-      { queryParams: { courseName: courseName, name: studentName } }
+      { queryParams: { courseName, studentName } }
     )
   }
 
@@ -155,7 +155,7 @@ export class CourseDetailComponent implements OnInit {
         mergeMap((courseInfo) =>
           this.service.putCourse(course._id, courseInfo)
         ),
-        tap(() => this.service.update()),
+        tap(() => this.updateCourse(this.courseId)),
         catchError((error) => {
           this.ui.showToast('Kurse konnte nicht bearbeitet werden')
           return error
@@ -165,14 +165,11 @@ export class CourseDetailComponent implements OnInit {
   }
 
   openContainer(containerId: number, containerName: string) {
-    const courseId = this.id$.getValue()
-    const courseName = this.name$.getValue()
-    if (!courseId || !courseName) return
     this.router.navigate(
-      ['teacher', 'courses', courseId, 'containers', containerId],
+      ['teacher', 'courses', this.courseId, 'containers', containerId],
       {
         queryParams: {
-          courseName,
+          courseName: this.courseName,
           containerName,
         },
       }
@@ -185,29 +182,28 @@ export class CourseDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.mainMargin = `${this.calcMargin(window.innerWidth)}px`
-
     this.setBreakpoint()
 
-    this.route.params
-      .pipe(
-        tap((params) => {
-          this.service.id$.next(params['id'])
-          this.updateCurrentProgress(params['id'])
-        })
-      )
-      .subscribe()
+    this.courseId = this.route.snapshot.params['id']
+    this.updateCurrentProgress(this.courseId)
 
-    this.route.queryParams
-      .pipe(
-        tap((params) => {
-          this.service.name$.next(params['name'])
-        })
-      )
-      .subscribe()
-
-    this.service.update()
-
+    this.courseName = this.route.snapshot.queryParams['name']
     this.course$.pipe(tap(() => this.setBreakpoint())).subscribe()
+    this.updateCourse(this.courseId)
+  }
+
+  private updateCourse(id: number) {
+    this.service
+      .getCourse(id)
+      .pipe(
+        tap((course) => this.course$.next(course)),
+        catchError((err) => {
+          this.ui.showToast('Kurs konnte nicht geladen werden')
+          this.course$.error(err)
+          return err
+        })
+      )
+      .subscribe()
   }
 
   private updateCurrentProgress(id: number) {
@@ -226,29 +222,23 @@ export class CourseDetailComponent implements OnInit {
   }
 
   addMandetoryJob() {
-    const id = this.id$.getValue()
-    if (!id) return
     this.mandetory
-      .createMandetory(id)
-      .pipe(tap(() => this.service.update()))
+      .createMandetory(this.courseId)
+      .pipe(tap(() => this.updateCourse(this.courseId)))
       .subscribe()
   }
 
   addCompetenceJob() {
-    const id = this.id$.getValue()
-    if (!id) return
     this.createComp
-      .createCompetence(id)
-      .pipe(tap(() => this.service.update()))
+      .createCompetence(this.courseId)
+      .pipe(tap(() => this.updateCourse(this.courseId)))
       .subscribe()
   }
 
   addJobChoice() {
-    const id = this.id$.getValue()
-    if (!id) return
     this.createChoice
-      .createChoice(id)
-      .pipe(tap(() => this.service.update()))
+      .createChoice(this.courseId)
+      .pipe(tap(() => this.updateCourse(this.courseId)))
       .subscribe()
   }
 }

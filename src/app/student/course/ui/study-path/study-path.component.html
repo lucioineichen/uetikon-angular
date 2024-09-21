@@ -7,7 +7,7 @@
 >
   <mat-grid-tile *ngFor="let selection of path$ | async">
     <mat-card style="overflow: visible">
-      <div mat-ripple class="job" (click)="openJob(selection.studyJob)">
+      <div mat-ripple class="job" (click)="openSelection(selection)">
         <mat-card-header>
           <mat-card-title>{{ selection.studyJob.name }}</mat-card-title>
           <mat-card-subtitle>

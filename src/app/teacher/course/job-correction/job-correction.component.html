@@ -1,0 +1,58 @@
+<mat-toolbar
+  class="mat-elevation-z8"
+  color="primary"
+  style="position: fixed; z-index: 1000; top: 0"
+>
+  <a mat-button (click)="goBack()"><mat-icon>arrow_back</mat-icon> Zurück</a>
+  <span style="width: 2rem"></span>
+  <h1>{{ jobName + ": " }} {{ studentName | titlecase }}</h1>
+</mat-toolbar>
+
+<div
+  class="main mat-typography"
+  *ngIf="progress$ | async as progress; else loading"
+>
+  <div style="margin-top: 50px"></div>
+  <div class="tasks">
+    <h1>Aufgaben</h1>
+    <app-task-correction
+      *ngFor="let taskProgress of progress.taskProgressList"
+      [progress]="taskProgress"
+    >
+    </app-task-correction>
+    <div *ngIf="progress.job.tasks.length === 0">
+      Dieser LernJob hat noch keine Aufgaben
+    </div>
+  </div>
+
+  <div style="margin-top: 50px" class="tasks">
+    <h1>Kompetenzen</h1>
+    <mat-chip
+      *ngFor="let comp of progress.job.competences"
+      [matTooltip]="comp.name"
+      class="chip"
+    >
+      {{ comp._id }}
+    </mat-chip>
+    <p *ngIf="progress.job.competences.length === 0">
+      Diesem LernJob wurden noch keine Kompetenzen hinzugefügt
+    </p>
+  </div>
+
+  <mat-card class="info">
+    <mat-card-header> <h1>LernJob Informationen</h1> </mat-card-header>
+    <mat-card-content>
+      <mat-chip class="chip">AS {{ progress.job.niveau }}</mat-chip>
+      <mat-chip class="chip">{{ progress.job.credits }} Credits</mat-chip>
+
+      <div class="sub-title">Beschreibung:</div>
+      <p>{{ progress.job.notes }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<ng-template #loading>
+  <div class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

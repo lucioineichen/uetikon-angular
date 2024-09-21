@@ -1,227 +1,219 @@
-<div class="container">
-  <button
-    mat-mini-fab
-    matTooltip="Hinzufügen"
-    aria-label="Hinzufügen"
-    color="primary"
-    [mat-menu-trigger-for]="menu"
+<mat-toolbar
+  color="primary"
+  fxLayoutGap="8px"
+  style="position: fixed; top: 0; z-index: 10000"
+  class="mat-elevation-z8"
+>
+  <a mat-button routerLink="/teacher/students" (click)="goBack()"
+    ><mat-icon>arrow_back</mat-icon> Zurück</a
   >
-    <mat-icon>add</mat-icon>
-  </button>
-</div>
+  <h1>{{ courseName }}</h1>
+</mat-toolbar>
 
-<mat-menu #menu="matMenu" xPosition="before">
-  <button mat-menu-item (click)="addMandetoryJob()">
-    <span>Job</span>
-  </button>
-  <button mat-menu-item (click)="addJobChoice()">
-    <span>Job Auswahl</span>
-  </button>
-  <button mat-menu-item (click)="addCompetenceJob()">
-    <span>Kompetenzen</span>
-  </button>
-</mat-menu>
-
-<div style="position: absolute; top: 0; width: 100%; z-index: 100">
-  <!-- Sub Header -->
-  <mat-toolbar
-    color="primary"
-    fxLayoutGap="8px"
-    style="position: fixed; z-index: 10000"
-    class="mat-elevation-z8"
+<div
+  class="main-content"
+  [ngStyle]="{ 'margin-left': mainMargin, 'margin-right': mainMargin }"
+  *ngIf="course$ | async as course; else loading"
+>
+  <div class="title">
+    LernWeg
+    <button
+      mat-mini-fab
+      matTooltip="Hinzufügen"
+      aria-label="Hinzufügen"
+      color="primary"
+      [mat-menu-trigger-for]="addToPathMenu"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+    <mat-menu #addToPathMenu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="addMandetoryJob()">
+        <span>Job</span>
+      </button>
+      <button mat-menu-item (click)="addJobChoice()">
+        <span>Job Auswahl</span>
+      </button>
+      <button mat-menu-item (click)="addCompetenceJob()">
+        <span>Kompetenzen</span>
+      </button>
+    </mat-menu>
+  </div>
+  <mat-grid-list
+    class="jobs"
+    gutterSize="20px"
+    rowHeight="240px"
+    [cols]="breakpoint"
+    (window:resize)="onResize($event)"
   >
-    <a mat-button routerLink="/teacher/students" (click)="goBack()"
-      ><mat-icon>arrow_back</mat-icon> Zurück</a
-    >
-    <a mat-button (click)="service.update()"
-      ><h1>{{ service.name$ | async }}</h1></a
-    >
-  </mat-toolbar>
+    <mat-grid-tile *ngFor="let container of course.containerList">
+      <mat-card class="course-card" style="overflow: visible; height: 200px">
+        <div
+          mat-ripple
+          class="job"
+          (click)="openContainer(container._id, container.name)"
+        >
+          <app-mandetory-job
+            *ngIf="container.type == 'mandetory' && container.mandetoryJob"
+            [job]="container.mandetoryJob"
+          ></app-mandetory-job>
 
-  <div
-    class="main-content"
-    [ngStyle]="{ 'margin-left': mainMargin, 'margin-right': mainMargin }"
-    *ngIf="course$ | async as course; else loading"
-  >
-    <div class="title">LernWeg</div>
-    <mat-grid-list
-      class="jobs"
-      gutterSize="20px"
-      rowHeight="240px"
-      [cols]="breakpoint"
-      (window:resize)="onResize($event)"
-    >
-      <mat-grid-tile *ngFor="let container of course.containerList">
-        <mat-card class="course-card" style="overflow: visible; height: 200px">
-          <div
-            mat-ripple
-            class="job"
-            (click)="openContainer(container._id, container.name)"
+          <app-job-choices
+            *ngIf="container.type == 'choice'"
+            [choices]="container.jobChoices"
+            [name]="container.name"
+          ></app-job-choices>
+
+          <app-necessairy-competences
+            *ngIf="container.type == 'competence'"
+            [name]="container.name"
+            [competences]="container.necessairyCompetences"
           >
-            <app-mandetory-job
-              *ngIf="container.type == 'mandetory' && container.mandetoryJob"
-              [job]="container.mandetoryJob"
-            ></app-mandetory-job>
+          </app-necessairy-competences>
+        </div>
 
-            <app-job-choices
-              *ngIf="container.type == 'choice'"
-              [choices]="container.jobChoices"
-              [name]="container.name"
-            ></app-job-choices>
+        <img
+          *ngIf="container.isDependent && container.dependentContainer"
+          class="lock"
+          src="../../../assets/lock.svg"
+          alt="no svg"
+          [matTooltip]="'Abhängig von ' + container.dependentContainer.name"
+        /> </mat-card
+    ></mat-grid-tile>
 
-            <app-necessairy-competences
-              *ngIf="container.type == 'competence'"
-              [name]="container.name"
-              [competences]="container.necessairyCompetences"
+    <mat-grid-tile *ngIf="course.containerList.length == 0">
+      <mat-card
+        class="course-card"
+        style="overflow: visible; height: 200px; background-color: #3f51b5"
+      >
+        <div
+          (click)="add()"
+          mat-ripple
+          class="job"
+          style="
+            text-align: center;
+            display: flex;
+
+            flex-direction: row;
+
+            align-items: center;
+          "
+        >
+          <div style="width: 100%; text-align: center">
+            <mat-icon
+              style="color: white; font-size: 80px; height: 80px; width: 80px"
+              >add</mat-icon
             >
-            </app-necessairy-competences>
           </div>
+        </div>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
 
-          <img
-            *ngIf="container.isDependent && container.dependentContainer"
-            class="lock"
-            src="../../../assets/lock.svg"
-            alt="no svg"
-            [matTooltip]="'Abhängig von ' + container.dependentContainer.name"
-          /> </mat-card
-      ></mat-grid-tile>
-
-      <mat-grid-tile *ngIf="course.containerList.length == 0">
-        <mat-card
-          class="course-card"
-          style="overflow: visible; height: 200px; background-color: #3f51b5"
-        >
-          <div
-            (click)="add()"
-            mat-ripple
-            class="job"
-            style="
-              text-align: center;
-              display: flex;
-
-              flex-direction: row;
-
-              align-items: center;
-            "
-          >
-            <div style="width: 100%; text-align: center">
-              <mat-icon
-                style="color: white; font-size: 80px; height: 80px; width: 80px"
-                >add</mat-icon
-              >
-            </div>
-          </div>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-
-    <div class="course-information">
-      <div class="title">Kurs Informationen</div>
-      <mat-card class="course-information-card">
-        <button
-          class="menu-button"
-          style="position: absolute; top: 16px; right: 16px"
-          mat-icon-button
-          [mat-menu-trigger-for]="menu"
-          class="edit-button"
-        >
-          <mat-icon>more_vert</mat-icon>
+  <div class="course-information">
+    <div class="title">Kurs Informationen</div>
+    <mat-card class="course-information-card">
+      <button
+        class="menu-button"
+        style="position: absolute; top: 16px; right: 16px"
+        mat-icon-button
+        [mat-menu-trigger-for]="menu"
+        class="edit-button"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="editCourseInfo()">
+          <mat-icon style="vertical-align: bottom">edit</mat-icon>
+          <span>Bearbeiten</span>
         </button>
-        <mat-menu #menu="matMenu" xPosition="before">
-          <button mat-menu-item (click)="editCourseInfo()">
-            <mat-icon style="vertical-align: bottom">edit</mat-icon>
-            <span>Bearbeiten</span>
-          </button>
-        </mat-menu>
-        <mat-card-header>
-          <mat-card-title style="margin-bottom: 20px">
-            {{ course.name }}
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div>
-            <mat-chip class="chip">{{ course.credits }} Credits </mat-chip>
-            <mat-chip class="chip" *ngIf="!course.isProject"
-              >Regel Unterricht</mat-chip
-            >
-            <mat-chip class="chip" *ngIf="course.isProject"
-              >Überfachliches Projekt</mat-chip
-            >
-            <mat-chip class="chip" *ngIf="!course.imageUrl"
-              >Ohne Kursbild</mat-chip
-            >
-            <mat-chip *ngIf="course.imageUrl" style="vertical-align: middle">
-              <img
-                matChipAvatar
-                [src]="course.imageUrl"
-                alt="URL existiert nicht"
-              />
-              Kurs Bild
-            </mat-chip>
-          </div>
-          <div>
-            <div class="wrapper">
-              <div class="left">
-                <div>
-                  <div class="teacher-list">
-                    <mat-list>
-                      <mat-card-title>Lehrer </mat-card-title>
-                      <mat-list-item
-                        *ngFor="let teacher of course.teacherList"
-                        >{{ teacher.name | titlecase }}</mat-list-item
-                      >
-                    </mat-list>
-                  </div>
-                </div>
-              </div>
-              <div class="right">
+      </mat-menu>
+      <mat-card-header>
+        <mat-card-title style="margin-bottom: 20px">
+          {{ course.name }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <mat-chip class="chip">{{ course.credits }} Credits </mat-chip>
+          <mat-chip class="chip" *ngIf="!course.isProject"
+            >Regel Unterricht</mat-chip
+          >
+          <mat-chip class="chip" *ngIf="course.isProject"
+            >Überfachliches Projekt</mat-chip
+          >
+          <mat-chip class="chip" *ngIf="!course.imageUrl"
+            >Ohne Kursbild</mat-chip
+          >
+          <mat-chip *ngIf="course.imageUrl" style="vertical-align: middle">
+            <img
+              matChipAvatar
+              [src]="course.imageUrl"
+              alt="URL existiert nicht"
+            />
+            Kurs Bild
+          </mat-chip>
+        </div>
+        <div>
+          <div class="wrapper">
+            <div class="left">
+              <div>
                 <div class="teacher-list">
                   <mat-list>
-                    <mat-card-title>Schüler </mat-card-title>
-                    <mat-list-item *ngIf="course.studentList.length == 0">
-                      Keine Schüler
-                    </mat-list-item>
-                    <mat-list-item
-                      (click)="
-                        routeToParticipant(
-                          course._id,
-                          course.name,
-                          student._id,
-                          student.name
-                        )
-                      "
-                      style="cursor: pointer"
-                      *ngFor="let student of course.studentList"
-                      >{{ student.name | titlecase }}</mat-list-item
-                    >
+                    <mat-card-title>Lehrer </mat-card-title>
+                    <mat-list-item *ngFor="let teacher of course.teacherList">{{
+                      teacher.name | titlecase
+                    }}</mat-list-item>
                   </mat-list>
                 </div>
               </div>
             </div>
+            <div class="right">
+              <div class="teacher-list">
+                <mat-list>
+                  <mat-card-title>Schüler </mat-card-title>
+                  <mat-list-item *ngIf="course.studentList.length == 0">
+                    Keine Schüler
+                  </mat-list-item>
+                  <mat-list-item
+                    (click)="
+                      routeToParticipant(
+                        course._id,
+                        course.name,
+                        student._id,
+                        student.name
+                      )
+                    "
+                    style="cursor: pointer"
+                    *ngFor="let student of course.studentList"
+                    >{{ student.name | titlecase }}</mat-list-item
+                  >
+                </mat-list>
+              </div>
+            </div>
           </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div *ngIf="currentProgress$ | async as currentProgress">
-      <div class="title">Aktuelle Leistungen</div>
-      <div class="mat-elevation-z8">
-        <app-job-progress-table
-          [job-progress-list]="currentProgress"
-        ></app-job-progress-table>
-      </div>
-    </div>
-
-    <div style="height: 250px"></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  <ng-template #loading>
-    <div *ngIf="!service.course$.hasError; else error">
-      Lädt Kurs...
-    </div></ng-template
-  >
+  <div *ngIf="currentProgress$ | async as currentProgress">
+    <div class="title">Aktuelle Leistungen</div>
+    <div class="mat-elevation-z8">
+      <app-job-progress-table
+        [job-progress-list]="currentProgress"
+      ></app-job-progress-table>
+    </div>
+  </div>
 
-  <ng-template #error
-    >Kurs konnten nicht geladen werden, lade die Seite neu</ng-template
-  >
+  <div style="height: 250px"></div>
 </div>
+
+<ng-template #loading>
+  <div *ngIf="!service.course$.hasError; else error">
+    Lädt Kurs...
+  </div></ng-template
+>
+
+<ng-template #error
+  >Kurs konnten nicht geladen werden, lade die Seite neu</ng-template
+>

@@ -45,11 +45,7 @@
     <mat-menu #menu="matMenu" xPosition="before">
       <button mat-menu-item (click)="enterProgress()">
         <mat-icon>edit</mat-icon>
-        Status
-      </button>
-      <button mat-menu-item (click)="addSubmission()" *ngIf="task.isSubmission">
-        <mat-icon>add</mat-icon>
-        Abgabe
+        Benoten
       </button>
     </mat-menu>
 
@@ -73,6 +69,39 @@
           <app-file [file]="submission.file"></app-file>
           <span style="font-style: italic; margin-left: 10px"
             >(Abgegeben: {{ submission.date | date }})</span
+          >
+          <span class="spacer"></span>
+          <button
+            mat-button
+            class="add-correction-button"
+            color="primary"
+            (click)="addCorrection(submission)"
+          >
+            Korrektur Hinzufügen
+          </button>
+        </div>
+        <div
+          class="sub-title"
+          style="margin-left: 40px; margin-top: 10px"
+          *ngIf="submission.corrections.length > 0"
+        >
+          Korrekturen:
+        </div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            padding-left: 40px;
+            margin-top: 10px;
+          "
+          *ngFor="let correction of submission.corrections"
+        >
+          <app-file *ngIf="correction.file" [file]="correction.file"></app-file>
+          <div *ngIf="correction.text">
+            {{ correction.text }}
+          </div>
+          <span style="font-style: italic; margin-left: 10px"
+            >({{ correction.date | date }})</span
           >
         </div>
       </div>

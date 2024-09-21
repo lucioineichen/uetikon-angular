@@ -26,6 +26,7 @@ import { ContainerDetailModule } from '../course/container-detail/container-deta
 import { ShareFolderModule } from '../study-job/share-folder/share-folder.module'
 import { StudentParticipantModule } from '../course/student-participant/student-participant.module'
 import { EditPathModule } from 'src/app/student/course/edit-path/edit-path.module'
+import { JobCorrectionModule } from '../course/job-correction/job-correction.module'
 
 @NgModule({
   declarations: [TeacherComponent],
@@ -55,6 +56,7 @@ import { EditPathModule } from 'src/app/student/course/edit-path/edit-path.modul
     CourseListModule,
     ContainerDetailModule,
     StudentParticipantModule,
+    JobCorrectionModule,
   ],
 })
 export class TeacherModule {}

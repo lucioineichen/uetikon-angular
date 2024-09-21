@@ -12,6 +12,7 @@ import { ContainerDetailComponent } from '../course/container-detail/container-d
 import { ShareFolderComponent } from '../study-job/share-folder/share-folder.component'
 import { StudentParticipantComponent } from '../course/student-participant/student-participant.component'
 import { EditPathComponent } from 'src/app/student/course/edit-path/edit-path.component'
+import { JobCorrectionComponent } from '../course/job-correction/job-correction.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/teacher/courses', pathMatch: 'full' },
@@ -28,6 +29,10 @@ const routes: Routes = [
     data: {
       animation: 'modal',
     },
+  },
+  {
+    path: 'student/:studentId/job/:jobId/correction',
+    component: JobCorrectionComponent,
   },
   { path: 'study-jobs', component: StudyJobListComponent },
   // { path: 'students', component: StudentListComponent },

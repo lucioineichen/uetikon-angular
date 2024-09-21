@@ -8,7 +8,7 @@ import { IFile } from 'src/app/shared/utils/interfaces'
   template: `
     <span class="file-container">
       <span
-        class="file"
+        class="file-icon"
         [ngClass]="getFileIcon(file.extension)"
         *ngIf="getFileIcon(file.extension); else picture"
       ></span>
@@ -36,7 +36,6 @@ import { IFile } from 'src/app/shared/utils/interfaces'
         display: inline-block;
         text-decoration: none;
         color: #0366d6; /* Link color */
-        height: 100%;
       }
 
       /* Hover effect */
@@ -46,11 +45,11 @@ import { IFile } from 'src/app/shared/utils/interfaces'
     `,
     `
       .file-container {
-        display: inline-flex;
+        display: flex;
         align-items: center;
       }
 
-      .file {
+      .file-icon {
         width: 32px;
         height: 32px;
         margin-right: 8px;

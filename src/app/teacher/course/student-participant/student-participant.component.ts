@@ -30,10 +30,10 @@ import { filterNullish } from 'src/app/shared/utils/filternullish'
 })
 export class StudentParticipantComponent implements OnInit {
   progressList$ = new BehaviorSubject<IProgress[] | undefined>(undefined)
-  id: number // studentId
-  name: string // studentName
-  courseId: number
-  courseName: string
+  studentId!: number
+  studentName!: string
+  courseId!: number
+  courseName!: string
 
   constructor(
     protected route: ActivatedRoute,
@@ -43,23 +43,33 @@ export class StudentParticipantComponent implements OnInit {
     private dialog: MatDialog,
     private commitContainerService: CommitContainerService,
     private setGrade: SetGradeService
-  ) {
-    this.id = this.route.snapshot.params['studentId']
-    this.courseId = this.route.snapshot.params['courseId']
-    this.name = this.route.snapshot.queryParams['name']
-    this.courseName = this.route.snapshot.queryParams['courseName']
-  }
+  ) {}
 
   editPath() {
     this.router.navigate(
-      ['teacher', 'course', this.courseId, 'student', this.id, 'edit-path'],
-      { queryParams: { studentName: this.name, courseName: this.courseName } }
+      [
+        'teacher',
+        'course',
+        this.courseId,
+        'student',
+        this.studentId,
+        'edit-path',
+      ],
+      {
+        queryParams: {
+          studentName: this.studentName,
+          courseName: this.courseName,
+        },
+      }
     )
   }
 
   editGrade(taskProgress: ITaskProgress) {
     this.setGrade
-      .setGrade(`${this.name}: ${taskProgress.task.title}`, taskProgress.grade)
+      .setGrade(
+        `${this.studentName}: ${taskProgress.task.title}`,
+        taskProgress.grade
+      )
       .pipe(
         filterNullish(),
         mergeMap((grade) =>
@@ -76,7 +86,7 @@ export class StudentParticipantComponent implements OnInit {
 
   addGrade(taskProgress: ITaskProgress) {
     this.setGrade
-      .setGrade(`${this.name}: ${taskProgress.task.title}`)
+      .setGrade(`${this.studentName}: ${taskProgress.task.title}`)
       .pipe(
         filterNullish(),
         mergeMap((grade) =>
@@ -93,7 +103,7 @@ export class StudentParticipantComponent implements OnInit {
 
   commitContainer(container: IRef) {
     this.commitContainerService
-      .commitContainer(container._id, this.id, this.courseId)
+      .commitContainer(container._id, this.studentId, this.courseId)
       .pipe(tap(() => this.ngOnInit()))
       .subscribe()
   }
@@ -105,12 +115,20 @@ export class StudentParticipantComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initParams()
     this.updateProgress()
+  }
+
+  private initParams() {
+    this.studentId = this.route.snapshot.params['studentId']
+    this.courseId = this.route.snapshot.params['courseId']
+    this.studentName = this.route.snapshot.queryParams['studentName']
+    this.courseName = this.route.snapshot.queryParams['courseName']
   }
 
   private updateProgress() {
     this.service
-      .getProgressList(this.id, this.courseId)
+      .getProgressList(this.studentId, this.courseId)
       .pipe(
         tap((list) => this.progressList$.next(list)),
         catchError((err) => {

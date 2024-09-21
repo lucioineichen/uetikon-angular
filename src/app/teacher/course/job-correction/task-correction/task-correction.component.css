@@ -14,3 +14,7 @@
   display: flex;
   align-items: center;
 }
+
+.add-correction-button {
+  margin-right: 16px;
+}
