@@ -1,0 +1,82 @@
+<h1 mat-dialog-title>ÜFK Reflexion Schreiben</h1>
+
+<mat-dialog-content class="mat-typography" style="width: 500px">
+  <form [formGroup]="ufkForm">
+    <mat-form-field style="width: 100%">
+      <mat-label>Titel</mat-label>
+      <input formControlName="title" matInput />
+    </mat-form-field>
+
+    <div class="vertical-space"></div>
+
+    <mat-chip-listbox formControlName="grade" aria-label="Bewertung">
+      <mat-chip-option [value]="1">Gut</mat-chip-option>
+      <mat-chip-option [value]="0" color="warn">Schlecht</mat-chip-option>*
+    </mat-chip-listbox>
+
+    <div class="vertical-space"></div>
+
+    <div>
+      <span *ngIf="!ufkForm.get('competence')?.value"
+        >Keine Kompetenz Ausgesucht*</span
+      >
+      <span *ngIf="ufkForm.get('competence')?.value"
+        ><mat-chip [matTooltip]="competenceName!">{{
+          competenceName | slice : 0 : 35
+        }}</mat-chip></span
+      >
+      <button mat-icon-button (click)="selectCompetence()" *ngIf="!ufk">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+
+    <div class="vertical-space"></div>
+
+    <div>
+      <span *ngIf="!ufkForm.get('course')?.value">Kein Kurs Ausgesucht</span>
+      <span *ngIf="ufkForm.get('course')?.value">{{ courseName }}</span>
+      <button mat-icon-button (click)="selectCourse()" *ngIf="!ufk">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+
+    <div class="vertical-space"></div>
+
+    <div>
+      <span *ngIf="!ufkForm.get('subject')?.value">Kein Fach Ausgesucht</span>
+      <span
+        *ngIf="ufkForm.get('subject')?.value"
+        [matTooltip]="subjectLongName!"
+        >{{ subjectName }}</span
+      >
+      <button mat-icon-button (click)="selectSubject()" *ngIf="!ufk">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+
+    <div class="vertical-space"></div>
+
+    <app-file-upload
+      (discard-file)="discardFile()"
+      (select-file)="selectFile($event)"
+    ></app-file-upload>
+
+    <div class="vertical-space"></div>
+
+    <mat-form-field style="width: 100%">
+      <mat-label>Kommentar</mat-label>
+      <textarea formControlName="comment" matInput></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Abrechen</button>
+  <button
+    mat-button
+    [mat-dialog-close]="{ form: ufkForm.value, file }"
+    [disabled]="ufkForm.invalid"
+  >
+    Speichern
+  </button>
+</mat-dialog-actions>

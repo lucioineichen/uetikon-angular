@@ -13,7 +13,7 @@ import { AuthService, IAuthStatus } from 'src/app/core/auth/auth.service'
       style="position: fixed; top: 0; left: 0; right: 0; z-index: 2"
       class="mat-elevation-z8"
     >
-      <a mat-button routerLink="/home" class=""><h1>Uetikon</h1></a>
+      <a mat-button routerLink="" class=""><h1>Uetikon</h1></a>
       <span style="width: 2rem"></span>
 
       <!-- Student Routes -->
@@ -147,9 +147,8 @@ import { AuthService, IAuthStatus } from 'src/app/core/auth/auth.service'
 })
 export class ToolbarComponent {
   constructor(
-    protected authService: AuthService // private matIconRegistry: MatIconRegistry,
-  ) // private domSanitizer: DomSanitizer
-  {
+    protected authService: AuthService // private matIconRegistry: MatIconRegistry, // private domSanitizer: DomSanitizer
+  ) {
     // this.matIconRegistry.addSvgIcon(
     //   `teacher`,
     //   this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/teacher.svg')

@@ -9,6 +9,7 @@ import {
 } from 'src/app/shared/data/competences_data/competences-data.service'
 import { environment } from 'src/app/core/environment/environment.demo'
 import { ICompetence, IFile, IRef } from 'src/app/shared/utils/interfaces'
+import { IReflection } from 'src/app/student/competence/competences.component'
 
 export interface IUfk {
   _id: number
@@ -22,29 +23,14 @@ export interface IUfk {
   course?: IRef
   subject?: IRawSubject
   file: IFile
+  reflection?: IReflection
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class UfkService {
-  // classControl = new FormControl()
-  // studentControl = new FormControl()
-  // teacherControl = new FormControl()
-  // subjectControl = new FormControl()
-  // selectedUfks$ = new BehaviorSubject<string[]>([])
-  // dateControl = new FormControl()
-  // searchControl = new FormControl()
-
-  // classes$ = new BehaviorSubject<{ _id: number; name: string }[] | undefined>(
-  //   undefined
-  // )
-
-  constructor(
-    private http: HttpClient,
-    private ui: DialogService,
-    private competencesData: CompetencesDataService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   postUfk(data: {
     form: {

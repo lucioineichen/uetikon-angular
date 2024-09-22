@@ -1,1 +1,20 @@
 <app-toolbar></app-toolbar>
+
+<div class="main">
+  <button
+    class="add-reflection"
+    mat-mini-fab
+    matTooltip="Reflexion Schreiben"
+    color="primary"
+    (click)="writeReflection()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <div *ngIf="reflections$ | async as reflections">
+    <app-ufk-reflection-table
+      *ngIf="ufks$ | async as ufks"
+      [ufks]="ufks"
+      [reflections]="reflections"
+    ></app-ufk-reflection-table>
+  </div>
+</div>

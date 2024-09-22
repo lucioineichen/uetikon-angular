@@ -1,8 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { IUfk, UfkService } from '../../ufk.service'
-import { MatTableDataSource } from '@angular/material/table'
-import { BehaviorSubject, tap } from 'rxjs'
-import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { IUfk } from '../../ufk.service'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 
 @Component({
@@ -14,7 +11,7 @@ export class UfkTableComponent {
   @Input() ufks!: IUfk[]
   @Output() delete = new EventEmitter<IUfk>()
 
-  constructor(protected service: UfkService, private ui: DialogService) {}
+  constructor(private ui: DialogService) {}
 
   editUfk(ufk: IUfk) {
     this.ui.showToast('Funktion nicht implementiert')

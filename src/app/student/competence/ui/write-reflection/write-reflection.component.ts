@@ -1,53 +1,65 @@
-import { Component, OnInit } from '@angular/core'
-import { AddUfkService } from './add-ufk.service'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { SelectStudentService } from 'src/app/shared/ui/select-student/select-student.service'
+import { Component, Inject } from '@angular/core'
+import { WriteReflectionService } from './write-reflection.service'
+import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { tap } from 'rxjs'
-import { filterNullish } from 'src/app/shared/utils/filternullish'
-import { SelectUfkService } from 'src/app/shared/ui/select-ufk/select-ufk.service'
-import { SelectSubjectService } from 'src/app/shared/ui/select-subject/select-subject.service'
 import { SelectCourseService } from 'src/app/shared/ui/select-course/select-course.service'
+import { SelectSubjectService } from 'src/app/shared/ui/select-subject/select-subject.service'
+import { SelectUfkService } from 'src/app/shared/ui/select-ufk/select-ufk.service'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { IUfk } from 'src/app/teacher/ufk/ufk.service'
 
 @Component({
-  selector: 'app-add-ufk',
-  templateUrl: './add-ufk.component.html',
-  styleUrls: ['./add-ufk.component.css'],
+  selector: 'app-write-reflection',
+  templateUrl: './write-reflection.component.html',
+  styleUrls: ['./write-reflection.component.css'],
 })
-export class AddUfkComponent implements OnInit {
+export class WriteReflectionComponent {
   ufkForm!: FormGroup
   file: File | null = null
-  studentName?: string
   subjectName?: string
   subjectLongName?: string
   courseName?: string
   competenceName?: string
 
   constructor(
-    protected service: AddUfkService,
+    protected service: WriteReflectionService,
     private fb: FormBuilder,
-    private selectStudentService: SelectStudentService,
     private selectUfkService: SelectUfkService,
     private selectSubjectService: SelectSubjectService,
-    private selectCourseService: SelectCourseService
+    private selectCourseService: SelectCourseService,
+    @Inject(MAT_DIALOG_DATA) protected ufk?: IUfk
   ) {}
 
   ngOnInit(): void {
     this.ufkForm = this.fb.group({
       title: [
-        null,
+        { value: this.ufk?.title, disabled: this.ufk ? true : false },
         [
           Validators.required,
           Validators.maxLength(255),
           Validators.minLength(2),
         ],
       ],
-      student: [null, Validators.required],
       grade: [null, Validators.required],
-      competence: [null, Validators.required],
-      subject: [null],
+      competence: [
+        { value: this.ufk?.competence._id, disabled: this.ufk ? true : false },
+        Validators.required,
+      ],
+      subject: [
+        { value: this.ufk?.subject?._id, disabled: this.ufk ? true : false },
+      ],
       comment: [null],
-      course: [null],
+      course: [
+        { value: this.ufk?.course?._id, disabled: this.ufk ? true : false },
+      ],
     })
+
+    if (this.ufk) {
+      this.competenceName = this.ufk.competence.name
+      this.subjectName = this.ufk.subject?.name
+      this.courseName = this.ufk.course?.name
+    }
   }
 
   discardFile() {
@@ -56,19 +68,6 @@ export class AddUfkComponent implements OnInit {
 
   selectFile(file: File) {
     this.file = file
-  }
-
-  selectStudent() {
-    this.selectStudentService
-      .selectStudent(this.ufkForm.get('student')?.value)
-      .pipe(
-        filterNullish(),
-        tap((ref) => {
-          this.studentName = ref.name
-          this.ufkForm.get('student')?.setValue(ref._id)
-        })
-      )
-      .subscribe()
   }
 
   selectCompetence() {
