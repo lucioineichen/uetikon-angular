@@ -41,7 +41,6 @@
               ufk.competence.name | slice : 0 : 25
             }}</mat-chip>
           </div>
-
           <!-- course -->
           <div class="col" [ngStyle]="{ width: this.headers[4].width + '%' }">
             {{ ufk.course?.name || "--" | titlecase }}
@@ -59,54 +58,35 @@
           </div>
         </div>
 
-        <div class="col" style="flex-shrink: 0">
-          <div class="col" style="width: 96px; flex-shrink: 0">
-            <div class="col" style="flex-shrink: 0">
-              <div style="width: 48px">
-                <button
-                  (click)="toggleUfk(ufk._id)"
-                  mat-icon-button
-                  style="flex-shrink: 0"
-                  *ngIf="ufk.file || ufk.text; else space"
-                >
-                  <mat-icon class="expand-icon" *ngIf="ufk._id != expandedUfk"
-                    >expand_more</mat-icon
-                  >
-                  <mat-icon class="expand-icon" *ngIf="ufk._id == expandedUfk"
-                    >expand_less</mat-icon
-                  >
-                </button>
-              </div>
-            </div>
+        <div class="col" style="width: 96px">
+          <button
+            (click)="toggleUfk(ufk._id)"
+            mat-icon-button
+            *ngIf="ufk.file || ufk.text; else space"
+          >
+            <mat-icon *ngIf="ufk._id != expandedUfk">expand_more</mat-icon>
+            <mat-icon *ngIf="ufk._id == expandedUfk">expand_less</mat-icon>
+          </button>
 
-            <ng-template #space>
-              <div>
-                <div class="space"></div>
-              </div>
-            </ng-template>
-
-            <div class="col" style="flex-shrink: 0">
-              <div style="width: 48px">
-                <button
-                  class="more-expanded-btn"
-                  mat-icon-button
-                  [mat-menu-trigger-for]="menu"
-                >
-                  <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu" xPosition="before">
-                  <button mat-menu-item (click)="editUfk(ufk)">
-                    <mat-icon>edit</mat-icon>
-                    <span>Bearbeiten</span>
-                  </button>
-                  <button mat-menu-item (click)="deleteUfk(ufk)">
-                    <mat-icon>delete</mat-icon>
-                    <span>Löschen</span>
-                  </button>
-                </mat-menu>
-              </div>
+          <ng-template #space>
+            <div>
+              <div class="space"></div>
             </div>
-          </div>
+          </ng-template>
+
+          <button mat-icon-button [mat-menu-trigger-for]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="editUfk(ufk)">
+              <mat-icon>edit</mat-icon>
+              <span>Bearbeiten</span>
+            </button>
+            <button mat-menu-item (click)="deleteUfk(ufk)">
+              <mat-icon>delete</mat-icon>
+              <span>Löschen</span>
+            </button>
+          </mat-menu>
         </div>
       </div>
 
@@ -124,6 +104,7 @@
 
     <div *ngIf="ufk.reflection">
       <div class="sub-row">
+        <!-- grade -->
         <div class="grade">
           <mat-icon *ngIf="ufk.reflection.grade <= 0.6" style="color: red"
             >fmd_bad</mat-icon
@@ -132,6 +113,7 @@
             >bolt</mat-icon
           >
         </div>
+
         <div class="col" style="width: 100%">
           <!-- student -->
           <div class="col" [ngStyle]="{ width: this.headers[0].width + '%' }">
@@ -168,7 +150,8 @@
           </div>
         </div>
 
-        <div class="col" style="width: 96px; flex-shrink: 0">
+        <div class="col" style="width: 96px">
+          <div><div class="space"></div></div>
           <button
             (click)="toggleReflection(ufk.reflection._id)"
             mat-icon-button
@@ -191,8 +174,6 @@
               <div class="space"></div>
             </div>
           </ng-template>
-
-          <span><span style="width: 48px"></span></span>
         </div>
       </div>
 

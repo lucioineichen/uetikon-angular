@@ -40,14 +40,12 @@ export class UfkTableComponent {
   expandedUfk?: number
 
   readonly headers = [
-    // { name: '', width: 5 },
     { name: 'Schüler', width: 15 },
     { name: 'Lehrer', width: 15 },
     { name: 'Titel', width: 15 },
-    { name: 'Kompetenz', width: 22 },
+    { name: 'Kompetenz', width: 20 },
     { name: 'Kurs', width: 11 },
     { name: 'Fach', width: 11 },
     { name: 'Datum', width: 13 },
-    // { name: '', width: 5 },
   ]
 }

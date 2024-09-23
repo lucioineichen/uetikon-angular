@@ -39,7 +39,7 @@ export class UfkReflectionTableComponent {
   readonly headers = [
     { name: 'Lehrer', width: 17 },
     { name: 'Titel', width: 17 },
-    { name: 'Kompetenz', width: 24 },
+    { name: 'Kompetenz', width: 20 },
     { name: 'Kurs', width: 14 },
     { name: 'Fach', width: 14 },
     { name: 'Datum', width: 14 },
