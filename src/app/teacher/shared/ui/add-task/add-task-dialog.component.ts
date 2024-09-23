@@ -45,11 +45,9 @@ export class AddTaskComponent implements OnInit {
     if (data.title) formData.append('title', data.title)
     if (data.text) formData.append('text', data.text)
     formData.append('graded', JSON.stringify(data.graded))
-    formData.append('weight', JSON.stringify(data.weight || 1))
-    formData.append(
-      'isSelfControl',
-      JSON.stringify(data.isSelfControl || false)
-    )
+    formData.append('weight', JSON.stringify(data.weight))
+    formData.append('isSelfControl', JSON.stringify(data.isSelfControl))
+    formData.append('isSubmission', JSON.stringify(data.isSelfControl))
 
     return formData
   }
@@ -61,24 +59,7 @@ export class AddTaskComponent implements OnInit {
       weight: [1],
       graded: [false, Validators.required],
       isSelfControl: [false, Validators.required],
+      isSubmission: [false, Validators.required],
     })
-
-    const weightControl = this.form.get('weight')
-    const isSelfControl = this.form.get('isSelfControl')
-    this.form
-      .get('graded')
-      ?.valueChanges.pipe(
-        startWith(false),
-        tap((isGraded) => {
-          if (isGraded) {
-            weightControl?.enable()
-            isSelfControl?.enable()
-          } else {
-            weightControl?.disable()
-            isSelfControl?.disable()
-          }
-        })
-      )
-      .subscribe()
   }
 }

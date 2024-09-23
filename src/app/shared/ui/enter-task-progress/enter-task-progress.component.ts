@@ -10,6 +10,7 @@ import {
 import { MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { ITaskProgress } from '../../utils/interfaces'
 import { combineLatest, map, Observable, startWith, tap } from 'rxjs'
+import { AuthService } from 'src/app/core/auth/auth.service'
 
 const taskProgressValidator: (isGraded: boolean) => ValidatorFn =
   (isGraded: boolean) => (group: AbstractControl) => {
@@ -22,11 +23,17 @@ const taskProgressValidator: (isGraded: boolean) => ValidatorFn =
 @Component({
   selector: 'app-enter-task-progress',
   template: `
-    <h1 mat-dialog-title>{{ taskProg.task.title | titlecase }}</h1>
+    <h1 mat-dialog-title>
+      {{ taskProg.task.title || taskProg.task.file?.name | titlecase }}
+    </h1>
 
     <div mat-dialog-content>
       <form fxLayout="column" [formGroup]="form">
-        <mat-form-field fxFlex style="width: 100%" *ngIf="taskProg.task.graded">
+        <mat-form-field
+          fxFlex
+          style="width: 100%"
+          *ngIf="taskProg.task.graded && canComplete"
+        >
           <mat-label>Note</mat-label>
           <input
             matInput
@@ -40,7 +47,9 @@ const taskProgressValidator: (isGraded: boolean) => ValidatorFn =
         <mat-radio-group aria-label="Select an option" formControlName="status">
           <mat-radio-button [value]="0">Nicht Begonnen</mat-radio-button>
           <mat-radio-button [value]="1">Am Bearbeiten</mat-radio-button>
-          <mat-radio-button [value]="2">Fertig</mat-radio-button>
+          <mat-radio-button [value]="2" *ngIf="canComplete"
+            >Fertig</mat-radio-button
+          >
         </mat-radio-group>
       </form>
     </div>
@@ -59,14 +68,19 @@ const taskProgressValidator: (isGraded: boolean) => ValidatorFn =
   styles: [],
 })
 export class EnterTaskProgressComponent implements OnInit {
+  canComplete!: boolean
   form!: FormGroup
   constructor(
     @Inject(MAT_DIALOG_DATA) protected taskProg: ITaskProgress,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
     this.buildForm()
+    this.canComplete =
+      this.auth.currentUser$.value.role == 'teacher' ||
+      this.taskProg.task.isSelfControl
   }
 
   private buildForm() {

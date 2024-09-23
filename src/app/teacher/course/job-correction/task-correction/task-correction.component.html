@@ -15,6 +15,9 @@
     <span class="spacer"></span>
 
     <mat-chip *ngIf="task.isSelfControl">Selbstkontrolle</mat-chip>
+    <mat-chip style="margin-left: 5px" *ngIf="task.isSubmission"
+      >Abgabe</mat-chip
+    >
     <mat-chip style="margin-left: 5px" *ngIf="task.graded">Benotet</mat-chip>
     <mat-chip style="margin-left: 5px">Gewichtung: {{ task.weight }}</mat-chip>
 
@@ -34,12 +37,7 @@
       <span style="width: 48px; display: inline-block"></span>
     </ng-template>
 
-    <button
-      class="edit-button"
-      mat-icon-button
-      [mat-menu-trigger-for]="menu"
-      *ngIf="task.isSelfControl || !task.graded; else editReplacement"
-    >
+    <button class="edit-button" mat-icon-button [mat-menu-trigger-for]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu" xPosition="before">
@@ -56,9 +54,9 @@
 
   <!-- Detail -->
   <div *ngIf="isExpanded">
-    <span class="title" *ngIf="task.title && task.file">
+    <div style="padding-bottom: 12px" *ngIf="task.title && task.file">
       <app-file [file]="task.file"></app-file>
-    </span>
+    </div>
     <p *ngIf="task.text">
       {{ task.text }}
     </p>

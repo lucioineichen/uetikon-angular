@@ -5,6 +5,7 @@ import { MaterialModule } from 'src/app/shared/ui/material.module'
 import { TaskProgressModule } from './task-progress/task-progress.module'
 import { EnterTaskProgressModule } from 'src/app/shared/ui/enter-task-progress/enter-task-progress.module'
 import { AddSubmissionModule } from './add-submission/add-submission.module'
+import { StudyMaterialModule } from 'src/app/shared/ui/study-material/study-material.module'
 
 @NgModule({
   declarations: [StudyJobComponent],
@@ -14,6 +15,7 @@ import { AddSubmissionModule } from './add-submission/add-submission.module'
     TaskProgressModule,
     EnterTaskProgressModule,
     AddSubmissionModule,
+    StudyMaterialModule,
   ],
 })
 export class StudyJobModule {}

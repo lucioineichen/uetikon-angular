@@ -25,8 +25,9 @@ export class TaskCorrectionComponent {
 
   addCorrection(submission: ISubmission) {
     this.addCorrectionService
-      .addCorrection(this.progress.task.title)
+      .addCorrection(this.progress.task.title || this.progress.task.file!.name)
       .pipe(
+        filterNullish(),
         mergeMap((data) => this.service.postCorrection(submission._id, data)),
         tap((correction) =>
           this.progress.submissions

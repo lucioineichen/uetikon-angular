@@ -27,7 +27,7 @@ import {
       >
         <mat-icon>delete</mat-icon>
       </button>
-      <span>{{ fileName || 'No file uploaded yet.' }}</span>
+      <span>{{ fileName || 'Kein Dokument Ausgewählt' }}</span>
 
       <button
         mat-mini-fab

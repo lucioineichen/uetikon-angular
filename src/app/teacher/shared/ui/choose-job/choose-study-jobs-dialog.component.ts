@@ -25,6 +25,7 @@ export const noNameJob: IStudyJob = {
   status: 1,
   niveau: 1,
   isSelfAssessment: false,
+  materials: [],
 }
 
 @Component({

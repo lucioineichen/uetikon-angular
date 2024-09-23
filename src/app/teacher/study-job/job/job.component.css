@@ -1,6 +1,11 @@
-.tasks {
-  margin-left: 15vw;
-  margin-right: 30vw;
+.main {
+  margin-top: 140px;
+  margin-left: 14%;
+  margin-right: 14%;
+}
+
+.info {
+  margin-top: 20px;
 }
 
 mat-dialog-content {
@@ -13,12 +18,11 @@ mat-dialog-content {
 
 .toolbar {
   position: fixed;
+  top: 0;
   z-index: 1000;
 }
 
 .edit-icon {
-  /* font-size: 24px; */
-  /* height: 24px; */
   margin-left: 6px;
   cursor: pointer;
   opacity: 0;
@@ -31,13 +35,6 @@ mat-dialog-content {
 
 .job-name:hover .edit-icon {
   opacity: 1;
-}
-
-.info {
-  margin-left: 15vw;
-  margin-right: 30vw;
-  margin-top: 50px;
-  margin-bottom: 150px;
 }
 
 .description {

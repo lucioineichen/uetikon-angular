@@ -112,6 +112,7 @@ export interface IStudyJob {
   status: number
   niveau: number
   isSelfAssessment: boolean
+  materials: IFile[]
 }
 
 export interface ITask {

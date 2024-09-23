@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms'
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
-import { IStudyJob } from 'src/app/shared/utils/interfaces'
+import { IFile, IStudyJob } from 'src/app/shared/utils/interfaces'
 
 export interface ISaveAt {
   toRoot: boolean
@@ -58,6 +58,16 @@ export class JobService {
 
   deleteJob(id: number) {
     return this.http.delete(`${environment.baseUrl}/study-job/${id}`)
+  }
+
+  postMaterial(jobId: number, file: File) {
+    const formData: FormData = new FormData()
+    formData.append('file', file)
+
+    return this.http.post<IFile>(
+      `${environment.baseUrl}/study-job/${jobId}/study-materials`,
+      formData
+    )
   }
 
   private getStudyJob(id: number): Observable<IStudyJob> {

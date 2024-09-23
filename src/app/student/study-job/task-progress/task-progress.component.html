@@ -15,6 +15,9 @@
     <span class="spacer"></span>
 
     <mat-chip *ngIf="task.isSelfControl">Selbstkontrolle</mat-chip>
+    <mat-chip style="margin-left: 5px" *ngIf="task.isSubmission"
+      >Abgabe</mat-chip
+    >
     <mat-chip style="margin-left: 5px" *ngIf="task.graded">Benotet</mat-chip>
     <mat-chip style="margin-left: 5px">Gewichtung: {{ task.weight }}</mat-chip>
 

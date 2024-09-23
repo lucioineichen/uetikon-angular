@@ -9,7 +9,7 @@
 
       <div style="height: 10px"></div>
 
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <div>
         <mat-form-field fxFlex>
           <mat-label>Gewichtung</mat-label>
           <input
@@ -20,6 +20,12 @@
             formControlName="weight"
           />
         </mat-form-field>
+      </div>
+
+      <div style="margin-bottom: 15px">
+        <mat-slide-toggle color="primary" formControlName="isSubmission"
+          >Abgabe</mat-slide-toggle
+        >
 
         <mat-slide-toggle
           color="primary"

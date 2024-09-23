@@ -1,78 +1,25 @@
-.file-link {
-  display: inline-block;
-  text-decoration: none;
-  color: #0366d6; /* Link color */
-  cursor: pointer;
+.task-main {
+  height: 52px;
+  display: flex;
+  align-items: center;
 }
 
-/* Hover effect */
-.file-link:hover {
-  text-decoration: underline;
-}
-
-.expand-button {
-  float: right;
-  position: relative;
-  top: -7px;
-  right: -15px;
-}
-
-.edit-button {
-  float: right;
-  position: relative;
-  top: -7px;
-  right: -15px;
-}
-
-.task-card {
+.card {
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.06);
-  padding-top: 8px;
   padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 12px;
   margin-bottom: 16px;
 }
 
-.main {
-  height: 28px;
-  /* display: flex;
-  align-items: center; */
+.spacer {
+  margin-left: auto;
 }
 
-.center-content {
-  height: 100%;
-  display: inline-flex;
-  align-items: center;
+.expand-button {
+  margin-left: 5px;
 }
 
-.title {
-  display: inline-block;
-  transform: translateY(7px);
-}
-
-.file-container {
-  display: flex;
-  align-items: center;
-  /* margin-top: 16px; */
-}
-
-.fileIcon {
-  width: 24px;
-  height: 24px;
-  transform: translateY(6px);
-  margin-right: 8px;
-}
-
-.pdf {
-  background-image: url("src/assets/pdf.png");
-}
-
-.word {
-  background-image: url("src/assets/word.png");
-}
-
-.excel {
-  background-image: url("src/assets/excel.png");
+.detail {
+  padding-bottom: 12px;
 }

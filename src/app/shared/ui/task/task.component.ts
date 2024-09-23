@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { DomSanitizer } from '@angular/platform-browser'
 import { ITask } from 'src/app/shared/utils/interfaces'
 
 @Component({

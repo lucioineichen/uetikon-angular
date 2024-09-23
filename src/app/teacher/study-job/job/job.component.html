@@ -1,51 +1,49 @@
-<div style="position: absolute; width: 100%; top: 0; z-index: 100">
-  <mat-toolbar color="primary" class="mat-elevation-z8 toolbar">
-    <a mat-button (click)="navigateBack()"
-      ><mat-icon>arrow_back</mat-icon> Zurück</a
-    >
-    <span style="width: 2rem"></span>
-    <h1 class="job-name" *ngIf="job$ | async as job">
-      <span>{{ job.name | titlecase }}</span>
-      <span class="status">
-        <span *ngIf="job.isPublished">
-          (Publiziert: {{ job.status | jobStatus }})</span
-        ><span *ngIf="!job.isPublished"> ({{ job.status | jobStatus }})</span>
-      </span>
-      <mat-icon class="edit-icon" (click)="rename()">edit</mat-icon>
-    </h1>
-    <span class="flex-spacer"></span>
-    <button
-      mat-icon-button
-      [matMenuTriggerFor]="menu"
-      aria-label="Example icon-button with a menu"
-    >
-      <mat-icon>more_vert</mat-icon>
+<mat-toolbar color="primary" class="mat-elevation-z8 toolbar">
+  <a mat-button (click)="navigateBack()"
+    ><mat-icon>arrow_back</mat-icon> Zurück</a
+  >
+  <span style="width: 2rem"></span>
+  <h1 class="job-name" *ngIf="job$ | async as job">
+    <span>{{ job.name | titlecase }}</span>
+    <span class="status">
+      <span *ngIf="job.isPublished">
+        (Publiziert: {{ job.status | jobStatus }})</span
+      ><span *ngIf="!job.isPublished"> ({{ job.status | jobStatus }})</span>
+    </span>
+    <mat-icon class="edit-icon" (click)="rename()">edit</mat-icon>
+  </h1>
+  <span class="flex-spacer"></span>
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    aria-label="Example icon-button with a menu"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="delete()">
+      <mat-icon>delete</mat-icon>
+      <span>Löschen</span>
     </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="delete()">
-        <mat-icon>delete</mat-icon>
-        <span>Löschen</span>
+    <button mat-menu-item (click)="changeStatus()">
+      <mat-icon>edit</mat-icon>
+      <span>Status Ändern</span>
+    </button>
+    <div *ngIf="job$ | async as job">
+      <button *ngIf="!job.isPublished" mat-menu-item (click)="publish()">
+        <span>Publizieren</span>
       </button>
-      <button mat-menu-item (click)="changeStatus()">
-        <mat-icon>edit</mat-icon>
-        <span>Status Ändern</span>
+      <button *ngIf="job.isPublished" mat-menu-item (click)="depublish()">
+        <span>Nicht Publizieren</span>
       </button>
-      <div *ngIf="job$ | async as job">
-        <button *ngIf="!job.isPublished" mat-menu-item (click)="publish()">
-          <span>Publizieren</span>
-        </button>
-        <button *ngIf="job.isPublished" mat-menu-item (click)="depublish()">
-          <span>Nicht Publizieren</span>
-        </button>
-      </div>
-    </mat-menu>
-  </mat-toolbar>
+    </div>
+  </mat-menu>
+</mat-toolbar>
 
-  <div style="height: 64px"></div>
-
+<div class="main">
   <div class="mat-typography" *ngIf="job$ | async as job; else loading">
     <div style="margin-top: 50px"></div>
-    <div class="tasks">
+    <div>
       <h1>Aufgaben</h1>
       <app-task
         *ngFor="let task of job.tasks"
@@ -63,7 +61,19 @@
       </button>
     </div>
 
-    <div style="margin-top: 50px" class="tasks">
+    <div>
+      <h1 style="margin-top: 40px">Lern Material</h1>
+
+      <div style="margin-bottom: 15px" *ngFor="let material of job.materials">
+        <app-study-material [material]="material"></app-study-material>
+      </div>
+
+      <button mat-raised-button (click)="addMaterial()">
+        <mat-icon>add</mat-icon>LernMaterial Hinzufügen
+      </button>
+    </div>
+
+    <div style="margin-top: 50px">
       <h1>Kompetenzen</h1>
       <mat-chip
         *ngFor="let comp of job.competences"

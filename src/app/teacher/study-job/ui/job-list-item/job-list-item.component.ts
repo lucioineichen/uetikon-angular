@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 import {
   ICompetence,
+  IFile,
   IRef,
   IStudyJob,
   ITask,
@@ -20,6 +21,9 @@ export class IJobListItem implements IStudyJob {
     throw Error('not property of job list item')
   }
   get isSelfAssessment(): boolean {
+    throw Error('not property of job list item')
+  }
+  get materials(): IFile[] {
     throw Error('not property of job list item')
   }
 

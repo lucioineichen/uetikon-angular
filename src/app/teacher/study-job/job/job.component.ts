@@ -1,15 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import {
-  BehaviorSubject,
-  Observable,
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  subscribeOn,
-  tap,
-} from 'rxjs'
+import { BehaviorSubject, catchError, filter, map, mergeMap, tap } from 'rxjs'
 import { Location } from '@angular/common'
 import { JobService } from './job.service'
 import { AddTaskService } from '../../shared/ui/add-task/add-task.service'
@@ -21,6 +12,7 @@ import { NameService } from 'src/app/shared/ui/name/name.service'
 import { PickCompetenceListService } from 'src/app/shared/ui/pick-competence-list/pick-competence-list.service'
 import { ITask } from 'src/app/shared/utils/interfaces'
 import { TaskFormService } from '../../shared/ui/task-form/task-form.service'
+import { AddStudyMaterialService } from 'src/app/shared/ui/add-study-material/add-study-material.service'
 
 @Component({
   selector: 'app-job',
@@ -54,8 +46,29 @@ export class JobComponent implements OnInit {
     private nameService: NameService,
     private fb: FormBuilder,
     private pickCompetence: PickCompetenceListService,
-    private editTaskService: TaskFormService
+    private editTaskService: TaskFormService,
+    private addMaterialService: AddStudyMaterialService
   ) {}
+
+  addMaterial() {
+    this.addMaterialService
+      .addStudyMaterial()
+      .pipe(
+        filterNullish(),
+        mergeMap((file) =>
+          this.service.postMaterial(this.job$.value!._id, file)
+        ),
+        tap((file) => {
+          this.job$.value?.materials.push(file)
+          this.job$.next(this.job$.value)
+        }),
+        catchError((err) => {
+          this.ui.showToast('LernMaterial konnte nicht hinzugefügt werden')
+          return err
+        })
+      )
+      .subscribe()
+  }
 
   editTask(task: ITask) {
     this.editTaskService

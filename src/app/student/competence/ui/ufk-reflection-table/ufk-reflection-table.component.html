@@ -97,6 +97,7 @@
 
     <div *ngIf="ufk.reflection">
       <div class="sub-row">
+        <!-- grade -->
         <div class="grade">
           <mat-icon *ngIf="ufk.reflection.grade <= 0.6" style="color: red"
             >fmd_bad</mat-icon
@@ -105,6 +106,7 @@
             >bolt</mat-icon
           >
         </div>
+
         <div class="col" style="width: 100%">
           <!-- teacher -->
           <div class="col" [ngStyle]="{ width: this.headers[0].width + '%' }">
@@ -138,6 +140,8 @@
         </div>
 
         <div class="col" style="width: 96px">
+          <div><div class="space"></div></div>
+
           <button
             (click)="toggleReflection(ufk.reflection._id)"
             mat-icon-button
@@ -154,8 +158,6 @@
               >expand_less</mat-icon
             >
           </button>
-
-          <span><span style="width: 48px"></span></span>
         </div>
       </div>
 

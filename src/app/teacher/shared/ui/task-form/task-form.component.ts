@@ -60,11 +60,8 @@ export class TaskFormComponent {
     formData.append('text', JSON.stringify(data.text))
     formData.append('graded', JSON.stringify(data.graded))
     formData.append('weight', JSON.stringify(data.weight))
-    formData.append(
-      'isSelfControl',
-      JSON.stringify(data.isSelfControl || false)
-    )
-    formData.append('isSubmission', JSON.stringify(data.isSubmission || false))
+    formData.append('isSelfControl', JSON.stringify(data.isSelfControl))
+    formData.append('isSubmission', JSON.stringify(data.isSubmission))
 
     return formData
   }
@@ -78,25 +75,5 @@ export class TaskFormComponent {
       isSubmission: [this.task.isSubmission, Validators.required],
     })
     if (this.task.file) this.fileName = this.task.file.name
-
-    const gradedCtrl = this.form.get('graded')
-    const isSelfControl = this.form.get('isSelfControl')
-    const isSubmission = this.form.get('isSubmission')
-    gradedCtrl?.valueChanges
-      .pipe(
-        startWith(gradedCtrl?.value),
-        tap((isGraded) => {
-          if (isGraded) {
-            isSelfControl?.enable()
-            isSubmission?.enable()
-          } else {
-            isSelfControl?.setValue(false)
-            isSubmission?.setValue(false)
-            isSelfControl?.disable()
-            isSubmission?.disable()
-          }
-        })
-      )
-      .subscribe()
   }
 }

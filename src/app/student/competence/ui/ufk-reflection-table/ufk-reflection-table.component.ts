@@ -5,6 +5,7 @@ import { WriteReflectionService } from '../write-reflection/write-reflection.ser
 import { IReflection } from '../../competences.component'
 import { catchError, mergeMap, tap } from 'rxjs'
 import { UfkReflectionTableService } from './ufk-reflection-table.service'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
 
 @Component({
   selector: 'app-ufk-reflection-table',
@@ -35,7 +36,6 @@ export class UfkReflectionTableComponent {
     else this.expandedReflection = id
   }
 
-
   readonly headers = [
     { name: 'Lehrer', width: 17 },
     { name: 'Titel', width: 17 },
@@ -49,6 +49,7 @@ export class UfkReflectionTableComponent {
     this.writeReflextionService
       .writeReflection(ufk)
       .pipe(
+        filterNullish(),
         mergeMap((data) => this.service.postReflection(data, ufk._id)),
         tap((reflection) => (ufk.reflection = reflection)),
         catchError((err) => {

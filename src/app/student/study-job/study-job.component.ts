@@ -39,7 +39,7 @@ export class StudyJobComponent implements OnInit {
 
   addSubmission(prog: ITaskProgress) {
     this.addSubmissionService
-      .addSubmission(prog._id, prog.task.title)
+      .addSubmission(prog._id, prog.task.title || prog.task.file!.name)
       .pipe(tap(() => this.updateProgress()))
       .subscribe()
   }

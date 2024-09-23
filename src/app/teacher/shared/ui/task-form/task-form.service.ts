@@ -23,13 +23,5 @@ export class TaskFormService {
 
     return dialogRef
       .afterClosed()
-      .pipe
-      // tap((formData: any) => {
-      //   for (var pair of formData.entries()) {
-      //     console.log(pair[0] + ': ')
-      //     console.info(pair[1])
-      //   }
-      // })
-      ()
   }
 }

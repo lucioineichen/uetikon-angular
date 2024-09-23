@@ -11,6 +11,8 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { PickCompetenceListModule } from 'src/app/shared/ui/pick-competence-list/pick-competence-list.module'
 import { AddTaskModule } from '../../shared/ui/add-task/add-task.module'
 import { TaskFormModule } from '../../shared/ui/task-form/task-form.module'
+import { AddStudyMaterialModule } from 'src/app/shared/ui/add-study-material/add-study-material.module'
+import { StudyMaterialModule } from 'src/app/shared/ui/study-material/study-material.module'
 
 @NgModule({
   declarations: [JobComponent],
@@ -26,6 +28,8 @@ import { TaskFormModule } from '../../shared/ui/task-form/task-form.module'
     PickCompetenceListModule,
     AddTaskModule,
     TaskFormModule,
+    AddStudyMaterialModule,
+    StudyMaterialModule,
   ],
 })
 export class JobModule {}

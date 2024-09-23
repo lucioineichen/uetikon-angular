@@ -1,12 +1,39 @@
-<div class="task-card">
+<div class="card">
   <!-- Main Body -->
-  <div class="main">
-    <span class="title" *ngIf="task.title">{{ task.title | titlecase }}</span>
-    <span class="center-content" *ngIf="!task.title && task.file">
-      <app-file [file]="task.file"></app-file>
+  <div class="task-main">
+    <span *ngIf="task.title">{{ task.title | titlecase }}</span>
+    <app-file [file]="task.file" *ngIf="!task.title && task.file"></app-file>
+
+    <span class="spacer"></span>
+
+    <ng-template #spacer>
+      <span class="expand-button">
+        <span style="width: 48px; display: inline-block"></span>
+      </span>
+    </ng-template>
+
+    <span>
+      <mat-chip *ngIf="task.isSelfControl">Selbstkontrolle</mat-chip>
+      <mat-chip style="margin-left: 5px" *ngIf="task.isSubmission"
+        >Abgabe</mat-chip
+      >
+      <mat-chip style="margin-left: 5px" *ngIf="task.graded">Benotet</mat-chip>
+      <mat-chip style="margin-left: 5px"
+        >Gewichtung: {{ task.weight }}</mat-chip
+      >
     </span>
 
-    <button class="edit-button" mat-icon-button [mat-menu-trigger-for]="menu">
+    <button
+      class="expand-button"
+      *ngIf="task.text || (task.file && task.title)"
+      mat-icon-button
+      (click)="this.toggleExpanded()"
+    >
+      <mat-icon *ngIf="!isExpanded">expand_more</mat-icon>
+      <mat-icon *ngIf="isExpanded">expand_less</mat-icon>
+    </button>
+
+    <button mat-icon-button [mat-menu-trigger-for]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu" xPosition="before">
@@ -19,50 +46,16 @@
         <span>Löschen</span>
       </button>
     </mat-menu>
-
-    <button
-      class="expand-button"
-      *ngIf="task.text || (task.file && task.title); else spacer"
-      mat-icon-button
-      (click)="this.toggleExpanded()"
-    >
-      <mat-icon *ngIf="!isExpanded">expand_more</mat-icon>
-      <mat-icon *ngIf="isExpanded">expand_less</mat-icon>
-    </button>
-
-    <ng-template #spacer>
-      <span class="expand-button">
-        <span style="width: 48px; display: inline-block"></span>
-      </span>
-    </ng-template>
-
-    <span style="float: right">
-      <mat-chip *ngIf="task.isSelfControl">Selbstkontrolle</mat-chip>
-      <mat-chip style="margin-left: 5px" *ngIf="task.graded">Benotet</mat-chip>
-      <mat-chip style="margin-left: 5px"
-        >Gewichtung: {{ task.weight }}</mat-chip
-      >
-    </span>
   </div>
 
   <!-- Detail -->
-  <div *ngIf="isExpanded">
-    <span class="title" *ngIf="task.title && task.file">
-      <!-- <img
-        class="fileIcon"
-        *ngIf="isKnownExtension(task.file.extension)"
-        src="../../../assets/pdf.png"
-      />
-      <a
-        class="file-link"
-        [ngClass]="{'title': !isKnownExtension(task.file.extension)}"
-        (click)="openFile(task.file.url)"
-        >{{ task.file.name }}</a
-      > -->
-      <app-file [file]="task.file"></app-file>
-    </span>
-    <p style="margin-bottom: 0; margin-top: 16px" class="mat-typographie">
-      {{ task.text }}
-    </p>
+
+  <div class="detail" *ngIf="isExpanded">
+    <app-file [file]="task.file" *ngIf="task.title && task.file"></app-file>
+
+    <div class="mat-typography" *ngIf="task.text">
+      <p style="margin-top: 15px">Beschreibung:</p>
+      <p>{{ task.text }}</p>
+    </div>
   </div>
 </div>
