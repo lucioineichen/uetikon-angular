@@ -32,6 +32,12 @@ export interface IUfk {
 export class UfkService {
   constructor(private http: HttpClient) {}
 
+  getReflections(studentId: number) {
+    return this.http.get<IReflection[]>(
+      `${environment.baseUrl}/student/${studentId}/single-reflections`
+    )
+  }
+
   postUfk(data: {
     form: {
       title: string

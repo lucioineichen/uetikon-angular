@@ -24,11 +24,14 @@
     <input type="search" matInput [formControl]="search" />
   </mat-form-field>
 
-  <app-ufk-table
-    *ngIf="ufks$ | async as ufks; else loading"
-    [ufks]="ufks"
-    (delete)="deleteUfk($event)"
-  ></app-ufk-table>
+  <div *ngIf="reflections$ | async as reflections">
+    <app-ufk-table
+      *ngIf="ufks$ | async as ufks; else loading"
+      [ufks]="ufks"
+      [reflections]="reflections"
+      (delete)="deleteUfk($event)"
+    ></app-ufk-table>
+  </div>
 
   <ng-template #loading
     ><app-loading-ufk-table></app-loading-ufk-table

@@ -2,7 +2,18 @@
   position: absolute;
   right: 15px;
   top: 0px;
-  /* transform: translateX(-100%); */
+}
+
+.grade {
+  display: flex;
+  width: 48px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.space {
+  width: 48px;
 }
 
 .table {
@@ -33,7 +44,7 @@
 }
 
 .sub-row {
-  padding-left: 20px;
+  /* padding-left: 20px; */
   display: flex;
 }
 
@@ -49,6 +60,7 @@
   display: flex;
   align-items: center;
   height: 48px;
+  /* flex-shrink: 0; */
 }
 
 .chip {

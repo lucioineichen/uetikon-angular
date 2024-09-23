@@ -14,12 +14,14 @@
   <div class="row" *ngFor="let ufk of ufks">
     <div>
       <div class="sub-row">
+        <!-- grade -->
         <div class="grade">
           <mat-icon *ngIf="ufk.grade <= 0.6" style="color: red"
             >fmd_bad</mat-icon
           >
           <mat-icon *ngIf="ufk.grade > 0.6" style="color: green">bolt</mat-icon>
         </div>
+
         <div class="col" style="width: 100%">
           <!-- teacher -->
           <div class="col" [ngStyle]="{ width: this.headers[0].width + '%' }">
@@ -59,12 +61,8 @@
             mat-icon-button
             *ngIf="ufk.file || ufk.text; else space"
           >
-            <mat-icon class="expand-icon" *ngIf="ufk._id != expandedUfk"
-              >expand_more</mat-icon
-            >
-            <mat-icon class="expand-icon" *ngIf="ufk._id == expandedUfk"
-              >expand_less</mat-icon
-            >
+            <mat-icon *ngIf="ufk._id != expandedUfk">expand_more</mat-icon>
+            <mat-icon *ngIf="ufk._id == expandedUfk">expand_less</mat-icon>
           </button>
 
           <ng-template #space>
@@ -73,11 +71,7 @@
             </div>
           </ng-template>
 
-          <button
-            class="more-expanded-btn"
-            mat-icon-button
-            [mat-menu-trigger-for]="menu"
-          >
+          <button mat-icon-button [mat-menu-trigger-for]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu" xPosition="before">
@@ -104,10 +98,12 @@
     <div *ngIf="ufk.reflection">
       <div class="sub-row">
         <div class="grade">
-          <mat-icon *ngIf="ufk.grade <= 0.6" style="color: red"
+          <mat-icon *ngIf="ufk.reflection.grade <= 0.6" style="color: red"
             >fmd_bad</mat-icon
           >
-          <mat-icon *ngIf="ufk.grade > 0.6" style="color: green">bolt</mat-icon>
+          <mat-icon *ngIf="ufk.reflection.grade > 0.6" style="color: green"
+            >bolt</mat-icon
+          >
         </div>
         <div class="col" style="width: 100%">
           <!-- teacher -->
@@ -115,30 +111,29 @@
             <mat-chip>Selbstreflexion</mat-chip>
           </div>
           <!-- title -->
-          <div class="col" [ngStyle]="{ width: this.headers[1].width + '%' }">
-            <!-- {{ ufk.title | titlecase }} -->
-          </div>
+          <div
+            class="col"
+            [ngStyle]="{ width: this.headers[1].width + '%' }"
+          ></div>
           <!-- competence -->
-          <div class="col" [ngStyle]="{ width: this.headers[2].width + '%' }">
-            <!-- <mat-chip [matTooltip]="ufk.competence.name">{{
-              ufk.competence.name | slice : 0 : 25
-            }}</mat-chip> -->
-          </div>
+          <div
+            class="col"
+            [ngStyle]="{ width: this.headers[2].width + '%' }"
+          ></div>
 
           <!-- course -->
-          <div class="col" [ngStyle]="{ width: this.headers[3].width + '%' }">
-            <!-- {{ ufk.course?.name || "--" | titlecase }} -->
-          </div>
+          <div
+            class="col"
+            [ngStyle]="{ width: this.headers[3].width + '%' }"
+          ></div>
           <!-- subject -->
-          <div class="col" [ngStyle]="{ width: this.headers[4].width + '%' }">
-            <!-- <span *ngIf="ufk.subject" [matTooltip]="ufk.subject.name">{{
-              ufk.subject.short | titlecase
-            }}</span>
-            <span *ngIf="!ufk.subject">--</span> -->
-          </div>
+          <div
+            class="col"
+            [ngStyle]="{ width: this.headers[4].width + '%' }"
+          ></div>
           <!-- date -->
           <div class="col" [ngStyle]="{ width: this.headers[5].width + '%' }">
-            {{ ufk.date | date }}
+            {{ ufk.reflection.date | date }}
           </div>
         </div>
 
@@ -161,19 +156,6 @@
           </button>
 
           <span><span style="width: 48px"></span></span>
-
-          <!-- <button
-            class="more-expanded-btn"
-            mat-icon-button
-            [mat-menu-trigger-for]="menu"
-          >
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" xPosition="before">
-            <button mat-menu-item (click)="writeReflection(ufk)">
-              Reflexion Editieren
-            </button>
-          </mat-menu> -->
         </div>
       </div>
 
@@ -262,19 +244,6 @@
             <div class="space"></div>
           </div>
         </ng-template>
-
-        <!-- <button
-          class="more-expanded-btn"
-          mat-icon-button
-          [mat-menu-trigger-for]="menu"
-        >
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu" xPosition="before">
-          <button mat-menu-item (click)="writeReflection(reflection)">
-            Reflexion Schreiben
-          </button>
-        </mat-menu> -->
       </div>
     </div>
 

@@ -16,6 +16,7 @@ import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms'
 import { SelectStudentService } from 'src/app/shared/ui/select-student/select-student.service'
 import { ConfirmDeleteService } from 'src/app/shared/ui/confirm-delete/confirm-delete.service'
+import { IReflection } from 'src/app/student/competence/competences.component'
 
 @Component({
   selector: 'app-ufk',
@@ -25,6 +26,7 @@ import { ConfirmDeleteService } from 'src/app/shared/ui/confirm-delete/confirm-d
 export class UfkComponent implements OnInit {
   filterForm!: FormGroup
   ufks$ = new BehaviorSubject<IUfk[] | undefined>(undefined)
+  reflections$ = new BehaviorSubject<IReflection[]>([])
   studentControl = new FormControl<number | null>(null)
   courseControl = new FormControl<number | null>(null)
   subjectControl = new FormControl<number | null>(null)
@@ -44,6 +46,21 @@ export class UfkComponent implements OnInit {
     this.buildForm()
     this.updateUfks()
     this.sincFilteredUfks()
+    this.syncReflections()
+  }
+
+  private syncReflections() {
+    this.studentControl.valueChanges
+      .pipe(
+        filterNullish(),
+        mergeMap((id) => this.service.getReflections(id)),
+        tap((reflections) => this.reflections$.next(reflections)),
+        catchError((err) => {
+          this.ui.showToast('Reflexionen konnten nicht geladen werden')
+          return err
+        })
+      )
+      .subscribe()
   }
 
   addUfk() {
