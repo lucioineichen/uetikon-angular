@@ -47,7 +47,7 @@ export class AddTaskComponent implements OnInit {
     formData.append('graded', JSON.stringify(data.graded))
     formData.append('weight', JSON.stringify(data.weight))
     formData.append('isSelfControl', JSON.stringify(data.isSelfControl))
-    formData.append('isSubmission', JSON.stringify(data.isSelfControl))
+    formData.append('isSubmission', JSON.stringify(data.isSubmission))
 
     return formData
   }

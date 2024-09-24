@@ -21,6 +21,12 @@ import { IClass } from '../student-detail/student.service'
       .student:hover {
         cursor: pointer;
       }
+
+      .main {
+        margin-top: 150px;
+        margin-left: 14%;
+        margin-right: 14%;
+      }
     `,
     `
       .add-container {

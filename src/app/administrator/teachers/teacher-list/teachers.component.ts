@@ -17,6 +17,12 @@ import {
   templateUrl: './teachers.component.html',
   styles: [
     `
+      .main {
+        margin-top: 150px;
+        margin-left: 14%;
+        margin-right: 14%;
+      }
+
       .teacher:hover {
         cursor: pointer;
       }

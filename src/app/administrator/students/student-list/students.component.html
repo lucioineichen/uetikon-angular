@@ -1,3 +1,5 @@
+<app-toolbar></app-toolbar>
+
 <div class="add-container">
   <div>
     <button
@@ -17,16 +19,7 @@
   </mat-menu>
 </div>
 
-<div
-  *ngIf="!students$.hasError; else error"
-  class="mat-typography"
-  style="
-    overflow-y: auto;
-    padding-top: 30px;
-    padding-left: 50px;
-    padding-right: 100px;
-  "
->
+<div *ngIf="!students$.hasError; else error" class="mat-typography main">
   <div
     *ngIf="students$ | async as students; else loading"
     style="margin-bottom: 50px"

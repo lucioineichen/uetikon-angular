@@ -2,7 +2,7 @@ import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-parents',
-  template: ` <p>parents works!</p> `,
+  template: ` <app-toolbar></app-toolbar>`,
   styles: [],
 })
 export class ParentComponent {}

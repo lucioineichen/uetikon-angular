@@ -1,15 +1,8 @@
+<app-toolbar></app-toolbar>
+
 <app-add-button (click)="addTeacher()"></app-add-button>
 
-<div
-  *ngIf="!teachers$.hasError; else error"
-  class="mat-typography"
-  style="
-    overflow-y: auto;
-    padding-top: 30px;
-    padding-left: 50px;
-    padding-right: 100px;
-  "
->
+<div *ngIf="!teachers$.hasError; else error" class="mat-typography main">
   <div *ngIf="teachers$ | async as teachers; else loading">
     <div *ngIf="teachers.length > 0; else noTeachers">
       <mat-form-field style="width: 100%" appearance="outline">

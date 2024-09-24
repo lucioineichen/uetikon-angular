@@ -17,6 +17,7 @@ import { ToolbarModule } from 'src/app/shared/ui/toolbar/toolbar.module'
     TopicModule,
     SubTopicModule,
     CompetenceModule,
+    ToolbarModule,
   ],
 })
 export class CompetencesModule {}
