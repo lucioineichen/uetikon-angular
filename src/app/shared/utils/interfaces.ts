@@ -2,13 +2,13 @@ import { Role } from '../../core/auth/auth.enum'
 import { IName, IUser, Name, User } from '../../core/auth/user'
 import { IRawSubject } from '../data/competences_data/competences-data.service'
 
-export interface IStudentCourse {
-  _id: number
-  name: string
-  credits: number
-  grade?: number
-  progress: number
-}
+// export interface IStudentCourse {
+//   _id: number
+//   name: string
+//   credits: number
+//   grade?: number
+//   progress: number
+// }
 
 export interface IStringRef {
   _id: string
@@ -180,10 +180,12 @@ export interface IStudentCourse extends ICourse {
   notMetContainerList: IRef[]
 }
 
+export type IStatus = 0 | 1 | 2
+
 export interface ITaskProgress {
   _id: number
   task: ITask
-  status: 0 | 1 | 2
+  status: IStatus
   grade: number | undefined
   submissions: ISubmission[]
 }
@@ -194,6 +196,7 @@ export interface IProgress {
   progress: number
   grade: number | undefined
   taskProgressList: ITaskProgress[]
+  status: IStatus
 }
 
 export class Progress implements IProgress {
@@ -202,7 +205,8 @@ export class Progress implements IProgress {
     public job: IStudyJob,
     public progress: number,
     public taskProgressList: ITaskProgress[],
-    public grade: number | undefined
+    public grade: number | undefined,
+    public status: IStatus
   ) {}
 
   get isGraded() {
@@ -217,7 +221,8 @@ export class Progress implements IProgress {
       progress.job,
       progress.progress,
       progress.taskProgressList,
-      progress.grade
+      progress.grade,
+      progress.status
     )
   }
 }
@@ -229,10 +234,9 @@ export interface IJobSelection {
   studentParticipant: IRef
   studyJob: IStudyJob
   deadline: string
-  status: number
   dependentContainer?: IRef
   isLocked: boolean
-  progress: IProgress | undefined
+  progress: IProgress
 }
 
 export interface IStudentParticipant {

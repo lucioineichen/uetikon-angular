@@ -22,7 +22,18 @@
 >
   <div class="title">
     LernWeg
-    <button mat-icon-button (click)="editPath()">
+    <button
+      color="primary"
+      mat-mini-fab
+      (click)="editPath()"
+      [matBadge]="
+        course$.value?.notMetContainerList?.length == 0
+          ? ''
+          : course$.value?.notMetContainerList?.length
+      "
+      matBadgeColor="accent"
+      matBadgePosition="above before"
+    >
       <mat-icon>edit</mat-icon>
     </button>
   </div>

@@ -22,13 +22,13 @@
         <mat-card-content>
           <div style="height: 40px"></div>
           <mat-chip class="chip">{{ selection.deadline | date }}</mat-chip>
-          <mat-chip class="chip" *ngIf="selection.status == 0"
-            >{{ selection.status | status }}
+          <mat-chip class="chip" *ngIf="selection.progress.status == 0"
+            >{{ selection.progress.status | status }}
           </mat-chip>
-          <mat-chip class="chip" *ngIf="selection.progress"
+          <mat-chip class="chip" *ngIf="selection.progress.status != 0"
             >Fortschritt: {{ selection.progress.progress | percent }} </mat-chip
           ><mat-chip class="chip" *ngIf="selection.progress?.grade"
-            >Note: {{ selection.progress?.grade | percent }}
+            >Note: {{ selection.progress.grade | percent }}
           </mat-chip>
         </mat-card-content>
       </div>

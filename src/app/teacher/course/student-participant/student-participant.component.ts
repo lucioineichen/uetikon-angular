@@ -6,6 +6,7 @@ import {
   IContainer,
   IProgress,
   IRef,
+  IStudentCourse,
   IStudentParticipant,
   ITaskProgress,
 } from 'src/app/shared/utils/interfaces'
@@ -18,18 +19,11 @@ import { filterNullish } from 'src/app/shared/utils/filternullish'
 @Component({
   selector: 'app-student-participant',
   templateUrl: './student-participant.component.html',
-  styles: [
-    `
-      .title {
-        font-size: 32px;
-        text-align: center;
-        margin-bottom: 40px;
-      }
-    `,
-  ],
+  styleUrls: ['./student-participant.component.css'],
 })
 export class StudentParticipantComponent implements OnInit {
   progressList$ = new BehaviorSubject<IProgress[] | undefined>(undefined)
+  course$ = new BehaviorSubject<IStudentCourse | undefined>(undefined)
   studentId!: number
   studentName!: string
   courseId!: number
@@ -117,6 +111,20 @@ export class StudentParticipantComponent implements OnInit {
   ngOnInit(): void {
     this.initParams()
     this.updateProgress()
+    this.updateCourse()
+  }
+
+  private updateCourse() {
+    this.service
+      .getCourse(this.studentId, this.courseId)
+      .pipe(
+        tap((course) => this.course$.next(course)),
+        catchError((err) => {
+          this.ui.showToast('Kurs konnte nicht geladen werden')
+          return err
+        })
+      )
+      .subscribe()
   }
 
   private initParams() {

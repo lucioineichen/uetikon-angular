@@ -1,0 +1,16 @@
+:host /deep/ .mat-badge-medium.mat-badge-below .mat-badge-content {
+  bottom: 8px !important;
+}
+
+:host
+  /deep/
+  .mat-badge-medium.mat-badge-overlap.mat-badge-before
+  .mat-badge-content {
+  left: -8px;
+}
+
+.title {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 40px;
+}
