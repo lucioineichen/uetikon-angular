@@ -5,6 +5,7 @@ import { User } from 'src/app/core/auth/user'
 import { SubSink } from 'subsink'
 import { Location } from '@angular/common'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
+import { ChangePasswordService } from './change-password/change-password.service'
 
 @Component({
   selector: 'app-profile',
@@ -40,7 +41,15 @@ import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
             Zweitname: {{ user.name.middleName }}
           </div>
           <div class="info">Nachname: {{ user.name.lastName }}</div>
-          <div class="info">Passwort: ************</div>
+          <div class="info" *ngIf="!user.temporaryPassword">
+            Passwort: ************
+          </div>
+          <div class="info" *ngIf="user.temporaryPassword">
+            Passwort:
+            <a class="info file-link" (click)="onChangePassword()"
+              >Temporäres Passwort Ändern</a
+            >
+          </div>
           <button
             class="edit-btn"
             mat-raised-button
@@ -111,8 +120,16 @@ export class ProfileComponent implements OnInit {
   constructor(
     private service: ProfileService,
     private location: Location,
-    private ui: DialogService
+    private ui: DialogService,
+    protected changePassword: ChangePasswordService
   ) {}
+
+  onChangePassword() {
+    this.changePassword
+      .changePassword()
+      .pipe(tap(() => this.updateUser()))
+      .subscribe()
+  }
 
   openSettings() {
     this.ui.showToast('Funktion nicht implementiert')
@@ -131,6 +148,10 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateUser()
+  }
+
+  private updateUser() {
     this.service
       .getUser()
       .pipe(

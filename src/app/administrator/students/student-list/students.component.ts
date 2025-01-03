@@ -7,11 +7,13 @@ import {
   distinctUntilChanged,
   map,
   startWith,
+  tap,
   throttleTime,
 } from 'rxjs'
 import { IStudent } from 'src/app/shared/utils/interfaces'
 import { StudentsService } from './students.service'
 import { IClass } from '../student-detail/student.service'
+import { CreateStudentsByJsonService } from './ui/create-students-by-json/create-students-by-json.service'
 
 @Component({
   selector: 'app-students',
@@ -55,7 +57,18 @@ export class StudentListComponent {
   showSek2 = false
   showSek3 = false
 
-  constructor(private service: StudentsService, private router: Router) {}
+  constructor(
+    private service: StudentsService,
+    private router: Router,
+    private createJsonStudents: CreateStudentsByJsonService
+  ) {}
+
+  addJsonStudents() {
+    this.createJsonStudents
+      .createStudents()
+      .pipe(tap(() => this.service.update()))
+      .subscribe()
+  }
 
   classFilter(grade: number) {
     return (_class: IClass) => _class.grade === grade

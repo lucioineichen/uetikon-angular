@@ -28,7 +28,8 @@ export class User implements IUser {
     public email = '',
     public name = { firstName: '', lastName: '' } as IName,
     public role = Role.None,
-    public picture?: string
+    public picture?: string,
+    public temporaryPassword = false
   ) {}
 
   static Build(user: IUser) {
@@ -41,7 +42,8 @@ export class User implements IUser {
       user.email,
       user.name,
       user.role as Role,
-      user.picture
+      user.picture,
+      user.temporaryPassword
     )
   }
 
@@ -67,5 +69,6 @@ export interface IUser {
   name: IName
   role: Role | string
   picture?: string
+  temporaryPassword?: boolean
   readonly fullName: string
 }

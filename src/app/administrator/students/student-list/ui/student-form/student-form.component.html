@@ -91,7 +91,7 @@
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
       <mat-form-field fxFlex>
         <mat-label>Klasse</mat-label>
-        <mat-select formControlName="class_ids" multiple>
+        <mat-select formControlName="classList" multiple>
           <ng-container *ngIf="classes$ | async as classes; else loading">
             <mat-option *ngFor="let class of classes" [value]="class._id">
               {{ class.name }}

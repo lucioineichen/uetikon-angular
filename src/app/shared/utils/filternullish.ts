@@ -17,9 +17,15 @@ export function filterNullish<T>(
           callback
         }
       }),
-      filter((x) => x != null) as OperatorFunction<T | null | undefined, T>
+      filter((x) => x != null && x != '' && x != undefined) as OperatorFunction<
+        T | null | undefined,
+        T
+      >
     )
   return pipe(
-    filter((x) => x != null) as OperatorFunction<T | null | undefined, T>
+    filter((x) => x != null && x != '' && x != undefined) as OperatorFunction<
+      T | null | undefined,
+      T
+    >
   )
 }

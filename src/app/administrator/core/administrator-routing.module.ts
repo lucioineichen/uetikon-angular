@@ -8,7 +8,7 @@ import { TeacherComponent } from '../teachers/teacher-detail/teacher.component'
 import { StudentComponent } from '../students/student-detail/student.component'
 
 const routes: Routes = [
-  { path: '', redirectTo: '/administrator/competences', pathMatch: 'full' },
+  { path: '', redirectTo: '/administrator/teachers', pathMatch: 'full' },
   { path: 'competences', component: CompetencesComponent },
   { path: 'teachers', component: TeachersComponent },
   { path: 'teachers/:id', component: TeacherComponent },

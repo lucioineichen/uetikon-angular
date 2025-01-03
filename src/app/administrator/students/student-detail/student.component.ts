@@ -44,7 +44,7 @@ export class StudentComponent {
     this.service.updateStudent(this.id)
   }
 
-  classesControl() {
+  get classesControl() {
     return this.studentForm.get('classes') as FormControl
   }
 

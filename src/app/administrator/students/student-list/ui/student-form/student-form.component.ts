@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { StudentFormService } from './student-form.service'
-import { MatDialogRef } from '@angular/material/dialog'
+import { AddStudentService } from './student-form.service'
 
 @Component({
   selector: 'app-student-form',
@@ -14,12 +13,11 @@ export class StudentFormComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: StudentFormService,
-    private dialogRef: MatDialogRef<StudentFormComponent>
+    private service: AddStudentService
   ) {}
 
   ngOnInit(): void {
-    this.service.updateClasses(this.dialogRef)
+    this.service.updateClasses()
 
     this.studentForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -40,7 +38,7 @@ export class StudentFormComponent {
           Validators.maxLength(50),
         ],
       ],
-      class_ids: ['', [Validators.required]],
+      classList: ['', [Validators.required]],
       grade: ['', [Validators.required]],
     })
   }

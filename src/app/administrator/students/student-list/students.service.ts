@@ -8,6 +8,8 @@ import { StudentFormComponent } from './ui/student-form/student-form.component'
 import { ClassFormComponent } from './ui/class-form/class-form.component'
 import { IClass } from '../student-detail/student.service'
 import { environment } from 'src/app/core/environment/environment.demo'
+import { filterNullish } from 'src/app/shared/utils/filternullish'
+import { AddStudentService } from './ui/student-form/student-form.service'
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +21,8 @@ export class StudentsService {
   constructor(
     private httpClient: HttpClient,
     private uiService: DialogService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private addStudentService: AddStudentService
   ) {}
 
   private getStudents() {
@@ -65,12 +68,10 @@ export class StudentsService {
   }
 
   addStudent() {
-    const dialogRef = this.dialog.open(StudentFormComponent)
-
-    dialogRef
-      .afterClosed()
+    this.addStudentService
+      .addStudent()
       .pipe(
-        filter((value) => value != '' && value != undefined),
+        filterNullish(),
         mergeMap((value) => {
           return this.postStudent(value)
         }),

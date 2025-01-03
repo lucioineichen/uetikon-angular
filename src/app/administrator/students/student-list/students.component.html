@@ -16,6 +16,7 @@
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="addStudent()">Schüler</button>
     <button mat-menu-item (click)="addClass()">Klasse</button>
+    <button mat-menu-item (click)="addJsonStudents()">Schüler aus Json</button>
   </mat-menu>
 </div>
 
@@ -65,7 +66,7 @@
       </div>
       <div *ngIf="showSek1">
         <mat-list-item *ngFor="let class of classes.filter(classFilter(1))">
-          <div matListItemTitle>{{ class.name }}</div>
+          <div matListItemTitle>{{ class.name }} (id: {{ class._id }})</div>
           <div matListItemLine>Anzahl Schüler: {{ class.studentCount }}</div>
         </mat-list-item>
         <mat-list-item *ngIf="classes.filter(classFilter(1)).length === 0">
@@ -84,7 +85,7 @@
       </div>
       <div *ngIf="showSek2">
         <mat-list-item *ngFor="let class of classes.filter(classFilter(2))">
-          <div matListItemTitle>{{ class.name }}</div>
+          <div matListItemTitle>{{ class.name }} (id: {{ class._id }})</div>
           <div matListItemLine>Anzahl Schüler: {{ class.studentCount }}</div>
         </mat-list-item>
         <mat-list-item *ngIf="classes.filter(classFilter(2)).length === 0">
@@ -103,7 +104,7 @@
       </div>
       <div *ngIf="showSek3">
         <mat-list-item *ngFor="let class of classes.filter(classFilter(3))">
-          <div matListItemTitle>{{ class.name }}</div>
+          <div matListItemTitle>{{ class.name }} (id: {{ class._id }})</div>
           <div matListItemLine>Anzahl Schüler: {{ class.studentCount }}</div>
         </mat-list-item>
         <mat-list-item *ngIf="classes.filter(classFilter(3)).length === 0">

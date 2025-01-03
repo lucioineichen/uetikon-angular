@@ -17,9 +17,7 @@ export class SelectClassesService {
   ) {}
 
   private getClasses() {
-    return this.httpClient.get<IClass[]>(
-      `${environment.baseUrl}/administrator/classes`
-    )
+    return this.httpClient.get<IClass[]>(`${environment.baseUrl}/classes`)
   }
 
   update() {

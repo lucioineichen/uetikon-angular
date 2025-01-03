@@ -71,14 +71,7 @@ import { AuthService, IAuthStatus } from 'src/app/core/auth/auth.service'
       <!-- Administrator Routes -->
 
       <div *ngIf="auth.status?.userRole === 'administrator'">
-        <a
-          class="link"
-          mat-button
-          routerLink="/administrator/competences"
-          routerLinkActive="active-link"
-          >Kompetenzen</a
-        >
-        <a
+      <a
           class="link"
           mat-button
           routerLink="/administrator/teachers"
@@ -91,6 +84,13 @@ import { AuthService, IAuthStatus } from 'src/app/core/auth/auth.service'
           routerLink="/administrator/students"
           routerLinkActive="active-link"
           >Schüler</a
+        >
+        <a
+          class="link"
+          mat-button
+          routerLink="/administrator/competences"
+          routerLinkActive="active-link"
+          >Kompetenzen</a
         >
       </div>
 
