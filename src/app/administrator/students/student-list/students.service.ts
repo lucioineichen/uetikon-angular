@@ -3,10 +3,9 @@ import { Injectable } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { BehaviorSubject, catchError, filter, map, mergeMap, tap } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
-import { IStudent, Student } from 'src/app/shared/utils/interfaces'
+import { IClass, IStudent, Student } from 'src/app/shared/utils/interfaces'
 import { StudentFormComponent } from './ui/student-form/student-form.component'
 import { ClassFormComponent } from './ui/class-form/class-form.component'
-import { IClass } from '../student-detail/student.service'
 import { environment } from 'src/app/core/environment/environment.demo'
 import { filterNullish } from 'src/app/shared/utils/filternullish'
 import { AddStudentService } from './ui/student-form/student-form.service'
@@ -24,6 +23,12 @@ export class StudentsService {
     private dialog: MatDialog,
     private addStudentService: AddStudentService
   ) {}
+
+  getTempPasswordStudentsText() {
+    return this.httpClient.get(
+      `${environment.baseUrl}/temp-password-students-text`
+    )
+  }
 
   private getStudents() {
     return this.httpClient.get<IStudent[]>(`${environment.baseUrl}/students`)
@@ -89,6 +94,7 @@ export class StudentsService {
   }
 
   postClass(data: any) {
+    console.log(data)
     return this.httpClient.post<IClass>(`${environment.baseUrl}/classes`, data)
   }
 

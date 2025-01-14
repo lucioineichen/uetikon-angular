@@ -44,6 +44,14 @@ export class StudentComponent {
     this.service.updateStudent(this.id)
   }
 
+  createTempPassword() {
+    console.log('asdfa')
+    this.service
+      .createTempPassword()
+      ?.pipe(tap(() => this.service.updateStudent(this.id)))
+      .subscribe()
+  }
+
   get classesControl() {
     return this.studentForm.get('classes') as FormControl
   }

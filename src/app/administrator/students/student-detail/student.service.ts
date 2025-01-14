@@ -4,51 +4,52 @@ import { BehaviorSubject, catchError, map, tap } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { IName } from 'src/app/core/auth/user'
 import { environment } from 'src/app/core/environment/environment.demo'
+import { IStudent, Student } from 'src/app/shared/utils/interfaces'
 
-export interface IClass {
-  _id: number
-  name: string
-  studentCount: number
-  grade: number
-}
+// export interface IClass {
+//   _id: number
+//   name: string
+//   studentCount: number
+//   grade: number
+// }
 
-export interface IStudent {
-  _id: number
-  email: string
-  name: IName
-  grade: number
-  classes: IClass[]
-  picture?: string
-  readonly fullName: string
-}
+// export interface IStudent {
+//   _id: number
+//   email: string
+//   name: IName
+//   grade: number
+//   classes: IClass[]
+//   picture?: string
+//   readonly fullName: string
+// }
 
-export class Student implements IStudent {
-  get fullName() {
-    return `${this.name.firstName} ${this.name.middleName || ''} ${
-      this.name.lastName
-    }`
-  }
+// export class Student implements IStudent {
+//   get fullName() {
+//     return `${this.name.firstName} ${this.name.middleName || ''} ${
+//       this.name.lastName
+//     }`
+//   }
 
-  constructor(
-    public _id: number,
-    public email: string,
-    public name: IName,
-    public grade: number,
-    public classes: IClass[],
-    public picture?: string
-  ) {}
+//   constructor(
+//     public _id: number,
+//     public email: string,
+//     public name: IName,
+//     public grade: number,
+//     public classes: IClass[],
+//     public picture?: string
+//   ) {}
 
-  static Build(data: IStudent) {
-    return new Student(
-      data._id,
-      data.email,
-      data.name,
-      data.grade,
-      data.classes,
-      data.picture
-    )
-  }
-}
+//   static Build(data: IStudent) {
+//     return new Student(
+//       data._id,
+//       data.email,
+//       data.name,
+//       data.grade,
+//       data.classes,
+//       data.picture
+//     )
+//   }
+// }
 
 @Injectable({
   providedIn: 'root',
@@ -70,6 +71,7 @@ export class StudentService {
   updateStudent(id: number) {
     this.getStudent(id)
       .pipe(
+        tap(console.info),
         map(Student.Build),
         tap((teacher) => {
           this.student$.next(teacher)
@@ -81,6 +83,14 @@ export class StudentService {
         })
       )
       .subscribe()
+  }
+
+  createTempPassword() {
+    if (!this.student$.value) return
+    return this.httpClient.post(
+      `${environment.baseUrl}/create-temp-password/${this.student$.value._id}`,
+      {}
+    )
   }
 
   deleteStudent() {

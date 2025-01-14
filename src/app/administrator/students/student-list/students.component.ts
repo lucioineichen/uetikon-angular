@@ -10,9 +10,8 @@ import {
   tap,
   throttleTime,
 } from 'rxjs'
-import { IStudent } from 'src/app/shared/utils/interfaces'
+import { IClass, IStudent } from 'src/app/shared/utils/interfaces'
 import { StudentsService } from './students.service'
-import { IClass } from '../student-detail/student.service'
 import { CreateStudentsByJsonService } from './ui/create-students-by-json/create-students-by-json.service'
 
 @Component({
@@ -62,6 +61,13 @@ export class StudentListComponent {
     private router: Router,
     private createJsonStudents: CreateStudentsByJsonService
   ) {}
+
+  print() {
+    this.service
+      .getTempPasswordStudentsText()
+      .pipe(tap((obj: any) => console.log(obj.text)))
+      .subscribe()
+  }
 
   addJsonStudents() {
     this.createJsonStudents

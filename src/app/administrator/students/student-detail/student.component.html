@@ -5,34 +5,46 @@
   <span style="width: 2rem"></span>
   <h1>{{ name | titlecase }}</h1>
   <span class="flex-spacer"></span>
-  <!-- <button
-    mat-icon-button
-    [matMenuTriggerFor]="menu"
-    aria-label="Example icon-button with a menu"
-  >
-    <mat-icon>more_vert</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-      <mat-icon>edit</mat-icon>
-      <span>Edit</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon>delete</mat-icon>
-      <span>Löschen</span>
-    </button>
-  </mat-menu> -->
 </mat-toolbar>
 
 <div *ngIf="!student$.hasError; else error">
-  <app-add-button
-    *ngIf="!isEditing"
-    icon="edit"
-    hint="Bearbeiten"
-    [extraButtons]="[{ icon: 'delete', hint: 'Löschen', name: 'delete' }]"
-    (extraClick)="deleteStudent()"
-    (mainClick)="startEdit()"
-  ></app-add-button>
+  <div style="position: fixed; right: 0; padding: 16px; z-index: 100">
+    <div style="margin-bottom: 5px">
+      <button
+        mat-mini-fab
+        matTooltip="Bearbeiten"
+        aria-label="Bearbeiten"
+        color="primary"
+        (click)="startEdit()"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+
+    <div style="margin-bottom: 5px">
+      <button
+        mat-mini-fab
+        matTooltip="Löschen"
+        aria-label="Löschen"
+        color="primary"
+        (click)="deleteStudent()"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+
+    <div>
+      <button
+        mat-mini-fab
+        matTooltip="Temporäres Passwort Erstellen"
+        aria-label="Temporäres Passwort Erstellen"
+        color="primary"
+        (click)="createTempPassword()"
+      >
+        <mat-icon>key_off</mat-icon>
+      </button>
+    </div>
+  </div>
 
   <app-add-button
     *ngIf="isEditing"
@@ -40,8 +52,9 @@
     icon="clear"
     hint="Bearbeiten Verlassen"
   ></app-add-button>
+
   <div
-    *ngIf="student$ | async as teacher; else loading"
+    *ngIf="student$ | async as student; else loading"
     style="position: relative; padding-top: 50px; padding-left: 15vw"
   >
     <div style="width: 600px">
@@ -52,33 +65,38 @@
         <table
           mat-table
           [dataSource]="[
-            { property: 'Email', value: teacher.email, control: 'email' },
+            { property: 'Email', value: student.email, control: 'email' },
             {
               property: 'Vorname',
-              value: teacher.name.firstName,
+              value: student.name.firstName,
               control: 'firstName'
             },
             {
               property: 'Zweitname',
-              value: teacher.name.middleName,
+              value: student.name.middleName,
               control: 'middleName'
             },
             {
               property: 'Nachname',
-              value: teacher.name.lastName,
+              value: student.name.lastName,
               control: 'lastName'
             },
             {
               property: 'Klassen',
-              value: teacher.classes,
+              value: student.classes,
               control: 'classes'
             },
             {
               property: 'Stufe',
-              value: teacher.grade,
+              value: student.grade,
               control: 'grade'
             },
-            { property: 'Profilbild', value: 'picture' }
+            { property: 'Profilbild', value: 'picture' },
+            {
+              property: 'Temporäres Passwort',
+              value: student.temporaryPassword,
+              control: 'temp_password'
+            }
           ]"
           class="mat-elevation-z1"
         >
@@ -100,7 +118,9 @@
             <td mat-cell *matCellDef="let element">
               <span
                 *ngIf="
-                  element.value != 'picture' && element.control != 'classes'
+                  element.value != 'picture' &&
+                  element.control != 'classes' &&
+                  element.control != 'temp_password'
                 "
                 ><input
                   [ngStyle]="{ display: isEditing ? 'inline' : 'none' }"
@@ -111,14 +131,17 @@
                 <span *ngIf="!isEditing">{{
                   element.value || "--"
                 }}</span></span
-              ><img
+              >
+
+              <img
                 *ngIf="element.value == 'picture'"
                 height="40px"
                 [src]="
-                  teacher.picture ||
+                  student.picture ||
                   'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_243887.png&f=1&nofb=1&ipt=e3f54932455d42b16f86b720533a0c35080683081d512dc4d580ed53fe58e6e6&ipo=images'
                 "
               />
+
               <span *ngIf="element.control == 'classes'">
                 <span *ngIf="isEditing">
                   <app-select-classes
@@ -133,6 +156,10 @@
                     class.name + (i === element.value.length - 1 ? "" : ", ")
                   }}</span>
                 </span>
+              </span>
+
+              <span *ngIf="element.control == 'temp_password'">
+                {{ student.temporaryPassword }}
               </span>
             </td>
           </ng-container>

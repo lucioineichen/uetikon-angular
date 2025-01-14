@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, catchError, tap } from 'rxjs'
-import { IClass } from 'src/app/administrator/students/student-detail/student.service'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { environment } from 'src/app/core/environment/environment.demo'
+import { IClass } from '../../utils/interfaces'
 
 @Injectable({
   providedIn: 'root',

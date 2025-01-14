@@ -2,13 +2,12 @@ import { Role } from '../../core/auth/auth.enum'
 import { IName, IUser, Name, User } from '../../core/auth/user'
 import { IRawSubject } from '../data/competences_data/competences-data.service'
 
-// export interface IStudentCourse {
-//   _id: number
-//   name: string
-//   credits: number
-//   grade?: number
-//   progress: number
-// }
+export interface IClass {
+  _id: number
+  name: string
+  studentCount: number
+  grade: number
+}
 
 export interface IStringRef {
   _id: string
@@ -34,18 +33,22 @@ export interface IMessage {
 
 export interface IStudent extends IUser {
   grade: number
+  classes: IClass[]
 }
 
 export class Student extends User implements IStudent {
   constructor(
     _id = 0,
     email = '--',
+    temporaryPassword: string | undefined = undefined,
     name: IName = Name.Build({ firstName: '', lastName: '' } as IName),
     picture?: string,
-    public grade: number = 1
+    public grade: number = 1,
+    public classes: IClass[] = []
   ) {
-    super(_id, email, name, Role.Student, picture)
+    super(_id, email, temporaryPassword, name, Role.Student, picture)
     this.grade = grade
+    this.classes = classes
   }
 
   static override Build(student: IStudent) {
@@ -56,6 +59,7 @@ export class Student extends User implements IStudent {
     return new Student(
       student._id,
       student.email,
+      student.temporaryPassword,
       student.name,
       student.picture,
       student.grade
@@ -69,10 +73,11 @@ export class Teacher extends User implements ITeacher {
   constructor(
     _id = 0,
     email = '--',
+    temporaryPassword: string | undefined = undefined,
     name: IName = { firstName: '--', lastName: '--' } as IName,
     picture?: string
   ) {
-    super(_id, email, name, Role.Teacher, picture)
+    super(_id, email, temporaryPassword, name, Role.Teacher, picture)
   }
 
   static override Build(teacher: ITeacher) {
@@ -83,6 +88,7 @@ export class Teacher extends User implements ITeacher {
     return new Teacher(
       teacher._id,
       teacher.email,
+      teacher.temporaryPassword,
       teacher.name,
       teacher.picture
     )

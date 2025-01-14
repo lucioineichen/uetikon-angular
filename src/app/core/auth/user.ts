@@ -26,10 +26,10 @@ export class User implements IUser {
   constructor(
     public _id = 0,
     public email = '',
+    public temporaryPassword = '',
     public name = { firstName: '', lastName: '' } as IName,
     public role = Role.None,
-    public picture?: string,
-    public temporaryPassword = false
+    public picture?: string
   ) {}
 
   static Build(user: IUser) {
@@ -40,10 +40,10 @@ export class User implements IUser {
     return new User(
       user._id,
       user.email,
+      user.temporaryPassword,
       user.name,
       user.role as Role,
-      user.picture,
-      user.temporaryPassword
+      user.picture
     )
   }
 
@@ -69,6 +69,6 @@ export interface IUser {
   name: IName
   role: Role | string
   picture?: string
-  temporaryPassword?: boolean
+  temporaryPassword?: string
   readonly fullName: string
 }
