@@ -149,13 +149,12 @@
                   ></app-select-classes>
                 </span>
                 <span *ngIf="!isEditing">
-                  <span>{{ student.classes }}</span>
-                  <!-- <span *ngIf="element.value.length === 0">
+                  <span *ngFor="let class of student.classes">{{
+                    class.name + " "
+                  }}</span>
+                  <span *ngIf="element.value.length === 0">
                     {{ name }} ist in keiner Klasse
                   </span>
-                  <span *ngFor="let class of element.value; let i = index">{{
-                    class.name + (i === element.value.length - 1 ? "" : ", ")
-                  }}</span> -->
                 </span>
               </span>
 

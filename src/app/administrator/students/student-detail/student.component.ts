@@ -45,7 +45,6 @@ export class StudentComponent {
   }
 
   createTempPassword() {
-    console.log('asdfa')
     this.service
       .createTempPassword()
       ?.pipe(tap(() => this.service.updateStudent(this.id)))

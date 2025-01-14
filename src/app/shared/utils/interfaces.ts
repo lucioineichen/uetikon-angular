@@ -62,7 +62,8 @@ export class Student extends User implements IStudent {
       student.temporaryPassword,
       student.name,
       student.picture,
-      student.grade
+      student.grade,
+      student.classes
     )
   }
 }

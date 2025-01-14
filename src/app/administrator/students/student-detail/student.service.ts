@@ -73,8 +73,9 @@ export class StudentService {
       .pipe(
         tap(console.info),
         map(Student.Build),
-        tap((teacher) => {
-          this.student$.next(teacher)
+        tap((student) => {
+          this.student$.next(student)
+          console.log(student)
         }),
         catchError((err) => {
           this.student$.error(err)
