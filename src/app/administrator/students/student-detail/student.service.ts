@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, catchError, map, tap } from 'rxjs'
+import { BehaviorSubject, catchError, map, mergeMap, tap } from 'rxjs'
 import { DialogService } from 'src/app/shared/ui/dialogs/ui.service'
 import { IName } from 'src/app/core/auth/user'
 import { environment } from 'src/app/core/environment/environment.demo'
@@ -71,15 +71,13 @@ export class StudentService {
   updateStudent(id: number) {
     this.getStudent(id)
       .pipe(
-        tap(console.info),
         map(Student.Build),
         tap((student) => {
           this.student$.next(student)
-          console.log(student)
         }),
         catchError((err) => {
           this.student$.error(err)
-          this.uiService.showToast('schüler konnten nicht geladen werden')
+          this.uiService.showToast('schüler konnte nicht geladen werden')
           return err
         })
       )
@@ -103,16 +101,18 @@ export class StudentService {
 
   putStudent(data: any) {
     if (!this.student$.value) return
-    return this.httpClient.put<IStudent>(
+    return this.httpClient.put(
       `${environment.baseUrl}/students/${this.student$.value._id}`,
       data
     )
   }
 
   saveStudent(data: any) {
+    const id = this.student$.value?._id
+    if (!id) return
     this.putStudent(data)
       ?.pipe(
-        map(Student.Build),
+        mergeMap(() => this.getStudent(id)),
         tap((student) => {
           this.uiService.showToast('Schüler erfolgreich bearbeitet')
           this.student$.next(student)
